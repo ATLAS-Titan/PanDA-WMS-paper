@@ -20,7 +20,7 @@
 %% Legal Notice:
 %% This code is offered as-is without any warranty either expressed or
 %% implied; without even the implied warranty of MERCHANTABILITY or
-%% FITNESS FOR A PARTICULAR PURPOSE! 
+%% FITNESS FOR A PARTICULAR PURPOSE!
 %% User assumes all risk.
 %% In no event shall IEEE or any contributor to this code be liable for
 %% any damages or losses, including, but not limited to, incidental,
@@ -147,7 +147,7 @@
 % graphicx was written by David Carlisle and Sebastian Rahtz. It is
 % required if you want graphics, photos, etc. graphicx.sty is already
 % installed on most LaTeX systems. The latest version and documentation can
-% be obtained at: 
+% be obtained at:
 % http://www.ctan.org/tex-archive/macros/latex/required/graphics/
 % Another good source of documentation is "Using Imported Graphics in
 % LaTeX2e" by Keith Reckdahl which can be found as epslatex.ps or
@@ -272,7 +272,7 @@
 % IEEEtran.cls handling of captions and this will result in nonIEEE style
 % figure/table captions. To prevent this problem, be sure and preload
 % caption.sty with its "caption=false" package option. This is will preserve
-% IEEEtran.cls handing of captions. Version 1.3 (2005/06/28) and later 
+% IEEEtran.cls handing of captions. Version 1.3 (2005/06/28) and later
 % (recommended due to many improvements over 1.2) of subfig.sty supports
 % the caption=false option directly:
 %\usepackage[caption=false,font=footnotesize]{subfig}
@@ -379,10 +379,10 @@ line 4: Email: name@xyz.com}
 
 % for over three affiliations, or if they all won't fit within the width
 % of the page, use this alternative format:
-% 
+%
 %\author{\IEEEauthorblockN{Michael Shell\IEEEauthorrefmark{1},
 %Homer Simpson\IEEEauthorrefmark{2},
-%James Kirk\IEEEauthorrefmark{3}, 
+%James Kirk\IEEEauthorrefmark{3},
 %Montgomery Scott\IEEEauthorrefmark{3} and
 %Eldon Tyrell\IEEEauthorrefmark{4}}
 %\IEEEauthorblockA{\IEEEauthorrefmark{1}School of Electrical and Computer Engineering\\
@@ -394,14 +394,8 @@ line 4: Email: name@xyz.com}
 %Telephone: (800) 555--1212, Fax: (888) 555--1212}
 %\IEEEauthorblockA{\IEEEauthorrefmark{4}Tyrell Inc., 123 Replicant Street, Los Angeles, California 90210--4321}}
 
-
-
-
 % use for special paper notices
 %\IEEEspecialpapernotice{(Invited Paper)}
-
-
-
 
 % make the title area
 \maketitle
@@ -409,12 +403,10 @@ line 4: Email: name@xyz.com}
 
 \begin{abstract}
 The abstract goes here. DO NOT USE SPECIAL CHARACTERS, SYMBOLS, OR MATH IN YOUR TITLE OR ABSTRACT.
-
 \end{abstract}
 
 \begin{IEEEkeywords}
-component; formatting; style; styling;
-
+TBD.
 \end{IEEEkeywords}
 
 
@@ -428,28 +420,121 @@ component; formatting; style; styling;
 % creates the second title. It will be ignored for other modes.
 \IEEEpeerreviewmaketitle
 
-
-
+% ----------------------------------------------------------------------------
+% I
+% ----------------------------------------------------------------------------
 \section{Introduction}
-% no \IEEEPARstart
-This demo file is intended to serve as a ``starter file''
-for IEEE conference papers produced under \LaTeX\ using
-IEEEtran.cls version 1.7 and later.
+\label{sec:intro}
 
-All manuscripts must be in English. These guidelines include complete descriptions of the fonts, spacing, and related information for producing your proceedings manuscripts. Please follow them and if you have any questions, direct them to the production editor in charge of your proceedings at Conference Publishing Services (CPS): Phone +1 (714) 821-8380 or Fax +1 (714) 761-1784.
-% You must have at least 2 lines in the paragraph with the drop letter
-% (should never be an issue)
+\begin{itemize}
+  \item Problem that has been solved: executing many applications on heterogeneous distributed resources.
+  \item Why are WMS needed?
+  \item Increasing importance of WMS w.r.t complex and scalable applications on heterogeneous distributed resources.
+  \item \ldots
+  \item Overview/Summary of paper.
+\end{itemize}
 
-\subsection{Subsection Heading Here}
-Subsection text here.
+% ----------------------------------------------------------------------------
+% II
+% ----------------------------------------------------------------------------
+\section{Background}
+\label{sec:background}
 
+\begin{itemize}
+  \item Brief overview of distributed CI.
+  \item Workload vs Workflow
+  \item Distinguish between WFMS and WLMS!!!!
+  \begin{itemize}
+    \item Role of Workload MS: help “hide” and federate heterogeneous resources.
+  \end{itemize}
+\end{itemize}
 
-\subsubsection{Subsubsection Heading Here}
-Subsubsection text here.
+% ----------------------------------------------------------------------------
+% III
+% ----------------------------------------------------------------------------
+\section{Related Work}
+\label{sec:related}
 
-\section{Type style and Fonts}
-Wherever Times is specified, Times Roman or Times New Roman may be used. If neither is available on your system, please use the font closest in appearance to Times. Avoid using bit-mapped fonts if possible. True-Type 1 or Open Type fonts are preferred. Please embed symbol fonts, as well, for math, etc.
+\begin{itemize}
+  \item Other workload management systems (WMS) (not exclusive)
+  \begin{itemize}
+    \item glidein-WMS
+    \item Dirac
+    \item ALICE-AlieN
+  \end{itemize}
+  \item Comparison and contrast
+  \item Core features of a general WMS, i.e., minimal complete model of a WMS.
+\end{itemize}
 
+% ----------------------------------------------------------------------------
+% IV
+% ----------------------------------------------------------------------------
+\section{PanDA Overview}
+\label{sec:panda_overview}
+
+\begin{itemize}
+  \item PanDA WMS
+  \begin{itemize}
+    \item State Diagrams
+    \item Control Flow Diagrams
+    \item Software Module and Architecture diagrams.
+  \end{itemize}
+  \item PANDA Pilot
+\end{itemize}
+
+% ----------------------------------------------------------------------------
+% V
+% ----------------------------------------------------------------------------
+\section{Deploying PanDA on a Leadership-scale system}
+\label{sec:panda_deployment}
+
+\begin{itemize}
+  \item Challenges
+  \item Opportunities
+  \item Highlight distinction of PanDA on wide-area distributed systems vs on TITAN
+  \item Take-aways, lessons learned
+\end{itemize}
+
+% ----------------------------------------------------------------------------
+% VI
+% ----------------------------------------------------------------------------
+\section{Performance Characterization}
+\label{sec:panda_performance}
+
+\begin{itemize}
+  \item Internal PanDA performance
+  \item External PanDA performance (workload specific on underlying system/platform)
+\end{itemize}
+
+% ----------------------------------------------------------------------------
+% VII
+% ----------------------------------------------------------------------------
+\section{Putting it all together: Experience of PanDA on TITAN} % (fold)
+\label{sec:panda_titan}
+
+\begin{itemize}
+  \item Metadata performance issue, and how it’s resolved
+  \item File I/O performance and impact
+  \item ?
+\end{itemize}
+
+% ----------------------------------------------------------------------------
+% VIII
+% ----------------------------------------------------------------------------
+\section{PANDA: Future/RoadMap}
+\label{sec:panda_roadmap}
+
+% section panda_future_roadmap (end)
+
+% \subsubsection{Subsubsection Heading Here}
+% Subsubsection text here.
+
+% \section{Type style and Fonts}
+% Wherever Times is specified, Times Roman or Times New Roman may be used. If
+% neither is available on your system, please use the font closest in
+% appearance to Times. Avoid using bit-mapped fonts if possible. True-Type 1
+% or Open Type fonts are preferred. Please embed symbol fonts, as well, for
+% math, etc.
 
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
@@ -467,7 +552,7 @@ Wherever Times is specified, Times Roman or Times New Roman may be used. If neit
 %\begin{figure}[!t]
 %\centering
 %\includegraphics[width=2.5in]{myfigure}
-% where an .eps filename suffix will be assumed under latex, 
+% where an .eps filename suffix will be assumed under latex,
 % and a .pdf suffix will be assumed for pdflatex; or what has been declared
 % via \DeclareGraphicsExtensions.
 %\caption{Simulation Results}
@@ -476,7 +561,6 @@ Wherever Times is specified, Times Roman or Times New Roman may be used. If neit
 
 % Note that IEEE typically puts floats only at the top, even when this
 % results in a large percentage of a column being occupied by floats.
-
 
 % An example of a double column floating figure using two subfigures.
 % (The subfig.sty package must be loaded for this to work.)
@@ -500,8 +584,7 @@ Wherever Times is specified, Times Roman or Times New Roman may be used. If neit
 % captions (using the optional argument to \subfloat), but instead will
 % reference/describe all of them (a), (b), etc., within the main caption.
 
-
-% An example of a floating table. Note that, for IEEE style tables, the 
+% An example of a floating table. Note that, for IEEE style tables, the
 % \caption command should come BEFORE the table. Table text will default to
 % \footnotesize as IEEE normally uses this smaller font for tables.
 % The \label must come after \caption as always.
@@ -525,7 +608,6 @@ Wherever Times is specified, Times Roman or Times New Roman may be used. If neit
 %\end{tabular}
 %\end{table}
 
-
 % Note that IEEE does not put floats in the very first column - or typically
 % anywhere on the first page for that matter. Also, in-text middle ("here")
 % positioning is not used. Most IEEE journals/conferences use top floats
@@ -533,21 +615,15 @@ Wherever Times is specified, Times Roman or Times New Roman may be used. If neit
 % footnotes above bottom floats. This can be corrected via the \fnbelowfloat
 % command of the stfloats package.
 
-
-
-\section{Conclusion}
-The conclusion goes here. this is more of the conclusion
+% \section{Conclusion}
+% The conclusion goes here. this is more of the conclusion
 
 % conference papers do not normally have an appendix
-
 
 % use section* for acknowledgement
 \section*{Acknowledgment}
 
-
-The authors would like to thank...
-more thanks here
-
+The authors would like to thank... More thanks here...
 
 % trigger a \newpage just before the given reference
 % number - used to balance the columns on the last page
@@ -578,9 +654,6 @@ H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
   0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
 
 \end{thebibliography}
-
-
-
 
 % that's all folks
 \end{document}
