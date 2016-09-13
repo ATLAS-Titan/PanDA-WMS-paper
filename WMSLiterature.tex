@@ -67,22 +67,17 @@ Once deployed on the compute resource, Pilots, a.k.a. JobWrappers, hold the reso
 TaskQueues, TaskQueueDirectors, and the MatchMaker are implemented as services whereas the JobWrapper is implemented within the Agents together with the WatchDog. 
 
 \subsection{HTCondor Glidein and GlideinWMS}
-The HTCondor Glidein system  as part of
-the HTCondor [153] software ecosystem. The HTCondor
-Glidein is a pilot-based system to aggregate DCRs with
-heterogeneous middleware into HTCondor resource pools.
-The logical components of HTCondor relevant to the
-Glidein system are: 
+The HTCondor Glidein system  as part of the HTCondor software ecosystem. The HTCondor Glidein is a pilot based system to aggregate DCRs with heterogeneous middleware into HTCondor resource pools.
+Condor is based on daemons collaborating by exchanging messages over the network. We can isolate four main logical components:
 \begin{itemize}
-\item \emph{Schedd}, a daemon that implement a queuing system that holds workload tasks;
-\item \emph{Startd}, a  daemon to control the DCR resources. 
+\item \emph{Schedd}, implements a queuing system that holds workload tasks;
+\item \emph{Startd}, controls the DCR resources. 
 \item \emph{Collector}, holds references to all the active
 Schedd/Startd daemons; 
 \item \emph{Negotiator} matches tasks queued in a Schedd to resources handled by a Startd.
 \end{itemize}
-In
-HTCondor Glidein has been complemented by Glidein-WMS, a Glidein-based workload management system thatautomates deployment and management of Glideins on multiple types of DCR middleware. GlideinWMS builds upon the
-HTCondor Glidein system by adding the following logical components: 
+Glidein-WMS has been developed to integrate HTCondor Glidein to  automate the deployment and management of Glideins on multiple types of DCR middleware. 
+The integration required three additional logical components: 
 \begin{itemize}
 \item \emph{Glidein Factories} that submit tasks to the DCRs middleware;
 \item a set of \emph{Virtual Organizations (VO) Frontend} daemons that match the tasks on one or more Schedd to the resource attributes;
@@ -101,7 +96,19 @@ HTCondor Glidein and GlideWMS expose the interfaces of HTCondor to the applicati
 limitations are posed on the type and complexity of the workloads that can be executed. For example, DAGMan
 (Directed Acyclic Graph Manager) has been designed to execute workflows by submitting tasks to Schedd, and a tool is available to design applications based on the master-worker coordination pattern.
 
-Both HTCondor Glidein and GlideWMS rely on one or more HTCondor Collectors to match task requirements and resource properties, represented as ClassAds. This
-matching can be evaluated right before the scheduling of the task. In this way, late binding is achieved but early binding remains unsupported.
-
-
+Both HTCondor Glidein and GlideWMS rely on one or more HTCondor Collectors to match task requirements and resource properties, represented as ClassAds. This matching can be evaluated right before the scheduling of the task. In this way, late binding is achieved but early binding remains unsupported.
+\begin{table*}
+\begin{center}
+\begin{tabular}{llllllll}
+  \hline
+Pilot System  &Logical Components& Execution Strategy & Binding  & Workload Definition  &  Broker  & \\
+\hline
+Alien & Central services, site services & pull, pilot via Co-pilot & Late & JDL & Condor (ClassAd attributes) &\\
+DIRAC & Services, Agents& pull, pilot-based & Late & JDL, WF (TMS) & Condor(ClassAd attributes) &\\
+glidein WMS& Daemons & pull, pilot-based  & Late & Pegaus, DAGMan & Condor(ClassAd attributes) &\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Comparison of the three Workload and Data Management Systems}\label{tab:Summary}
+\end{table*}
+	
