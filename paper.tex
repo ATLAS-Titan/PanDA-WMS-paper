@@ -441,12 +441,60 @@ TBD.
 
 \begin{enumerate}
   \item Brief overview of distributed CI.
-  \item Workload vs Workflow
-  \item Distinguish between WFMS and WLMS!!!!
+  \item Workload vs Workflow. (DONE)
+  \item Distinguish between WFMS and WLMS.
   \begin{enumerate}
-    \item Role of Workload MS: help “hide” and federate heterogeneous resources.
+    \item Role of Workload MS: help ``hide'' and federate heterogeneous resources.
   \end{enumerate}
 \end{enumerate}
+
+
+\paragraph*{Workload Vs Workflow} The term ``workflow'' is used in many
+disciplines with different meaning. In the field of scientific computing,
+``workflow'' assumes different meanings depending on the characteristics of
+the computation, of the software tools used to support this computation, and
+of the resources on which it is performed. Further, a workflow may indicate a
+whole application, a description of the computational process of that
+application or, more commonly, a series of tasks related by data
+dependences.
+
+The lack of a consistent and shared definition of ``workflow'' hinders the
+understanding of its properties and its relations with related concepts. For
+example, we need to clarify the difference between ``workflow'', ``workload'',
+``task'', or ``job'' but also between workflow template and instance, or
+data-flow and control-flow. This clarification is precondition to specify
+properly the design of software systems that support the execution of
+scientific applications.
+
+In this paper, a workflow is a set of tasks alongside a description of their
+properties and relations. Each task may have an arbitrary number of properties
+like number of cores, executables, or input/output files. Tasks may have
+precedence relations depending on their data dependences or any other type of
+dependency mandated by the application algorithms. Tasks with precedence
+relations have to be executed serially, otherwise tasks can be executed
+concurrently. A workload is defined as a set of tasks that can be executed
+concurrently. As such, a workflow can be composed by a set of workloads.
+
+The terms ``task'' and ``job'' are also used inconsistently across communities
+that perform scientific computing. In this paper, a task is a \ldots
+\mtnote{Are we going to use task and job as defined in Jedi and Panda Server?}
+
+Usually, workflows are represented as graphs where tasks are vertices and
+their relations edges~\cite{}. Often, graphs are supposed to be acyclic but
+graphs with cycles have been used to represent workflows of workflows. In this
+paper, a workflow template is a type of graph while a workflow instance is a
+type of graph with a specific set of vertices and edges. Further, a graph is
+``abstract'' when no resource properties are available for all vertices,
+``concrete'' otherwise~\cite{}.
+
+The distinction between an abstract and concrete graph highlights an important
+element of the execution process of a workflow. Workflows can be specified
+without indicating on what resources they should be executed. Accordingly, an
+abstract workflow can be interpreted as a formal description of the
+requirements for the workflow execution. Once these requirements are matched
+by a set of resource capabilities, an abstract workflow becomes a concrete
+workflow, i.e. a formal description of the workflow execution process and its
+execution environment.
 
 % ----------------------------------------------------------------------------
 % III
