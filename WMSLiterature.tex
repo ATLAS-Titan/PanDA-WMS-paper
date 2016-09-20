@@ -1,16 +1,17 @@
 \subsection{Alien}
-Alien is a Workload and Data Management system composed of a 	set of middleware tools and services entirely based on web-services and standard protocols. Alien was originally developed for the ALICE experiment \cite{} but subsequently used by several virtual organizations \cite{}. 
+Alien is a Workload and Data Management system composed of a 	set of middleware tools and services entirely based on web-services and standard protocols. The framework was originally developed for the ALICE experiment \cite{Alice1995} but subsequently used by several virtual organizations \cite{McClatechey2003,GPCALMA}. 
 %The system has been deployed in 2001 for distributed producti	on of Monte Carlo data, detector simulation and reconstruction.
-Alien is composed of two type of services:
+
+Alien is composed of two type of services \cite{Bagnasco2010}:
 \begin{itemize}
 \item
 \emph{Central services}, these services are unique for each virtual organisation, therefore there is only one  configuration point for the management;
 \item \emph{Site services}, they provide the interfacing to local resources and Grid services running on a VO-box;
 \end{itemize}
 
-The most important central services are:
+The most important Central services are:
 \begin{itemize}
-\item \emph{Job Manager}, a database that keeps track of all the jobs submitted to the system and their current execution status;
+\item \emph{Job Manager} (or \emph{Task Queue}), a database that keeps track of all the jobs submitted to the system and their current execution status;
 \item \emph{Brokers}, they are the core of task executions and data transfers; they receive tasks in form of JDL,  keep them ordered by priority and send them to the CE for execution;
 \item \emph{Optimizers}, they are used to minimize the work of the Broker by scanning periodially the task queue and re-arranging the tasks in such a way that fairness and priority policies are guaranted;
 \item \emph{Data Catalogue}, it keeps track of the scripts and files uploaded on Storage Elements.
@@ -26,12 +27,13 @@ The most important central services are:
 The job execution in Alien is usually distributed over several sites. Each of these sites has at least one service called ClusterMonitor. On one side the Cluster Monitor is used to communicate with Central services (Job Manager and Broker), on the other side it can manage Computing Elements (CE) by starting and stopping them whenever it receives the signal.
 The CE is the resource in charge of the execution of the jobs. A CE usually is associated with a batch queue and can send the jobs to the worker nodes controlled by the queue.
 
-The CE asks the Broker for jobs to execute by sending its JDL. Once received the JDL, the Broker will try to match it with the JDL of the jobs in queue. If a match exists then the Broker sends the jobs JDL to the CE.
-Immediately after receving a job JDL, the CE create a new service on the worker node called ProcessMonitor. This service allows the CE (and the rest of Alien services through the CE) to interact with the job while is running. 
+The CE asks the Broker for jobs to execute by sending its description in form of Job Description Language (JDL).
+Once received the JDL, the Broker will try to match it with the JDL of the jobs in queue. If a match exists then the Broker sends the jobs JDL to the CE.
+Immediately after receving a job JDL, the CE create a new service on the worker node called ProcessMonitor. This service allows the CE (and the rest of Alien services through the CE) to interact with the job while is running \cite{Saiz2003}. 
 This execution strategy is called ``pull mode'' due to the fact that CE asks for jobs.
-It is worth to mention that more recent version of Alien implement exploit gLite and CE-CREAM. The latter allows the system to by-pass the broker during the job submission \cite{}. 
+It is worth to mention that recent versions of Alien exploit gLite and CE-CREAM. The latter allows the system to by-pass the broker during the job submission \cite{Bagnasco2004}. 
 
-Alien uses the Job Description Language (JDL) to allow users to describe their workload task by task;  i.e.,  users can specify features such as task priorities, the level of parallelism (one core, multi-core, MPI etc..) and  also the DCR that should be targeted for the execution.
+Since Alien exploits JDL, a  workload can be described task by task according to features such as: task priorities, the level of parallelism (one core, multi-core, MPI etc..) and  also the DCR that should be targeted for the execution.
 
 %Job submission is implemented by following the so-called ``pull mode'' which is composed of the following steps: 
 %\begin{enumerate}
@@ -42,15 +44,15 @@ Alien uses the Job Description Language (JDL) to allow users to describe their w
 %\end{enumerate}
 
 \subsection{DIRAC} 
-DIRAC (Distributed Infrastructure with Remote Agent Control) Workload and Data Management System is a software product, developed within the CERN LHCb project, to manage the processing of detector data, Monte Carlo simulations, and end-user analyses. 
-DIRAC  architecture relies on four entities:
+DIRAC (Distributed Infrastructure with Remote Agent Control) Workload and Data Management System has been developed within the CERN LHCb project to manage the processing of detector data, Monte Carlo simulations, and end-user analyses \cite{Tsaregorodtsev2004}. 
+DIRAC  architecture relies on four entities \cite{Paterson2010}:
 \begin{itemize}
 \item \emph{Clients}: consist in a set of APIs that allows users to submit job requests. Clients interact directly with DIRAC central services.
 \item \emph{Services}: serve Clients and Agents by performing crucial operations such as Job Management, Configuration, Bookkeping and Accounting.
 \item \emph{Agents}: perform repetitive tasks like querying file catalogs,  monitoring of jobs on resources.
-\item \emph{Resources}: they can be PC's, site cluters and Grids. Agents interact with them without distinction.
+\item \emph{Resources}: they can be PC's, site clusters and Grids. Agents interact with them without distinction.
 \end{itemize}
-In the same way of Alien, DIRAC implements a pull scheduling. Furthermore DIRAC was the first WMS to exploit the concept of Pilot Agent on the Grid. 
+In the same way of Alien, DIRAC implements a pull scheduling. Furthermore DIRAC was the first WMS to exploit the concept of Pilot Agent on the Grid \cite{Casajus2010}. 
 Pilots Agents are gLite jobs that are submitted to the grid when jobs arrive into the WMS. 
 DIRAC pilot system has four main logical components:
 \begin{itemize}
@@ -66,6 +68,7 @@ TaskQueueDirectors deploy Pilots by getting a list of TaskQueues and calculating
 Once deployed on the compute resource, Pilots, a.k.a. JobWrappers, hold the resource in the form of single or multiple cores, spanning portions, whole, or multiple compute nodes. Pilots do not expose data capabilities although the system allows the user to perform both data staging and data replication. 
 TaskQueues, TaskQueueDirectors, and the MatchMaker are implemented as services whereas the JobWrapper is implemented within the Agents together with the WatchDog. 
 
+JDL and \emph{Transformation Management System} (TMS) are used for task description \cite{Tsaregorodtsev2006,Pacini2006}. The latter allows the user to describe complex data dependences. 
 \subsection{HTCondor Glidein and GlideinWMS}
 The HTCondor Glidein system  as part of the HTCondor software ecosystem. The HTCondor Glidein is a pilot based system to aggregate DCRs with heterogeneous middleware into HTCondor resource pools.
 Condor is based on daemons collaborating by exchanging messages over the network. We can isolate four main logical components:
