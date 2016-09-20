@@ -437,7 +437,7 @@ PanDA  manages a wide spectrum of workloads, ranging from raw data processing to
 \end{center}
 \end{figure}
 
--------------------------------------------------------------------------------------------
+--------------------------------------------------------------------
 \begin{enumerate}
   \item Problem that has been solved: executing many applications on heterogeneous distributed resources.
   \item Why are WMS needed?
@@ -461,6 +461,7 @@ PanDA  manages a wide spectrum of workloads, ranging from raw data processing to
   \end{enumerate}
 \end{enumerate}
 
+--------------------------------------------------------------------
 
 \paragraph*{Workload Vs Workflow} The term ``workflow'' is used in many
 disciplines with different meaning. In the field of scientific computing,
@@ -482,17 +483,16 @@ scientific applications.
 In this paper, we use the following definitions:
 
 \begin{description}
-  \item[Task]     A set of operations to be performed on a computing platform,
-                  alongside a description of the properties and dependences of
-                  those operations, and indications on how they should be
-                  executed and satisfied.
-  \item[Workload] A set of tasks that can be executed concurrently, possibly
-                  related by a set of relations. For example, tasks of a workload can share one or more input files or communicate during execution.
-  \item[Workflow] Set of workloads, related by a set of relations that define
-                  the order in which each workload can be executed. Data
-                  dependences are the most common relations among workloads,
-                  used to define the precedence among their executions. Note
-                  that, formally, a workload can have a single task.
+  \item[Task.] A set of operations to be performed on a computing platform,
+  alongside a description of the properties and dependences of those
+  operations, and indications on how they should be executed and satisfied.
+  \item[Workload.] A set of tasks that can be executed concurrently, possibly
+  related by a set of relations. For example, tasks of a workload can share
+  one or more input files or communicate during execution.
+  \item[Workflow.] Set of workloads, related by a set of relations that define
+  the order in which each workload can be executed. Data dependences are the
+  most common relations among workloads, used to define the precedence among
+  their executions. Note that, formally, a workload can have a single task.
 \end{description}
 
 Each task may have an arbitrary number of properties like number of cores,
@@ -532,7 +532,7 @@ of the workflow execution process and its execution environment.
 \section{Related Work}
 \label{sec:related}
 \input{WMSLiterature}
---------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------
 \begin{enumerate}
   \item Other workload management systems (WMS) (not exclusive)
   \begin{enumerate}
@@ -599,12 +599,12 @@ Integration with Titan is the current focus for PanDA developers. The project ai
 \begin{figure}
 \begin{center}
 \includegraphics[width=\columnwidth]{figures/PandaInterfaceWithHPC.png}
-\caption{Schematic view of the PanDA system\label{fig:architecture}}
+\caption{Schematic view of the PanDA system\label{fig:interface}}
 \end{center}
 \end{figure}
 
 
--------------------------------------------------------------------------------------
+--------------------------------------------------------------------
 \begin{enumerate}
   \item PanDA WMS
   \begin{enumerate}
