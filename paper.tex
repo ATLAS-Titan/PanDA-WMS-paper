@@ -479,35 +479,52 @@ data-flow and control-flow. This clarification is precondition to specify
 properly the design of software systems that support the execution of
 scientific applications.
 
-In this paper, a workflow is a set of tasks alongside a description of their
-properties and relations. Each task may have an arbitrary number of properties
-like number of cores, executables, or input/output files. Tasks may have
-precedence relations depending on their data dependences or any other type of
-dependency mandated by the application algorithms. Tasks with precedence
-relations have to be executed serially, otherwise tasks can be executed
-concurrently. A workload is defined as a set of tasks that can be executed
-concurrently. As such, a workflow can be composed by a set of workloads.
+In this paper, we use the following definitions:
+
+\begin{description}
+  \item[Task]     A set of operations to be performed on a computing platform,
+                  alongside a description of the properties and dependences of
+                  those operations, and indications on how they should be
+                  executed and satisfied.
+  \item[Workload] A set of tasks that can be executed concurrently, possibly
+                  related by a set of relations. For example, tasks of a workload can share one or more input files or communicate during execution.
+  \item[Workflow] Set of workloads, related by a set of relations that define
+                  the order in which each workload can be executed. Data
+                  dependences are the most common relations among workloads,
+                  used to define the precedence among their executions. Note
+                  that, formally, a workload can have a single task.
+\end{description}
+
+Each task may have an arbitrary number of properties like number of cores,
+executables, or input/output files. Tasks may have precedence relations
+depending on their data dependences or any other type of dependency mandated
+by the application algorithms. Tasks with precedence relations have to be
+executed serially, otherwise tasks can be executed concurrently. A workload is
+defined as a set of tasks that can be executed concurrently. As such, a
+workflow can be composed by a set of workloads.
 
 The terms ``task'' and ``job'' are also used inconsistently across communities
-that perform scientific computing. In this paper, a task is a \ldots
-\mtnote{Are we going to use task and job as defined in Jedi and Panda Server?}
+that perform scientific computing. In this paper, ``job'' refers to the entity
+that is submitted to a local resource management system (LRMS), like a batch
+system or a scheduler. As such, a task can become a job when is scheduled on a
+resource that exposes a LRMS but can also become a virtual machine or a
+container when bootstrapped on an infrastructure supporting virtualization.
 
 Usually, workflows are represented as graphs where tasks are vertices and
-their relations edges~\cite{}. Often, graphs are supposed to be acyclic but
-graphs with cycles have been used to represent workflows of workflows. In this
-paper, a workflow template is a type of graph while a workflow instance is a
-type of graph with a specific set of vertices and edges. Further, a graph is
-``abstract'' when no resource properties are available for all vertices,
-``concrete'' otherwise~\cite{}.
+their relations are edges~\cite{}. Often, graphs are supposed to be acyclic
+but graphs with cycles have been used to represent workflows of
+workflows~\cite{}. In this paper, a workflow template is a type of graph while
+a workflow instance is a type of graph with a specific set of vertices and
+edges. Further, a graph is ``abstract'' when no resource properties are
+available for all vertices, ``concrete'' otherwise~\cite{}.
 
 The distinction between an abstract and concrete graph highlights an important
 element of the execution process of a workflow. Workflows can be specified
 without indicating on what resources they should be executed. Accordingly, an
-abstract workflow can be interpreted as a formal description of the
-requirements for the workflow execution. Once these requirements are matched
-by a set of resource capabilities, an abstract workflow becomes a concrete
-workflow, i.e. a formal description of the workflow execution process and its
-execution environment.
+abstract graph can be interpreted as a formal description of the requirements
+for the workflow execution. Once these requirements are matched by a set of
+resource capabilities, the graph becomes concrete, i.e. a formal description
+of the workflow execution process and its execution environment.
 
 % ----------------------------------------------------------------------------
 % III
