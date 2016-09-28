@@ -560,7 +560,7 @@ In the following we will briefly describe system’s architecture and components
 \item JEDI ??
 \item What else?
 \end{itemize}
-
+a
 
 \begin{figure}
 \begin{center}
@@ -584,6 +584,9 @@ As a pilot-based  system, PanDA  requires some way to get the initial PanDA pilo
 
 \subsection{PanDA Monitoring}
 The PanDA Monitor is a web-based dashboard-style  graphical application. It runs on Apache and interacts with the back-end database for persistence. The Monitor is the primary way that users and site administrators get a  view into the status of current and past jobs, data movement,  pilot factory. The Monitor allows users  access  to all job log files on job by job basis thus greatly simplifying code debugging and failure analysis in distributed computing environment.
+
+\section{Brief Introduction to Titan}
+\input{titan}
 
 \section{Evolution of PanDA WMS}
 While PanDa  currently uses  more than 100,000  cores at well over 100 Grid sites with a  peak performance  of 0.3 petaFLOPS,  next LHC data taking run will  require more resources  than Grid computing can possibly provide. The Worldwide LHC Computing Grid (WLCG) infrastructure will be sufficient for the planned analysis and data processing, but it will be insufficient  for Monte Carlo (MC) production and any extra activities. Additional computing and storage  resources are therefore required.  To alleviate  these challenges, ATLAS is engaged  in an ambitious  program to expand  the current computing model to include  additional  resources such as the opportunistic   use of supercomputers   as well as commercial and academic clouds. In turn this activity drives evolution of the PanDA WMS.
@@ -618,6 +621,8 @@ Integration with Titan is the current focus for PanDA developers. The project ai
 % ----------------------------------------------------------------------------
 % V
 % ----------------------------------------------------------------------------
+
+
 \section{Deploying PanDA on a Leadership-scale system}
 \label{sec:panda_deployment}
 
