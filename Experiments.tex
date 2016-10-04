@@ -1,16 +1,18 @@
+\jhanote{Not sure this should be under ``PANDA:Future/ROAD MAP?''}
+
 The execution of jobs on TITAN follows a three step scheme: i) as first, TITAN's Backfill queue communicates the presence of a new allocation\mtnote{communicates the availability of idle resources? The term `allocation' may indicate the amount of resources available to the project.} i.e. a set of unused resources that can be used for a pre-determined time period\aanote{How many offers does PanDA receive per time unit? Average nodes per offer?}; ii) then, PanDA must accept or decline the allocation; iii) if the allocation is accepted, PanDA wraps a certain amount of events in a job and sends the job for execution.\aanote{I am supposing that the concept of event has been already introduced at this point}.
 
 At least in principle, PanDA can reject an allocation because it does not fit the requirements in terms of number of nodes or wall-time unit; however, this situation is rare because events are single core Athena-MP threads\mtnote{Should we consider events inputs of Athena-MP jobs, with each event processed in a single thread by a---to be specified---module of Athena-MP?} that require on average twenty minutes for being executed. Thus, the decomposition in event is fine grained once compared to the average allocation \aanote{Which correspond to\ldots}.
 
 As a consequence, PanDA accepts the major part of the proposed allocations by selecting a number of events that maximize the utilization of the resources during the assigned time interval.
 
-On one hand, this execution strategy leads to a drastic reduction of the queue time and, consequently, it guarantees high-performances. On the other hand, this strategy is tailored for the execution of ATLAS workload on TITAN by using the Backfill queue\mtnote{Do we have a queue dedicated to backfilling on Titan or should we speak of backfilling done on one or more queues?}.
+On one hand, this \jhanote{I would use the word execution strategy carefully. Maybe a more general term such as execution model, a special type of which is execution strategy?} execution strategy leads to a drastic reduction of the queue time and, consequently, it guarantees high-performances. On the other hand, this strategy is tailored for the execution of ATLAS workload on TITAN by using the Backfill queue\mtnote{Do we have a queue dedicated to backfilling on Titan or should we speak of backfilling done on one or more queues?}.
 
 Questions such as \emph{``Is this the best strategy possible?''} or \emph{``Can PanDA achieve similar performances by using TITAN's batch queue?''}  remain unanswered.
 
 For this reason, in the remaining of this section we propose experimental results to address them. The idea behind the experiments is to show the behaviour of ATLAS workload on TITAN's batch queue.
 
-As first, we investigate resource allocation as a function of time (wall-time) and space (number of nodes\mtnote{cores?}) in order to understand how TITAN's scheduler and workload behave under different allocation requests. This analysis includes two bulks of experiments: the first, generated ``in silico'', is based on simulations of the TITAN's scheduler by means of the Moab simulator, whereas the second, generated ``in vivo'',  considers real submissions of ATLAS workload on TITAN's batch queue.
+First, we investigate resource allocation as a function of time (wall-time) and space (number of nodes\mtnote{cores?}) in order to understand how TITAN's scheduler and workload behave under different allocation requests. This analysis includes two bulks of experiments: the first, generated ``in silico'', is based on simulations of the TITAN's scheduler by means of the Moab simulator, whereas the second, generated ``in vivo'',  considers real submissions of ATLAS workload on TITAN's batch queue.
 
 By using the batch queue, we move in a situation where the queue time becomes dominant but, at the same time, we gain more freedom to decide the parameters of the allocation. For this reason, the second set of the experiments aims to find sub-optimal parameters for resource allocation.
 
