@@ -426,17 +426,8 @@ TBD.
 % ----------------------------------------------------------------------------
 % I
 % ----------------------------------------------------------------------------
-\section{Introduction}\label{sec:intro}
-The Large Hadron Collider (LHC) is created  to explore the fundamental  properties  of matter for the next decades. Since LHC start-up in 2009, the experiments has collected and distributed hundreds  of  petabytes  of  data worldwide to hundreds of computer centers. Thousands of physicists analyze petascale  data volumes daily. One of  the LHC experiments  the ATLAS  \cite{Aad:2008}  utilizes the PanDA  workload management system \cite{Maeno2011} (WMS) for distributed data processing and analysis. The ATLAS Computing model \cite{Atlas2005} is based on a Grid paradigm \cite{Foster:1998}, with multilevel, hierarchically distributed computing  and storage resources. Acronym  PanDa stands for Production  and Distributed Analysis, the system  has  been developed to meet growing ATLAS production and analysis requirements for a data-driven  workload  management system capable of operating at LHC data processing scale.
-PanDA has a highly scalable architecture. Scalability  has been demonstrated in ATLAS through the rapid increase in usage over the past several years of operations, and is expected to meet the continuously growing number of jobs over the next decade. PanDA  was designed to have the flexibility to adapt to emerging computing  technologies in processing,  storage, networking  as well as the underlying software stack (middleware). This flexibility has also been successfully demonstrated through the past six years of evolving  technologies adapted by computing centers in ATLAS which span many continents and yet are seamlessly integrated into PanDA.
-PanDA  manages a wide spectrum of workloads, ranging from raw data processing to Monte Carlo simulation and user analysis, while actively evolving to meet rapidly changing science needs.  Today, it  serves several  thousand users, successfully managing job distribution to hundreds of ATLAS sites with more than 100,000 CPU cores  which process  more than a million jobs per day, Figure 1 shows  a  summary   of daily completed jobs on ATLAS Grid for the past 12 month.
-\begin{figure}
-\begin{center}
-\includegraphics[width=\columnwidth]{figures/DailyJobs.png}
-\caption{Daily completed jobs on ATLAS Grid\label{fig:daily}}
-\end{center}
-\end{figure}
 
+\input{introduction}
 --------------------------------------------------------------------
 \begin{enumerate}
   \item Problem that has been solved: executing many applications on heterogeneous distributed resources.
@@ -449,9 +440,8 @@ PanDA  manages a wide spectrum of workloads, ranging from raw data processing to
 % ----------------------------------------------------------------------------
 % II
 % ----------------------------------------------------------------------------
-\section{Background}
-\label{sec:background}
 
+\input{Background}
 \begin{enumerate}
   \item Brief overview of distributed CI.
   \item Workload vs Workflow. (DONE)
@@ -463,74 +453,10 @@ PanDA  manages a wide spectrum of workloads, ranging from raw data processing to
 
 --------------------------------------------------------------------
 
-\paragraph*{Workload Vs Workflow} The term ``workflow'' is used in many
-disciplines with different meaning. In the field of scientific computing,
-``workflow'' assumes different meanings depending on the characteristics of
-the computation, of the software tools used to support this computation, and
-of the resources on which it is performed. Further, a workflow may indicate a
-whole application, a description of the computational process of that
-application or, more commonly, a series of tasks related by data
-dependences.
-
-The lack of a consistent and shared definition of ``workflow'' hinders the
-understanding of its properties and its relations with related concepts. For
-example, we need to clarify the difference between ``workflow'', ``workload'',
-``task'', or ``job'' but also between workflow template and instance, or
-data-flow and control-flow. This clarification is precondition to specify
-properly the design of software systems that support the execution of
-scientific applications.
-
-In this paper, we use the following definitions:
-
-\begin{description}
-  \item[Task.] A set of operations to be performed on a computing platform,
-  alongside a description of the properties and dependences of those
-  operations, and indications on how they should be executed and satisfied.
-  \item[Workload.] A set of tasks that can be executed concurrently, possibly
-  related by a set of relations. For example, tasks of a workload can share
-  one or more input files or communicate during execution.
-  \item[Workflow.] Set of workloads, related by a set of relations that define
-  the order in which each workload can be executed. Data dependences are the
-  most common relations among workloads, used to define the precedence among
-  their executions. Note that, formally, a workload can have a single task.
-\end{description}
-
-Each task may have an arbitrary number of properties like number of cores,
-executables, or input/output files. Tasks may have precedence relations
-depending on their data dependences or any other type of dependency mandated
-by the application algorithms. Tasks with precedence relations have to be
-executed serially, otherwise tasks can be executed concurrently. A workload is
-defined as a set of tasks that can be executed concurrently. As such, a
-workflow can be composed by a set of workloads.
-
-The terms ``task'' and ``job'' are also used inconsistently across communities
-that perform scientific computing. In this paper, ``job'' refers to the entity
-that is submitted to a local resource management system (LRMS), like a batch
-system or a scheduler. As such, a task can become a job when is scheduled on a
-resource that exposes a LRMS but can also become a virtual machine or a
-container when bootstrapped on an infrastructure supporting virtualization.
-
-Usually, workflows are represented as graphs where tasks are vertices and
-their relations are edges~\cite{}. Often, graphs are supposed to be acyclic
-but graphs with cycles have been used to represent workflows of
-workflows~\cite{}. In this paper, a workflow template is a type of graph while
-a workflow instance is a type of graph with a specific set of vertices and
-edges. Further, a graph is ``abstract'' when no resource properties are
-available for all vertices, ``concrete'' otherwise~\cite{}.
-
-The distinction between an abstract and concrete graph highlights an important
-element of the execution process of a workflow. Workflows can be specified
-without indicating on what resources they should be executed. Accordingly, an
-abstract graph can be interpreted as a formal description of the requirements
-for the workflow execution. Once these requirements are matched by a set of
-resource capabilities, the graph becomes concrete, i.e. a formal description
-of the workflow execution process and its execution environment.
-
 % ----------------------------------------------------------------------------
 % III
 % ----------------------------------------------------------------------------
-\section{Related Work}
-\label{sec:related}
+
 \input{WMSLiterature}
 --------------------------------------------------------------------
 \begin{enumerate}
@@ -549,64 +475,6 @@ of the workflow execution process and its execution environment.
 % IV
 % ----------------------------------------------------------------------------
 \section{PanDA Overview}\label{sec:panda_overview}
-PanDA consists of several interconnected subsystems, most of them are built from off-the-shelf and Open Source components. Figure \ref{fig:architecture} shows a schematic view of the PanDA system.
-In the following we will briefly describe system’s architecture and components.
-
-\begin{itemize}
-\item PanDA Server
-\item Pilot
-\item Factory
-\item PanDA monitoring
-\item JEDI ??
-\item What else?
-\end{itemize}
-a
-
-\begin{figure}
-\begin{center}
-\includegraphics[width=\columnwidth]{figures/PandaArch.jpg}
-\caption{Schematic view of the PanDA system\label{fig:architecture}. 
-  Originally PanDA was designed for grid infrastructure... In this paper
-  is focussed on the HPC use case; there are differences from  the grid use
-  case. This paper discusses how PanDA has been adapted to execute a workload on
-  HPC resources. The schematic overview is presented for workload X on Titan......}
-\end{center}
-\end{figure}
-\subsection{PanDA Server}
-The PanDA server is the main component of the system, It provides  a task queue managing all job information centrally. The PanDA  server receives jobs through the client interface into the task queue, upon which a brokerage module  operates to prioritize  and assign work on the basis of job type, priority, input data and its locality, and available CPU resources. The PanDA  server operates as a web service. It runs on Apache web server, interacting with the back-end database running  on separate servers. It uses the Apache worker  model, with many independent   processes  handling client requests  in  parallel. Since all  state is maintained  in  the central database,  the PanDA Server application instance itself is stateless. Currently production version of PanDA utilizes Oracle database backend, but PanDA  can also work with MySQL family of databases.
-
-\subsection{PanDA Pilot}
- PanDA is a pilot based workload  management system. In the PanDA job lifecycle, pilot jobs (Python scripts that organize workload processing on a worker  node) are submitted to sites. When these  pilot jobs start on a  worker node they contact a central  server  to retrieve  a real payload (i.e., an end-user job) and execute it. Using these pilot-based  workflows helps to improve job reliability, optimize resource utilization, allows for opportunistic  resources usage, and mitigates  many of the problems  associated with the inhomogeneities found on the Grid.
-The pilots themselves  do not contain all the functionality needed to request a payload  job from the Panda Server. First, the complete  set of pilot code is downloaded via HTTP from a  central Subversion repository.  The repository works with Apache web server configured  with a  memory-based   web proxy (Squid). The purpose  of the cache  is to reduce  the request load on the back-end Subversion  server. That allows for a  very good performance since only occasional  queries trigger a  full  lookup on the back-end  Subversion  system, and most external  queries are pulled from memory on the front-end web server. The benefits of this system include a high-performance code download service combined with code updates still being immediately  available  as soon as they are committed to source code control.
-
-\subsection{PanDA Factory}
-As a pilot-based  system, PanDA  requires some way to get the initial PanDA pilot onto worker nodes at sites. This is done with the help of a component  called AutoPyFactory (APF). APF runs in a single daemonized process, launching  a separate thread for each internal  workflow. Each one of these internal workflows typically serves  a single job queue  as defined  in WMS, and delivers pilots to a single batch queue, either local or remote. The behavior of these APF workflows is determined by the combination of a set  of plugins, invoked in a  fixed order, in a loop, each one in charge of the performance of a well defined action.
-
-\subsection{PanDA Monitoring}
-The PanDA Monitor is a web-based dashboard-style  graphical application. It runs on Apache and interacts with the back-end database for persistence. The Monitor is the primary way that users and site administrators get a  view into the status of current and past jobs, data movement,  pilot factory. The Monitor allows users  access  to all job log files on job by job basis thus greatly simplifying code debugging and failure analysis in distributed computing environment.
-
-\section{Brief Introduction to Titan}
-\input{titan}
-
-\section{Evolution of PanDA WMS}
-While PanDa  currently uses  more than 100,000  cores at well over 100 Grid sites with a  peak performance  of 0.3 petaFLOPS,  next LHC data taking run will  require more resources  than Grid computing can possibly provide. The Worldwide LHC Computing Grid (WLCG) infrastructure will be sufficient for the planned analysis and data processing, but it will be insufficient  for Monte Carlo (MC) production and any extra activities. Additional computing and storage  resources are therefore required.  To alleviate  these challenges, ATLAS is engaged  in an ambitious  program to expand  the current computing model to include  additional  resources such as the opportunistic   use of supercomputers   as well as commercial and academic clouds. In turn this activity drives evolution of the PanDA WMS.
-
-\subsection{Use of Supercomputers with PanDA}
-The idea is to extend the ATLAS Computing Model beyond the Grid into the domains of supercomputers. Modern High Performance Computing  (HPC) involves  a very large number of worker nodes  connected  through a  high-speed   network. The worker nodes can have  multicore CPUs that can be augmented with massively parallel Graphics Processing Units (GPUs) or other types of coprocessors. On an HPC machine, a  typical job is highly parallel and connected,  where each core calculates  a small part of the problem and coordinates the activity via message passing interface (MPI). While this is different from the HEP computing paradigm, where jobs are independent, it still shares common  features  such as the use of parallelization. It is not a requirement  that HPC machines are able to run any possible task, nor is it relevant how many kinds of job types that can be run. What matters is the total number of cycles that can be offloaded from the Grid. Standard  ATLAS  workflow  can not be easily ported to supercomputers   due  to   several   complications such  as specialized worker  node  setups, no  outbound network connections,  limited memory per node, custom operating systems,  etc. A reorganization  of the standard  workflow is therefore needed.
-The most suitable task for HPCs in HEP is event generation. Event generators are mostly computational,  stand-alone code, with few input requirements.  There is no need  to stage-in much data. The event generation  in ATLAS corresponds  to
-10-15\% of all jobs on the Grid. A more difficult workload to adapt  for HPCs is detector  simulation. Simulation tasks tend to be tied to the framework of a particular simulation and often require  database access for geometry and relevant run conditions.  However,  there is a  lot to be gained  since simulation  tasks correspond to 2/3 of the Grid capacity.
-\subsection{Interfacing PanDA with Titan}
-The Titan supercomputer, current number two (number one from November 2012 until June 2013) on the Top 500 list is located at the Oak Ridge Leadership Computing  Facility (OLCF) in Oak Ridge National Laboratory, US. Titan, was the first large-scale system to use  a hybrid architecture that utilizes worker nodes with both AMD 16-core Opteron 6274 CPUs and NVIDIA Tesla K20 GPU accelerators.
-Integration with Titan is the current focus for PanDA developers. The project aims to integrate Titan with the PanDA system using an updated PanDA Pilot that runs on the front-end node and submits ATLAS payloads to the worker nodes using the local batch system (PBS) via the SAGA (Simple API for Grid Applications) interface \cite{SAGA}. This solves several complications of  running on HPC worker nodes,  including the lack of connectivity to outside world. The pilot can communicate with the PanDA server from the front-end machine. The interactive front-end  machines and the worker nodes  use  a shared  file system  which makes  it  easy  for the pilot to stage-in  any input files that are required by the payload and stage-out the produced output files after the payload has finished at the end of the job. ATLAS Tier 1 computing  center at Brookhaven National Lab is currently  used for data stage out from Titan but in principle  that can be any Grid site.
-1) HPC Backfill: HPC facilities are geared towards  large scale jobs by design. Time allocation on an HPC is competitive and large projects are often preferred. About 10% of capacity on a  typical HPC machine  is unused  due to mismatches between job sizes and available  resources. The worker nodes
-\begin{figure}
-\begin{center}
-\includegraphics[width=\columnwidth]{figures/PandaInterfaceWithHPC.png}
-\caption{Schematic view of the PanDA system\label{fig:interface}}
-\end{center}
-\end{figure}
-
-
 --------------------------------------------------------------------
 \begin{enumerate}
   \item PanDA WMS
@@ -617,6 +485,13 @@ Integration with Titan is the current focus for PanDA developers. The project ai
   \end{enumerate}
   \item PANDA Pilot
 \end{enumerate}
+--------------------------------------------------------------------
+
+\input{titan}
+
+
+\input{PandaEvolution}
+
 
 % ----------------------------------------------------------------------------
 % V
@@ -663,7 +538,9 @@ Integration with Titan is the current focus for PanDA developers. The project ai
 % ----------------------------------------------------------------------------
 % VIII
 % ----------------------------------------------------------------------------
+
 \section{PANDA: Future/RoadMap}
+\input{Experiments}
 \label{sec:panda_roadmap}
 
  \section{Conclusion}\label{sec:conclusion}
