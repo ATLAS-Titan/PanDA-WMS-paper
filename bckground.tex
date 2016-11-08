@@ -1,10 +1,12 @@
-\paragraph*{Workload Vs Workflow} The term ``workflow'' is used in many
-disciplines with different meaning. In the field of scientific computing,
-``workflow'' assumes different meanings depending on the characteristics of the
-computation, of the software tools used to support this computation, and of the
-resources on which it is performed. Further, a workflow may indicate a whole
-application, a description of the computational process of that application or,
-more commonly, a series of tasks related by data dependences.
+\subsection{Workflows and Workloads}
+
+The term ``workflow'' is used in many disciplines with different meaning. In the
+field of scientific computing, ``workflow'' assumes different meanings depending
+on the characteristics of the computation, of the software tools used to support
+this computation, and of the resources on which it is performed. Further, a
+workflow may indicate a whole application, a description of the computational
+process of that application or, more commonly, a series of tasks related by data
+dependences.
 
 The lack of a consistent and shared definition of ``workflow'' hinders the
 understanding of its properties and its relations with related concepts. For
@@ -64,14 +66,23 @@ is ``abstract'' when no resource properties are available for all vertices,
 ``concrete'' otherwise~\cite{}. When not qualified, the term ``workflow''
 indicates a abstract workflow instance.
 
+\subsection{The ATLAS Monte Carlo Workflow}
+
 The distinction between an abstract and concrete workflow instances highlights
 an important element of the execution process of a workflow. Abstract workflows
 can be interpreted as a formal description of the requirements for the workflow
 execution, while concrete workflows can be interpreted as a formal description of the workflow's execution process. The process of resource selection matches the resource capabilities to the workflow requirements making possible the transition from execution requirements to execution process.
 
-Workload managers are those components of workflow systems or, more in general, of distributed applications that enable resource selection.
+Workload managers are those components of workflow systems or, more in general,
+of distributed applications that enable resource selection, acquisition, and
+use. The set of capabilities required by a workload manager mostly depends on
+the heterogeneity and dynamicity of both the workflow and the resources.
+Heterogeneity is a measure of the diversity of the workflow requirements and
+resource capabilities that need to be matched to enable the execution of the
+workflow's tasks; dynamicity is a measure of how much these requirements and
+capabilities varies during execution.
 
-\subsection{ATLAS Workflow}
+The PanDA workload management system was initially designed to manage the execution of static, relatively homogeneous tasks on dynamic but homogeneous resources. Progressively, PanDA has evolved to enable the management of more heterogeneous tasks and resources. In this paper we describe how the design and architecture of PanDA has enabled executions of multi-threaded tasks on Titan, currently the largest high performance computing (HPC) resource available in the USA for scientific research.
 
 In this paper we focus on the ATLAS Monte Carlo workflow\mtnote{Are there other
 workflows for ATLAS?} and its evolving processes of resource selection.
