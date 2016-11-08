@@ -9,9 +9,10 @@ more commonly, a series of tasks related by data dependences.
 The lack of a consistent and shared definition of ``workflow'' hinders the
 understanding of its properties and its relations with related concepts. For
 example, we need to clarify the difference among ``workflow'', ``workload'',
-``task'', or ``job'' but also between workflow template and instance, or
-data-flow and control-flow. This is precondition to specify properly the design
-of software systems that support the execution of scientific applications.
+``task'', or ``job'' but also between workflow ``template'' and ``instance'', or
+``data-flow'' and ``control-flow''. This is precondition to specify properly the
+design of software systems that support the execution of scientific
+applications.
 
 In this paper, we use the following definitions:
 
@@ -38,39 +39,52 @@ In this paper, we use the following definitions:
 \end{description}
 
 Each task may have an arbitrary number of properties like number of cores,
-executables, or input/output files. Tasks may have precedence relations
+executables, or input/output files. Tasks may have precedence interrelations,
 depending on their data dependences or any other type of dependency mandated
 by the application algorithms. Tasks with precedence relations have to be
-executed serially, otherwise tasks can be executed concurrently. A workload is
+executed serially; otherwise, tasks can be executed concurrently. A workload is
 defined as a set of tasks that can be executed concurrently. As such, a
-workflow can be composed by a set of workloads.
+workflow can be composed of a set of workloads.
 
 The terms ``task'' and ``job'' are also used inconsistently across communities
 that perform scientific computing. In this paper, ``job'' refers to the unit of
-work that is submitted to a local resource management system (LRMS), like a
-batch system or a scheduler. As such, a task can become a job when is scheduled
-on a resource that exposes a LRMS but can also become a virtual machine or a
-container when bootstrapped on an infrastructure supporting virtualization.
-Tasks can be grouped into jobs, statically or dynamically, depending on the
-resource capabilities and the task requirements.
+work that is submitted to a local resource management system (LRMS), like the
+Slurm or PBS batch system of a cluster. As such, a task can become a job when
+is scheduled on a resource that exposes a LRMS but can also become a virtual
+machine or a container when bootstrapped on an infrastructure supporting
+virtualization. Tasks can be statically or dynamically grouped into jobs,
+depending on the resource capabilities and the task requirements.
 
 Usually, workflows are represented as graphs in which tasks are vertices and
 relations are edges~\cite{}. Often, graphs are supposed to be acyclic but graphs
 with cycles have been used to represent workflows of workflows~\cite{}. In this
 paper, a workflow template is a type of graph while a workflow instance is a
-type of graph with a specific set of vertices and edges. Further, a graph is
-``abstract'' when no resource properties are available for all vertices,
-``concrete'' otherwise~\cite{}.
+workflow template with specific vertices and edges. Further, a workflow instance
+is ``abstract'' when no resource properties are available for all vertices,
+``concrete'' otherwise~\cite{}. When not qualified, the term ``workflow''
+indicates a abstract workflow instance.
 
-The distinction between an abstract and concrete graph highlights an important
-element of the execution process of a workflow. Workflows can be specified
-without indicating on what resources they should be executed. Accordingly, an
-abstract graph can be interpreted as a formal description of the requirements
-for the workflow execution. Once these requirements are matched by a set of
-resource capabilities, the graph becomes concrete, i.e., a formal description
-of the workflow execution process and its execution environment.
+The distinction between an abstract and concrete workflow instances highlights
+an important element of the execution process of a workflow. Abstract workflows
+can be interpreted as a formal description of the requirements for the workflow
+execution, while concrete workflows can be interpreted as a formal description of the workflow's execution process. The process of resource selection matches the resource capabilities to the workflow requirements making possible the transition from execution requirements to execution process.
+
+Workload managers are those components of workflow systems or, more in general, of distributed applications that enable resource selection.
 
 \subsection{ATLAS Workflow}
+
+In this paper we focus on the ATLAS Monte Carlo workflow\mtnote{Are there other
+workflows for ATLAS?} and its evolving processes of resource selection.
+Traditionally, the ATLAS workflow has been based on single-core tasks, executed
+on Grid resources to process large amount (2TB) of input data divided into
+discrete I/O units called ``events''. This approach has many merits: (i)
+simplified process of resource selection under the assumption of homogeneous
+resources and execution environments; (ii) opportunistic distribution of compute
+tasks across resources based on contingent availability; (iii) relative
+robustness due to the ability of re-executing failed tasks; and (iv)
+multi-tiered distribution and storage of events' data.
+
+Despite all the advantages,
 
 \begin{figure}
   \includegraphics[width=\columnwidth]{figures/atlas_workflow.pdf}
