@@ -1,6 +1,6 @@
-\section{Related Work}
+\subsection{Related Work}
 \label{sec:related}
-\subsection{Alien}
+\subsubsection{Alien}
 Alien is a Workload and Data Management system composed of a 	set of middleware tools and services entirely based on web-services and standard protocols. The framework was originally developed for the ALICE experiment \cite{Alice1995} but subsequently used by several virtual organizations \cite{McClatechey2003,GPCALMA}. 
 %The system has been deployed in 2001 for distributed producti	on of Monte Carlo data, detector simulation and reconstruction.
 
@@ -45,7 +45,7 @@ Since Alien exploits JDL, a  workload can be described task by task according to
 %\item finally, the JobAgents are submitted  to the site Computing Element either by way of that sends them back to the site Computing Element or, wherever available, directly through the CREAM interface on the CE itself.
 %\end{enumerate}
 
-\subsection{DIRAC} 
+\subsubsection{DIRAC} 
 DIRAC (Distributed Infrastructure with Remote Agent Control) Workload and Data Management System has been developed within the CERN LHCb project to manage the processing of detector data, Monte Carlo simulations, and end-user analyses \cite{Tsaregorodtsev2004}. 
 DIRAC  architecture relies on four entities \cite{Paterson2010}:
 \begin{itemize}
@@ -71,7 +71,7 @@ Once deployed on the compute resource, Pilots, a.k.a. JobWrappers, hold the reso
 TaskQueues, TaskQueueDirectors, and the MatchMaker are implemented as services whereas the JobWrapper is implemented within the Agents together with the WatchDog. 
 
 JDL and \emph{Transformation Management System} (TMS) are used for task description \cite{Tsaregorodtsev2006,Pacini2006}. The latter allows the user to describe complex data dependences. 
-\subsection{HTCondor Glidein and GlideinWMS}
+\subsubsection{HTCondor Glidein and GlideinWMS}
 The HTCondor Glidein system  as part of the HTCondor software ecosystem. The HTCondor Glidein is a pilot based system to aggregate DCRs with heterogeneous middleware into HTCondor resource pools.
 Condor is based on daemons collaborating by exchanging messages over the network. We can isolate four main logical components \cite{Sfiligoi2008}:
 \begin{itemize}
