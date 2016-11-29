@@ -99,8 +99,8 @@ File I/O performance and impact
     \begin{tabular}{cc}
         {\includegraphics[width=0.48\textwidth]{figures/panda_data_read_hist.pdf}}\\
     \end{tabular}
-    \caption{ATLAS file read I/O histogram on Titan for week of 10/}
-    \label{fig:atlas-perf-improvement}
+    \caption{ATLAS file read I/O histogram on Titan for week of 10/25/16.}
+    \label{fig:atlas-titan-io-read}
 \end{figure}
 
 
@@ -108,12 +108,44 @@ File I/O performance and impact
 \begin{figure}[!htb]
     \centering
     \begin{tabular}{cc}
-        {\includegraphics[width=0.48\textwidth]{figures/panda-completed-jobs-sw-move.pdf}}\\
+        {\includegraphics[width=0.48\textwidth]{figures/panda_data_written_hist.pdf}}\\
     \end{tabular}
-    \caption{ATLAS performance improvement on Titan. The circled region shows the switch from Lustre to NFS-exported directory for hosting the ATLAS release.}
-    \label{fig:atlas-perf-improvement}
+    \caption{ATLAS file write I/O histogram on Titan for week of 10/25/16.}
+    \label{fig:atlas-titan-io-written}
+\end{figure}
+
+
+\begin{figure}[!htb]
+    \centering
+    \begin{tabular}{cc}
+        {\includegraphics[width=0.48\textwidth]{figures/panda_file_open_hist.pdf}}\\
+    \end{tabular}
+    \caption{ATLAS file open() histogram on Titan for week of 10/25/16.}
+    \label{fig:atlas-titan-file-open}
+\end{figure}
+
+
+\begin{figure}[!htb]
+    \centering
+    \begin{tabular}{cc}
+        {\includegraphics[width=0.48\textwidth]{figures/panda_file_close_hist.pdf}}\\
+    \end{tabular}
+    \caption{ATLAS file close() histogram on Titan for week of 10/25/16.}
+    \label{fig:atlas-titan_file_close}
 \end{figure}
 
 
 
 
+\begin{table*}[t]
+\centering
+\begin{tabular}{lllllllll}
+ & Num. Nodes & Duration (s) & Read (GB) & Written (GB) & GB Read/nodes & GB Written/nodes & open() & close() \\
+Min & 1 & 1,932 & 0.01 & 0.03 & 0.00037 & 0.02485 & 1,368 & 349 \\
+Max & 300 & 7,452 & 241.06 & 71.71 & 0.81670 & 0.23903 & 1,260,185 & 294,908 \\
+Average & 35.66 & 6,280.82 & 20.36 & 6.87 & 0.38354 & 0.16794 & 146,459.37 & 34,155.74 \\
+Std. Dev. & 55.33 & 520.99 & 43.90 & 12.33 & 0.19379 & 0.03376 & 231,346.55 & 53,799.08
+\end{tabular}
+\caption{The Statistical breakdown of the I/O impact of 1,175 PanDA jobs executed at OLCF for the week of 10/25/16}
+\label{panda-olcf-stats}
+\end{table*}
