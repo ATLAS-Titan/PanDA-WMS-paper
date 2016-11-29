@@ -71,7 +71,10 @@ indicates a abstract workflow instance.
 The distinction between an abstract and concrete workflow instances highlights
 an important element of the execution process of a workflow. Abstract workflows
 can be interpreted as a formal description of the requirements for the workflow
-execution, while concrete workflows can be interpreted as a formal description of the workflow's execution process. The process of resource selection matches the resource capabilities to the workflow requirements making possible the transition from execution requirements to execution process.
+execution, while concrete workflows can be interpreted as a formal description
+of the workflow's execution process. The process of resource selection matches
+the resource capabilities to the workflow requirements making possible the
+transition from execution requirements to execution process.
 
 Workload managers are those components of workflow systems or, more in general,
 of distributed applications that enable resource selection, acquisition, and
@@ -82,10 +85,14 @@ resource capabilities that need to be matched to enable the execution of the
 workflow's tasks; dynamicity is a measure of how much these requirements and
 capabilities varies during execution.
 
-The PanDA workload management system was initially designed to manage the execution of static, relatively homogeneous tasks on dynamic but homogeneous resources. Progressively, PanDA has evolved to enable the management of more heterogeneous tasks and resources. In this paper we describe how the design and architecture of PanDA has enabled executions of multi-threaded tasks on Titan, currently the largest high performance computing (HPC) resource available in the USA for scientific research.
+The PanDA workload management system was initially designed to manage the
+execution of static, relatively homogeneous tasks on dynamic but homogeneous
+resources. Progressively, PanDA has evolved to enable the management of more
+heterogeneous tasks and resources. In this paper we describe how the design and
+architecture of PanDA has enabled executions of multi-threaded tasks on Titan,
+currently the largest high performance computing (HPC) resource available in the
+USA for scientific research.
 
-In this paper we focus on the ATLAS Monte Carlo workflow\mtnote{Are there other
-workflows for ATLAS?} and its evolving processes of resource selection.
 Traditionally, the ATLAS workflow has been based on single-core tasks, executed
 on Grid resources to process large amount (2TB) of input data divided into
 discrete I/O units called ``events''. This approach has many merits: (i)
@@ -95,10 +102,15 @@ tasks across resources based on contingent availability; (iii) relative
 robustness due to the ability of re-executing failed tasks; and (iv)
 multi-tiered distribution and storage of events' data.
 
-Despite all the advantages,
+Despite all the advantages, ATLAS workflows have evolved to include
+compute-intense tasks that can benefit from multithreaded execution on HPC
+machines. The Monte Carlo workflow~\cite{} is one of the largest workflows
+executed by the ATLAS experiment and at least one of its stages can benefit from
+large amount of parallelism. The Geant4 toolkit is used to simulate the passage
+of particles through matter and\ldots
 
 \begin{figure}
   \includegraphics[width=\columnwidth]{figures/atlas_workflow.pdf}
-  \caption{ATLAS Workflow}
+  \caption{ATLAS Monte Carlo workflow.}
 \label{fig:atlas_workflow}
 \end{figure}
