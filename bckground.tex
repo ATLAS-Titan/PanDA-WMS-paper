@@ -114,3 +114,40 @@ of particles through matter and\ldots
   \caption{ATLAS Monte Carlo workflow.}
 \label{fig:atlas_workflow}
 \end{figure}
+
+\subsubsection{High-level Description}
+
+\paragraph{Figure~\ref{fig:atlas_workflow} (1)} Multiple end-users (i.e.,
+physicists) submit descriptions of ATLAS Monte Carlo Workflows to the JEDI
+component of ATLAS middleware. JEDI supervises the execution of these workflows
+through a set of eight predefined stages. Each stage requires a specific type of
+input and returns a specific type of output. In this paper, we focus on the
+third stage called ``Detector Simulator'': the only one, at the moment, executed
+on the HPC resources of Titan.
+
+\paragraph{Figure~\ref{fig:atlas_workflow} (2)} JEDI submits/hands over events
+to a PANDA Server. This server manages the execution of all the ATLAS workflows
+and their stages, including the ATLAS Monte Carlo Workflow. In
+Figure~\ref{fig:atlas_workflow} we depicted only how the events of the third
+stage are organized within PANDA Server. Tasks are container of jobs and each
+job contains itself a set of events. All the events of each job belongs to a
+specific submission of a workflow description and, therefore, to a specific user
+(i.e., virtual organization). Tasks should therefore be regarded as multitenant
+while jobs and their events as monotenant\mtnote{confirmed?}.
+
+\paragraph{Figure~\ref{fig:atlas_workflow} (3)} Sets of events belonging to
+multiple tasks and jobs are pushed/pulled? from the PANDA Server to/by one or
+more PANDA Pilot. Sixteen? PANDA Pilots are currently instantiated on a
+dedicated DSL node of Titan. These instances are responsible for the packaging
+of a set of events into a PBS job script. Packaging is performed on the base of
+the information gathered about the availability of backfill resources. Depending
+on the amount of nodes available, a specific number of events is packaged into
+the PBS script.\mtnote{can the events packaged into a PBS job belong to
+different submissions and therefore users?}
+
+\paragraph{Figure~\ref{fig:atlas_workflow} (4)} AthenaMP is used to perform the
+simulation of the events within the ATLAS detector, 1 AthenaMP thread for each
+core available on the Titan nodes. Currently, 16 threads are used for each node,
+each thread being able to simulate an average of 1 event every n??
+minutes?/second?. So far, no description has been given of the flow of data
+required to simulate each event.
