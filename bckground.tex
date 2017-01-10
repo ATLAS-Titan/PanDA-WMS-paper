@@ -151,3 +151,12 @@ core available on the Titan nodes. Currently, 16 threads are used for each node,
 each thread being able to simulate an average of 1 event every n??
 minutes?/second?. So far, no description has been given of the flow of data
 required to simulate each event.
+
+\begin{itemize}
+    \item Does each job of a PANDA Server (and therefore all the tasks of that specific job) belong to the same `user'/VO?
+    \item Does a PANDA Pilot pull jobs/tasks from a PANDA Server or does a PANDA server push jobs/tasks to a PANDA Pilot?
+    \item Does a PANDA Pilot pull jobs or tasks from a PANDA Server? Are the jobs within a PANDA Pilot the same jobs (i.e., the same container of the same tasks) in the PANDA Server?
+    \item Do we have 16 PANDA Pilots on a Titan DSL (is this the right acronym?) node? How many DSL nodes?
+    \item Can the events packaged into a PBS job belong to different submissions, i.e., different jobs, i.e., different users?
+    \item Do we have the distribution of the time taken on titan to process 1 event of the Monte Carlo workflow?
+\end{itemize}
