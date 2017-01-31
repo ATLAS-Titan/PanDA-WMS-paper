@@ -1,23 +1,71 @@
 %\jhanote{Not sure this should be under ``PANDA:Future/ROAD MAP?'' (cut and paste error it was not meant to be; FIXED)}
-\section{Experiments}
-The execution of jobs on TITAN follows a three step scheme: i) as first, TITAN's Backfill queue communicates  the availability of a slot i.e. a set of idle cores for a given time period\aanote{How many offers does PanDA receive per time unit? Average nodes per offer?}; ii) then, PanDA can decide to run on the slot or wait until a larger slot becomes available; iii) if the slot is taken, PanDA wraps a certain amount of events in a job and sends the job for execution.\aanote{I am supposing that the concept of event has been already introduced at this point}.
 
-At least in principle, PanDA can reject the slot because it does not fit the requirements in terms of number of cores or wall-time unit; however, this situation is rare because events are single core Athena-MP threads\mtnote{Should we consider events inputs of Athena-MP jobs, with each event processed in a single thread by a---to be specified---module of Athena-MP?} that require on average twenty minutes for being executed. Thus, the decomposition in event is fine grained once compared to the average allocation \aanote{Which correspond to\ldots}.
+\subsection{Experiments}
 
-As a consequence, PanDA accepts the major part of the proposed slots by selecting a number of events that maximize the utilization of the resources during the assigned time interval.
+The execution of jobs on TITAN follows a three step scheme: (i) as first,
+TITAN's Backfill queue communicates  the availability of a slot i.e., a set of
+idle cores for a given time period\aanote{How many offers does PanDA receive per
+time unit? Average nodes per offer?}; (ii) then, PanDA can decide to run on the
+slot or wait until a larger slot becomes available; (iii) if the slot is taken,
+PanDA wraps a certain amount of events in a job and sends the job for
+execution.\aanote{I am supposing that the concept of event has been already
+introduced at this point}.
 
-On one hand, this %\jhanote{I would use the word execution strategy carefully. Maybe a more general term such as execution model, a special type of which is execution strategy?(I Agree, FIXED)} 
-execution model leads to a drastic reduction of the queue time and, consequently, it guarantees high-performances. On the other hand, this model is tailored for the execution of ATLAS workload on TITAN by using the Backfill queue\mtnote{Do we have a queue dedicated to backfilling on Titan or should we speak of backfilling done on one or more queues?}.
+At least in principle, PanDA can reject the slot because it does not fit the
+requirements in terms of number of cores or wall-time unit; however, this
+situation is rare because events are single core Athena-MP threads\mtnote{Should
+we consider events inputs of Athena-MP jobs, with each event processed in a
+single thread by a---to be specified---module of Athena-MP?} that require on
+average twenty minutes for being executed. Thus, the decomposition in event is
+fine grained once compared to the average allocation \aanote{Which correspond
+to\ldots}.
+
+As a consequence, PanDA accepts the major part of the proposed slots by
+selecting a number of events that maximize the utilization of the resources
+during the assigned time interval.
+
+On one hand, this
+% \jhanote{I would use the word execution strategy carefully. Maybe a more
+% general term such as execution model, a special type of which is execution
+% strategy?(I Agree, FIXED)}
+execution model leads to a drastic reduction of the queue time and,
+consequently, it guarantees high-performances. On the other hand, this model is
+tailored for the execution of ATLAS workload on TITAN by using the Backfill
+queue\mtnote{Do we have a queue dedicated to backfilling on Titan or should we
+speak of backfilling done on one or more queues?}.
 
 Questions such as \emph{``Is this the best execution model?''} or \emph{``Can PanDA achieve similar performances by using TITAN's batch queue?''}  remain unanswered.
 
-For this reason, in the remaining of this section we propose experimental results to address them. The idea behind the experiments is to show the behaviour of ATLAS workload on TITAN's batch queue.
+For this reason, in the remaining of this section we propose experimental
+results to address them. The idea behind the experiments is to show the behavior
+of ATLAS workload on TITAN's batch queue.
 
-First, we investigate the acquisition of slot as a function of time (wall-time) and space (number of cores) in order to understand how TITAN's scheduler and workload behave under different slot requests. This analysis includes two bulks of experiments: the first, generated ``in silico'', is based on simulations of the TITAN's scheduler by means of the Moab simulator \cite{}, whereas the second, generated ``in vivo'',  considers real submissions of ATLAS workload on TITAN's batch queue.
+First, we investigate the acquisition of slot as a function of time (wall-time)
+and space (number of cores) in order to understand how TITAN's scheduler and
+workload behave under different slot requests. This analysis includes two bulks
+of experiments: the first, generated ``in silico'', is based on simulations of
+the TITAN's scheduler by means of the Moab simulator~\cite{}, whereas the
+second, generated ``in vivo'',  considers real submissions of ATLAS workload on
+TITAN's batch queue.
 
-By using the batch queue, we move in a situation where the queue time becomes dominant but, at the same time, we have more freedom to decide the parameters of the slot. For this reason, the second set of the experiments aims to find sub-optimal parameters with which we can minimize the trade-off between the size of a slot and the time spent in queue waiting for that slot to become available. In other words, we aim to minimize the completion time by finding the best trade-off between execution time and queue time.
+By using the batch queue, we move in a situation where the queue time becomes
+dominant but, at the same time, we have more freedom to decide the parameters of
+the slot. For this reason, the second set of the experiments aims to find
+sub-optimal parameters with which we can minimize the trade-off between the size
+of a slot and the time spent in queue waiting for that slot to become available.
+In other words, we aim to minimize the completion time by finding the best
+trade-off between execution time and queue time.
 
-This execution model introduces slot utilization as one of the key factors for high-performances. This happens because, in order to minimize the time spent in queue, we might asks for slots in advance and, then we could not br able to saturate them when they become available. Thus, this strategy requires a new functionality that allows the job to receive and execute new events while it is already running on the resources.
-In order to do that we perform the experiments by using a new generation executor that implements such functionality.
+This execution model introduces slot utilization as one of the key factors for
+high-performances. This happens because, in order to minimize the time spent in
+queue, we might asks for slots in advance and, then we could not be able to
+saturate them when they become available. Thus, this strategy requires a new
+functionality that allows the job to receive and execute new events while it is
+already running on the resources. In order to do that we perform the experiments
+by using a new generation executor that implements such functionality.
 
-As last observation, it is important to point out that the percentage of utilization of a slot is minor problem with the current implementation because, due to the dynamics of the Backfill queue, PanDA has a high probability to re-acquire a slot immediately after it has released one\aanote{Are we able to quantify this ``immediately''?}. 
+As last observation, it is important to point out that the percentage of
+utilization of a slot is minor problem with the current implementation because,
+due to the dynamics of the Backfill queue, PanDA has a high probability to
+re-acquire a slot immediately after it has released one\aanote{Are we able to
+quantify this ``immediately''?}.
