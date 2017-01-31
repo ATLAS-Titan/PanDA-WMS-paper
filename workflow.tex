@@ -91,3 +91,40 @@ Questions for Danila/Sergey:
     \item Can the events packaged into a PBS job belong to different submissions, i.e., different jobs, i.e., different users?
     \item Do we have the distribution of the time taken on titan to process 1 event of the Monte Carlo workflow?
 \end{itemize}
+
+% Notes - answers
+%
+% - Does each job of a PANDA Server (and therefore all the tasks of that
+%   specific job) belong to the same ‘user’/VO? • Does a PANDA Pilot pull
+%   jobs/tasks from a PANDA Server or does a PANDA server push jobs/tasks to a
+%   PANDA Pilot?
+%
+% Same user task->job on the server.
+%
+% - Does a PANDA Pilot pull jobs or tasks from a PANDA Server? Are the jobs
+%   within a PANDA Pilot the same jobs (i.e., the same container of the same
+%   tasks) in the PANDA Server?
+%
+% Panda pilot is a edge service on titan, event-driven by backfill
+% availability. When available, it DOES THE PULL from the panda server.
+%
+% - Do we have 16 PANDA Pilots on a Titan DTN (is this the right acronym?)
+%   node? How many DTN nodes?
+%
+% Currently 20, thinking to go higher, on 4 DTN (Data Transfer Node), 5 pilots
+% for DTN, DTN that enable interactive data transfer. New DTN farm is being
+% rolled on. Our set up will change. More node, more pilots per node. This is
+% bound by DTN performance, overloading DTN (currently absence of data on why
+% these nodes are overladed. Network/memory should not be a problem, it is
+% probably purely CPU because of tools used to move files, e.g., GridFTP.)
+%
+% - Can the events packaged into a PBS job belong to different submissions,
+%   i.e., different jobs, i.e., different.
+%
+% They do belong to different tasks.
+%
+% - Do we have the distribution of the time taken on titan to process 1 event
+%   of the Monte Carlo workflow?
+%
+% To be added to Section VI about performance. See presentation:
+% https://drive.google.com/drive/u/0/folders/0BxWZQExiTsWNRTdMQXN4a1g3bHc
