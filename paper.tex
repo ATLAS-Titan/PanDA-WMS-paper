@@ -1,81 +1,13 @@
-
-%% bare_conf.tex
-%% V1.3
-%% 2007/01/11
-%% by Michael Shell
-%% See:
-%% http://www.michaelshell.org/
-%% for current contact information.
-%%
-%% This is a skeleton file demonstrating the use of IEEEtran.cls
-%% (requires IEEEtran.cls version 1.7 or later) with an IEEE conference paper.
-%%
-%% Support sites:
-%% http://www.michaelshell.org/tex/ieeetran/
-%% http://www.ctan.org/tex-archive/macros/latex/contrib/IEEEtran/
-%% and
-%% http://www.ieee.org/
-
-%%*************************************************************************
-%% Legal Notice:
-%% This code is offered as-is without any warranty either expressed or
-%% implied; without even the implied warranty of MERCHANTABILITY or
-%% FITNESS FOR A PARTICULAR PURPOSE!
-%% User assumes all risk.
-%% In no event shall IEEE or any contributor to this code be liable for
-%% any damages or losses, including, but not limited to, incidental,
-%% consequential, or any other damages, resulting from the use or misuse
-%% of any information contained here.
-%%
-%% All comments are the opinions of their respective authors and are not
-%% necessarily endorsed by the IEEE.
-%%
-%% This work is distributed under the LaTeX Project Public License (LPPL)
-%% ( http://www.latex-project.org/ ) version 1.3, and may be freely used,
-%% distributed and modified. A copy of the LPPL, version 1.3, is included
-%% in the base LaTeX documentation of all distributions of LaTeX released
-%% 2003/12/01 or later.
-%% Retain all contribution notices and credits.
-%% ** Modified files should be clearly indicated as such, including  **
-%% ** renaming them and changing author support contact information. **
-%%
-%% File list of work: IEEEtran.cls, IEEEtran_HOWTO.pdf, bare_adv.tex,
-%%                    bare_conf.tex, bare_jrnl.tex, bare_jrnl_compsoc.tex
-%%*************************************************************************
-
-% *** Authors should verify (and, if needed, correct) their LaTeX system  ***
-% *** with the testflow diagnostic prior to trusting their LaTeX platform ***
-% *** with production work. IEEE's font choices can trigger bugs that do  ***
-% *** not appear when using other class files.                            ***
-% The testflow support page is at:
-% http://www.michaelshell.org/tex/testflow/
-
-
-
-% Note that the a4paper option is mainly intended so that authors in
-% countries using A4 can easily print to A4 and see how their papers will
-% look in print - the typesetting of the document will not typically be
-% affected with changes in paper size (but the bottom and side margins will).
-% Use the testflow package mentioned above to verify correct handling of
-% both paper sizes by the user's LaTeX system.
-%
-% Also note that the "draftcls" or "draftclsnofoot", not "draft", option
-% should be used if it is desired that the figures are to be displayed in
-% draft mode.
-%
 \documentclass[10pt, conference, compsocconf]{IEEEtran}
-% Add the compsocconf option for Computer Society conferences.
-%
-% If IEEEtran.cls has not been installed into the LaTeX system files,
-% manually specify the path to it like:
-% \documentclass[conference]{../sty/IEEEtran}
 
 \input{head}
 \input{include}
 
+\usepackage{listings}
+\usepackage{comment}
+
 % Some very useful LaTeX packages include:
 % (uncomment the ones you want to load)
-
 
 % *** MISC UTILITY PACKAGES ***
 %
@@ -95,11 +27,6 @@
 % When switching from latex to pdflatex and vice-versa, the compiler may
 % have to be run twice to clear warning/error messages.
 
-\usepackage{listings}
-\usepackage{comment}
-
-
-
 % *** CITATION PACKAGES ***
 %
 %\usepackage{cite}
@@ -117,11 +44,6 @@
 % The latest version can be obtained at:
 % http://www.ctan.org/tex-archive/macros/latex/contrib/cite/
 % The documentation is contained in the cite.sty file itself.
-
-
-
-
-
 
 % *** GRAPHICS RELATED PACKAGES ***
 %
@@ -163,10 +85,6 @@
 % You can find documentation about the pdfTeX application at:
 % http://www.tug.org/applications/pdftex
 
-
-
-
-
 % *** MATH PACKAGES ***
 %
 %\usepackage[cmex10]{amsmath}
@@ -185,10 +103,6 @@
 % does. amsmath.sty is already installed on most LaTeX systems. The latest
 % version and documentation can be obtained at:
 % http://www.ctan.org/tex-archive/macros/latex/required/amslatex/math/
-
-
-
-
 
 % *** SPECIALIZED LIST PACKAGES ***
 %
@@ -209,9 +123,6 @@
 % algorithmicx.sty package by Szasz Janos:
 % http://www.ctan.org/tex-archive/macros/latex/contrib/algorithmicx/
 
-
-
-
 % *** ALIGNMENT PACKAGES ***
 %
 %\usepackage{array}
@@ -225,7 +136,6 @@
 % latest version and documentation can be obtained at:
 % http://www.ctan.org/tex-archive/macros/latex/required/tools/
 
-
 %\usepackage{mdwmath}
 %\usepackage{mdwtab}
 % Also highly recommended is Mark Wooding's extremely powerful MDW tools,
@@ -234,21 +144,15 @@
 % LaTeX systems. The lastest version and documentation is available at:
 % http://www.ctan.org/tex-archive/macros/latex/contrib/mdwtools/
 
-
 % IEEEtran contains the IEEEeqnarray family of commands that can be used to
 % generate multiline equations as well as matrices, tables, etc., of high
 % quality.
-
 
 %\usepackage{eqparbox}
 % Also of notable interest is Scott Pakin's eqparbox package for creating
 % (automatically sized) equal width boxes - aka "natural width parboxes".
 % Available at:
 % http://www.ctan.org/tex-archive/macros/latex/contrib/eqparbox/
-
-
-
-
 
 % *** SUBFIGURE PACKAGES ***
 %\usepackage[tight,footnotesize]{subfigure}
@@ -260,8 +164,6 @@
 % be obtained at:
 % http://www.ctan.org/tex-archive/obsolete/macros/latex/contrib/subfigure/
 % subfigure.sty has been superceeded by subfig.sty.
-
-
 
 %\usepackage[caption=false]{caption}
 %\usepackage[font=footnotesize]{subfig}
@@ -281,9 +183,6 @@
 % The latest version and documentation of caption.sty can be obtained at:
 % http://www.ctan.org/tex-archive/macros/latex/contrib/caption/
 
-
-
-
 % *** FLOAT PACKAGES ***
 %
 %\usepackage{fixltx2e}
@@ -295,8 +194,6 @@
 % single column figure to be placed prior to an earlier double column
 % figure. The latest version and documentation can be found at:
 % http://www.ctan.org/tex-archive/macros/latex/base/
-
-
 
 %\usepackage{stfloats}
 % stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
@@ -318,10 +215,6 @@
 % cuted.sty or midfloat.sty packages (also by Sigitas Tolusis) as IEEE does
 % not format its papers in such ways.
 
-
-
-
-
 % *** PDF, URL AND HYPERLINK PACKAGES ***
 %
 %\usepackage{url}
@@ -332,35 +225,27 @@
 % Read the url.sty source comments for usage information. Basically,
 % \url{my_url_here}.
 
-
-
-
-
 % *** Do not adjust lengths that control margins, column widths, etc. ***
 % *** Do not use packages that alter fonts (such as pslatex).         ***
 % There should be no need to do such things with IEEEtran.cls V1.6 and later.
 % (Unless specifically asked to do so by the journal or conference you plan
 % to submit to, of course. )
 
-
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
 
-
-\newcommand{\sarp}[1]{{\color{red}\textit{sarp: {#1}}}}
-
-
+% -----------------------------------------------------------------------------
+% BEGIN DOCUMENT
+% -----------------------------------------------------------------------------
 \begin{document}
-%
-% paper title
-% can use linebreaks \\ within to get better formatting as desired
-\title{Everthing you wanted to know about PanDA but were truly truly afraid to ask}
+
+\title{Everthing you wanted to know about PanDA but were truly truly afraid to
+ask}
 
 
 % author names and affiliations
 % use a multiple column layout for up to two different
 % affiliations
-
 \author{\IEEEauthorblockN{Authors Name/s per 1st Affiliation (Author)}
 \IEEEauthorblockA{line 1 (of Affiliation): dept. name of organization\\
 line 2: name of organization, acronyms acceptable\\
@@ -402,10 +287,26 @@ line 4: Email: name@xyz.com}
 % make the title area
 \maketitle
 
-
+% ----------------------------------------------------------------------------
+% ABSTRACT
+% ----------------------------------------------------------------------------
 \begin{abstract}
- Experiments at the Large Hadron Collider (LHC) face unprecedented   computing   challenges.  Heterogeneous  resources are distributed worldwide, thousands of physicists analyzing the data need remote access to hundreds of computing  sites, the volume of processed data is beyond  the exabyte  scale, and data processing requires more than billions of hours of computing usage per year. The PanDA (Production and Distributed Analysis) system was developed to meet the scale and complexity of LHC distributed computing for the ATLAS experiment. In the process, the old batch job paradigm of computing in HEP was discarded in favor of a far more flexible and scalable model. The success of PanDA at the LHC is leading to widespread adoption and testing by other experiments.  PanDA is  the first exascale  workload management   system  in HEP,  already operating  at a million computing jobs per day, and processing over an exabyte of data in
-2013. We will describe the design and implementation  of PanDA, present  data on the performance  of PanDA at the LHC,  and discuss plans  for future  evolution of the system  to meet new challenges of scale, heterogeneity  and increasing user base.
+Experiments at the Large Hadron Collider (LHC) face unprecedented computing
+challenges. Heterogeneous resources are distributed worldwide, thousands of
+physicists analyzing the data need remote access to hundreds of computing
+sites, the volume of processed data is beyond the exabyte scale, and data
+processing requires more than billions of hours of computing usage per year. The
+PanDA (Production and Distributed Analysis) system was developed to meet the
+scale and complexity of LHC distributed computing for the ATLAS experiment. In
+the process, the old batch job paradigm of computing in HEP was discarded in
+favor of a far more flexible and scalable model. The success of PanDA at the LHC
+is leading to widespread adoption and testing by other experiments. PanDA is
+the first exascale workload management system in HEP, already operating at
+a million computing jobs per day, and processing over an exabyte of data in
+2013. We will describe the design and implementation of PanDA, present data on
+the performance of PanDA at the LHC, and discuss plans for future evolution
+of the system to meet new challenges of scale, heterogeneity and increasing
+user base.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -423,26 +324,44 @@ TBD.
 % creates the second title. It will be ignored for other modes.
 \IEEEpeerreviewmaketitle
 
-% ----------------------------------------------------------------------------
-% I
-% ----------------------------------------------------------------------------
 
+% ----------------------------------------------------------------------------
+% I - INTRODUCTION
+% ----------------------------------------------------------------------------
 \input{introduction}
---------------------------------------------------------------------
+
 \begin{enumerate}
-  \item Problem that has been solved: executing many applications on heterogeneous distributed resources.
+  \item Problem that has been solved: executing many applications on
+  heterogeneous distributed resources.
   \item Why are WMS needed?
-  \item Increasing importance of WMS w.r.t complex and scalable applications on heterogeneous distributed resources.
+  \item Increasing importance of WMS w.r.t complex and scalable applications on
+  heterogeneous distributed resources.
   \item \ldots
   \item Overview/Summary of paper.
 \end{enumerate}
 
+
 % ----------------------------------------------------------------------------
-% II
+% II - BACKGROUND AND RELATED WORK
 % ----------------------------------------------------------------------------
 \section{Background and Related Work}
-% Please do not correct bckground to background. 
-\input{bckground}
+\label{sec:bkgrd_literature}
+
+\begin{enumerate}
+  \item Other workload management systems (WMS) (not exclusive)
+  \begin{enumerate}
+    \item glidein-WMS
+    \item Dirac
+    \item ALICE-AlieN
+  \end{enumerate}
+  \begin{enumerate}
+    \item Comparison and contrast
+    \item Core features of a general WMS, i.e., minimal complete model of a WMS.
+  \end{enumerate}
+\end{enumerate}
+
+\input{WMSLiterature}
+
 \begin{enumerate}
   \item Brief overview of distributed CI.
   \item Workload vs Workflow. (DONE)
@@ -452,31 +371,15 @@ TBD.
   \end{enumerate}
 \end{enumerate}
 
---------------------------------------------------------------------
+% Please do not correct bckground to background.
+\input{bckground}
 
 % ----------------------------------------------------------------------------
-% III
+% III - PanDA OVERVIEW
 % ----------------------------------------------------------------------------
+\section{PanDA Overview}
+\label{sec:panda_overview}
 
-\input{WMSLiterature}
---------------------------------------------------------------------
-\begin{enumerate}
-  \item Other workload management systems (WMS) (not exclusive)
-  \begin{enumerate}
-    \item glidein-WMS
-    \item Dirac
-    \item ALICE-AlieN
-  \end{enumerate}
-{enumerate}
-  \item Comparison and contrast
-  \item Core features of a general WMS, i.e., minimal complete model of a WMS.
-\end{enumerate}
-
-% ----------------------------------------------------------------------------
-% IV
-% ----------------------------------------------------------------------------
-\section{PanDA Overview}\label{sec:panda_overview}
---------------------------------------------------------------------
 \begin{enumerate}
   \item PanDA WMS
   \begin{enumerate}
@@ -486,45 +389,56 @@ TBD.
   \end{enumerate}
   \item PANDA Pilot
 \end{enumerate}
---------------------------------------------------------------------
 
-\input{titan}
+% ----------------------------------------------------------------------------
+% IV - ATLAS MONTE CARLO WORKFLOW
+% ----------------------------------------------------------------------------
+\section{ATLAS Monte Carlo Workflow}
+\label{sec:mc_workflow}
 
-
-\input{PandaEvolution}
+\input{workflow}
 
 
 % ----------------------------------------------------------------------------
-% V
+% V - DEPLOYING PANDA ON A LEADERSHIP-SCALE SYSTEM
 % ----------------------------------------------------------------------------
-
-
 \section{Deploying PanDA on a Leadership-scale system}
 \label{sec:panda_deployment}
 
 \begin{enumerate}
+  \item Why? To support a specific stage of the ATLAS Monte Carlo Workflow.
   \item Challenges
   \item Opportunities
   \item Highlight distinction of PanDA on wide-area distributed systems vs on TITAN
   \item Take-aways, lessons learned
 \end{enumerate}
 
-% ----------------------------------------------------------------------------
-% VI
-% ----------------------------------------------------------------------------
-\input{perf}
+\input{titan}
 
-%\section{Performance Characterization}
-%\label{sec:panda_performance}
+% ----------------------------------------------------------------------------
+% VI - EVOLUTION OF PANDA WMS
+% ----------------------------------------------------------------------------
+% \section{Evolution of PanDA WMS}
+% \label{sec:panda_evolution}
+
+\input{PandaEvolution}
+
+
+% ----------------------------------------------------------------------------
+% VI - PERFORMANCE CHARACTERIZATION
+% ----------------------------------------------------------------------------
+% \section{Performance Characterization}
+% \label{sec:panda_performance}
 %
-%\begin{enumerate}
-%  \item Internal PanDA performance
-%  \item External PanDA performance (workload specific on underlying system/platform)
-%\end{enumerate}
+% \input{perf}
+
 
 % ----------------------------------------------------------------------------
-% VII
+% VI - PUTTING IT ALL TOGETHER: EXPERIENCE OF PANDA ON TITAN
 % ----------------------------------------------------------------------------
+\section{Putting it all together: Experience of PanDA on TITAN} % (fold)
+\label{sec:panda_titan}
+
 \input{overall}
 
 %\section{Putting it all together: Experience of PanDA on TITAN} % (fold)
@@ -536,19 +450,53 @@ TBD.
 %  \item ?
 %\end{enumerate}
 
-% ----------------------------------------------------------------------------
-% VIII
-% ----------------------------------------------------------------------------
 
-\section{PANDA: Future/RoadMap}
-\input{Experiments}
+% ----------------------------------------------------------------------------
+% VII - THE NEXT GENERATION EXECUTOR
+% ----------------------------------------------------------------------------
+% \section{PANDA: Future/RoadMap}
+\section{PANDA: The Next Generation Executor}
 \label{sec:panda_roadmap}
 
- \section{Conclusion}\label{sec:conclusion}
-The PanDA  system was developed to meet the scale and complexity of LHC distributed computing for the ATLAS experiment.  In the process,  the old batch job paradigm  of computing in HEP was  discarded  in favor of a  far more flexible and scalable  model. The success  of PanDA  at the LHC is leading to widespread adoption and testing by other experiments. PanDA  is the first exascale  workload management system in HEP, already operating at a million computing jobs per day, and processing over an exabyte of data in 2013. Next LHC run will pose massive computing  challenges. With a  doubling of the beam  energy  and luminosity as  well as an increased  need for  simulates  data, the data volume is expected to increase with a factor 5-6 or more. Storing and processing  this amount of data is a  challenge   that cannot be resolved with the currently existing  computing  resources in ATLAS. To resolve this challenge, ATLAS is turning to commercial  as well as academic Cloud services and HPCs via the PanDA system. Also the work underway is enabling the use of PanDA by new scientific collaborations and communities as a means  of leveraging  extreme scale computing  resources with a low barrier of entry. The technology base provided by the PanDA system will enhance the usage of a variety  of high-performance computing resources available to basic research.
+\begin{enumerate}
+    \item Rationale and design (why)
+    \item Architecture (how)
+    \item Integration
+    \item Characterization (experiments)
+\end{enumerate}
+
+\input{Experiments}
 
 
+% ----------------------------------------------------------------------------
+% VIII - CONCLUSIONS
+% ----------------------------------------------------------------------------
+\section{Conclusion}
+\label{sec:conclusion}
 
+The PanDA  system was developed to meet the scale and complexity of LHC
+distributed computing for the ATLAS experiment.  In the process,  the old batch
+job paradigm  of computing in HEP was  discarded  in favor of a  far more
+flexible and scalable  model. The success  of PanDA  at the LHC is leading to
+widespread adoption and testing by other experiments. PanDA  is the first
+exascale  workload management system in HEP, already operating at a million
+computing jobs per day, and processing over an exabyte of data in 2013. Next LHC
+run will pose massive computing  challenges. With a  doubling of the beam
+energy  and luminosity as  well as an increased  need for  simulates  data, the
+data volume is expected to increase with a factor 5-6 or more. Storing and
+processing  this amount of data is a  challenge   that cannot be resolved with
+the currently existing  computing  resources in ATLAS. To resolve this
+challenge, ATLAS is turning to commercial  as well as academic Cloud services
+and HPCs via the PanDA system. Also the work underway is enabling the use of
+PanDA by new scientific collaborations and communities as a means  of leveraging
+extreme scale computing  resources with a low barrier of entry. The technology
+base provided by the PanDA system will enhance the usage of a variety  of
+high-performance computing resources available to basic research.
+
+
+% ----------------------------------------------------------------------------
+% ACKNOWLEDGEMENTS
+% ----------------------------------------------------------------------------
 \input{ack}
 
 %\section*{Acknowledgment}
@@ -578,10 +526,11 @@ The PanDA  system was developed to meet the scale and complexity of LHC distribu
 % set second argument of \begin to the number of references
 % (used to reserve space for the reference number labels box)
 
+% ----------------------------------------------------------------------------
+% REFERENCES
+% ----------------------------------------------------------------------------
 \bibliographystyle{plain}
 \bibliography{bibliography}
 
 % that's all folks
 \end{document}
-
-

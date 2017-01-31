@@ -7,14 +7,16 @@
  \newcommand{\katznote}[1]{ {\textcolor{blue} { ***DSK: #1 }}}
  \newcommand{\mtnote}[1]{ {\textcolor{orange} { ***MT: #1 }}}
  \newcommand{\jonnote}[1]{ {\textcolor{dkgreen} { ***JW: #1 }}}
-  \newcommand{\aanote}[1]{ {\textcolor{dkgreen} { ***AA: #1 }}}
+ \newcommand{\aanote}[1]{ {\textcolor{dkgreen} { ***AA: #1 }}}
  \newcommand{\note}[1]{ {\textcolor{brown} { *** #1 }}}
+ \newcommand{\sarp}[1]{{\color{red}\textit{sarp: {#1}}}}
 \else
  \newcommand{\N}[1]{}
  \newcommand{\jhanote}[1]{}
  \newcommand{\katznote}[1]{}
  \newcommand{\mtnote}[1]{}
  \newcommand{\jonnote}[1]{}
+ \newcommand{\sarp}[1]{}
  \newcommand{\note}[1]{}
 \fi
 
@@ -109,32 +111,32 @@
 \newcommand{\mc}[2]{\multicolumn{#1}{l}{#2}}
 
 \lstdefinestyle{myListing}{
-  frame=single,   
-  backgroundcolor=\color{listinggray},  
+  frame=single,
+  backgroundcolor=\color{listinggray},
   %float=t,
-  language=C,       
+  language=C,
   basicstyle=\ttfamily \footnotesize,
   breakautoindent=true,
   breaklines=true
   tabsize=2,
-  captionpos=b,  
+  captionpos=b,
   aboveskip=0em,
   belowskip=-2em,
-  %numbers=left, 
+  %numbers=left,
   %numberstyle=\tiny
-}      
+}
 
 \lstdefinestyle{myPythonListing}{
-  frame=single,   
-  backgroundcolor=\color{listinggray},  
+  frame=single,
+  backgroundcolor=\color{listinggray},
   %float=t,
-  language=Python,       
+  language=Python,
   basicstyle=\ttfamily \scriptsize,
   breakautoindent=true,
   breaklines=true
   tabsize=2,
-  captionpos=b,  
-  %numbers=left, 
+  captionpos=b,
+  %numbers=left,
   %numberstyle=\tiny
 }
 
