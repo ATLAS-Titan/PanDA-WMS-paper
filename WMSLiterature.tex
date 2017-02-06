@@ -1,5 +1,15 @@
 \subsection{Related Work}
 \label{sec:related}
+
+In this section, we present other workload manager systems that have been developed to support LHC related but they have been used also to support other computing demanding projects.  
+
+
+
+%\begin{itemize}
+%\item \emph{Clients}: consist in a set of APIs that allows users to submit job requests. Clients interact directly with DIRAC central services.
+%\item \emph{Resources}: they can be PC's, site clusters and Grids. Agents interact with them without distinction.
+%\end{itemize}
+
 \subsubsection{Alien}
 Alien is a Workload and Data Management system composed of a 	set of middleware tools and services entirely based on web-services and standard protocols. The framework was originally developed for the ALICE experiment \cite{Alice1995} but subsequently used by several virtual organizations \cite{McClatechey2003,GPCALMA}. 
 %The system has been deployed in 2001 for distributed producti	on of Monte Carlo data, detector simulation and reconstruction.
@@ -13,7 +23,7 @@ Alien is composed of two type of services \cite{Bagnasco2010}:
 
 The most important Central services are:
 \begin{itemize}
-\item \emph{Job Manager} (or \emph{Task Queue}), a database that keeps track of all the jobs submitted to the system and their current execution status;
+\item \emph{Task Queue}, a database that keeps track of all the tasks submitted to the system and their current execution status;
 \item \emph{Brokers}, they are the core of task executions and data transfers; they receive tasks in form of JDL,  keep them ordered by priority and send them to the CE for execution;
 \item \emph{Optimizers}, they are used to minimize the work of the Broker by scanning periodially the task queue and re-arranging the tasks in such a way that fairness and priority policies are guaranted;
 \item \emph{Data Catalogue}, it keeps track of the scripts and files uploaded on Storage Elements.
@@ -26,14 +36,13 @@ The most important Central services are:
 %% Job Manager should be equal to TaskQueue
 %% Process Monitor == PIlot????
 
-The job execution in Alien is usually distributed over several sites. Each of these sites has at least one service called ClusterMonitor. On one side the Cluster Monitor is used to communicate with Central services (Job Manager and Broker), on the other side it can manage Computing Elements (CE) by starting and stopping them whenever it receives the signal.
-The CE is the resource in charge of the execution of the jobs. A CE usually is associated with a batch queue and can send the jobs to the worker nodes controlled by the queue.
+The task execution in Alien is usually distributed over several sites. Each of these sites has at least one service called ClusterMonitor. On one side the Cluster Monitor is used to communicate with Central services (Task queue and Broker), on the other side it can manage Computing Elements (CE) by starting and stopping them whenever it receives the signal.
+The CE is in charge of the execution of the tasks on the resources. A CE usually is associated with a batch queue and can send the tasks to the worker nodes controlled by the queue.
 
-The CE asks the Broker for jobs to execute by sending its description in form of Job Description Language (JDL).
-Once received the JDL, the Broker will try to match it with the JDL of the jobs in queue. If a match exists then the Broker sends the jobs JDL to the CE.
+The CE asks the Broker for tasks to execute by sending its description in form of Job Description Language (JDL).
+Once received the JDL, the Broker will try to match it with the JDL of thetasks in queue. If a match exists then the Broker sends the tasks JDL to the CE.
 Immediately after receving a job JDL, the CE create a new service on the worker node called ProcessMonitor. This service allows the CE (and the rest of Alien services through the CE) to interact with the job while is running \cite{Saiz2003}. 
-This execution strategy is called ``pull mode'' due to the fact that CE asks for jobs.
-It is worth to mention that recent versions of Alien exploit gLite and CE-CREAM. The latter allows the system to by-pass the broker during the job submission \cite{Bagnasco2004}. 
+This execution strategy is called ``pull mode'' due to the fact that CE asks for tasks.
 
 Since Alien exploits JDL, a  workload can be described task by task according to features such as: task priorities, the level of parallelism (one core, multi-core, MPI etc..) and  also the DCR that should be targeted for the execution.
 
@@ -47,21 +56,19 @@ Since Alien exploits JDL, a  workload can be described task by task according to
 
 \subsubsection{DIRAC} 
 DIRAC (Distributed Infrastructure with Remote Agent Control) Workload and Data Management System has been developed within the CERN LHCb project to manage the processing of detector data, Monte Carlo simulations, and end-user analyses \cite{Tsaregorodtsev2004}. 
-DIRAC  architecture relies on four entities \cite{Paterson2010}:
+DIRAC  architecture relies on two entities \cite{Paterson2010}:
 \begin{itemize}
-\item \emph{Clients}: consist in a set of APIs that allows users to submit job requests. Clients interact directly with DIRAC central services.
-\item \emph{Services}: serve Clients and Agents by performing crucial operations such as Job Management, Configuration, Bookkeping and Accounting.
-\item \emph{Agents}: perform repetitive tasks like querying file catalogs,  monitoring of jobs on resources.
-\item \emph{Resources}: they can be PC's, site clusters and Grids. Agents interact with them without distinction.
+\item \emph{Services}: serve Clients and Agents by performing crucial operations such as Task Management, Configuration, Bookkeping and Accounting.
+\item \emph{Agents}: perform repetitive actions like querying file catalogs,  monitoring of jobs on resources.
 \end{itemize}
 In the same way of Alien, DIRAC implements a pull scheduling. Furthermore DIRAC was the first WMS to exploit the concept of Pilot Agent on the Grid \cite{Casajus2010}. 
-Pilots Agents are gLite jobs that are submitted to the grid when jobs arrive into the WMS. 
+Pilots Agents are gLite jobs that are submitted to the grid when tasks arrive into the WMS. 
 DIRAC pilot system has four main logical components:
 \begin{itemize}
 \item a set of TaskQueues that collect tasks submitted by users, multiple TaskQueue being created depending on the requirements and ownership of the tasks;
 \item a set of JobWrappers that are executed on the DCR to bind compute resources and execute tasks submitted by the users;
 \item a set of TaskQueueDirectors that submits JobWrappers to target DCRs;
-\item a MatchMaker that matches requests from JobWrappers to suitable tasks into TaskQeues.
+\item a MatchMaker that matches requests from JobWrappers to suitable tasks into TaskQueues.
 \end{itemize}
 The DIRAC execution model can be summarized in five
 steps: 1. a user submits its workload in form of tasks to the WMS Job Manager; 2. submitted tasks are validated and added to a new or an existing TaskQueue, depending on the task properties; 3. TaskQueueDirector evaluates TaskQueues and a suitable number of JobWrappers are submitted to available
@@ -77,8 +84,7 @@ Condor is based on daemons collaborating by exchanging messages over the network
 \begin{itemize}
 \item \emph{Schedd}, implements a queuing system that holds workload tasks;
 \item \emph{Startd}, controls the DCR resources. 
-\item \emph{Collector}, holds references to all the active
-Schedd/Startd daemons; 
+\item \emph{Collector}, holds references to all the activeSchedd/Startd daemons; 
 \item \emph{Negotiator} matches tasks queued in a Schedd to resources handled by a Startd.
 \end{itemize}
 Glidein-WMS has been developed to integrate HTCondor Glidein to  automate the deployment and management of Glideins on multiple types of DCR middleware. 
@@ -93,7 +99,7 @@ The integration required three additional logical components:
 the Negotiator; 9. the task is executed.
 
 By using GlideinWMS, the user does not have to submit Glidein directly but only tasks to Schedd. From there: 1. every Schedd advertises its tasks with the VO Frontend; 2. the VO Frontend matches the tasks’ requirements to the resource properties advertised by the WMS Connector; 3. the VO Frontend places requests for Glideins instantiation to the WMS Collector; 4. the WMS Collector contacts the appropriate Glidein Factory to execute the requested Glideins; 5. the requested Glideins become active on the DCRs; and 6. the Glideins advertise their availability to the (HTCondor) Collector. From there on the execution model is the same as described for the HTCondor Glidein Service.
-
+\begin{comment}
 The resources managed by a single Glidein (i.e., pilot) are limited to compute resources. Glideins may bind one or more cores, depending on the target DCRs. For example, heterogeneous HTCondor pools with resources for desktops, workstations, small campus clusters, and some larger clusters will run mostly single core Glideins. More specialized pools that hold, for example, only DCRs with HTC, Grid, or Cloud middleware may instantiate Glideins with a larger number of cores. Both HTCondor Glidein and GlideinWMS provide abstractions for file staging but pilots are not used to hold data or network resources.
 The process of pilot deployment is the main difference between HTCondor Glidein and GlideinWMS. While the
 HTCondor Glidein system requires users to submit the pilots to the DCRs, GlideinWMS automates and optimizes pilot provisioning. GlideinWMS attempts to maximize the throughput of task execution by continuously instantiating Glideins until the queues of the available Schedd are emptied. Once all the tasks have been executed, the remaining Glideins are terminated.
@@ -116,4 +122,4 @@ glidein WMS& Daemons & pull, pilot-based  & Late & Pegaus, DAGMan & Condor(Class
 \end{center}
 \caption{Comparison of the three Workload and Data Management Systems}\label{tab:Summary}
 \end{table*}
-	
+\end{comment}
