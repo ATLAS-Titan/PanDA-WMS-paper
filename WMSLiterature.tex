@@ -44,7 +44,7 @@ Once received the JDL, the Broker will try to match it with the JDL of thetasks 
 Immediately after receving a job JDL, the CE create a new service on the worker node called ProcessMonitor. This service allows the CE (and the rest of Alien services through the CE) to interact with the job while is running \cite{Saiz2003}. 
 This execution strategy is called ``pull mode'' due to the fact that CE asks for tasks.
 
-Since Alien exploits JDL, a  workload can be described task by task according to features such as: task priorities, the level of parallelism (one core, multi-core, MPI etc..) and  also the DCR that should be targeted for the execution.
+%Since Alien exploits JDL, a  workload can be described task by task according to features such as: task priorities, the level of parallelism (one core, multi-core, MPI etc..) and  also the DCR that should be targeted for the execution.
 
 %Job submission is implemented by following the so-called ``pull mode'' which is composed of the following steps: 
 %\begin{enumerate}
@@ -77,7 +77,7 @@ TaskQueueDirectors deploy Pilots by getting a list of TaskQueues and calculating
 Once deployed on the compute resource, Pilots, a.k.a. JobWrappers, hold the resource in the form of single or multiple cores, spanning portions, whole, or multiple compute nodes. Pilots do not expose data capabilities although the system allows the user to perform both data staging and data replication. 
 TaskQueues, TaskQueueDirectors, and the MatchMaker are implemented as services whereas the JobWrapper is implemented within the Agents together with the WatchDog. 
 
-JDL and \emph{Transformation Management System} (TMS) are used for task description \cite{Tsaregorodtsev2006,Pacini2006}. The latter allows the user to describe complex data dependences. 
+%JDL and \emph{Transformation Management System} (TMS) are used for task description \cite{Tsaregorodtsev2006,Pacini2006}. The latter allows the user to describe complex data dependences. 
 \subsubsection{HTCondor Glidein and GlideinWMS}
 The HTCondor Glidein system  as part of the HTCondor software ecosystem. The HTCondor Glidein is a pilot based system to aggregate DCRs with heterogeneous middleware into HTCondor resource pools.
 Condor is based on daemons collaborating by exchanging messages over the network. We can isolate four main logical components \cite{Sfiligoi2008}:
