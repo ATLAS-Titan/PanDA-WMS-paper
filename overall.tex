@@ -1,11 +1,11 @@
 \subsection{PanDA Shared Library I/O Performance Impact at OLCF}
 
-The ATLAS framework has a configuration and initialization stage, which is
-called Athena. At this stage, the running job is assembled  on the fly from a
-large number of shared libraries.  Also, at this stage, every algorithm and
-service is being configured, at run time, by a corresponding set of Python
-scripts, which results in a large number of read I/O accesses to small python
-scripts, with many includes and imports Python calls.
+Athena, the ATLAS framework has a configuration and initialization stage. At
+this stage, the running job is assembled  on the fly from a large number of
+shared libraries.  Also, at this stage, every algorithm and service is being
+configured, at run time, by a corresponding set of Python scripts, which
+results in a large number of read operations accesses to small python scripts, with
+many includes and imports Python calls.
 
 When ATLAS was originally deployed at the OLCF, all shared libraries were
 placed at the Spider 2 Lustre file system. However, it was quickly discovered
@@ -14,8 +14,7 @@ that the I/O pattern at the Athena stage was detrimental to the overall Spider
 shared by all OLCF resources and users, this resulted in lower overall
 interactive and metadata performance at OLCF\@. As can be seen in
 Listing~\ref{mdstrace} the metadata I/O activity for ATLAS exhibits a spike
-corresponding to the beginning of the runs (i.e., the Athena stage) before
-tapering off.
+corresponding to the beginning of the runs before tapering off.
 
 \begin{minipage}{\linewidth}
 \begin{lstlisting}[language=bash,frame=single,basicstyle=\ttfamily\tiny,caption=ATLAS metadata trace,label=mdstrace]
@@ -73,18 +72,18 @@ input file is placed on memory disk on a Titan compute nodes and for Lustre the
 validation step took on average 1,320 seconds, while it was 40 seconds on NFS,
 showing a three orders of magnitude performance improvement.
 
-Figure~\ref{fig:atlas-perf-improvement} shows the overall ATLAS performance
-improvement on Titan. The circled region illustrates the switch from Lustre to
-NFS-exported directory for hosting the ATLAS release.
+%Figure~\ref{fig:atlas-perf-improvement} shows the overall ATLAS performance
+%improvement on Titan. The circled region illustrates the switch from Lustre to
+%NFS-exported directory for hosting the ATLAS release.
 
-\begin{figure}[!htb]
-    \centering
-    \begin{tabular}{cc}
-        {\includegraphics[width=0.48\textwidth]{figures/panda-completed-jobs-sw-move.pdf}}\\
-    \end{tabular}
-    \caption{ATLAS performance improvement on Titan. The circled region shows the switch from Lustre to NFS-exported directory for hosting the ATLAS release.}
-\label{fig:atlas-perf-improvement}
-\end{figure}
+%\begin{figure}[!htb]
+%    \centering
+%    \begin{tabular}{cc}
+%        {\includegraphics[width=0.48\textwidth]{figures/panda-completed-jobs-sw-move.pdf}}\\
+%    \end{tabular}
+%    \caption{ATLAS performance improvement on Titan. The circled region shows the switch from Lustre to NFS-exported directory for hosting the ATLAS release.}
+%\label{fig:atlas-perf-improvement}
+%\end{figure}
 
 
 \subsection{PanDA I/O Impact at OLCF}
@@ -106,7 +105,7 @@ Titan compute nodes. During the 174 hours of data collection, we observed that
 6.75 ATLAS jobs were executed on average per hour on Titan and ran for
 1.74 hours on average.
 
-ATLAS jobs are file read I/O heavy, as can be seen in
+ATLAS jobs issues a large number of file read operations, as can be seen in
 Table~\ref{panda-olcf-stats}. The maximum amount read by any ATLAS job in
 aggregate in this observed period was less than 250 GB and the maximum amount
 written in aggregate was less than 75 GB\@. The average amount read per job is
@@ -115,9 +114,9 @@ written in aggregate was less than 75 GB\@. The average amount read per job is
 \begin{figure}[!htb]
     \centering
     \begin{tabular}{cc}
-        {\includegraphics[width=0.48\textwidth]{figures/panda_data_read_hist.pdf}}\\
+        {\includegraphics[width=0.48\textwidth]{figures/panda_data_read_finer_hist.pdf}}\\
     \end{tabular}
-    \caption{ATLAS file read I/O histogram on Titan for week of 10/25/16.}
+    \caption{ATLAS file read operation histogram on Titan for week of 10/25/16.}
 \label{fig:atlas-titan-io-read}
 \end{figure}
 
@@ -126,7 +125,7 @@ written in aggregate was less than 75 GB\@. The average amount read per job is
 \begin{figure}[!htb]
     \centering
     \begin{tabular}{cc}
-        {\includegraphics[width=0.48\textwidth]{figures/panda_data_written_hist.pdf}}\\
+        {\includegraphics[width=0.48\textwidth]{figures/panda_data_written_finer_hist.pdf}}\\
     \end{tabular}
     \caption{ATLAS file write I/O histogram on Titan for week of 10/25/16.}
 \label{fig:atlas-titan-io-written}
@@ -140,8 +139,8 @@ written per node is less than 170 MB on average. This correlates with our
 finding that ATLAS PanDA jobs are read heavy. However, as can be seen in
 Table~\ref{panda-olcf-stats} and figures {fig:atlas-titan-io-read} and
 {fig:atlas-titan-io-written}, the distribution between read and written amount
-of data per job is quite different from one another. The read I/O distribution
-per job shows a long tail, ranging from 25 GB to 250 GB, while the written
+of data per job is quite different from one another. The read operation distribution
+per job shows a long tail, ranging from 12.5 GB to 250 GB, while the written
 amount of data has a very narrow distribution.
 
 \begin{figure}[!htb]
@@ -164,19 +163,20 @@ amount of data has a very narrow distribution.
 \end{figure}
 
 On the metadata I/O breakdown, ATLAS PanDA jobs yield 23 file $open()$
-operations and 5 file $close()$ operations per second. As can be seen from
-figures~\ref{fig:atlas-titan-file-open} and~\ref{fig:atlas-titan-file-close},
-they exhibit similar distributions. The maximum number of file $open()$
-operations are around 170 on average and the maximum number of file $close()$
-operations are 39 on average per second per job. The total number of file
-$open()$ operations is 172,089,760 for the observed window of 174 hours, while
-the total number of file $close()$ operations stand at 40,132,992 for the total
-1,175 ATLAS PanDA jobs in the same observation window. The difference between
-these two values is puzzling and it is under investigation at the time of
-writing this paper. {\sarp{can someone take a look at this? I would expect at
-least similar values for number of opens and closes and there is vast
-difference. Can it be that ATLAS jobs do a lot of opens without following
-closes, or perhaps multiple opens for the same files over and over?}}
+operations and 5 file $close()$ operations per second. The file $open()$
+operations listed here don't include the file $stat()$ operations. As can be
+seen from figures~\ref{fig:atlas-titan-file-open}
+and~\ref{fig:atlas-titan-file-close}, they exhibit similar distributions. The
+maximum number of file $open()$ operations are around 170 on average and the
+maximum number of file $close()$ operations are 39 on average per second per
+job. The total number of file $open()$ operations is 172,089,760 for the
+observed window of 174 hours, while the total number of file $close()$
+operations stand at 40,132,992 for the total 1,175 ATLAS PanDA jobs in the same
+observation window. The difference between these two values is puzzling and it
+is under investigation at the time of writing this paper. One possible
+explanation is that ATLAS PanDA jobs perhaps don't call a file $close()$
+operation per every file $open()$ issued.
+
 
 
 \begin{table*}[t]
