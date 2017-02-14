@@ -127,3 +127,33 @@ description has been given of the flow of data required to simulate each event.
 %
 % To be added to Section VI about performance. See presentation:
 % https://drive.google.com/drive/u/0/folders/0BxWZQExiTsWNRTdMQXN4a1g3bHc
+
+
+\subsubsection{Backfill - High-level Description}
+PanDA pilots  interrogate TITAN's queue continuously in order to find unused resources. This is done by using \emph{showbf} which provides the current number of unused resources and the duration of their idle time.
+  
+If PanDA server queue is not empty, each PanDA pilot tries to have five PanDA jobs constantly running on the resources. Therefore, if unused resources are available, a PanDA pilot sends a new PanDA job on TITAN's queue every time that one of its PanDA jobs terminates its execution. 
+
+PanDA pilot implements a greedy approach i.e. it tries to obtain all the available resources with a single PAnDA job\aanote{Verify this}. The size of a PanDA job cannot exceed 300 nodes \aanote{why???}. 
+
+After the submission of a PanDA job,  the PanDA pilot waits up to five minutes. If the PanDA job does not start in such time interval then the PanDA pilot deletes the job from TITAN's queue and try to resubmit the job. 
+
+The resubmission might change the size of the PAnDA job is the number of available nodes is changed in the meantime.
+
+No job is submitted to TITAN's queue If less than \emph{XXX} nodes are available or if they are not  available for at least 2 hours.
+
+Once the PAnDA job is running on the nodes, it spawns an Athena-MP job per node. Each Athena-MP job runs 16 concurrent processes that are in charge for the simulation of 100 events. No Athena-MP job is submitted after another. Therefore, PanDA job terminates immediately after all the Athena-MP jobs completed their simulation.
+
+
+
+Questions:
+\begin{itemize}
+\item Which is the component that performs showbf? The Pilot?
+\item Do pilots compete for the same available nodes?
+\item There is any restriction in terms of minimum wall-time or minimum number of nodes?
+\item If yes, Are there restrictrions imposed by ORNL or by PanDA server?
+\item Is PanDA job walltime fixed or flexible? Two hours?
+\item Does the pilot initiate input staging as a consequence of available nodes? if yes, what happens if input data is not there? 
+\end{itemize}
+
+
