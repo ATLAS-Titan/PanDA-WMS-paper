@@ -14,6 +14,12 @@ PanDA WMS\@.
 
 \subsection{Use of Supercomputers with PanDA}
 
+\begin{itemize}
+    \item Preserved logic by adapting PanDA Pilot to work as a (user land) persistent service instead of being submitted to the worknode. This was necessary because workernodes would not be able to communicate with PanDA Server.
+    \item SAGA is used to submit jobs to the local batch system. Submitting jobs replaced spawning processes in the PanDA Pilot.
+    \item Sergey provided architecture and reference paper.
+\end{itemize}
+
 The idea is to extend the ATLAS Computing Model beyond the Grid into the domains
 of supercomputers. Modern High Performance Computing  (HPC) involves  a very
 large number of worker nodes  connected  through a  high-speed   network. The
