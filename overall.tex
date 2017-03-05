@@ -1,3 +1,29 @@
+% -----------------------------------------------------------------------------
+\subsection{Geant4 Tasks Performance Analysis on Titan}
+\label{ssec:panda_titan}
+
+Currently, 20 instances of PanDA Broker are concurrently deployed on a total of
+4 DTNs, 5 instances for each DTN. Each broker controls from 15 to 300 ATLAS
+simulation jobs per submission, for a maximum total of 96,000 cores. Since
+November 2015, the brokers have operated only in backfill mode, without a
+defined time allocation, and running at the lowest priority on Titan.
+Figure~\ref{core-hours-utilization} shows Titan core hours used by ATLAS from
+September 2015 to March 2017. During that period, ATLAS consumed about XX
+million Titan core hours. About XX million detector simulation jobs were
+completed, and more than 132 million events processed. In February 2017, we
+exceeded X million core hours per month and by March 2017 we ran at more than
+X million core hours per month.
+
+Figure~\ref{backfill-utilization} shows backfill utilization efficiency, defined
+as a fraction of Titan’s total free resources that were utilized by ATLAS, for
+the period from September 2015 to March 2017. Due to continuos improvements in
+the system, the efficiency grew from less than 5\% to more than XX\%, reaching
+XX\% in February 2017. At the peak, this corresponds to more than X\%
+improvement in Titan’s overall utilization.
+
+\mtnote{Add new diagram as discussed in F2F meeting at Rutgers.}
+
+% -----------------------------------------------------------------------------
 \subsection{PanDA Shared Library I/O Performance Impact at OLCF}
 
 Athena, the ATLAS framework has a configuration and initialization stage. At
