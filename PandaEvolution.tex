@@ -102,29 +102,33 @@ computationally-intensive and non memory-intensive tasks can be offloaded from
 the Grid to Titan's large amount of cores. Further, when HEP tasks can be
 partitioned to independent jobs, Titan work nodes can be used to execute up to
 16 concurrent jobs' payload, one for each available core. Given these
-constraints and challenges, the types of task most suitable for execution on
-Titan is Monte Carlo event generation and detector simulation. Both types of
-task are mostly computational and stand-alone code, requiring less than 1GB of
-RAM at runtime and with small input data requirements. The event generation in
-ATLAS accounts for 10--15\% of all jobs on WLCG, corresponding to 2/3 of the
-current Grid capacity. Detector simulation accounts for \ldots .
+constraints and challenges, the type of task most suitable for execution at the moment on Titan is Monte Carlo
+% event generation and
+detector simulation.
+% Both types of task are
+This type of task is mostly computational-intensive, requiring less than 1GB of
+RAM at runtime and with small input data requirements. Detector simulation tasks
+in ATLAS account for XX--XX\% of all jobs on WLCG, corresponding to X/X of the
+current Grid capacity.\mtnote{Please provide numbers to replace `XX' and,
+possibly, a diagram illustrating detector simulation stats compared to the whole
+ATLAS computation activity.}
 
-\mtnote{Currently, is PanDA running event generation, detector simulation or
-both on Titain?}
-\mtnote{Please provide a diagram illustrating event generation and detector
-simulation stats compared to the whole ATLAS computation activity.}
+% The event generation in ATLAS accounts for 10--15\% of all jobs on WLCG,
+% corresponding to 2/3 of the current Grid capacity.
 
-Event generation and detector simulation are part of the ATLAS production Monte
-Carlo (MC) workflow (also known as MC production chain)~\cite{mcworkflow}. The
-MC workflow consists of four main stages: event generation, detector simulation,
-digitization, and reconstruction. Even generation creates sets of particle
-four-momenta via different generators, e.g., PYTHIA~\cite{herwig} and
-HERWIG~\cite{herwig}. The detector simulator is called Geant4~\cite{geant4} and
-simulates the interaction of these particles with the sensitive material of the
-ATLAS detector. Each interaction creates a so-called hit and all hits are
-collected and passed on for digitalization where hits are further process to
-mimic the readout of the detector. Finally, reconstruction operates local
-pattern recognition, creating high-level objects like particles and jets.
+
+% Event generation and
+Detector simulation is part of the ATLAS production Monte Carlo (MC) workflow
+(also known as MC production chain)~\cite{mcworkflow}. The MC workflow consists
+of four main stages: event generation, detector simulation, digitization, and
+reconstruction. Even generation creates sets of particle four-momenta via
+different generators, e.g., PYTHIA~\cite{herwig} and HERWIG~\cite{herwig}. The
+detector simulator is called Geant4~\cite{geant4} and simulates the interaction
+of these particles with the sensitive material of the ATLAS detector. Each
+interaction creates a so-called hit and all hits are collected and passed on for
+digitalization where hits are further process to mimic the readout of the
+detector. Finally, reconstruction operates local pattern recognition, creating
+high-level objects like particles and jets.
 
 % While this is different from the HEP computing paradigm, where jobs are
 % independent, it still shares common features such as the use of
@@ -151,15 +155,17 @@ of the pilot abstraction: decoupling resource acquisition from workload
 execution via multi-stage scheduling.
 
 The unavailability of pilots is a potential drawback when executing distributed
-workloads like MC event generation and detector simulation. Pilots are used to
-increase the throughput of distributed workloads: while pilots have to wait in
-the supercomputer's queue, once scheduled, they can pull and execute jobs
-independently from the system's queue. Jobs can be concurrently on every core
-available to the pilot and multiple generations of concurrent executions can be
-performed until the pilot's walltime is exhausted. This is particularly relevant
-for machines like Titan where queue policies privilege parallel jobs on the base
-of the number of work nodes they request: the higher the number of nodes, the
-shorter the amount of queue time (modulo fair share policies).
+workloads like MC
+% event generation and
+detector simulation. Pilots are used to increase the throughput of distributed
+workloads: while pilots have to wait in the supercomputer's queue, once
+scheduled, they can pull and execute jobs independently from the system's queue.
+Jobs can be concurrently on every core available to the pilot and multiple
+generations of concurrent executions can be performed until the pilot's walltime
+is exhausted. This is particularly relevant for machines like Titan where queue
+policies privilege parallel jobs on the base of the number of work nodes they
+request: the higher the number of nodes, the shorter the amount of queue time
+(modulo fair share policies).
 
 % MC event generation and simulation tasks can be executed without pilots but
 % the time spent waiting in the queue would be too large compared to the
@@ -191,6 +197,11 @@ around 270M core hours per year, roughly 30\% of the overall capacity of WLCG.
 % requestvfor that number of nodes and walltime, queue time will be minimal.
 
 \mtnote{Please feel free to add details about backfill as needed.}
+\mtnote{Please note: I know the following departs for the current name given to
+the PanDA subsystem installed on Titan. I think there is a good reason to
+call it a broker instead of a pilot, and I think I explained it in the previous
+paragraphs. Please  take this just as a suggestion, something I would like to
+discuss in our meeting.}
 
 Given the communication requirements of PanDA Pilots and the unused capacity of
 Titan, PanDA pilot was redesigned to serve as a job broker on Titan. Architected
@@ -242,8 +253,9 @@ the Payloads' output files on the shared filesystem and transfer them from Titan
 to the ATLAS Tier 1 computing center at Brookhaven National Lab (BNL) or any
 other Grid site.
 
-Once deployed, every PanDA Broker supports the execution of MC event generation
-and detector simulation on Titan in 9 steps: (i) PanDA Broker queries Titan's
+Once deployed, every PanDA Broker supports the execution of MC
+% event generation and
+detector simulation on Titan in 9 steps: (i) PanDA Broker queries Titan's
 Moab scheduler about currently unused worker nodes;
 % and checks whether the time and size of the available backfill resources are
 % suitable to execute jobs;
