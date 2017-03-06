@@ -2,7 +2,7 @@ The next LHC run for taking data (Run 3) will require more resources than the
 Worldwide LHC Computing Grid (WLCG) can possibly provide. Currently, PanDA WMS
 uses more than 100,000 cores at over 100 Grid sites, with a peak performance of
 0.3 petaFLOPS. This capacity will be sufficient for the planned analysis and
-data processing, but it will be insufficient for the Monte Carlo (MC) production
+data processing, but it will be insufficient for the Monte Carlo production
 workflow and any extra activity. To alleviate these challenges, ATLAS is engaged
 in a program to expand the current computing model to include additional
 resources such as the opportunistic use of supercomputers as well as commercial
@@ -10,7 +10,7 @@ and academic clouds.
 
 \subsection{Use of Supercomputers with PanDA}
 
-Modern supercomputers have been designed to mainly support parallel computation
+Modern supercomputers have been designed mainly to support parallel computation
 that requires runtime communication. Job execution is parallelized across
 multiple cores, each core calculating a small part of the problem and
 communicating with other cores via a message passing interface (MPI).
@@ -19,53 +19,53 @@ a high-speed, low-latency dedicated network. Each worker node has multicore
 CPUs, usually augmented with massively parallel Graphics Processing Units (GPUs)
 or other types of specialized coprocessors.
 
-PanDA WMS has been designed to support distributed computing. Executing
-Workloads or workflows involves concurrent and/or sequential runs of possibly
+PanDA WMS has been designed to support distributed computing. Executing ATLAS
+workloads or workflows involves concurrent and/or sequential runs of possibly
 large amount of jobs, each requiring no or minimal parallelization and no
-communication at runtime. Accordingly, computing infrastructure like WLCG have
-been designed to aggregate large amount of computing resources across sites,
-often dislocated across geographical locations. While each site may deploy
-runtime message-passing capabilities, usually these are not used to perform
-distributed computations.
+runtime communication. Thus, computing infrastructure like WLCG have been
+designed to aggregate large amount of computing resources across sites, often
+geographically dislocated. While each site may deploy runtime message-passing
+capabilities, usually these are not used to perform distributed computations.
 
-There are at least two approaches to enable PanDA WMS to execute ATLAS jobs on
-supercomputers: (i) using the subset of resources and capabilities shared by
-both supercomputers and Grid; (ii) reconciling the parallel and distributed
-computing paradigms by means of dedicated abstractions. The former is a
-pragmatic approach that enables the execution of specific workloads by
-prototyping single-point solutions. The latter approach is principled and better
-suited for a production-grade solution, capable of supporting general-purpose
-workloads and workflows on both supercomputers and Grid infrastructures. These
-two approaches are not mutually exclusive: developing a single-point solution
-gives the opportunity to better understand the problem space, supporting the
-creation of abstractions for the integration of computing paradigms.
+There are at least two approaches to enable PanDA WMS to execute ATLAS workloads
+or workflows on supercomputers: (i) using the subset of resources and
+capabilities shared by both supercomputers and WLCG; (ii) reconciling the
+parallel and distributed computing paradigms by means of dedicated abstractions.
+The former is a pragmatic approach that enables the execution of specific
+workloads by prototyping single-point solutions. The latter is a principled
+approach, better suited for a production-grade solution, capable of supporting
+general-purpose workloads and workflows on both supercomputers and Grid
+infrastructures. These two approaches are not mutually exclusive: developing a
+single-point solution gives the opportunity to better understand the problem
+space, supporting the creation of abstractions for the integration of computing
+paradigms.
 
-This section illustrates the design, architecture and execution process of a
-prototype developed by the PanDA team to support execution of the Geant4 stage
-of the ATLAS production Monte Carlo workflow on the Titan supercomputer, managed
-by the Oak Ridge Leadership Computing Facility (OLCF) at the Oak Ridge National
-Laboratory (ORNL). After an analysis of the results obtained and the lessons
-learned, the following section introduces the design and first experimental
-characterization of a next generation executor (NGE). NGE is designed to
-abstract resources and capabilities, enabling the concurrent execution of both
-parallel and distributed computing.
+This section illustrates the design and architecture of a job broker prototyped
+by the PanDA team. This broker supports execution of part of the ATLAS
+production Monte Carlo workflow on Titan, a leadership-class supercomputer
+managed by the Oak Ridge Leadership Computing Facility (OLCF) at the Oak Ridge
+National Laboratory (ORNL). After an analysis of the results obtained and the
+lessons learned, the following section introduces the design and first
+experimental characterization of a next generation executor (NGE). NGE is
+designed to abstract resources and capabilities, enabling the concurrent
+execution of both parallel and distributed computing on generic high performance
+computing (HPC) machines.
 
 
 % -----------------------------------------------------------------------------
 \subsection{Interfacing PanDA with Titan}
 \label{ssec:panda_titan}
 
-The Titan supercomputer, current number two
+The Titan supercomputer, current number three
 % (number one from November 2012 until June 2013)
-on the Top 500 list~\cite{top500}, is a Cray XK7 system with 18,688 compute
-nodes and a total of 299,008 CPU cores. Each compute node has an AMD Opteron
-CPU, a Nvidia Tesla GPU, 32 GB of RAM and no local storage, though a 16 GB RAM
-disk can be set up. Compute nodes use Cray’s Gemini interconnect for inter-node
-MPI messaging but have no network connection to the outside world. Titan is
-served by the Spider II~\cite{spider2}, a Lustre filesystem with 32 PB of disk
-storage, and by a 29 PB HPSS tape storage system. Titan’s worker nodes run
-Compute Node Linux, a run time environment based on SUSE Linux Enterprise
-Server.
+on the Top 500 list~\cite{top500}, is a Cray XK7 system with 18,688 work nodes
+and a total of 299,008 CPU cores. Each work node has an AMD Opteron CPU, a
+Nvidia Tesla GPU, 32 GB of RAM and no local storage, though a 16 GB RAM disk can
+be set up. Work nodes use Cray’s Gemini interconnect for inter-node MPI
+messaging. Titan is served by the Spider II~\cite{spider2}, a Lustre filesystem
+with 32 PB of disk storage, and by a 29 PB HPSS tape storage system. Titan’s
+work nodes run Compute Node Linux, a run time environment based on SUSE Linux
+Enterprise Server.
 
 % Titan, was the first large-scale system to use a hybrid architecture that
 % utilizes worker nodes with both AMD 16-core Opteron 6274 CPUs and NVIDIA Tesla
@@ -81,7 +81,7 @@ and DTNs are the only nodes with out/inbound wide area network connectivity.
 Work nodes have only local network access. Data staging is supported via the
 DTNs, from the wide area network and the OLCF high performance storage system
 (HPSS). DTNs are shared across all Titan's users that can schedule jobs to a
-dedicates PBS batch system to automate data staging. Fair-share policies are in
+dedicates batch system to automate data staging. Fair-share policies are in
 place both for the batch system and for the use of DTN resources.
 
 Titan's architecture, configuration and policies poses several challenges to the
@@ -101,19 +101,18 @@ Currently, no HEP application can benefit from Titan's GPUs but some
 computationally-intensive and non memory-intensive tasks can be offloaded from
 the Grid to Titan's large amount of cores. Further, when HEP tasks can be
 partitioned to independent jobs, Titan work nodes can be used to execute up to
-16 concurrent jobs' payload, one for each core. Given these constraints and
-challenges, the type of task most suitable for execution on Titan is HEP event
-generation. Event generations are mostly computational and stand-alone code,
-requiring less than 1GB of RAM at runtime and with small input data
-requirements. The event generation in ATLAS accounts for 10--15\% of all jobs on
-the Grid, corresponding to 2/3 of the current Grid capacity. A more difficult
-workload to adapt for Titan would be that for detector simulation. Simulation
-tasks tend to be tied to the framework of a particular simulation, often
-requiring database access for geometry and relevant run conditions.
+16 concurrent jobs' payload, one for each available core. Given these
+constraints and challenges, the types of task most suitable for execution on
+Titan is Monte Carlo event generation and detector simulation. Both types of
+task are mostly computational and stand-alone code, requiring less than 1GB of
+RAM at runtime and with small input data requirements. The event generation in
+ATLAS accounts for 10--15\% of all jobs on WLCG, corresponding to 2/3 of the
+current Grid capacity. Detector simulation accounts for \ldots .
 
-\mtnote{Currently, is PanDA running event generation, simulation or both on Titain?}
-\mtnote{Please provide a diagram illustrating event generation and simulation
-stats compared to the whole ATLAS computation activity.}
+\mtnote{Currently, is PanDA running event generation, detector simulation or
+both on Titain?}
+\mtnote{Please provide a diagram illustrating event generation and detector
+simulation stats compared to the whole ATLAS computation activity.}
 
 Event generation and detector simulation are part of the ATLAS production Monte
 Carlo (MC) workflow (also known as MC production chain)~\cite{mcworkflow}. The
@@ -123,10 +122,9 @@ four-momenta via different generators, e.g., PYTHIA~\cite{herwig} and
 HERWIG~\cite{herwig}. The detector simulator is called Geant4~\cite{geant4} and
 simulates the interaction of these particles with the sensitive material of the
 ATLAS detector. Each interaction creates a so-called hit and all hits are
-collected and passed to the digitalization stage. There, hits are further
-process to mimic the readout of the detector, including subtle events specific
-to each detector's sub-component. Finally, the reconstruction stage operates
-local pattern recognition, creating high-level objects like particles and jets.
+collected and passed on for digitalization where hits are further process to
+mimic the readout of the detector. Finally, reconstruction operates local
+pattern recognition, creating high-level objects like particles and jets.
 
 % While this is different from the HEP computing paradigm, where jobs are
 % independent, it still shares common features such as the use of
@@ -153,34 +151,36 @@ of the pilot abstraction: decoupling resource acquisition from workload
 execution via multi-stage scheduling.
 
 The unavailability of pilots is a potential drawback when executing distributed
-workloads like MC event generation and simulation. Pilots are used to increase
-the throughput of distributed workloads: while pilots have to wait in the
-supercomputer's queue, once scheduled, they can pull and execute jobs avoiding
-the supercomputer's queue. This is particularly relevant for machines like Titan
-where queue policies privilege parallel jobs on the base of the number of work
-nodes they request: the higher the number of nodes, the shorter the amount of
-queue time (modulo fair share policies).
+workloads like MC event generation and detector simulation. Pilots are used to
+increase the throughput of distributed workloads: while pilots have to wait in
+the supercomputer's queue, once scheduled, they can pull and execute jobs
+independently from the system's queue. This is particularly relevant for
+machines like Titan where queue policies privilege parallel jobs on the base of
+the number of work nodes they request: the higher the number of nodes, the
+shorter the amount of queue time (modulo fair share policies).
 
 % MC event generation and simulation tasks can be executed without pilots but
 % the time spent waiting in the queue would be too large compared to the
 % execution time of each task.
 
 Titan's backfill functionality offers the opportunity not to use the pilot
-abstraction while still avoiding queue time overheads. At any point in time,
-Titan's Moab scheduler shows how many work nodes cannot be used by the jobs
-already queued: All these jobs are either too large or their walltime is too
-long. By submitting a job requesting the number of free work nodes and walltime,
-queue time can be avoided.
+abstraction while still avoiding queue time overheads. Backfill availability is
+the number of work nodes that cannot be used by any of the jobs already queued
+on Titan: All queued jobs are either too large or their walltime is too long. At
+any point in time, Titan's Moab scheduler can be queried for backfill
+availability and a job submitted shortly after placing this query and requesting
+for no more than the backfill availability, is usually scheduled immediately
+spending almost no time in the queue.
 
 Compared to pilots, backfill has the disadvantage of limiting the amount of work
 nodes that can be requested. Pilots are normal jobs: they can request as many
 work nodes for as much time as a queue can offer. On the contrary, jobs sized on
 the base of the backfill availability depend on the amount of work nodes that
-cannot be given to any other job. Usually, this amount of work nodes is a
-fraction of the total capacity of the queue but the size of Titan mitigates this
+cannot be given to any other job. Usually, backfill availability is a fraction
+of the total capacity of the queue but the size of Titan mitigates this
 limitation. Every year, about 10\% of Titan's capacity remains
-unused~\cite{titan_utilization}, for a total of 30,000 cores that correspond to
-270M core hours per year, roughly 30\% of the overall capacity of WLCG.
+unused~\cite{titan_utilization}, for a total of 30,000 cores, corresponding to
+around 270M core hours per year, roughly 30\% of the overall capacity of WLCG.
 
 % A system that can use those temporarily free work nodes with smaller
 % scale tasks would be very valuable. For this reason, Titan offers backfill
@@ -190,14 +190,15 @@ unused~\cite{titan_utilization}, for a total of 30,000 cores that correspond to
 
 \mtnote{Please feel free to add details about backfill as needed.}
 
-Accordingly, PanDA Pilot has been redesigned to serve as a job broker On Titan.
-Architected as a stand-alone service to be executed on a DTN, this PanDA Broker
-implements functionalities to: (i) interrogate Titan about backfill
-availability; (ii) pull MC jobs and events; (iii) wrap these jobs' payload into
-PBS MPI jobs; (iv) submitting PBS jobs to Titan's batch system; and (v) staging
-input/output files. Backfill querying, payload wrapping, and job submission
-required a new implementation while job and events pulling, and file staging
-were mostly inherited from PanDA Pilot.
+Given the communication requirements of PanDA Pilots and the unused capacity of
+Titan, PanDA pilot was redesigned to serve as a job broker on Titan. Architected
+as a stand-alone service to be executed on a DTN, this prototype called `PanDA
+Broker' implements functionalities to: (i) interrogate Titan about backfill
+availability; (ii) pull MC jobs and events; (iii) wrap jobs' payload into PBS
+MPI jobs; (iv) submitting MPI PBS jobs to Titan's PBS batch system; and (v)
+staging input/output files. Backfill querying, payload wrapping, and job
+submission required a new implementation while job and events pulling, and file
+staging were mostly inherited from PanDA Pilot.
 
 \begin{figure}
   \begin{center}
@@ -221,47 +222,43 @@ the wrapper script starts the execution of the payload in a subprocess and waits
 until its completion.
 
 MPI wrappers are submitted to Titan's PBS batch system via
-RADICAL-SAGA~\cite{radical-saga}. The Simple API for Grid Applications (SAGA)
+RADICAL-SAGA~\cite{radical-saga}, a Python module, compliant with the OGF GFD.90
+SAGA specification~\cite{saga-spec}. The Simple API for Grid Applications (SAGA)
 offers a unified interface to diverse job schedulers and file transferring
 services. In this way, SAGA provides an interoperability layer that lowers the
-complexity of using distributed infrastructure. RADICAL-SAGA is a Python module,
-compliant with the OGF GFD.90 SAGA specification~\cite{saga-spec}. Behind the
-API façade, RADICAL-SAGA implements a adaptor architecture: each adaptor
-interface the SAGA API with different middleware systems and services, including
-the batch scheduler of Titan.
+complexity of using distributed infrastructures. Behind the API façade,
+RADICAL-SAGA implements a adaptor architecture: each adaptor interface the SAGA
+API with different middleware systems and services, including the batch
+scheduler of Titan.
 
 The data staging capabilities of the PanDA Broker are implemented via a file
 system that is shared among DTNs and work nodes. The input files required by the
 payload are downloaded via the ATLAS DDM service and then stored in a directory
 on the shared filesystem. The MPI wrapper setup process includes making the
-location of these files known to the payload. The PanDA Broker can locate the
-Payloads' output files on the shared filesystem and transfer them from Titan to
-the ATLAS Tier 1 computing center at Brookhaven National Lab (BNL) or any other
-Grid site.
+location of these files available to the payload. The PanDA Broker can locate
+the Payloads' output files on the shared filesystem and transfer them from Titan
+to the ATLAS Tier 1 computing center at Brookhaven National Lab (BNL) or any
+other Grid site.
 
 Once deployed, every PanDA Broker supports the execution of MC event generation
-and detector simulation on Titan in 10 steps: (i) PanDA Broker queries Titan's
+and detector simulation on Titan in 9 steps: (i) PanDA Broker queries Titan's
 Moab scheduler about currently unused worker nodes;
 % and checks whether the time and size of the available backfill resources are
 % suitable to execute jobs;
-(ii) The PanDA Broker transmits this information to the Job Dispatcher module of
-the PanDA server and, in response, it gets a list of jobs that have been bound
-to Titan by JEDI; (iii) based on the jobs attributes, the PanDA Broker requests
-to the Data Service module of the PanDA Server to transfer the necessary input
-data to the DTN via the ATLAS DDM service; (iv) once all the data are
-transferred, the PanDA Broker calculates the number of cores and duration of
-jobs that can be submitted to Titan on the base of the information collected
-about backfill worker nodes availability; (v) the PanDA Broker creates one or
-more PBS MPI scripts to wrap enough jobs' payload to fit the work nodes
-available via backfill; (vi) the PanDA Broker submits these MPI jobs to the
-Titan's PBS batch system via RADICAL-SAGA; (vii) the MPI jobs waits a minimal
-amount of time into the queue until are scheduled for execution; (viii) upon
-execution on the worker nodes, each MPI script sets up the execution environment
-required by the wrapped payload, assembling a specific AthenaMP configuration in
-ramdisk; (ix) the payload is executed into dedicated processes, 16 for each work
-node, 1 for each core; (x) the PanDA Broker locates the output files produced by
-the payload on the shared filesystem and transfer them to BNL ATLAS Tier 1
-computing centre.
+(ii) the PanDA Broker queries the Job Dispatcher module of the PanDA server for
+jobs that have been bound to Titan by JEDI; (iii)  the PanDA Broker requests to
+the Data Service module of the PanDA Server what input data these jobs require
+and transfer them to the DTN via the ATLAS DDM service; (iv) the PanDA Broker
+creates one or more PBS MPI script, wrapping enough jobs' payload to fit
+backfill availability; (v) the PanDA Broker submits these MPI jobs to the
+Titan's PBS batch system via RADICAL-SAGA; (vi) the MPI jobs waits a minimal
+amount of time into the queue until they are scheduled for execution; (vii) upon
+execution on the worker nodes, each MPI script creates a ramdisk and sets up the
+specific AthenaMP configuration required by the wrapped payload; (viii) the
+payload is executed into dedicated processes, 16 for each work node, 1 for each
+available core; (ix) upon completion of an MPI job, the PanDA Broker locates the
+produced output files on the shared filesystem and transfer them to BNL ATLAS
+Tier 1 computing centre.
 
 % from the Job Dispatcher module of PanDA Server (as done by a PanDA Pilot);
 % (iii) downloading events via PanDA Server's Data Service from ATLAS DDM to
