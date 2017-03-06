@@ -154,9 +154,11 @@ The unavailability of pilots is a potential drawback when executing distributed
 workloads like MC event generation and detector simulation. Pilots are used to
 increase the throughput of distributed workloads: while pilots have to wait in
 the supercomputer's queue, once scheduled, they can pull and execute jobs
-independently from the system's queue. This is particularly relevant for
-machines like Titan where queue policies privilege parallel jobs on the base of
-the number of work nodes they request: the higher the number of nodes, the
+independently from the system's queue. Jobs can be concurrently on every core
+available to the pilot and multiple generations of concurrent executions can be
+performed until the pilot's walltime is exhausted. This is particularly relevant
+for machines like Titan where queue policies privilege parallel jobs on the base
+of the number of work nodes they request: the higher the number of nodes, the
 shorter the amount of queue time (modulo fair share policies).
 
 % MC event generation and simulation tasks can be executed without pilots but
