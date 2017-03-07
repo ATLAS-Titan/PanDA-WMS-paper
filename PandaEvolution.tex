@@ -19,13 +19,17 @@ a high-speed, low-latency dedicated network. Each worker node has multicore
 CPUs, usually augmented with massively parallel Graphics Processing Units (GPUs)
 or other types of specialized coprocessors.
 
-PanDA WMS has been designed to support distributed computing. Executing ATLAS
-workloads or workflows involves concurrent and/or sequential runs of possibly
-large amount of jobs, each requiring no or minimal parallelization and no
-runtime communication. Thus, computing infrastructure like WLCG have been
-designed to aggregate large amount of computing resources across sites, often
-geographically dislocated. While each site may deploy runtime message-passing
-capabilities, usually these are not used to perform distributed computations.
+PanDA WMS has been designed to support distributed Grid
+computing\sergeynote{specifically "distributed Grid computing"}\mtnote{done.}.
+Executing ATLAS workloads or workflows involves concurrent and/or sequential
+runs of possibly large amount of jobs, each requiring no or minimal
+parallelization and no runtime communication. Thus, computing infrastructure
+like WLCG have been designed to aggregate large amount of computing resources
+across multiple sites.
+%, often geographically dislocated.
+\sergeynote{geographically distributed?}\mtnote{Better?} While each site may
+deploy runtime message-passing capabilities, usually these are not used to
+perform distributed computations.
 
 There are at least two approaches to enable PanDA WMS to execute ATLAS workloads
 or workflows on supercomputers: (i) using the subset of resources and
@@ -106,7 +110,7 @@ constraints and challenges, the type of task most suitable for execution at the 
 % event generation and
 detector simulation.
 % Both types of task are
-This type of task is mostly computational-intensive, requiring less than 1GB of
+This type of task is mostly computational-intensive, requiring less than 2GB of
 RAM at runtime and with small input data requirements. Detector simulation tasks
 in ATLAS account for XX--XX\% of all jobs on WLCG, corresponding to X/X of the
 current Grid capacity.\mtnote{Please provide numbers to replace `XX' and,
@@ -119,13 +123,15 @@ ATLAS computation activity.}
 
 % Event generation and
 Detector simulation is part of the ATLAS production Monte Carlo (MC) workflow
-(also known as MC production chain)~\cite{mcworkflow}. The MC workflow consists
-of four main stages: event generation, detector simulation, digitization, and
-reconstruction. Even generation creates sets of particle four-momenta via
-different generators, e.g., PYTHIA~\cite{herwig} and HERWIG~\cite{herwig}. The
-detector simulator is called Geant4~\cite{geant4} and simulates the interaction
-of these particles with the sensitive material of the ATLAS detector. Each
-interaction creates a so-called hit and all hits are collected and passed on for
+(also known as MC production
+chain)~\cite{rimoldi2006atlas,de2013delphes,ritsch2014atlas}. The MC workflow
+consists of four main stages: event generation, detector simulation,
+digitization, and reconstruction. Even generation creates sets of particle
+four-momenta via different generators, e.g., PYTHIA~\cite{sjostrand2006pythia}
+and HERWIG~\cite{corcella2001herwig}. The detector simulator is called
+Geant4~\cite{agostinelli2003geant4} and simulates the interaction of these
+particles with the sensitive material of the ATLAS detector. Each interaction
+creates a so-called hit and all hits are collected and passed on for
 digitalization where hits are further process to mimic the readout of the
 detector. Finally, reconstruction operates local pattern recognition, creating
 high-level objects like particles and jets.
@@ -183,10 +189,12 @@ spending almost no time in the queue.
 Compared to pilots, backfill has the disadvantage of limiting the amount of work
 nodes that can be requested. Pilots are normal jobs: they can request as many
 work nodes for as much time as a queue can offer. On the contrary, jobs sized on
-the base of the backfill availability depend on the amount of work nodes that
-cannot be given to any other job. Usually, backfill availability is a fraction
-of the total capacity of the queue but the size of Titan mitigates this
-limitation. Every year, about 10\% of Titan's capacity remains
+the base of the backfill availability depend on the
+% amount of work nodes that cannot be given to any other job.
+any other job in the Titan's queue\sergeynote{any other job currently in the
+Titan's queue?}\mtnote{Better?}. Usually, backfill availability is a fraction of
+the total capacity of the queue but the size of Titan mitigates this limitation.
+Every year, about 10\% of Titan's capacity remains
 unused~\cite{titan_utilization}, for a total of 30,000 cores, corresponding to
 around 270M core hours per year, roughly 30\% of the overall capacity of WLCG.
 
@@ -198,20 +206,25 @@ around 270M core hours per year, roughly 30\% of the overall capacity of WLCG.
 
 \mtnote{Please feel free to add details about backfill as needed.}
 \mtnote{Please note: I know the following departs for the current name given to
-the PanDA subsystem installed on Titan. I think there is a good reason to
-call it a broker instead of a pilot, and I think I explained it in the previous
+the PanDA subsystem installed on Titan. I think there is a good reason to call
+it a broker instead of a pilot, and I think I explained it in the previous
 paragraphs. Please  take this just as a suggestion, something I would like to
-discuss in our meeting.}
+discuss in our meeting.} \sergeynote{It's not a pilot in conventional sense. I
+call it an agent. It just happened that we were able to use full PanDA pilot's
+code base to serve our purposes on Titan. that's why, by inertia, we still call
+it a pilot.}\mtnote{Thank you. We would have a problem calling it `agent' as we
+use that term to name the pilot of NGE. Would PanDA Broker work?}
 
 Given the communication requirements of PanDA Pilots and the unused capacity of
 Titan, PanDA pilot was redesigned to serve as a job broker on Titan. Architected
 as a stand-alone service to be executed on a DTN, this prototype called `PanDA
 Broker' implements functionalities to: (i) interrogate Titan about backfill
 availability; (ii) pull MC jobs and events; (iii) wrap jobs' payload into PBS
-MPI jobs; (iv) submitting MPI PBS jobs to Titan's PBS batch system; and (v)
-staging input/output files. Backfill querying, payload wrapping, and job
-submission required a new implementation while job and events pulling, and file
-staging were mostly inherited from PanDA Pilot.
+MPI jobs; (iv) submitting MPI PBS jobs to Titan's PBS batch system and monitor
+their execution;\sergeynote{Monitor job state and state transitions using
+SAGA}\mtnote{Better?} and (v) staging input/output files. Backfill querying,
+payload wrapping, and job submission required a new implementation while job and
+events pulling, and file staging were mostly inherited from PanDA Pilot.
 
 \begin{figure}
   \begin{center}

@@ -2,10 +2,9 @@
 
 The design of the Production and Distributed Analysis (PanDA) system started in
 2005 to develop a WMS for the ATLAS experiment. PanDA went into production for
-the LHC Run 1 between 2009 and 2013 and was then partially redesigned to be
-deployed on Run 2, between 2015 and 2018. In this section, we summarize the
-design, architecture, and execution process of the current state of the
-practice.
+the LHC Run 1 on 2009 and was then partially redesigned to be deployed on Run 2,
+on 2015. In this section, we summarize the design, architecture, and execution
+process of the current state of the practice.
 
 
 % -----------------------------------------------------------------------------
@@ -54,9 +53,33 @@ PanDA' data model uses events as the unit of data. Each event represents a
 collision captured in the detector and one or more events can be packaged into
 files or data source with other container abstractions. As with jobs, data have
 both attributes and states, and some of the attributes are shared between events
-and jobs so to create associations. Data are assumed to be stored centrally,
-replicated when necessary and transferred over the network. This assumptions
-applies to both input and output data.
+and jobs so to create associations. Raw, reconstruction, and simulation data are
+assumed to be distributed across multiple and tiered sites and managed by the
+ATLAS Distributed Data Management (DDM)~\cite{garonne2012atlas}. Datasets
+required by each job are assumed to be replicated when necessary over the
+network. This applies to both input and output data. \sergeynote{Raw data from
+the ATLAS detector is captured at CERN and goes through reconstruction step to
+produce data in secondary formats, smaller in volume and with more and more
+physics content instead of raw detector hits. Consequently a second, custodial,
+copy of raw data is being distributed in predetermined volumes to National T1
+centers around the world (like BNL  T1 center). This insures low raw data
+redundancy and safety. Multiple copies of chunks of secondary data sets (derived
+from real raw data) are also distributed to ~100 centers around the word for
+ease of access and improved availability for analysis. Then raw detector data is
+stored on Tapes at CERN, just  in case. Most users, who do physics analysis,
+rarely work with raw data, only a small group of experts needs to work with raw
+data for specialized tasks like detector calibrations and such. There may be a
+need to redo a reconstruction step, when errors in previous reconstruction
+campaign are uncovered or improved detector understanding will lead for a better
+quality physics. Then data stored on tape is recovered and re-processed again.
+Simulation data is produced in many places anyway and is not centralized to
+begin with. Here's the paper that describes current DDM state in ATLAS, data
+replication strategies and such.
+http://iopscience.iop.org/article/10.1088/1742-6596/396/3/032045/pdf DDM is a
+complex and evolving topic in ATLAS.}\mtnote{Thank you. As we are describing the
+design of PanDA I thought we should not enter into a too detailed description of
+the DDM design. I eliminated the mistake I had made about `centralized data' but
+left DDM just as a reference. Any better?}
 
 PanDA design supports provenance and traceability for both jobs and data.
 Attributes enable provenance by linking jobs and data items, providing
@@ -136,8 +159,8 @@ monitoring the state of the job execution on the pilot, updating the Task Buffer
 component. Finally, the Data Service component offers functionalities to: (i)
 retrieve information from Task Buffer and Brokerage about the data requirements
 of each job and the resource to which each job has been assigned; (ii) enable
-interaction with the ATLAS Distributed Data Management (DDM)~\cite{atlas_ddm} to
-make input files available to the jobs and manage their output data.
+interaction with the ATLAS DDM to make input files available to the jobs and
+manage their output data.
 
 \paragraph{\textbf{PanDA Pilot}} this subsystem implements the execution
 environment for PanDA's jobs. Implemented in Python, a PanDA Pilot is launched
@@ -189,15 +212,16 @@ code download service, combined with code updates still being immediately
 available as soon as they are committed to source code control.
 
 \paragraph{\textbf{AutoPyFactory}} this subsystem implements a factory to submit
-pilots locally and to both grid and cloud sites. Implemented to be executed as a
-single demonized process, AutoPyFactory enables the concurrent spawning of
-multiple job submission processes called APFQueue. Each APFQueue can communicate
-with PanDA Server and the Brokerage module to collect information about the
-state of the jobs it manages and, on the base of this information, submit new
-pilots to one site per APFQueue. AutoPyFactory implements functionalities to
-evaluate the number of pilots already instantiated on each site, and to apply a
-consistent and adequate pressure on their batch queues. Submission is performed
-via the Condor-G batch system~\cite{condorg}, enabling submission to multiple
+pilots locally and to both grid and cloud
+sites~\cite{caballero2012autopyfactory}. Implemented to be executed as a single
+demonized process, AutoPyFactory enables the concurrent spawning of multiple job
+submission processes called APFQueue. Each APFQueue can communicate with PanDA
+Server and the Brokerage module to collect information about the state of the
+jobs it manages and, on the base of this information, submit new pilots to one
+site per APFQueue. AutoPyFactory implements functionalities to evaluate the
+number of pilots already instantiated on each site, and to apply a consistent
+and adequate pressure on their batch queues. Submission is performed via the
+Condor-G batch system~\cite{frey2002condor}, enabling submission to multiple
 type of sites. AutoPyFactory exposes a dedicated monitoring service, feeding
 information to the PanDA Monitoring subsystem. A proxy manager is also run,
 enabling certificate-based authentication and authorization.
@@ -213,29 +237,30 @@ enabling certificate-based authentication and authorization.
 % a well defined action.
 
 \paragraph{\textbf{PanDA Monitoring}} this subsystem is implemented as a
-web-based, dashboard-style graphical application. It runs on Apache and
-interacts with the back-end database of PanDA Server to enable persistence.
-PanDA Monitoring enables users and site administrators to gather information
-about the status of current and past jobs, data movement, and pilot factory.
-PanDA Monitoring allows users access to all log files of each job, greatly
-simplifying code debugging and failure analysis in a distributed computing
-environment.
+web-based, dashboard-style graphical application~\cite{klimentov2011atlas}. It
+runs on Apache and interacts with the back-end database of PanDA Server to
+enable persistence. PanDA Monitoring enables users and site administrators to
+gather information about the status of current and past jobs, data movement, and
+pilot factory. PanDA Monitoring allows users access to all log files of each
+job, greatly simplifying code debugging and failure analysis in a distributed
+computing environment.
 
 \paragraph{\textbf{JEDI}} this subsystem implements a workload and workflow
-management for tasks instead of jobs, as defined by HEP users. Implemented as a
-standalone service that interacts with Panda Server via its REST interface, JEDI
-offers two main functionalities: partitioning tasks to jobs, and binding jobs to
-resources via dedicated queues. JEDI partition tasks to jobs by matching tasks
-requirements to resource capabilities. This matching is based on tasks
-attributes, and static and dynamic information about the resources of each
-available site. Dynamic information is acquired via a small number of `scout'
-jobs that collect information about current resources and their performance.
-Functionally, JEDI defines a set of queues associated to groups of resources
-with specific capabilities. Tasks are assigned to groups of these queues, and
-the jobs in which each task is partitioned are assigned to each queue, depending
-on their requirements. JEDI replaces the job brokerage functionalities of the
-Brokerage module of the PanDA Server but this module still handles communication
-between the Task Buffer and the Data Service modules.
+management for tasks instead of jobs, as defined by HEP
+users~\cite{borodin2015scaling}. Implemented as a standalone service that
+interacts with Panda Server via its REST interface, JEDI offers two main
+functionalities: partitioning tasks to jobs, and binding jobs to resources via
+dedicated queues. JEDI partition tasks to jobs by matching tasks requirements to
+resource capabilities. This matching is based on tasks attributes, and static
+and dynamic information about the resources of each available site. Dynamic
+information is acquired via a small number of `scout' jobs that collect
+information about current resources and their performance. Functionally, JEDI
+defines a set of queues associated to groups of resources with specific
+capabilities. Tasks are assigned to groups of these queues, and the jobs in
+which each task is partitioned are assigned to each queue, depending on their
+requirements. JEDI replaces the job brokerage functionalities of the Brokerage
+module of the PanDA Server but this module still handles communication between
+the Task Buffer and the Data Service modules.
 %, using it to enact the execution of the jobs defined by JEDI
 % on the resources and sites decided by JEDI.
 
@@ -260,12 +285,12 @@ tasks and jobs: tasks were described as a set of jobs with a fixed number of
 events and then submitted to the PanDA Server (Fig.~\ref{fig:architecture}:A1).
 
 This approach introduced inefficiency both with usability and resource
-utilization. Ideally, users should not have to reason in terms of jobs: Users
-conceive analyses in terms of one or more, possibly related tasks; the `job'
-abstraction is required exclusively by the execution middleware, i.e. PanDA.
-Further, a static partitioning of tasks into jobs does not take into account the
-heterogeneity and dynamicity of the resources of the pilots on which each job
-will be executed.
+utilization~\cite{borodin2015unified}. Ideally, users should not have to reason
+in terms of jobs: Users conceive analyses in terms of one or more, possibly
+related tasks; the `job' abstraction is required exclusively by the execution
+middleware, i.e. PanDA. Further, a static partitioning of tasks into jobs does
+not take into account the heterogeneity and dynamicity of the resources of the
+pilots on which each job will be executed.
 
 Another problem of static job sizing is that PanDA instantiates pilots on sites
 with different type of resources and different models of availability of those
@@ -309,12 +334,15 @@ When PanDA Pilots become available on sites, they
 % bootstrap, download their code, collect information about the execution
 % environment and
 call the Job Dispatcher module of the PanDA Server, requesting for a job to
-execute \mtnote{Can a pilot request multiple jobs to execute concurrently?}. The
-Job Dispatcher communicates with the Task Buffer, requesting for a job that is
-bound to the site of that pilot and ready to be executed. Task Buffer checks the
-global queue (i.e., the PanDA database) and if such a job is available, it
-passes the job handler to the Job Dispatcher. The Job Dispatcher dispatches the
-job to the PanDA Pilot.
+execute \mtnote{Can a pilot request multiple jobs to execute
+concurrently?}\sergeynote{In principle it should be able to do that, but that's not
+how it is operated. One pilot - one job is a cleaner model in an environment
+where resources are "owned" by the organization that runs pilots. Simplifies
+many things. At least as far as I know.}. The Job Dispatcher communicates with
+the Task Buffer, requesting for a job that is bound to the site of that pilot
+and ready to be executed. Task Buffer checks the global queue (i.e., the PanDA
+database) and if such a job is available, it passes the job handler to the Job
+Dispatcher. The Job Dispatcher dispatches the job to the PanDA Pilot.
 
 Upon receiving a job, a PanDA Pilot starts a monitoring process and forks a
 subprocess for the execution of the job's payload. The job is setup, input data
@@ -330,4 +358,5 @@ made available to the user either via the PanDA Server of the JEDI service,
 depending on how tasks or jobs were initially submitted.
 
 \mtnote{Think whether a comparison with other WMS based on the review we did
-makes sense in this context.}
+makes sense in this context.}\sergeynote{You provided a nice description of the
+PanDA system here.}
