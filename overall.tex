@@ -1,102 +1,200 @@
 % -----------------------------------------------------------------------------
-\subsection{Geant4 Tasks Performance Analysis on Titan}
-\label{ssec:panda_titan}
+% \subsection{Geant4 Tasks Performance Analysis on Titan}
+% \label{ssec:panda_titan}
 
-Currently, 20 instances of PanDA Broker are concurrently deployed on a total of
-4 DTNs, 5 instances for each DTN. Each broker controls from 15 to 300 ATLAS
-simulation jobs per submission, for a maximum total of 96,000 cores. Since
-November 2015, the brokers have operated only in backfill mode, without a
-defined time allocation, and running at the lowest priority on Titan.
-Figure~\ref{core-hours-utilization} shows Titan core hours used by ATLAS from
-September 2015 to March 2017. During that period, ATLAS consumed about XX
-million Titan core hours. About XX million detector simulation jobs were
-completed, and more than 132 million events processed. In February 2017, we
-exceeded X million core hours per month and by March 2017 we ran at more than
-X million core hours per month.
+Currently, 20 instances of PanDA Broker are deployed on a total of 4 DTNs, 5
+instances for each DTN. Each broker controls from 15 to 300 detector simulation
+jobs per submission, for a theoretical maximum concurrent use of 96,000
+cores. Since November 2015, the PanDA Brokers have operated only in backfill
+mode, without a defined time allocation, and running at the lowest priority on
+Titan.
 
-Figure~\ref{backfill-utilization} shows backfill utilization efficiency, defined
-as a fraction of Titan’s total free resources that were utilized by ATLAS, for
-the period from September 2015 to March 2017. Due to continuos improvements in
-the system, the efficiency grew from less than 5\% to more than XX\%, reaching
-XX\% in February 2017. At the peak, this corresponds to more than X\%
-improvement in Titan’s overall utilization.
+Figure~\ref{fig:core-hours-utilization} shows Titan core hours used by ATLAS
+from January 2016 to February 2017. During that period, ATLAS consumed a total
+of 73.8 million Titan core hours, for an average of 7M hours a month, with a
+minimum of 3.3M hours in April 2016 and a maximum 14.8M hours in February 2017.
+On February, PanDA Brokers used almost twice as much backfill availability than
+in any other month. This is likely due to the hardware upgrades made to the
+DTNs. The absence of continuous monitoring of the DTNs does not allow for the
+specific identification of the bottleneck but spot measurements of the DTNs load
+indicate that a faster CPU and better networking were likely responsible for the
+improved performance. No relevant code update was made between January and
+February 2017 and PanDA Brokers logs indicated that they were able to respond
+more promptly to backfill availability.
 
-\mtnote{Add new diagram as discussed in F2F meeting at Rutgers.}
+\begin{figure}[htp]
+    \subfloat[]{
+        \includegraphics[clip,width=\columnwidth]{figures/cpu_hours.png}
+        \label{fig:core-hours-utilization}
+    }
+
+    \subfloat[]{
+        \includegraphics[clip,width=\columnwidth]{figures/backfill_consumption.png}
+        \label{fig:backfill-utilization}
+    }
+\caption{(a).(b).}
+\end{figure}
+
+Investigations of the CPU load of the upgraded DTNs shows an average
+XX\mtnote{ask Danila for data} load. This indicates that further hardware
+upgrades would not be likely to improve significantly the performance of the
+PanDA Brokers. Nonetheless, the current load suggests that the number of brokers
+per DTN could be increased. This would enable the submission of a larger number
+of concurrent jobs to the Titan's PBS queue, allowing for PanDA to consume a
+higher percentage of the overall backfill availability.
+
+Figure~\ref{fig:backfill-utilization} shows backfill utilization efficiency,
+defined as the fraction of Titan’s total cores available via backfill utilized
+by ATLAS, from January 2016 to February 2017. ATLAS reached 18\% average
+efficiency with a minimum 8.9\% efficiency on April 2016 and a maximum 33.5\%
+efficiency on February 2017. The number of total backfill cores available in
+April 2016 was 38.1M and in February 2017 33.1M. This shows that the improvement
+in the efficiency was determine by the different in total backfill availability.
+
+Figure~\ref{fig:hpc-workload-utilization} shows that between January 2016 and
+February 2017, about XX million detector simulation jobs were completed on
+Titan, for a total of XXXM events processed. This is equivalent to XX\% of the
+total amount of detector simulations performed by ATLAS in the same period of
+time, and XX\% of the total number of events processed. Comparatively, Titan
+contributed between XX\% and XX\% of the total WLCG availability. When
+accounting for the amount of unused backfill availability and the rate of
+improvement of PanDA efficiency, these figures confirms the fundamental role
+that supercomputers' resources can play for the LHC Run 3.
+
+\begin{figure}[htp]
+    \includegraphics[clip,width=\columnwidth]{figures/cpu_hours.png}
+\caption{\mtnote{Placeholder for the diagram/data I asked to Danila and
+Sergey}}
+\label{fig:hpc-workload-utilization}
+\end{figure}
+
+The scalability of PanDA Broker depends on the DTNs' resources. Each PanDA
+Broker can execute 1 job on up to 300 work nodes for a total of 4,800 cores.
+Scaling above this threshold requires instantiating multiple PanDA Brokers on
+the same DTN and, once the DTN resources are saturated, on multiple DTNs. In
+principle, this is not a problem on Titan as DTNs are supposed to be available
+and can be periodically upgraded. Assuming the efficiency reached on February as
+reference, using all the available backfill resources on Titan will require to
+instantiate around 60 PanDA Brokers. It is not clear whether this is within the
+scope of the current DTN capabilities, especially when considering the increased
+staging in and out of files from the DTNs and ATLAS Grid sites.
+
+The current design and architecture of the PanDA Broker proven to be very
+robust. The failure rate of jobs produced by issues with PanDA Broker and PanDA
+in general is XX\%. This confirms the benefits given by reusing most of the code
+base of the PanDA Pilot and adopting RADICAL-SAGA for communicating with Titan's
+PBS batch system and monitoring jobs execution. During XX months of executing
+production jobs, most of the failures were due to: \ldots, \ldots, and \ldots.
+The usual corrective measure were put in place and the progressive decline of
+the failure rate confirms that PanDA Broker reached production-grade stability
+on Titan.\mtnote{I requested figures about failure types and rate to Sergey and
+Danila.}
+
+\begin{itemize}
+    \item Comparison hardware performance Titan/Grid
+    \item problem with lustre addressed with ramdisk
+    \item Summary overall figure of performance analogous to those produced with NGE. Diagram as discussed in F2F meeting at Rutgers.
+    \item Competition for cache in AMD processors.
+\end{itemize}
+
+Currently, two main parameters measure the performance of the detector
+simulation jobs submitted to Titan: (i) the time taken to setup
+AthenaMP~\cite{aad2010atlas}, the ATLAS software framework integrating the
+GEANT4 simulation toolkit; and (ii) the distribution of the time taken by the
+Geant4 toolkit to simulate a certain number of events.
+
+AthenaMP has an initialization and configuration stage. At initialization time,
+AthenaMP is  assembled from a large number of shared libraries. Once
+bootstrapped, every algorithm and service is configured by a set of Python
+scripts. Both these operations result in a large number of read operations,
+including those required to  access of small python scripts.
+
+
+% AthenaMP is a multipurpose framework that needs to be configured depending on
+% the type of payalod that needs to be executed. For Geant4, this configuration
+% process links up to 200 libraries, all requiring filesystem read and write
+% operations.
+
+% The execution of Geant4 is mostly compute-intensive requiring to write around
+% XXKB per 100 events on disk and no more than 2GB of memory.
 
 % -----------------------------------------------------------------------------
-\subsection{PanDA Shared Library I/O Performance Impact at OLCF}
+% \subsection{PanDA Shared Library I/O Performance Impact at OLCF}
 
-Athena, the ATLAS framework has a configuration and initialization stage. At
-this stage, the running job is assembled  on the fly from a large number of
-shared libraries.  Also, at this stage, every algorithm and service is being
-configured, at run time, by a corresponding set of Python scripts, which
-results in a large number of read operations accesses to small python scripts, with
-many includes and imports Python calls.
+% Athena, the ATLAS framework has a configuration and initialization stage. At
+% this stage, the running job is assembled on the fly from a large number of
+% shared libraries. Also, at this stage, every algorithm and service is being
+% configured, at run time, by a corresponding set of Python scripts, which
+% results in a large number of read operations accesses to small python
+% scripts, with many includes and imports Python calls.
 
-When ATLAS was originally deployed at the OLCF, all shared libraries were
-placed at the Spider 2 Lustre file system. However, it was quickly discovered
-that the I/O pattern at the Athena stage was detrimental to the overall Spider
-2 file system performance. Since Spider 2 is a center-wide file system and
-shared by all OLCF resources and users, this resulted in lower overall
-interactive and metadata performance at OLCF\@. As can be seen in
-Listing~\ref{mdstrace} the metadata I/O activity for ATLAS exhibits a spike
-corresponding to the beginning of the runs before tapering off.
+Originally, all shared libraries of AthenaMP and the python scripts for job
+configuration were stored on the Spider 2 Lustre file system. However, the I/O
+patterns of the initialization and configuration stages degraded the performance
+of the filesystem. Since Spider 2 is a center-wide file system, shared by all
+OLCF resources and users, this resulted in lower overall interactive and
+metadata performance at OLCF\@. \mtnote{I am afraid the details about the trace
+are too specific given the space constraints of a SC submission. Please feel
+free to uncomment it if you disagree.}
+% As can be seen in Listing~\ref{mdstrace} the metadata I/O activity for ATLAS
+% exhibits a spike corresponding to the beginning of the runs before tapering
+% off.
 
-\begin{minipage}{\linewidth}
-\begin{lstlisting}[language=bash,frame=single,basicstyle=\ttfamily\tiny,caption=ATLAS metadata trace,label=mdstrace]
-XK7 Application 9205593
-      39012 RPCs from 300 of 300 nodes
-        ~69291.96 per sec
-          37851 LDLM_ENQUEUE RPCs    ~67229.83 per sec
-                pmin 13us pavg 42us pmax 4983us
-          611 LDLM_CANCEL RPCs    ~1085.24 per sec
-                pmin 10us pavg 16us pmax 32us
-          277 MDS_CLOSE RPCs    ~492.00 per sec
-                pmin 15us pavg 20us pmax 38us
-          154 MDS_READPAGE RPCs    ~273.53 per sec
-                pmin 170us pavg 292us pmax 671us
-          86 MDS_GETXATTR RPCs    ~152.75 per sec
-                pmin 15us pavg 21us pmax 65us
-          30 MDS_GETATTR RPCs    ~53.29 per sec
-                pmin 16us pavg 20us pmax 27us
-          3 MDS_REINT RPCs    ~5.33 per sec
-                pmin 103us pavg 136us pmax 196us
-          Overall times
-                pmin 10us pavg 42us pmax 4983us
+% \begin{minipage}{\linewidth}
+% \begin{lstlisting}[language=bash,frame=single,basicstyle=\ttfamily\tiny,caption=ATLAS metadata trace,label=mdstrace]
+% XK7 Application 9205593
+%       39012 RPCs from 300 of 300 nodes
+%         ~69291.96 per sec
+%           37851 LDLM_ENQUEUE RPCs    ~67229.83 per sec
+%                 pmin 13us pavg 42us pmax 4983us
+%           611 LDLM_CANCEL RPCs    ~1085.24 per sec
+%                 pmin 10us pavg 16us pmax 32us
+%           277 MDS_CLOSE RPCs    ~492.00 per sec
+%                 pmin 15us pavg 20us pmax 38us
+%           154 MDS_READPAGE RPCs    ~273.53 per sec
+%                 pmin 170us pavg 292us pmax 671us
+%           86 MDS_GETXATTR RPCs    ~152.75 per sec
+%                 pmin 15us pavg 21us pmax 65us
+%           30 MDS_GETATTR RPCs    ~53.29 per sec
+%                 pmin 16us pavg 20us pmax 27us
+%           3 MDS_REINT RPCs    ~5.33 per sec
+%                 pmin 103us pavg 136us pmax 196us
+%           Overall times
+%                 pmin 10us pavg 42us pmax 4983us
+%
+% XK7 Application 9205355
+%       8698 RPCs from 62 of 62 nodes
+%         ~15449.13 per sec
+%           8445 LDLM_ENQUEUE RPCs    ~14999.76 per sec
+%                 pmin 16us pavg 41us pmax 780us
+%           92 MDS_CLOSE RPCs    ~163.41 per sec
+%                 pmin 15us pavg 23us pmax 52us
+%           55 MDS_READPAGE RPCs    ~97.69 per sec
+%                 pmin 189us pavg 291us pmax 534us
+%           52 LDLM_CANCEL RPCs    ~92.36 per sec
+%                 pmin 12us pavg 16us pmax 25us
+%           41 MDS_GETXATTR RPCs    ~72.82 per sec
+%                 pmin 16us pavg 20us pmax 27us
+%           13 MDS_GETATTR RPCs    ~23.09 per sec
+%                 pmin 16us pavg 21us pmax 38us
+%           Overall times
+%                 pmin 12us pavg 42us pmax 780us
+%
+% \end{lstlisting}
+% \end{minipage}
 
-XK7 Application 9205355
-      8698 RPCs from 62 of 62 nodes
-        ~15449.13 per sec
-          8445 LDLM_ENQUEUE RPCs    ~14999.76 per sec
-                pmin 16us pavg 41us pmax 780us
-          92 MDS_CLOSE RPCs    ~163.41 per sec
-                pmin 15us pavg 23us pmax 52us
-          55 MDS_READPAGE RPCs    ~97.69 per sec
-                pmin 189us pavg 291us pmax 534us
-          52 LDLM_CANCEL RPCs    ~92.36 per sec
-                pmin 12us pavg 16us pmax 25us
-          41 MDS_GETXATTR RPCs    ~72.82 per sec
-                pmin 16us pavg 20us pmax 27us
-          13 MDS_GETATTR RPCs    ~23.09 per sec
-                pmin 16us pavg 21us pmax 38us
-          Overall times
-                pmin 12us pavg 42us pmax 780us
+% As this problem was identified, the OLCF staff has enabled read-only access to
+% certain NFS-exported directories from Titan compute nodes. This in turn
+% allowed the OLCF staff to install a software package from a Titan login node
+% and have it available read-only on a Titan compute node.
 
-\end{lstlisting}
-\end{minipage}
-
-As this problem was identified, the OLCF staff has enabled read-only access to
-certain NFS-exported directories from Titan compute nodes. This in turn allowed
-the OLCF staff to install a software package from a Titan login node and have
-it available read-only on a Titan compute node.
-
-After moving the ATLAS release on Lustre to the NFS-exported read-only
-directories, the metadata contention problem has resolved and a two orders of
-magnitude metadata performance improvement (i.e., \~6,300 seconds on Lustre vs.\
-\~1,500 seconds on NFS) has been observed for ATLAS\@.  Also, for both cases the
-input file is placed on memory disk on a Titan compute nodes and for Lustre the
-validation step took on average 1,320 seconds, while it was 40 seconds on NFS,
-showing a three orders of magnitude performance improvement.
+This issue was addressed by moving the AthenaMP distribution to a read-only NFS
+directory made accessible from the Titan work nodes. This eliminated the
+metadata contention problem improving metadata read performance of two orders of
+magnitude: from \~6,300 seconds on Lustre to \~1,500 seconds on NFS. Further, at
+configuration time, the input files of each job were stored to a ramdisk on the
+work nodes. This offered three orders of magnitude performance improvement in
+the file validation step: from 1,320 seconds on Lustre to 40 seconds on NFS.
 
 %Figure~\ref{fig:atlas-perf-improvement} shows the overall ATLAS performance
 %improvement on Titan. The circled region illustrates the switch from Lustre to
@@ -112,6 +210,7 @@ showing a three orders of magnitude performance improvement.
 %\end{figure}
 
 
+% -----------------------------------------------------------------------------
 \subsection{PanDA I/O Impact at OLCF}
 
 To better understand the I/O impact of ATLAS PanDA project on Titan
@@ -125,11 +224,11 @@ show the file $open()$ and $close()$ metadata load histograms of the same 1,175
 ATLAS jobs, respectively.
 
 As can be seen from Table~\ref{panda-olcf-stats}, the number of nodes used by
-ATLAS jobs vary between 1 and 300, while the average is at 35. 75\% of the
-ATLAS jobs consume less than 25 and 92\% consume less than or equal to 100
-Titan compute nodes. During the 174 hours of data collection, we observed that
-6.75 ATLAS jobs were executed on average per hour on Titan and ran for
-1.74 hours on average.
+ATLAS jobs vary between 1 and 300, while the average is at 35. 75\% of the ATLAS
+jobs consume less than 25 and 92\% consume less than or equal to 100 Titan
+compute nodes. During the 174 hours of data collection, we observed that 6.75
+ATLAS jobs were executed on average per hour on Titan and ran for 1.74 hours on
+average.
 
 ATLAS jobs issues a large number of file read operations, as can be seen in
 Table~\ref{panda-olcf-stats}. The maximum amount read by any ATLAS job in
@@ -146,8 +245,6 @@ written in aggregate was less than 75 GB\@. The average amount read per job is
 \label{fig:atlas-titan-io-read}
 \end{figure}
 
-
-
 \begin{figure}[!htb]
     \centering
     \begin{tabular}{cc}
@@ -157,7 +254,6 @@ written in aggregate was less than 75 GB\@. The average amount read per job is
 \label{fig:atlas-titan-io-written}
 \end{figure}
 
-
 Per job read and write file I/O statistics show an interesting pattern.
 Table~\ref{panda-olcf-stats} indicates that the amount of data read per ATLAS
 compute node on Titan is less than 400 MB on average, while the amount of data
@@ -165,9 +261,9 @@ written per node is less than 170 MB on average. This correlates with our
 finding that ATLAS PanDA jobs are read heavy. However, as can be seen in
 Table~\ref{panda-olcf-stats} and figures {fig:atlas-titan-io-read} and
 {fig:atlas-titan-io-written}, the distribution between read and written amount
-of data per job is quite different from one another. The read operation distribution
-per job shows a long tail, ranging from 12.5 GB to 250 GB, while the written
-amount of data has a very narrow distribution.
+of data per job is quite different from one another. The read operation
+distribution per job shows a long tail, ranging from 12.5 GB to 250 GB, while
+the written amount of data has a very narrow distribution.
 
 \begin{figure}[!htb]
     \centering
@@ -177,7 +273,6 @@ amount of data has a very narrow distribution.
     \caption{ATLAS file $open()$ histogram on Titan for week of 10/25/16.}
 \label{fig:atlas-titan-file-open}
 \end{figure}
-
 
 \begin{figure}[!htb]
     \centering
@@ -203,8 +298,6 @@ is under investigation at the time of writing this paper. One possible
 explanation is that ATLAS PanDA jobs perhaps don't call a file $close()$
 operation per every file $open()$ issued.
 
-
-
 \begin{table*}[t]
 \centering
 \begin{tabular}{lllllllll}
@@ -219,7 +312,7 @@ Std. Dev. & 55.33 & 520.99 & 43.90 & 12.33 & 0.19379 & 0.03376 & 231,346.55 & 53
 \end{table*}
 
 Overall, based on our experiments with real-world jobs, it can be safely
-concluded that the file and metadata I/O load of ATLAS PanDA project on the
-OLCF Titan supercomputing environment and the Spider 2 file system is not
-detrimental to the center operations and the overall impact is minimal, at the
-current scale of the project.
+concluded that the file and metadata I/O load of ATLAS PanDA project on the OLCF
+Titan supercomputing environment and the Spider 2 file system is not detrimental
+to the center operations and the overall impact is minimal, at the current scale
+of the project.
