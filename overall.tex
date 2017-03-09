@@ -1,94 +1,126 @@
-% -----------------------------------------------------------------------------
-% \subsection{Geant4 Tasks Performance Analysis on Titan}
-% \label{ssec:panda_titan}
-
 Currently, 20 instances of PanDA Broker are deployed on a total of 4 DTNs, 5
 instances for each DTN. Each broker controls from 15 to 300 detector simulation
-jobs per submission, for a theoretical maximum concurrent use of 96,000
-cores. Since November 2015, the PanDA Brokers have operated only in backfill
-mode, without a defined time allocation, and running at the lowest priority on
-Titan.
+jobs per submission, one simulation job for each Titan's work node and a
+theoretical maximum concurrent use of 96,000 cores. Since November 2015, the
+PanDA Brokers have operated only in backfill mode, without a defined time
+allocation, and running at the lowest priority on Titan.
 
-Figure~\ref{fig:core-hours-utilization} shows Titan core hours used by ATLAS
-from January 2016 to February 2017. During that period, ATLAS consumed a total
-of 73.8 million Titan core hours, for an average of 7M hours a month, with a
+We evaluated the efficiency, scalability and reliability of the PanDA Brokers
+deployed on Titan along two dimensions: (i) amount of backfill availability
+utilized by the PanDA Broker; and (ii) amount of jobs walltime spent performing
+detector simulations. We based these evaluations on measuring the number of
+cores utilized by ATLAS on Titan, the overall backfill availability on Titan,
+the number of detector simulations performed on Titan and on all the resources
+available to ATLAS, and the failure rate of these simulations. All the
+measurements were performed between January 2016 and February 2017.
+
+% -----------------------------------------------------------------------------
+\subsection{Efficiency and Scalability of PanDA Broker on Titan}
+\label{ssec:panda_titan}
+
+Figure~\ref{fig:core-hours-utilization} shows the number of core hours used by
+ATLAS on Titan, from January 2016 to February 2017. During that period, ATLAS
+consumed a total of 73.8M core hours, for an average of 7M hours a month, with a
 minimum of 3.3M hours in April 2016 and a maximum 14.8M hours in February 2017.
-On February, PanDA Brokers used almost twice as much backfill availability than
-in any other month. This is likely due to the hardware upgrades made to the
-DTNs. The absence of continuous monitoring of the DTNs does not allow for the
-specific identification of the bottleneck but spot measurements of the DTNs load
-indicate that a faster CPU and better networking were likely responsible for the
-improved performance. No relevant code update was made between January and
-February 2017 and PanDA Brokers logs indicated that they were able to respond
-more promptly to backfill availability.
+
+% \begin{figure}[htp]
+%     \subfloat[]{
+%         \includegraphics[clip,width=\columnwidth]{figures/cpu_hours.png}
+%         \label{fig:core-hours-utilization}
+%     }
+%
+%     \subfloat[]{
+%         \includegraphics[clip,width=\columnwidth]{figures/backfill_consumption.png}
+%         \label{fig:backfill-utilization}
+%     }
+% \caption{(a).(b).}
+% \end{figure}
 
 \begin{figure}[htp]
-    \subfloat[]{
-        \includegraphics[clip,width=\columnwidth]{figures/cpu_hours.png}
-        \label{fig:core-hours-utilization}
-    }
-
-    \subfloat[]{
-        \includegraphics[clip,width=\columnwidth]{figures/backfill_consumption.png}
-        \label{fig:backfill-utilization}
-    }
-\caption{(a).(b).}
+\includegraphics[clip,width=\columnwidth]{figures/cpu_hours.png}
+\caption{Caption.}
+\label{fig:core-hours-utilization}
 \end{figure}
 
-Investigations of the CPU load of the upgraded DTNs shows an average
-XX\mtnote{ask Danila for data} load. This indicates that further hardware
-upgrades would not be likely to improve significantly the performance of the
-PanDA Brokers. Nonetheless, the current load suggests that the number of brokers
-per DTN could be increased. This would enable the submission of a larger number
-of concurrent jobs to the Titan's PBS queue, allowing for PanDA to consume a
-higher percentage of the overall backfill availability.
+On February 2017, PanDA Brokers used almost twice as much backfill availability
+than in any other month. No relevant code update was made during that period and
+logs indicated that the brokers were able to respond more promptly to backfill
+availability. This is likely due to hardware upgrades on the DTNs. The absence
+of continuous monitoring of the DTNs does not allow to quantify bottlenecks but
+spot measurements of the DTNs load indicate that a faster CPU and better
+networking were likely responsible for the improved performance.
 
-Figure~\ref{fig:backfill-utilization} shows backfill utilization efficiency,
-defined as the fraction of Titan’s total cores available via backfill utilized
-by ATLAS, from January 2016 to February 2017. ATLAS reached 18\% average
-efficiency with a minimum 8.9\% efficiency on April 2016 and a maximum 33.5\%
-efficiency on February 2017. The number of total backfill cores available in
-April 2016 was 38.1M and in February 2017 33.1M. This shows that the improvement
-in the efficiency was determine by the different in total backfill availability.
+Investigations of the CPU load of the upgraded DTNs shows an average
+XX\mtnote{asked Danila for data} load. As such, further hardware upgrades seem
+unlikely to improve significantly the performance of PanDA Brokers. Nonetheless,
+the current load suggests that the number of brokers per DTN could be increased.
+This would enable the submission of a larger number of concurrent jobs to
+Titan's PBS queue, allowing for PanDA to consume a higher percentage of
+backfill availability.
+
+Figure~\ref{fig:backfill-utilization} shows backfill utilization efficiency from
+January 2016 to February 2017. Efficiency is defined as the fraction of Titan’s
+cores available via backfill that was utilized by the PanDA Brokers. The brokers
+reached 18\% average efficiency with a minimum 8.9\% efficiency on April 2016
+and a maximum 33.5\% efficiency on February 2017. The number of total backfill
+cores available was 38.1M in April 2016, and 33.1M in February 2017. This shows
+that the difference in total backfill availability was not responsible for the measured difference in efficiency.
+
+\begin{figure}[htp]
+\includegraphics[clip,width=\columnwidth]{figures/backfill_consumption.png}
+\caption{Caption.}
+\label{fig:backfill-utilization}
+\end{figure}
 
 Figure~\ref{fig:hpc-workload-utilization} shows that between January 2016 and
-February 2017, about XX million detector simulation jobs were completed on
-Titan, for a total of XXXM events processed. This is equivalent to XX\% of the
-total amount of detector simulations performed by ATLAS in the same period of
-time, and XX\% of the total number of events processed. Comparatively, Titan
-contributed between XX\% and XX\% of the total WLCG availability. When
-accounting for the amount of unused backfill availability and the rate of
-improvement of PanDA efficiency, these figures confirms the fundamental role
-that supercomputers' resources can play for the LHC Run 3.
+February 2017, about 2.25M million detector simulation jobs were completed on
+Titan, for a total of 225M events processed. This is equivalent to 9\% of all
+the 250M detector simulations performed by ATLAS in the same period of time, and
+3.5\% of the 6.6B events processed by those jobs. Comparatively, Titan
+contributed 3.9\% of the total of around 200K cores available to ATLAS on Grid,
+Cloud, and HPC infrastructures together. When accounting for the amount of
+unused backfill availability and the rate of improvement of PanDA efficiency on
+Titan, these figures confirms the relevance of supercomputers' resource
+contribution to the LHC Run 3.
 
 \begin{figure}[htp]
     \includegraphics[clip,width=\columnwidth]{figures/cpu_hours.png}
 \caption{\mtnote{Placeholder for the diagram/data I asked to Danila and
-Sergey}}
+Sergey. Consider a table instead of a figure.}}
 \label{fig:hpc-workload-utilization}
 \end{figure}
 
-The scalability of PanDA Broker depends on the DTNs' resources. Each PanDA
-Broker can execute 1 job on up to 300 work nodes for a total of 4,800 cores.
-Scaling above this threshold requires instantiating multiple PanDA Brokers on
-the same DTN and, once the DTN resources are saturated, on multiple DTNs. In
-principle, this is not a problem on Titan as DTNs are supposed to be available
-and can be periodically upgraded. Assuming the efficiency reached on February as
-reference, using all the available backfill resources on Titan will require to
-instantiate around 60 PanDA Brokers. It is not clear whether this is within the
-scope of the current DTN capabilities, especially when considering the increased
-staging in and out of files from the DTNs and ATLAS Grid sites.
+Detector simulations executed on Titan, all process 100 events. This number has
+been derived empirically by observing the average walltime of backfill
+resources: too many events would \ldots\mtnote{I need to speak further to Sergey
+to clarify this.}. Usually, detector simulations performed on the Grid process a
+higher number of events than those performed on Titan. This explains the
+difference between the percentage of detector simulations performed on Titan
+(9\%) and of events computed on Titan for those simulations (3.9\%). PanDA Event
+Service~\cite{panda-event-service} would address this limitation: each PanDA
+Broker would be able to pull a dynamic number of events for each simulation,
+depending on the available walltime. This functionality is currently being
+implemented.
 
-The current design and architecture of the PanDA Broker proven to be very
-robust. The failure rate of jobs produced by issues with PanDA Broker and PanDA
-in general is XX\%. This confirms the benefits given by reusing most of the code
-base of the PanDA Pilot and adopting RADICAL-SAGA for communicating with Titan's
-PBS batch system and monitoring jobs execution. During XX months of executing
-production jobs, most of the failures were due to: \ldots, \ldots, and \ldots.
-The usual corrective measure were put in place and the progressive decline of
-the failure rate confirms that PanDA Broker reached production-grade stability
-on Titan.\mtnote{I requested figures about failure types and rate to Sergey and
-Danila.}
+Given the current design and implementation, the utilization of a larger portion
+of Titan's backfill availability depends on the the number of concurrent PanDA
+Brokers instantiated on the DTNs.
+% The number of concurrent detector simulation jobs that PanDA Broker can manage
+% depends on the DTNs' resources. Each PanDA Broker can execute 1 MPI PBS job on
+% up to 300 work nodes for a total of 4,800 cores. Scaling above this threshold
+% requires instantiating multiple PanDA Brokers on the same DTN and, once the
+% DTN resources are saturated, on multiple DTNs.
+In principle, this is not a problem on Titan as multiple DTNs are supposed to be
+available and periodically upgraded. Assuming the efficiency reached on February
+as reference, using all the available backfill resources on Titan would require
+around 60 concurrent PanDA Brokers. Further testing and better monitoring
+capabilities are required to establish whether the current DTN capabilities can
+support this load, especially when considering the increased volume of files
+staged in and out the DTNs.
+
+% -----------------------------------------------------------------------------
+\subsection{Efficiency and Scalability of Detector Simulation on Titan}
+\label{ssec:panda_titan}
 
 \begin{itemize}
     \item Comparison hardware performance Titan/Grid
@@ -208,6 +240,36 @@ the file validation step: from 1,320 seconds on Lustre to 40 seconds on NFS.
 %    \caption{ATLAS performance improvement on Titan. The circled region shows the switch from Lustre to NFS-exported directory for hosting the ATLAS release.}
 %\label{fig:atlas-perf-improvement}
 %\end{figure}
+
+% ----------------------------------------------------------------------------
+\subsection{Reliability of PanDA Broker and Detector Simulations on Titan}
+\label{ssec:reliability}
+
+The current design and architecture of the PanDA Broker is proving to be as
+reliable as PanDA Pilot when used on the WLCG. Between Jan 2016 and Feb 2017,
+the overall failure rate of all the ATLAS detector simulation jobs was 14\%,
+while the failure rate of jobs submitted to Titan was a comparable 13.6\%. PanDA
+Brokers were responsible for around the 19\% of the failures, compared to the
+29\% of failures produced by the JobDispatcher module of the PanDA Server, and
+the 13\% failures produced by Geant4. The current failure rate confirms the
+benefits given by reusing most of the code base of the PanDA Pilot for
+implementing the PanDA Broker. It also shows that adopting third-party libraries
+like RADICAL-SAGA did not have a measurable adverse effect on reliability.
+
+Figure~\ref{fig:failures-titan} shows a breakdown of the type of failures
+recorded via the PanDA Brokers between January 2016 and February 2017. The
+initial preponderance of unknown failures was progressively addressed by a more
+accurate failure mode developed for the PanDA Broker and Titan. It also shows
+the progressive improvement of the broker's reliability: In Februrary 2017, most
+of the failures were produced by the initialization and configuration phases of
+AthenaMP or by Geant4 failed executions.\mtnote{If we want to keep this diagram,
+we will need to plot it from the CSV to make it readable.}
+
+\begin{figure}[htp]
+    \includegraphics[clip,width=\columnwidth]{figures/failures_titan.png}
+\caption{Caption.}
+\label{fig:failures-titan}
+\end{figure}
 
 
 % -----------------------------------------------------------------------------
