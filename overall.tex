@@ -123,24 +123,23 @@ staged in and out the DTNs.
 \label{ssec:panda_titan}
 
 \begin{itemize}
-    \item Comparison hardware performance Titan/Grid
     \item problem with lustre addressed with ramdisk
-    \item Summary overall figure of performance analogous to those produced with NGE. Diagram as discussed in F2F meeting at Rutgers.
     \item Competition for cache in AMD processors.
+    \item Summary overall figure of performance analogous to those produced with NGE. Diagram as discussed in F2F meeting at Rutgers.
+    \item Comparison hardware performance Titan/Grid
 \end{itemize}
 
-Currently, two main parameters measure the performance of the detector
-simulation jobs submitted to Titan: (i) the time taken to setup
+We use two main parameters to measure the performance of the detector simulation
+jobs submitted to Titan: (i) the time taken to setup
 AthenaMP~\cite{aad2010atlas}, the ATLAS software framework integrating the
 GEANT4 simulation toolkit; and (ii) the distribution of the time taken by the
 Geant4 toolkit to simulate a certain number of events.
 
 AthenaMP has an initialization and configuration stage. At initialization time,
-AthenaMP is  assembled from a large number of shared libraries. Once
-bootstrapped, every algorithm and service is configured by a set of Python
-scripts. Both these operations result in a large number of read operations,
-including those required to  access of small python scripts.
-
+AthenaMP is assembled from a large number of shared libraries. Once initialized,
+every algorithm and service of AthenaMP is configured by a set of Python
+scripts. Both these operations result in a large number of read operations on
+the filesystem, including those required to access of small python scripts.
 
 % AthenaMP is a multipurpose framework that needs to be configured depending on
 % the type of payalod that needs to be executed. For Geant4, this configuration
@@ -160,14 +159,14 @@ including those required to  access of small python scripts.
 % results in a large number of read operations accesses to small python
 % scripts, with many includes and imports Python calls.
 
-Originally, all shared libraries of AthenaMP and the python scripts for job
-configuration were stored on the Spider 2 Lustre file system. However, the I/O
-patterns of the initialization and configuration stages degraded the performance
-of the filesystem. Since Spider 2 is a center-wide file system, shared by all
-OLCF resources and users, this resulted in lower overall interactive and
-metadata performance at OLCF\@. \mtnote{I am afraid the details about the trace
-are too specific given the space constraints of a SC submission. Please feel
-free to uncomment it if you disagree.}
+Initially, all shared libraries of AthenaMP and the configuration python scripts
+were stored on the Spider 2 Lustre file system. However, the I/O patterns of the
+initialization and configuration stages degraded the performance of the
+filesystem (Figure~\ref{}). Since Spider 2 is a center-wide file system, this
+resulted in lower overall interactive and metadata performance for all OLCF
+resources and users. \mtnote{I am afraid the details about the trace are too
+specific given the space constraints of a SC submission. Please feel free to
+uncomment it if you disagree.}
 % As can be seen in Listing~\ref{mdstrace} the metadata I/O activity for ATLAS
 % exhibits a spike corresponding to the beginning of the runs before tapering
 % off.
@@ -221,12 +220,12 @@ free to uncomment it if you disagree.}
 % and have it available read-only on a Titan compute node.
 
 This issue was addressed by moving the AthenaMP distribution to a read-only NFS
-directory made accessible from the Titan work nodes. This eliminated the
-metadata contention problem improving metadata read performance of two orders of
-magnitude: from \~6,300 seconds on Lustre to \~1,500 seconds on NFS. Further, at
-configuration time, the input files of each job were stored to a ramdisk on the
-work nodes. This offered three orders of magnitude performance improvement in
-the file validation step: from 1,320 seconds on Lustre to 40 seconds on NFS.
+directory made accessible from the Titan work nodes. This eliminated the problem
+of metadata contention, improving metadata read performance from \~6,300 seconds
+on Lustre to \~1,500 seconds on NFS. Further, at configuration time, the input
+files of each detector simulation job were stored in a ramdisk on the work
+nodes. This offered a marked performance improvement: from 1,320 seconds on
+Lustre to 40 seconds on NFS.
 
 %Figure~\ref{fig:atlas-perf-improvement} shows the overall ATLAS performance
 %improvement on Titan. The circled region illustrates the switch from Lustre to
@@ -240,6 +239,24 @@ the file validation step: from 1,320 seconds on Lustre to 40 seconds on NFS.
 %    \caption{ATLAS performance improvement on Titan. The circled region shows the switch from Lustre to NFS-exported directory for hosting the ATLAS release.}
 %\label{fig:atlas-perf-improvement}
 %\end{figure}
+
+At runtime, detector simulation jobs showed performance degradation when all the
+16 cores of Titan's work nodes were used. As shows in Figure~\ref{}, the mean
+runtime for 8 concurrent jobs computing 100 events is XXXs, with each job
+executed in 8 distinct processes, one per core. The mean runtime for 16
+concurrent jobs computing 100 events is instead XXXs. This can be explained by
+looking at the architecture of the cache in the AMD Opteron 6274 CPUs. This
+processor shares the level 1 instruction cache between couples of cores,
+impacting the performance of \ldots computation.
+
+The compute performance of Titan for detector simulation jobs is, on average,
+lower that that of LCWG. Figure~\ref{} shows the difference in execution time of
+the same type of simulation between Titan and \ldots. This is not an issue with
+the design of PanDA Brokers and, more in general, with the migration of part of
+the ATLAS workload to supercomputers: Titan has been active since 2012 and it is
+to be expected that more modern CPUs offer better performance. A pilot project
+is already in place to test PanDA Broker on Summit, the next generation
+supercomputer that will become active in 2018.
 
 % ----------------------------------------------------------------------------
 \subsection{Reliability of PanDA Broker and Detector Simulations on Titan}
