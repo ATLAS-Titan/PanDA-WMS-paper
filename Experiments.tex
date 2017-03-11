@@ -1,4 +1,5 @@
-In the batch queue,  queue time becomes dominant but, at the same time, we have more freedom to decide the parameters of the slot.
+% In the batch queue,  queue time becomes dominant but, at the same time, we
+% have more freedom to decide the parameters of the slot.
 
 \subsection{Experiments}
 
@@ -6,9 +7,9 @@ In this section we describe experiments that have been performed by running the 
 
 The importance \jhanote{aim?} of these experiments is twofold: on the one side, we illustrate the performances of the NGE; on the other side, they help to characterize TITAN's batch queue and we show that it can be used as alternative to backfilling. Since we aim to study the response time of batch queue as it is perceived by a common user,  special privileges have been asked to system administrator. \jhanote{I don't think the second point captures accurately why we are interested in the NGE. Please refine}
 
-%This is particularly important for the development of future execution strategies because queue time becomes dominant in  
+%This is particularly important for the development of future execution strategies because queue time becomes dominant in
 
-Experiments aim to show \jhanote{calculate? determine?} the number of completed events as function of the time. 
+Experiments aim to show \jhanote{calculate? determine?} the number of completed events as function of the time.
 Each experiment corresponds to a number of different and independent runs that is meaningful from a statistical point of view. \jhanote{previous sentence needs fixing} Each run consists of a sustained execution of the ATLAS workload for a pre-determined period of time \aanote{A week? 10 days?}. \jhanote{How do we determine this time window?} Since execution of events is carried on by means \jhanote{what is an NGE job?} NGE jobs, each run is based on a script that maintains constant pressure on TITAN's batch queue. \jhanote{please separate what we are trying to achieve from how..}
 
 The main tasks of the script are to:  i) guarantee that there are constantly four NGE jobs eligible for running on TITAN's queue (note that four jobs is the maximum allowed in TITAN's batch queue \ref{}); ii)  bind Athena-MP jobs to the NGE jobs; iii) perform garbage collection. No limit in the number of NGE jobs is imposed.
@@ -17,7 +18,7 @@ The simulation of events is due to the following execution model: the script\jha
 
 The size of the NGE job is constant within an experiment. Thus, each experiment is fully characterized by the size of the NGE jobs that it send on the nodes.
 
-Each execution of Athena-MP is guaranteed to be successfull and, on average, comparable with those executed by PanDA in production.  
+Each execution of Athena-MP is guaranteed to be successfull and, on average, comparable with those executed by PanDA in production.
 
 Table \ref{tab:experiments} provides the list of the experiments that have been performed.
 
@@ -53,10 +54,10 @@ Figure \ref{fig:avtEvts} \aanote{(DRAFT)}depicts average number of completed eve
 \label{fig:avtTimes}
 \end{figure}
 
-Because of the definition of the experiment the results shown in Figure \ref{} are alike (but not entirely comparable to) those provided by in Figure \ref{} where the performances of backfilling are shown. 
+Because of the definition of the experiment the results shown in Figure \ref{} are alike (but not entirely comparable to) those provided by in Figure \ref{} where the performances of backfilling are shown.
 
 
- 
+
 
 
 
