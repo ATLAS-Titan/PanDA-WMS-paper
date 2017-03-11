@@ -119,6 +119,12 @@ capabilities are required to establish whether the current DTN capabilities can
 support this load, especially when considering the increased volume of files
 staged in and out the DTNs.
 
+\mtnote{Extend/change previous paragraph explaining also the problem of the
+`spike'/`wave' of backfill availability. The problem without enough brokers to
+cope with variable amounts of backfill availability is that we may exhaust all
+20 pilots to use a portion of backfill smaller than the one that becomes
+available when no more brokers are available.}
+
 % -----------------------------------------------------------------------------
 \subsection{Efficiency and Scalability of Detector Simulation on Titan}
 \label{ssec:panda_titan}
