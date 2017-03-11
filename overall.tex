@@ -1,18 +1,18 @@
-Currently, 20 instances of PanDA Broker are deployed on a total of 4 DTNs, 5
-instances for each DTN. Each broker controls from 15 to 300 detector simulation
-jobs per submission, one simulation job for each Titan's work node and a
-theoretical maximum concurrent use of 96,000 cores. Since November 2015, the
-PanDA Brokers have operated only in backfill mode, without a defined time
-allocation, and running at the lowest priority on Titan.
+Currently, ATLAS deploys 20 instances of PanDA Broker on 4 Titan's DTNs, 5
+instances per DTN. Each broker submits and manages the execution of 15 to 300
+detector simulation jobs, one job for each work node, and a theoretical maximum
+concurrent use of 96,000 cores. Since November 2015, PanDA Brokers have operated
+only in backfill mode, without a defined time allocation, and running at the
+lowest priority on Titan.
 
 We evaluated the efficiency, scalability and reliability of the PanDA Brokers
-deployed on Titan along two dimensions: (i) amount of backfill availability
-utilized by the PanDA Broker; and (ii) amount of jobs walltime spent performing
-detector simulations. We based these evaluations on measuring the number of
-cores utilized by ATLAS on Titan, the overall backfill availability on Titan,
-the number of detector simulations performed on Titan and on all the resources
-available to ATLAS, and the failure rate of these simulations. All the
-measurements were performed between January 2016 and February 2017.
+along two dimensions: (i) the amount of backfill availability utilized by the
+PanDA Brokers; and (ii) the amount of jobs walltime spent performing detector
+simulations. We based these evaluations on measuring the number of cores
+utilized by ATLAS on Titan, the overall backfill availability, the number of
+detector simulations performed on all the resources available to ATLAS and on
+Titan, and the failure rate of these simulations. All the measurements were
+performed between January 2016 and February 2017.
 
 % -----------------------------------------------------------------------------
 \subsection{Efficiency and Scalability of PanDA Broker on Titan}
@@ -46,17 +46,16 @@ On February 2017, PanDA Brokers used almost twice as much backfill availability
 than in any other month. No relevant code update was made during that period and
 logs indicated that the brokers were able to respond more promptly to backfill
 availability. This is likely due to hardware upgrades on the DTNs. The absence
-of continuous monitoring of the DTNs does not allow to quantify bottlenecks but
+of continuous monitoring of the nodes does not allow to quantify bottlenecks but
 spot measurements of the DTNs load indicate that a faster CPU and better
 networking were likely responsible for the improved performance.
 
-Investigations of the CPU load of the upgraded DTNs shows an average
-XX\mtnote{asked Danila for data} load. As such, further hardware upgrades seem
-unlikely to improve significantly the performance of PanDA Brokers. Nonetheless,
-the current load suggests that the number of brokers per DTN could be increased.
-This would enable the submission of a larger number of concurrent jobs to
-Titan's PBS queue, allowing for PanDA to consume a higher percentage of
-backfill availability.
+Investigations showed an average CPU load of 3.6\% on the upgraded DTNs. As
+such, further hardware upgrades seem unlikely to improve significantly the
+performance of PanDA Brokers. Nonetheless, the current load suggests that the
+number of brokers per DTN could be increased. This would enable the submission
+of a larger number of concurrent jobs to Titan's PBS queue, allowing for PanDA
+to consume a higher percentage of backfill availability.
 
 Figure~\ref{fig:backfill-utilization} shows backfill utilization efficiency from
 January 2016 to February 2017. Efficiency is defined as the fraction of Titan’s
@@ -64,7 +63,8 @@ cores available via backfill that was utilized by the PanDA Brokers. The brokers
 reached 18\% average efficiency with a minimum 8.9\% efficiency on April 2016
 and a maximum 33.5\% efficiency on February 2017. The number of total backfill
 cores available was 38.1M in April 2016, and 33.1M in February 2017. This shows
-that the difference in total backfill availability was not responsible for the measured difference in efficiency.
+that the measured difference in efficiency did not depend on a comparable
+difference in total backfill availability.
 
 \begin{figure}[htp]
 \includegraphics[clip,width=\columnwidth]{figures/backfill_consumption.png}
@@ -78,10 +78,10 @@ Titan, for a total of 225M events processed. This is equivalent to 9\% of all
 the 250M detector simulations performed by ATLAS in the same period of time, and
 3.5\% of the 6.6B events processed by those jobs. Comparatively, Titan
 contributed 3.9\% of the total of around 200K cores available to ATLAS on Grid,
-Cloud, and HPC infrastructures together. When accounting for the amount of
-unused backfill availability and the rate of improvement of PanDA efficiency on
-Titan, these figures confirms the relevance of supercomputers' resource
-contribution to the LHC Run 3.
+Cloud, and HPC infrastructures together. These figures confirms the relevance of
+supercomputers' resource contribution to the LHC Run 3, especially when
+accounting for the amount of unused backfill availability and the rate of
+improvement of PanDA efficiency.
 
 \begin{figure}[htp]
     \includegraphics[clip,width=\columnwidth]{figures/cpu_hours.png}
@@ -90,17 +90,18 @@ Sergey. Consider a table instead of a figure.}}
 \label{fig:hpc-workload-utilization}
 \end{figure}
 
-Detector simulations executed on Titan, all process 100 events. This number has
-been derived empirically by observing the average walltime of backfill
-resources: too many events would \ldots\mtnote{I need to speak further to Sergey
-to clarify this.}. Usually, detector simulations performed on the Grid process a
-higher number of events than those performed on Titan. This explains the
-difference between the percentage of detector simulations performed on Titan
-(9\%) and of events computed on Titan for those simulations (3.9\%). PanDA Event
-Service~\cite{panda-event-service} would address this limitation: each PanDA
-Broker would be able to pull a dynamic number of events for each simulation,
-depending on the available walltime. This functionality is currently being
-implemented.
+All the detector simulations executed on Titan process 100 events. This number
+has been chosen by observing the average walltime of backfill resources: too
+many events would \ldots\mtnote{I need to speak further to Sergey to clarify
+this.}.
+
+Usually, detector simulations performed on the Grid process a higher number of
+events than those on Titan. This explains the difference between the percentage
+of detector simulations (9\%) and of events computed by those simulations
+(3.9\%) on Titan. PanDA Event Service~\cite{panda-event-service} will contribute
+to address this limitation: each PanDA Broker will be able to pull a variable
+number of events for each simulation, depending on the available walltime. This
+functionality is currently being implemented.
 
 Given the current design and implementation, the utilization of a larger portion
 of Titan's backfill availability depends on the the number of concurrent PanDA
@@ -132,14 +133,16 @@ staged in and out the DTNs.
 We use two main parameters to measure the performance of the detector simulation
 jobs submitted to Titan: (i) the time taken to setup
 AthenaMP~\cite{aad2010atlas}, the ATLAS software framework integrating the
-GEANT4 simulation toolkit; and (ii) the distribution of the time taken by the
-Geant4 toolkit to simulate a certain number of events.
+GEANT4 simulation toolkit~\cite{agostinelli2003geant4}; and (ii) the
+distribution of the time taken by the Geant4 toolkit to simulate a certain
+number of events.
 
 AthenaMP has an initialization and configuration stage. At initialization time,
-AthenaMP is assembled from a large number of shared libraries. Once initialized,
-every algorithm and service of AthenaMP is configured by a set of Python
-scripts. Both these operations result in a large number of read operations on
-the filesystem, including those required to access of small python scripts.
+AthenaMP is assembled from a large number of shared libraries, depending on the
+type of payload that will have to be computed. Once initialized, every algorithm
+and service of AthenaMP is configured by a set of Python scripts. Both these
+operations result in a large number of read operations on the filesystem,
+including those required to access of small python scripts.
 
 % AthenaMP is a multipurpose framework that needs to be configured depending on
 % the type of payalod that needs to be executed. For Geant4, this configuration
@@ -159,11 +162,12 @@ the filesystem, including those required to access of small python scripts.
 % results in a large number of read operations accesses to small python
 % scripts, with many includes and imports Python calls.
 
-Initially, all shared libraries of AthenaMP and the configuration python scripts
-were stored on the Spider 2 Lustre file system. However, the I/O patterns of the
-initialization and configuration stages degraded the performance of the
-filesystem (Figure~\ref{}). Since Spider 2 is a center-wide file system, this
-resulted in lower overall interactive and metadata performance for all OLCF
+Initially, all the shared libraries of AthenaMP and the python scripts for the
+configuration stage were stored on the Spider 2 Lustre file system. However, the
+I/O patterns of the initialization and configuration stages degraded the
+performance of the filesystem (Figure~\ref{}\mtnote{We may want to aggregate
+some of the diagrams about lustre's experiments here}). Since Spider 2 is a
+center-wide file system, this resulted in  performance degradation for all OLCF
 resources and users. \mtnote{I am afraid the details about the trace are too
 specific given the space constraints of a SC submission. Please feel free to
 uncomment it if you disagree.}
@@ -219,12 +223,13 @@ uncomment it if you disagree.}
 % allowed the OLCF staff to install a software package from a Titan login node
 % and have it available read-only on a Titan compute node.
 
-This issue was addressed by moving the AthenaMP distribution to a read-only NFS
-directory made accessible from the Titan work nodes. This eliminated the problem
-of metadata contention, improving metadata read performance from \~6,300 seconds
-on Lustre to \~1,500 seconds on NFS. Further, at configuration time, the input
-files of each detector simulation job were stored in a ramdisk on the work
-nodes. This offered a marked performance improvement: from 1,320 seconds on
+After careful characterization of the impact of ATLAS jobs on Lustre, the
+performance degradation was addressed by moving the AthenaMP distribution to a
+read-only NFS directory, shared among DTNs and work nodes. This eliminated the
+problem of metadata contention, improving metadata read performance from \~6,300
+seconds on Lustre to \~1,500 seconds on NFS. Further, at configuration time, the
+input files of each detector simulation job were stored to a ramdisk on the work
+nodes. This offered a marked improvement of reading time: from 1,320 seconds on
 Lustre to 40 seconds on NFS.
 
 %Figure~\ref{fig:atlas-perf-improvement} shows the overall ATLAS performance
@@ -241,22 +246,28 @@ Lustre to 40 seconds on NFS.
 %\end{figure}
 
 At runtime, detector simulation jobs showed performance degradation when all the
-16 cores of Titan's work nodes were used. As shows in Figure~\ref{}, the mean
-runtime for 8 concurrent jobs computing 100 events is XXXs, with each job
-executed in 8 distinct processes, one per core. The mean runtime for 16
-concurrent jobs computing 100 events is instead XXXs. This can be explained by
-looking at the architecture of the cache in the AMD Opteron 6274 CPUs. This
-processor shares the level 1 instruction cache between couples of cores,
-impacting the performance of \ldots computation.
+16 cores of Titan's work nodes were used. As shows in
+Figure~\ref{}\mtnote{Sergery: do you have a diagram showing the difference in
+performance between using 16 and 8 cores for a detector simulation job with 100
+events?}, the mean runtime for 8 concurrent jobs computing 100 events is XXXs,
+with each job executed in 8 distinct processes, one per core. The mean runtime
+for 16 concurrent jobs computing 100 events is instead XXXs. This can be
+explained by looking at the cache architecture of the AMD Opteron 6274 CPU. In
+this processor, every two cores share the level 1 instruction cache, impacting
+the performance of \ldots\mtnote{Do we kow what instruction set is affected?}
+computation.
 
 The compute performance of Titan for detector simulation jobs is, on average,
-lower that that of LCWG. Figure~\ref{} shows the difference in execution time of
-the same type of simulation between Titan and \ldots. This is not an issue with
+lower that that of LCWG. Figure~\ref{}\mtnote{Sergey: I remember you showed us
+some plots comparing Geant4 simulation's performance on Titan and some of the
+Grid sites. Could we use one or two of the here?} shows the difference in
+execution time of the same type of simulation between Titan and
+\ldots\mtnote{Add the name of the grid sites here}. This is not an issue with
 the design of PanDA Brokers and, more in general, with the migration of part of
-the ATLAS workload to supercomputers: Titan has been active since 2012 and it is
-to be expected that more modern CPUs offer better performance. A pilot project
-is already in place to test PanDA Broker on Summit, the next generation
-supercomputer that will become active in 2018.
+the ATLAS workload to supercomputers: Titan has been active since 2012 and more
+modern CPUs are expected to offer better performance. A pilot project is already
+in place to test PanDA Broker on Summit, the next generation supercomputer that
+will become active in 2018 at OLCF.
 
 % ----------------------------------------------------------------------------
 \subsection{Reliability of PanDA Broker and Detector Simulations on Titan}
@@ -268,19 +279,20 @@ the overall failure rate of all the ATLAS detector simulation jobs was 14\%,
 while the failure rate of jobs submitted to Titan was a comparable 13.6\%. PanDA
 Brokers were responsible for around the 19\% of the failures, compared to the
 29\% of failures produced by the JobDispatcher module of the PanDA Server, and
-the 13\% failures produced by Geant4. The current failure rate confirms the
-benefits given by reusing most of the code base of the PanDA Pilot for
-implementing the PanDA Broker. It also shows that adopting third-party libraries
-like RADICAL-SAGA did not have a measurable adverse effect on reliability.
+the 13\% failures produced by the Geant4 toolkit. The current failure rate of
+the PanDA Brokers confirms the benefits of reusing most of the code base of the
+PanDA Pilot for implementing the PanDA Broker. It also shows that adopting
+third-party libraries like RADICAL-SAGA did not have a measurable adverse effect
+on reliability.
 
 Figure~\ref{fig:failures-titan} shows a breakdown of the type of failures
-recorded via the PanDA Brokers between January 2016 and February 2017. The
+recorded by the PanDA Brokers between January 2016 and February 2017. The
 initial preponderance of unknown failures was progressively addressed by a more
-accurate failure mode developed for the PanDA Broker and Titan. It also shows
-the progressive improvement of the broker's reliability: In Februrary 2017, most
-of the failures were produced by the initialization and configuration phases of
-AthenaMP or by Geant4 failed executions.\mtnote{If we want to keep this diagram,
-we will need to plot it from the CSV to make it readable.}
+accurate failure model, specifically tailored to the PanDA Broker and Titan. It
+also shows the progressive improvement of the broker's reliability: In Februrary
+2017, most of the failures were produced by the initialization and configuration
+phases of AthenaMP or by failed executions of the payload.\mtnote{If we want to
+keep this diagram, we will need to plot it from the CSV to make it readable.}
 
 \begin{figure}[htp]
     \includegraphics[clip,width=\columnwidth]{figures/failures_titan.png}
