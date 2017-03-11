@@ -3,234 +3,6 @@
 \input{head}
 \input{include}
 
-\usepackage{listings}
-\usepackage{comment}
-
-% Some very useful LaTeX packages include:
-% (uncomment the ones you want to load)
-
-% *** MISC UTILITY PACKAGES ***
-%
-%\usepackage{ifpdf}
-% Heiko Oberdiek's ifpdf.sty is very useful if you need conditional
-% compilation based on whether the output is pdf or dvi.
-% usage:
-% \ifpdf
-%   % pdf code
-% \else
-%   % dvi code
-% \fi
-% The latest version of ifpdf.sty can be obtained from:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/oberdiek/
-% Also, note that IEEEtran.cls V1.7 and later provides a builtin
-% \ifCLASSINFOpdf conditional that works the same way.
-% When switching from latex to pdflatex and vice-versa, the compiler may
-% have to be run twice to clear warning/error messages.
-
-% *** CITATION PACKAGES ***
-%
-%\usepackage{cite}
-% cite.sty was written by Donald Arseneau
-% V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
-% \cite{} output to follow that of IEEE. Loading the cite package will
-% result in citation numbers being automatically sorted and properly
-% "compressed/ranged". e.g., [1], [9], [2], [7], [5], [6] without using
-% cite.sty will become [1], [2], [5]--[7], [9] using cite.sty. cite.sty's
-% \cite will automatically add leading space, if needed. Use cite.sty's
-% noadjust option (cite.sty V3.8 and later) if you want to turn this off.
-% cite.sty is already installed on most LaTeX systems. Be sure and use
-% version 4.0 (2003-05-27) and later if using hyperref.sty. cite.sty does
-% not currently provide for hyperlinked citations.
-% The latest version can be obtained at:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/cite/
-% The documentation is contained in the cite.sty file itself.
-
-% *** GRAPHICS RELATED PACKAGES ***
-%
-\ifCLASSINFOpdf
-  % \usepackage[pdftex]{graphicx}
-  % declare the path(s) where your graphic files are
-  % \graphicspath{{../pdf/}{../jpeg/}}
-  % and their extensions so you won't have to specify these with
-  % every instance of \includegraphics
-  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
-\else
-  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
-  % will default to the driver specified in the system graphics.cfg if no
-  % driver is specified.
-  % \usepackage[dvips]{graphicx}
-  % declare the path(s) where your graphic files are
-  % \graphicspath{{../eps/}}
-  % and their extensions so you won't have to specify these with
-  % every instance of \includegraphics
-  % \DeclareGraphicsExtensions{.eps}
-\fi
-% graphicx was written by David Carlisle and Sebastian Rahtz. It is
-% required if you want graphics, photos, etc. graphicx.sty is already
-% installed on most LaTeX systems. The latest version and documentation can
-% be obtained at:
-% http://www.ctan.org/tex-archive/macros/latex/required/graphics/
-% Another good source of documentation is "Using Imported Graphics in
-% LaTeX2e" by Keith Reckdahl which can be found as epslatex.ps or
-% epslatex.pdf at: http://www.ctan.org/tex-archive/info/
-%
-% latex, and pdflatex in dvi mode, support graphics in encapsulated
-% postscript (.eps) format. pdflatex in pdf mode supports graphics
-% in .pdf, .jpeg, .png and .mps (metapost) formats. Users should ensure
-% that all non-photo figures use a vector format (.eps, .pdf, .mps) and
-% not a bitmapped formats (.jpeg, .png). IEEE frowns on bitmapped formats
-% which can result in "jaggedy"/blurry rendering of lines and letters as
-% well as large increases in file sizes.
-%
-% You can find documentation about the pdfTeX application at:
-% http://www.tug.org/applications/pdftex
-
-% *** MATH PACKAGES ***
-%
-%\usepackage[cmex10]{amsmath}
-% A popular package from the American Mathematical Society that provides
-% many useful and powerful commands for dealing with mathematics. If using
-% it, be sure to load this package with the cmex10 option to ensure that
-% only type 1 fonts will utilized at all point sizes. Without this option,
-% it is possible that some math symbols, particularly those within
-% footnotes, will be rendered in bitmap form which will result in a
-% document that can not be IEEE Xplore compliant!
-%
-% Also, note that the amsmath package sets \interdisplaylinepenalty to 10000
-% thus preventing page breaks from occurring within multiline equations. Use:
-%\interdisplaylinepenalty=2500
-% after loading amsmath to restore such page breaks as IEEEtran.cls normally
-% does. amsmath.sty is already installed on most LaTeX systems. The latest
-% version and documentation can be obtained at:
-% http://www.ctan.org/tex-archive/macros/latex/required/amslatex/math/
-
-% *** SPECIALIZED LIST PACKAGES ***
-%
-%\usepackage{algorithmic}
-% algorithmic.sty was written by Peter Williams and Rogerio Brito.
-% This package provides an algorithmic environment fo describing algorithms.
-% You can use the algorithmic environment in-text or within a figure
-% environment to provide for a floating algorithm. Do NOT use the algorithm
-% floating environment provided by algorithm.sty (by the same authors) or
-% algorithm2e.sty (by Christophe Fiorio) as IEEE does not use dedicated
-% algorithm float types and packages that provide these will not provide
-% correct IEEE style captions. The latest version and documentation of
-% algorithmic.sty can be obtained at:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithms/
-% There is also a support site at:
-% http://algorithms.berlios.de/index.html
-% Also of interest may be the (relatively newer and more customizable)
-% algorithmicx.sty package by Szasz Janos:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithmicx/
-
-% *** ALIGNMENT PACKAGES ***
-%
-%\usepackage{array}
-% Frank Mittelbach's and David Carlisle's array.sty patches and improves
-% the standard LaTeX2e array and tabular environments to provide better
-% appearance and additional user controls. As the default LaTeX2e table
-% generation code is lacking to the point of almost being broken with
-% respect to the quality of the end results, all users are strongly
-% advised to use an enhanced (at the very least that provided by array.sty)
-% set of table tools. array.sty is already installed on most systems. The
-% latest version and documentation can be obtained at:
-% http://www.ctan.org/tex-archive/macros/latex/required/tools/
-
-%\usepackage{mdwmath}
-%\usepackage{mdwtab}
-% Also highly recommended is Mark Wooding's extremely powerful MDW tools,
-% especially mdwmath.sty and mdwtab.sty which are used to format equations
-% and tables, respectively. The MDWtools set is already installed on most
-% LaTeX systems. The lastest version and documentation is available at:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/mdwtools/
-
-% IEEEtran contains the IEEEeqnarray family of commands that can be used to
-% generate multiline equations as well as matrices, tables, etc., of high
-% quality.
-
-%\usepackage{eqparbox}
-% Also of notable interest is Scott Pakin's eqparbox package for creating
-% (automatically sized) equal width boxes - aka "natural width parboxes".
-% Available at:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/eqparbox/
-
-% *** SUBFIGURE PACKAGES ***
-%\usepackage[tight,footnotesize]{subfigure}
-% subfigure.sty was written by Steven Douglas Cochran. This package makes it
-% easy to put subfigures in your figures. e.g., "Figure 1a and 1b". For IEEE
-% work, it is a good idea to load it with the tight package option to reduce
-% the amount of white space around the subfigures. subfigure.sty is already
-% installed on most LaTeX systems. The latest version and documentation can
-% be obtained at:
-% http://www.ctan.org/tex-archive/obsolete/macros/latex/contrib/subfigure/
-% subfigure.sty has been superceeded by subfig.sty.
-
-%\usepackage[caption=false]{caption}
-%\usepackage[font=footnotesize]{subfig}
-% subfig.sty, also written by Steven Douglas Cochran, is the modern
-% replacement for subfigure.sty. However, subfig.sty requires and
-% automatically loads Axel Sommerfeldt's caption.sty which will override
-% IEEEtran.cls handling of captions and this will result in nonIEEE style
-% figure/table captions. To prevent this problem, be sure and preload
-% caption.sty with its "caption=false" package option. This is will preserve
-% IEEEtran.cls handing of captions. Version 1.3 (2005/06/28) and later
-% (recommended due to many improvements over 1.2) of subfig.sty supports
-% the caption=false option directly:
-%\usepackage[caption=false,font=footnotesize]{subfig}
-%
-% The latest version and documentation can be obtained at:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/subfig/
-% The latest version and documentation of caption.sty can be obtained at:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/caption/
-
-% *** FLOAT PACKAGES ***
-%
-%\usepackage{fixltx2e}
-% fixltx2e, the successor to the earlier fix2col.sty, was written by
-% Frank Mittelbach and David Carlisle. This package corrects a few problems
-% in the LaTeX2e kernel, the most notable of which is that in current
-% LaTeX2e releases, the ordering of single and double column floats is not
-% guaranteed to be preserved. Thus, an unpatched LaTeX2e can allow a
-% single column figure to be placed prior to an earlier double column
-% figure. The latest version and documentation can be found at:
-% http://www.ctan.org/tex-archive/macros/latex/base/
-
-%\usepackage{stfloats}
-% stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
-% the ability to do double column floats at the bottom of the page as well
-% as the top. (e.g., "\begin{figure*}[!b]" is not normally possible in
-% LaTeX2e). It also provides a command:
-%\fnbelowfloat
-% to enable the placement of footnotes below bottom floats (the standard
-% LaTeX2e kernel puts them above bottom floats). This is an invasive package
-% which rewrites many portions of the LaTeX2e float routines. It may not work
-% with other packages that modify the LaTeX2e float routines. The latest
-% version and documentation can be obtained at:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/sttools/
-% Documentation is contained in the stfloats.sty comments as well as in the
-% presfull.pdf file. Do not use the stfloats baselinefloat ability as IEEE
-% does not allow \baselineskip to stretch. Authors submitting work to the
-% IEEE should note that IEEE rarely uses double column equations and
-% that authors should try to avoid such use. Do not be tempted to use the
-% cuted.sty or midfloat.sty packages (also by Sigitas Tolusis) as IEEE does
-% not format its papers in such ways.
-
-% *** PDF, URL AND HYPERLINK PACKAGES ***
-%
-%\usepackage{url}
-% url.sty was written by Donald Arseneau. It provides better support for
-% handling and breaking URLs. url.sty is already installed on most LaTeX
-% systems. The latest version can be obtained at:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/misc/
-% Read the url.sty source comments for usage information. Basically,
-% \url{my_url_here}.
-
-% *** Do not adjust lengths that control margins, column widths, etc. ***
-% *** Do not use packages that alter fonts (such as pslatex).         ***
-% There should be no need to do such things with IEEEtran.cls V1.6 and later.
-% (Unless specifically asked to do so by the journal or conference you plan
-% to submit to, of course. )
-
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
 
@@ -291,22 +63,7 @@ line 4: Email: name@xyz.com}
 % ABSTRACT
 % ----------------------------------------------------------------------------
 \begin{abstract}
-Experiments at the Large Hadron Collider (LHC) face unprecedented computing
-challenges. Heterogeneous resources are distributed worldwide, thousands of
-physicists analyzing the data need remote access to hundreds of computing
-sites, the volume of processed data is beyond the exabyte scale, and data
-processing requires more than billions of hours of computing usage per year. The
-PanDA (Production and Distributed Analysis) system was developed to meet the
-scale and complexity of LHC distributed computing for the ATLAS experiment. In
-the process, the old batch job paradigm of computing in HEP was discarded in
-favor of a far more flexible and scalable model. The success of PanDA at the LHC
-is leading to widespread adoption and testing by other experiments. PanDA is
-the first exascale workload management system in HEP, already operating at
-a million computing jobs per day, and processing over an exabyte of data in
-2013. We will describe the design and implementation of PanDA, present data on
-the performance of PanDA at the LHC, and discuss plans for future evolution
-of the system to meet new challenges of scale, heterogeneity and increasing
-user base.
+\input{abstract}
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -328,17 +85,10 @@ TBD\@.
 % ----------------------------------------------------------------------------
 % I - INTRODUCTION
 % ----------------------------------------------------------------------------
-\input{introduction}
+\section{Introduction}
+\label{sec:intro}
 
-\begin{enumerate}
-  \item Problem that has been solved: executing many applications on
-  heterogeneous distributed resources.
-  \item Why are WMS needed?
-  \item Increasing importance of WMS w.r.t complex and scalable applications on
-  heterogeneous distributed resources.
-  \item \ldots
-  \item Overview/Summary of paper.
-\end{enumerate}
+\input{introduction}
 
 
 % ----------------------------------------------------------------------------
@@ -347,32 +97,9 @@ TBD\@.
 \section{Background and Related Work}
 \label{sec:bkgrd}
 
-\begin{enumerate}
-  \item Brief overview of distributed CI\@.
-  \item Workload vs Workflow. (DONE)
-  \item Distinguish between WFMS and WLMS\@.
-  \begin{enumerate}
-    \item Role of Workload MS\@: help ``hide'' and federate heterogeneous resources.
-  \end{enumerate}
-\end{enumerate}
-
+\input{WMSLiterature}
 % Please do not correct bckground to background.
 \input{bckground}
-
-\begin{enumerate}
-  \item Other workload management systems (WMS) (not exclusive)
-  \begin{enumerate}
-    \item glidein-WMS
-    \item Dirac
-    \item ALICE-AlieN
-  \end{enumerate}
-  \begin{enumerate}
-    \item Comparison and contrast
-    \item Core features of a general WMS, i.e., minimal complete model of a WMS\@.
-  \end{enumerate}
-\end{enumerate}
-
-\input{WMSLiterature}
 
 
 % ----------------------------------------------------------------------------
@@ -390,14 +117,6 @@ TBD\@.
 \section{Deploying PanDA on a Leadership-scale system}
 \label{sec:panda_deployment}
 
-% \begin{enumerate}
-%   \item Why? To support a specific stage of the ATLAS Monte Carlo Workflow.
-%   \item Challenges
-%   \item Opportunities
-%   \item Highlight distinction of PanDA on wide-area distributed systems vs on TITAN
-%   \item Take-aways, lessons learned
-% \end{enumerate}
-
 \input{PandaEvolution}
 
 
@@ -409,15 +128,6 @@ TBD\@.
 
 \input{overall}
 
-%\section{Putting it all together: Experience of PanDA on TITAN} % (fold)
-%\label{sec:panda_titan}
-%
-%\begin{enumerate}
-%  \item Metadata performance issue, and how it’s resolved
-%  \item File I/O performance and impact
-%  \item ?
-%\end{enumerate}
-
 
 % ----------------------------------------------------------------------------
 % VII - THE NEXT GENERATION EXECUTOR
@@ -426,75 +136,27 @@ TBD\@.
 \section{PANDA\@: The Next Generation Executor}
 \label{sec:panda_roadmap}
 
-\begin{enumerate}
-    \item Discussion of the limitations of the current state of the art
-    \item Rationale and design (why)
-    \item Architecture (how)
-    \item Integration
-    \item Characterization (experiments)
-\end{enumerate}
-
 \input{nge}
 \input{Experiments}
 
 
 % ----------------------------------------------------------------------------
-% VIII - CONCLUSIONS
+% VIII - CONCLUSION
 % ----------------------------------------------------------------------------
 \section{Conclusion}
 \label{sec:conclusion}
 
-The PanDA  system was developed to meet the scale and complexity of LHC
-distributed computing for the ATLAS experiment.  In the process,  the old batch
-job paradigm  of computing in HEP was  discarded  in favor of a  far more
-flexible and scalable  model. The success  of PanDA  at the LHC is leading to
-widespread adoption and testing by other experiments. PanDA  is the first
-exascale  workload management system in HEP, already operating at a million
-computing jobs per day, and processing over an exabyte of data in 2013. Next LHC
-run will pose massive computing  challenges. With a  doubling of the beam
-energy  and luminosity as  well as an increased  need for  simulates  data, the
-data volume is expected to increase with a factor 5--6 or more. Storing and
-processing  this amount of data is a  challenge   that cannot be resolved with
-the currently existing  computing  resources in ATLAS\@. To resolve this
-challenge, ATLAS is turning to commercial  as well as academic Cloud services
-and HPCs via the PanDA system. Also the work underway is enabling the use of
-PanDA by new scientific collaborations and communities as a means  of leveraging
-extreme scale computing  resources with a low barrier of entry. The technology
-base provided by the PanDA system will enhance the usage of a variety  of
-high-performance computing resources available to basic research.
+\input{conclusion}
 
 
 % ----------------------------------------------------------------------------
 % ACKNOWLEDGEMENTS
 % ----------------------------------------------------------------------------
+\section*{Acknowledgements}
+\label{sec:ack}
+
 \input{ack}
 
-%\section*{Acknowledgment}
-
-%The authors would like to thank... More thanks here...
-
-% trigger a \newpage just before the given reference
-% number - used to balance the columns on the last page
-% adjust value as needed - may need to be readjusted if
-% the document is modified later
-%\IEEEtriggeratref{8}
-% The "triggered" command can be changed if desired:
-%\IEEEtriggercmd{\enlargethispage{-5in}}
-
-% references section
-
-% can use a bibliography generated by BibTeX as a .bbl file
-% BibTeX documentation can be easily obtained at:
-% http://www.ctan.org/tex-archive/biblio/bibtex/contrib/doc/
-% The IEEEtran BibTeX style support page is at:
-% http://www.michaelshell.org/tex/ieeetran/bibtex/
-%\bibliographystyle{IEEEtran}
-% argument is your BibTeX string definitions and bibliography database(s)
-%\bibliography{IEEEabrv,../bib/paper}
-%
-% <OR> manually copy in the resultant .bbl file
-% set second argument of \begin to the number of references
-% (used to reserve space for the reference number labels box)
 
 % ----------------------------------------------------------------------------
 % REFERENCES
