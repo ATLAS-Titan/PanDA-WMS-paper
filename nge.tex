@@ -1,0 +1,26 @@
+As seen in \S\ref{sec:panda_deployment}, PanDA Broker has been designed to
+submit PBS jobs to Titan's batch system instead of pilots due to the absence of
+wide area network connectivity on Titan's work nodes. As discussed in
+\S\ref{sec:panda_titan}, the unavailability of pilots imposes three main
+limitations: (i) static coupling between PBS jobs and detector simulations and
+(ii) support for a single type of payload.
+
+The static coupling between PBS jobs and detector simulations makes impossible
+to schedule multiple generations of workload on the same PBS job. Specifically,
+once a number of detector simulations are packaged into a PBS job and this job
+is queued on Titan, no further simulations can be added to that job. New
+simulations have to be packaged into a new PBS job that need to be submitted to
+Titan on the base of the backfill availability of that moment.
+
+The support of workload generations would enable a more efficient use of the
+backfill availability walltime. Currently, when a set of simulations ends also
+the PBS ends, independently on whether more walltime would still be available.
+With a pilot, more simulations could be executed so to utilize all the walltime
+while avoiding further job packaging and submission overheads.\mtnote{more?}
+
+Pilots offer a general scheduling interface while hiding the mechanics of
+coordinating resources across multiple work nodes. This eliminates the need of
+packaging payload into PBS jobs within the broker, greatly simplifying the
+submission process. This simplification would make it possible to submit
+different types of payload without having to develop a specific PBS script for
+every payload.
