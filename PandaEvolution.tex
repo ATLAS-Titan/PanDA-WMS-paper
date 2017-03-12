@@ -190,7 +190,8 @@ Compared to pilots, backfill has the disadvantage of limiting the amount of
 work nodes that can be requested. Pilots are normal jobs: they can request as
 many work nodes for as much time as a queue can offer. On the contrary, jobs
 sized on the basis of backfill information availability \jhanote{should be
-resource availability or backfill queue information?} depend on the % amount
+resource availability or backfill queue information?}\mtnote{AFAIH, there is no dedicated queue to backfill} depend on the number
+% amount
 of work nodes that cannot be given to any other job. any other job in the
 Titan's queue\sergeynote{any other job currently in the Titan's
 queue?}\mtnote{Better?}. Usually, backfill availability is a fraction of the
