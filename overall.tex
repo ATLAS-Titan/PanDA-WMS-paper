@@ -5,14 +5,15 @@ concurrent use of 96,000 cores. Since November 2015, PanDA Brokers have operated
 only in backfill mode, without a defined time allocation, and running at the
 lowest priority on Titan.
 
-We evaluated the efficiency, scalability and reliability of the PanDA Brokers
+We evaluate the efficiency, scalability and reliability of the PanDA Brokers
 along two dimensions: (i) the amount of backfill availability utilized by the
-PanDA Brokers; and (ii) the amount of jobs walltime spent performing detector
-simulations. We based these evaluations on measuring the number of cores
-utilized by ATLAS on Titan, the overall backfill availability, the number of
-detector simulations performed on all the resources available to ATLAS and on
-Titan, and the failure rate of these simulations. All the measurements were
-performed between January 2016 and February 2017.
+PanDA Brokers; and (ii) the amount of job walltime spent performing detector
+simulations. \jhanote{it is difficult to parse what (ii)?}. We based these
+evaluations on measuring the number of cores utilized by ATLAS on Titan, the
+overall backfill availability, the number of detector simulations performed on
+all the resources available to ATLAS and on Titan, and the failure rate of
+these simulations. All the measurements were performed between January 2016
+and February 2017.
 
 % -----------------------------------------------------------------------------
 \subsection{Efficiency and Scalability of PanDA Broker on Titan}
@@ -20,7 +21,7 @@ performed between January 2016 and February 2017.
 
 Figure~\ref{fig:core-hours-utilization} shows the number of core-hours used by
 ATLAS on Titan, from January 2016 to February 2017. During that period, ATLAS
-consumed a total of 73.8M core-hours, for an average of 7M core-hours a month,
+consumed a total of 73.8M core-hours, for an average of $\approx$ 7M core-hours a month,
 with a minimum of 3.3M core-hours in April 2016 and a maximum 14.8M core-hours
 in February 2017.
 
@@ -43,25 +44,11 @@ in February 2017.
 \label{fig:core-hours-utilization}
 \end{figure}
 
-On February 2017, PanDA Brokers used almost twice as much backfill availability
-than in any other month. No relevant code update was made during that period and
-logs indicated that the brokers were able to respond more promptly to backfill
-availability. This is likely due to hardware upgrades on the DTNs. The absence
-of continuous monitoring of the nodes does not allow to quantify bottlenecks but
-spot measurements of the DTNs load indicate that a faster CPU and better
-networking were likely responsible for the improved performance.
-
-Investigations showed an average CPU load of 3.6\% on the upgraded DTNs. As
-such, further hardware upgrades seem unlikely to improve significantly the
-performance of PanDA Brokers. Nonetheless, the current load suggests that the
-number of brokers per DTN could be increased. This would enable the submission
-of a larger number of concurrent jobs to Titan's PBS queue, allowing for PanDA
-to consume a higher percentage of backfill availability.
-
-Figure~\ref{fig:backfill-utilization} shows backfill utilization efficiency from
-January 2016 to February 2017. Efficiency is defined as the fraction of Titan’s
-cores available via backfill that was utilized by the PanDA Brokers. The brokers
-reached 18\% average efficiency with a minimum 8.9\% efficiency on April 2016
+Figure~\ref{fig:backfill-utilization} shows backfill utilization from
+January 2016 to February 2017. \jhanote{Neither figure show efficiency. Both show
+utilization.} Efficiency is defined as the fraction of Titan’s
+cores available via backfill that was utilized by the PanDA Brokers. \jhanote{I would plot the efficiency on the Y2 axis for both.} The brokers
+reached 18\% average efficiency \jhanote{this sentence is a bit difficult to parse. Is the 18\% overall efficiency?} with a minimum 8.9\% efficiency on April 2016
 and a maximum 33.5\% efficiency on February 2017. The number of total backfill
 cores available was 38.1M in April 2016, and 33.1M in February 2017. This shows
 that the measured difference in efficiency did not depend on a comparable
@@ -69,7 +56,7 @@ difference in total backfill availability.
 
 \begin{figure}[htp]
 \includegraphics[clip,width=\columnwidth]{figures/backfill_consumption.png}
-\caption{Caption.}
+\caption{Caption. \jhanote{I would suggest similar style of X-axis as previous figure. Dificult to parse which is April if we are going to call out a specific month. Also consistenty in style is generally good to keep cognitive burden low.}}
 \label{fig:backfill-utilization}
 \end{figure}
 
@@ -90,6 +77,22 @@ improvement of PanDA efficiency.
 Sergey. Consider a table instead of a figure.}}
 \label{fig:hpc-workload-utilization}
 \end{figure}
+
+On February 2017, PanDA Brokers used almost twice as much backfill availability
+than in any other month. No relevant code update was made during that period and
+logs indicated that the brokers were able to respond more promptly to backfill
+availability. This is likely due to hardware upgrades on the DTNs. The absence
+of continuous monitoring of the nodes does not allow to quantify bottlenecks but
+spot measurements of the DTNs load indicate that a faster CPU and better
+networking were likely responsible for the improved performance.
+
+Investigations showed an average CPU load of 3.6\% on the upgraded DTNs. As
+such, further hardware upgrades seem unlikely to improve significantly the
+performance of PanDA Brokers. Nonetheless, the current load suggests that the
+number of brokers per DTN could be increased. This would enable the submission
+of a larger number of concurrent jobs to Titan's PBS queue, allowing for PanDA
+to consume a higher percentage of backfill availability.
+
 
 All the detector simulations executed on Titan process 100 events. This number
 has been chosen by observing the average walltime of backfill resources: too
