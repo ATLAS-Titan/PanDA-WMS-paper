@@ -27,7 +27,12 @@ specific PBS script for every payload. Finally, the submission process would be
 MPI-independent, as MPI is used for coordination among multiple work nodes, not
 by the payload.
 
-\mtnote{NOTE: I do not mention backfill availability Vs normal availability (i.e., submitting to the queue a `normal' job) because, in theory, the design of PanDA Broker enable this capability. I would speak about about backfill/not backfill in the discussion of NGE, when speaking about its generality. Part of this generality, is being able to submit to whatever batch system is supported by SAGA, including Titan's PBS and all its queues.}
+\mtnote{NOTE: I do not mention backfill availability Vs normal availability
+(i.e., submitting to the queue a `normal' job) because, in theory, the design of
+PanDA Broker enables this capability. I would speak about about backfill/not
+backfill in the discussion of NGE, when speaking about its generality. Part of
+this generality is being able to submit to whatever batch system is supported by
+SAGA, including Titan's PBS and all its queues.}
 
 \mtnote{NOTE: NGE is not able to use backfill on Titan as we do not have specific functionalities to interrogate the Moab scheduler about backfill availability. This is why NGE should be presented as the pilot for PanDA Broker and not as an alternative to PanDA Broker. NGE alone would not be able to speak directly to PanDA Server.}
 
