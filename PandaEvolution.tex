@@ -186,17 +186,19 @@ availability and a job submitted shortly after placing this query and requesting
 for no more than the backfill availability, is usually scheduled immediately
 spending almost no time in the queue.
 
-Compared to pilots, backfill has the disadvantage of limiting the amount of work
-nodes that can be requested. Pilots are normal jobs: they can request as many
-work nodes for as much time as a queue can offer. On the contrary, jobs sized on
-the base of the backfill availability depend on the
-% amount of work nodes that cannot be given to any other job.
-any other job in the Titan's queue\sergeynote{any other job currently in the
-Titan's queue?}\mtnote{Better?}. Usually, backfill availability is a fraction of
-the total capacity of the queue but the size of Titan mitigates this limitation.
+Compared to pilots, backfill has the disadvantage of limiting the amount of
+work nodes that can be requested. Pilots are normal jobs: they can request as
+many work nodes for as much time as a queue can offer. On the contrary, jobs
+sized on the basis of backfill information availability \jhanote{should be
+resource availability or backfill queue information?} depend on the % amount
+of work nodes that cannot be given to any other job. any other job in the
+Titan's queue\sergeynote{any other job currently in the Titan's
+queue?}\mtnote{Better?}. Usually, backfill availability is a fraction of the
+total capacity of the queue but the size of Titan mitigates this limitation.
 Every year, about 10\% of Titan's capacity remains
-unused~\cite{titan_utilization}, for a total of 30,000 cores, corresponding to
-around 270M core hours per year, roughly 30\% of the overall capacity of WLCG.
+unused~\cite{titan_utilization}, corresponding to an average of 30,000 unused
+cores. This equals approximately 270M core hours per year, roughly 30\% of the
+overall capacity of WLCG.
 
 % A system that can use those temporarily free work nodes with smaller
 % scale tasks would be very valuable. For this reason, Titan offers backfill
