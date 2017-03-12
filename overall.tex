@@ -7,13 +7,13 @@ lowest priority on Titan.
 
 We evaluate the efficiency, scalability and reliability of the PanDA Brokers
 along two dimensions: (i) the amount of backfill availability utilized by the
-PanDA Brokers; and (ii) the amount of job walltime spent performing detector
-simulations. \jhanote{it is difficult to parse what (ii)?}. We based these
-evaluations on measuring the number of cores utilized by ATLAS on Titan, the
-overall backfill availability, the number of detector simulations performed on
-all the resources available to ATLAS and on Titan, and the failure rate of
-these simulations. All the measurements were performed between January 2016
-and February 2017.
+PanDA Brokers; and (ii) the amount of % job walltime
+runtime spent performing detector simulations. \jhanote{it is difficult to parse
+what (ii)?}\mtnote{Better?} We based these evaluations on measuring the number
+of cores utilized by ATLAS on Titan, the overall backfill availability, the
+number of detector simulations performed on all the resources available to ATLAS
+and on Titan, and the failure rate of these simulations. All the measurements
+were performed between January 2016 and February 2017.
 
 % -----------------------------------------------------------------------------
 \subsection{Efficiency and Scalability of PanDA Broker on Titan}
@@ -44,19 +44,22 @@ in February 2017.
 \label{fig:core-hours-utilization}
 \end{figure}
 
-Figure~\ref{fig:backfill-utilization} shows backfill utilization from
-January 2016 to February 2017. \jhanote{Neither figure show efficiency. Both show
-utilization.} Efficiency is defined as the fraction of Titan’s
-cores available via backfill that was utilized by the PanDA Brokers. \jhanote{I would plot the efficiency on the Y2 axis for both.} The brokers
-reached 18\% average efficiency \jhanote{this sentence is a bit difficult to parse. Is the 18\% overall efficiency?} with a minimum 8.9\% efficiency on April 2016
-and a maximum 33.5\% efficiency on February 2017. The number of total backfill
-cores available was 38.1M in April 2016, and 33.1M in February 2017. This shows
-that the measured difference in efficiency did not depend on a comparable
-difference in total backfill availability.
+Figure~\ref{fig:backfill-utilization} shows backfill utilization from January
+2016 to February 2017. \jhanote{Neither figure show efficiency. Both show
+utilization.} Efficiency is defined as the fraction of Titan’s cores available
+via backfill that was utilized by the PanDA Brokers. \jhanote{I would plot the
+efficiency on the Y2 axis for both.} The brokers reached 18\% average efficiency
+\jhanote{this sentence is a bit difficult to parse. Is the 18\% overall
+efficiency?}\mtnote{average across all months considered. Should I call it
+``overall''?} with a minimum 8.9\% efficiency on April 2016 and a maximum 33.5\%
+efficiency on February 2017. The number of total backfill cores available was
+38.1M in April 2016, and 33.1M in February 2017. This shows that the measured
+difference in efficiency did not depend on a comparable difference in total
+backfill availability.
 
 \begin{figure}[htp]
 \includegraphics[clip,width=\columnwidth]{figures/backfill_consumption.png}
-\caption{Caption. \jhanote{I would suggest similar style of X-axis as previous figure. Dificult to parse which is April if we are going to call out a specific month. Also consistenty in style is generally good to keep cognitive burden low.}}
+\caption{Caption. \jhanote{I would suggest similar style of X-axis as previous figure. Difficult to parse which is April if we are going to call out a specific month. Also consistency in style is generally good to keep cognitive burden low.}}
 \label{fig:backfill-utilization}
 \end{figure}
 
