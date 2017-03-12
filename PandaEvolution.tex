@@ -177,20 +177,21 @@ request: the higher the number of nodes, the shorter the amount of queue time
 % the time spent waiting in the queue would be too large compared to the
 % execution time of each task.
 
-Titan's backfill functionality offers the opportunity not to use the pilot
-abstraction while still avoiding queue time overheads. Backfill availability is
-the number of work nodes that cannot be used by any of the jobs already queued
-on Titan: All queued jobs are either too large or their walltime is too long. At
-any point in time, Titan's Moab scheduler can be queried for backfill
-availability and a job submitted shortly after placing this query and requesting
-for no more than the backfill availability, is usually scheduled immediately
-spending almost no time in the queue.
+Titan’s backfill functionality offers the opportunity to avoid the overhead of
+queue wait times without using pilot abstraction. Backfill availability is the
+number of work nodes that cannot be used by any of the jobs already queued on
+Titan: All queued jobs are either too large or their walltime is too long. At
+any point in time, Titan’s Moab scheduler can be queried for backfill
+availability. Based upon the result of this query, a job can be shaped to
+request no more than the backfill availability, and when submitted as such is
+usually scheduled immediately spending almost no time in the queue.
 
 Compared to pilots, backfill has the disadvantage of limiting the amount of
 work nodes that can be requested. Pilots are normal jobs: they can request as
 many work nodes for as much time as a queue can offer. On the contrary, jobs
 sized on the basis of backfill information availability \jhanote{should be
-resource availability or backfill queue information?} depend on the % amount
+resource availability or backfill queue information?}\mtnote{AFAIH, there is no dedicated queue to backfill} depend on the number
+% amount
 of work nodes that cannot be given to any other job. any other job in the
 Titan's queue\sergeynote{any other job currently in the Titan's
 queue?}\mtnote{Better?}. Usually, backfill availability is a fraction of the
