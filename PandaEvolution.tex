@@ -186,12 +186,12 @@ availability. Based upon the result of this query, a job can be shaped to
 request no more than the backfill availability, and when submitted as such is
 usually scheduled immediately spending almost no time in the queue.
 
-Compared to pilots, backfill has the disadvantage of limiting the amount of
-work nodes that can be requested. Pilots are normal jobs: they can request as
-many work nodes for as much time as a queue can offer. On the contrary, jobs
-sized on the basis of backfill information availability \jhanote{should be
-resource availability or backfill queue information?}\mtnote{AFAIH, there is no dedicated queue to backfill} depend on the number
-% amount
+Compared to pilots, backfill has the disadvantage of limiting the amount of work
+nodes that can be requested. Pilots are normal jobs: they can request as many
+work nodes for as much time as a queue can offer. On the contrary, jobs sized on
+the basis of backfill information availability \jhanote{should be resource
+availability or backfill queue information?}\mtnote{AFAIH, there is no dedicated
+queue to backfill} depend on the number % amount
 of work nodes that cannot be given to any other job. any other job in the
 Titan's queue\sergeynote{any other job currently in the Titan's
 queue?}\mtnote{Better?}. Usually, backfill availability is a fraction of the
@@ -216,7 +216,9 @@ discuss in our meeting.} \sergeynote{It's not a pilot in conventional sense. I
 call it an agent. It just happened that we were able to use full PanDA pilot's
 code base to serve our purposes on Titan. that's why, by inertia, we still call
 it a pilot.}\mtnote{Thank you. We would have a problem calling it `agent' as we
-use that term to name the pilot of NGE. Would PanDA Broker work?}
+use that term to name the pilot of NGE. Would PanDA Broker work?}\mtnote{Sergey
+agreed that we should not use `pilot'. He is quite convinced by `broker' but we
+are both open to better suggestions.}
 
 Given the communication requirements of PanDA Pilots and the unused capacity of
 Titan, PanDA pilot was redesigned to serve as a job broker on Titan. Architected
@@ -269,26 +271,26 @@ the Payloads' output files on the shared filesystem and transfer them from Titan
 to the ATLAS Tier 1 computing center at Brookhaven National Lab (BNL) or any
 other Grid site.
 
-Once deployed, every PanDA Broker supports the execution of MC
-% event generation and
-detector simulation on Titan in 9 steps: (i) PanDA Broker queries Titan's
-Moab scheduler about currently unused worker nodes;
-% and checks whether the time and size of the available backfill resources are
-% suitable to execute jobs;
-(ii) the PanDA Broker queries the Job Dispatcher module of the PanDA server for
-jobs that have been bound to Titan by JEDI; (iii)  the PanDA Broker requests to
-the Data Service module of the PanDA Server what input data these jobs require
-and transfer them to the DTN via the ATLAS DDM service; (iv) the PanDA Broker
-creates one or more PBS MPI script, wrapping enough jobs' payload to fit
-backfill availability; (v) the PanDA Broker submits these MPI jobs to the
-Titan's PBS batch system via RADICAL-SAGA; (vi) the MPI jobs waits a minimal
-amount of time into the queue until they are scheduled for execution; (vii) upon
-execution on the worker nodes, each MPI script creates a ramdisk and sets up the
-specific AthenaMP configuration required by the wrapped payload; (viii) the
-payload is executed into dedicated processes, 16 for each work node, 1 for each
-available core; (ix) upon completion of an MPI job, the PanDA Broker locates the
-produced output files on the shared filesystem and transfer them to BNL ATLAS
-Tier 1 computing centre.
+\mtnote{Does one PanDA Broker support the submission and monitoring of one job
+at a time? Or does it support the concurrent submission and monitoring of
+multiple jobs (assuming enough backfill availability)?}
+
+Once deployed, every PanDA Broker supports the execution of MC detector
+simulation on Titan in 9 steps: (i) PanDA Broker queries Titan's Moab scheduler
+about currently unused worker nodes; (ii) the PanDA Broker queries the Job
+Dispatcher module of the PanDA server for jobs that have been bound to Titan by
+JEDI; (iii)  the PanDA Broker requests to the Data Service module of the PanDA
+Server what input data these jobs require and transfer them to the DTN via the
+ATLAS DDM service; (iv) the PanDA Broker creates one or more PBS MPI script,
+wrapping enough jobs' payload to fit backfill availability; (v) the PanDA Broker
+submits these MPI jobs to the Titan's PBS batch system via RADICAL-SAGA; (vi)
+the MPI jobs waits a minimal amount of time into the queue until they are
+scheduled for execution; (vii) upon execution on the worker nodes, each MPI
+script creates a ramdisk and sets up the specific AthenaMP configuration
+required by the wrapped payload; (viii) the payload is executed into dedicated
+processes, 16 for each work node, 1 for each available core; (ix) upon
+completion of an MPI job, the PanDA Broker locates the produced output files on
+the shared filesystem and transfer them to BNL ATLAS Tier 1 computing centre.
 
 % from the Job Dispatcher module of PanDA Server (as done by a PanDA Pilot);
 % (iii) downloading events via PanDA Server's Data Service from ATLAS DDM to

@@ -18,23 +18,52 @@ available. With a pilot, more simulations could be executed so to utilize all
 the available walltime, while avoiding further job packaging and submission
 overheads.\mtnote{Are there more reasons for wanting multiple generations?}
 
+Multiple generations would also help with the transition from an execution model
+based on a fixed amount of event per simulation (100 at the moment) to one in
+which the number of events is decided on the base of the available walltime.
+Pilots would enable to package simulations with a homogeneous number of events,
+especially when core and walltime availabilities would diverge as when a small
+amount of cores is available for a long amount of time or \textit{vice versa}.
+In this situations, a PBS job would would require all simulation to have either
+a large or a small number of events; a pilot would instead support multiple
+generations of simulations with a different number of events and therefore
+duration.
+
 Pilots can offer a payload-independent scheduling interface while hiding the
 mechanics of coordination and communication among multiple work nodes. This
 could eliminate the need for packaging payload into PBS jobs within the broker,
 greatly simplifying the submission process. This simplification would also
 enable the submission of different types of payload, without having to develop a
-specific PBS script for every payload. Finally, the submission process would be
+specific PBS script for each payload. The submission process would also be
 MPI-independent, as MPI is used for coordination among multiple work nodes, not
 by the payload.
 
-\mtnote{NOTE: I do not mention backfill availability Vs normal availability
-(i.e., submitting to the queue a `normal' job) because, in theory, the design of
-PanDA Broker enables this capability. I would speak about about backfill/not
-backfill in the discussion of NGE, when speaking about its generality. Part of
-this generality is being able to submit to whatever batch system is supported by
-SAGA, including Titan's PBS and all its queues.}
+\mtnote{I tried to argue that pilots facilitates the submission to a normal
+queue but I was not able to find a convincing argumentation. When we consider
+only Titan, a PBS job is the only way to submit a job to its queue(s). With NGE,
+we translate a pilot description to a PBS job and then submit it to a queue via
+a PBS command. PanDA Brokers do something very similar: they package detector
+simulations into a PBS job and they submit it via a PBS command. The fact that
+PanDA Brokers define the number of cores and walltime of a PBS job on the base
+of backfill information, does not make the packaging or the submission processes
+any different: PanDA Brokers are already submitting to the nomal queue. If I got
+it right, PanDA Brokers could already submit a job with, say, 12000 cores and 2
+hours walltime. They don't do it because they have no allocation and they would
+wait a long time in the queue (maybe, let's see what our experiments say about
+that). I do not see how NGE could make all this any different.}
 
-\mtnote{NOTE: NGE is not able to use backfill on Titan as we do not have specific functionalities to interrogate the Moab scheduler about backfill availability. This is why NGE should be presented as the pilot for PanDA Broker and not as an alternative to PanDA Broker. NGE alone would not be able to speak directly to PanDA Server.}
+\mtnote{NOTE: I would speak about about backfill/not backfill in the discussion
+of NGE, when speaking about its generality towards resources, i.e., unified
+submission and scheduling process across different resources and multiple
+resources. Part of this generality is being able to submit to whatever batch
+system is supported by SAGA (including Titan's PBS and all its queues) and, in
+case, to multiple resources at the same time.}
+
+\mtnote{NOTE: NGE is not able to use backfill on Titan as we do not have
+specific functionalities to interrogate the Moab scheduler about backfill
+availability. This is why NGE should be presented as the pilot for PanDA Broker
+and not as an alternative to PanDA Broker. Further, NGE alone would not be able
+to speak directly to PanDA Server.}
 
 % -----------------------------------------------------------------------------
 \subsection{Next Generation Executer}
