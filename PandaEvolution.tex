@@ -8,7 +8,10 @@ in a program to expand the current computing model to include additional
 resources such as the opportunistic use of supercomputers as well as commercial
 and academic clouds.
 
+
+% -----------------------------------------------------------------------------
 \subsection{Use of Supercomputers with PanDA}
+\label{ssec:panda-supercomputers}
 
 Modern supercomputers have been designed mainly to support parallel computation
 that requires runtime communication. Job execution is parallelized across
@@ -58,7 +61,7 @@ computing (HPC) machines.
 
 % -----------------------------------------------------------------------------
 \subsection{Interfacing PanDA with Titan}
-\label{ssec:panda_titan}
+\label{ssec:panda-titan}
 
 The Titan supercomputer, current number three
 % (number one from November 2012 until June 2013)
@@ -271,26 +274,20 @@ the Payloads' output files on the shared filesystem and transfer them from Titan
 to the ATLAS Tier 1 computing center at Brookhaven National Lab (BNL) or any
 other Grid site.
 
-\mtnote{Does one PanDA Broker support the submission and monitoring of one job
-at a time? Or does it support the concurrent submission and monitoring of
-multiple jobs (assuming enough backfill availability)?}
-
 Once deployed, every PanDA Broker supports the execution of MC detector
-simulation on Titan in 9 steps: (i) PanDA Broker queries Titan's Moab scheduler
-about currently unused worker nodes; (ii) the PanDA Broker queries the Job
+simulation on Titan in 8 steps: (i) PanDA Broker queries Titan's Moab scheduler
+about current backfill availability; (ii) the PanDA Broker queries the Job
 Dispatcher module of the PanDA server for jobs that have been bound to Titan by
 JEDI; (iii)  the PanDA Broker requests to the Data Service module of the PanDA
-Server what input data these jobs require and transfer them to the DTN via the
-ATLAS DDM service; (iv) the PanDA Broker creates one or more PBS MPI script,
-wrapping enough jobs' payload to fit backfill availability; (v) the PanDA Broker
-submits these MPI jobs to the Titan's PBS batch system via RADICAL-SAGA; (vi)
-the MPI jobs waits a minimal amount of time into the queue until they are
-scheduled for execution; (vii) upon execution on the worker nodes, each MPI
-script creates a ramdisk and sets up the specific AthenaMP configuration
-required by the wrapped payload; (viii) the payload is executed into dedicated
-processes, 16 for each work node, 1 for each available core; (ix) upon
-completion of an MPI job, the PanDA Broker locates the produced output files on
-the shared filesystem and transfer them to BNL ATLAS Tier 1 computing centre.
+Server what input data these jobs require and transfer the files to the DTN via
+the ATLAS DDM service; (iv) the PanDA Broker creates a PBS MPI script, wrapping
+enough jobs' payload to fit backfill availability; (v) the PanDA Broker submits
+the PBS MPI script to the Titan's PBS batch system via RADICAL-SAGA; (vi) upon
+execution on the worker node(s), the MPI script creates a ramdisk and configure
+AthenaMP to execute the wrapped payload; (vii) the payload is executed into
+dedicated processes, 16 for each work node, 1 for each available core; (viii)
+upon completion of the MPI script, the PanDA Broker locates the output on the
+shared NFS filesystem and transfer it to BNL ATLAS Tier 1 computing centre.
 
 % from the Job Dispatcher module of PanDA Server (as done by a PanDA Pilot);
 % (iii) downloading events via PanDA Server's Data Service from ATLAS DDM to
