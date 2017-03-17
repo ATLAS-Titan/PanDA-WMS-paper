@@ -3,61 +3,52 @@
 
 \subsection{Experiments}
 
-In this section we describe experiments that have been performed by running the ATLAS workload on TITAN's batch queue by means of the next generation executor (NGE) \jhanote{We'll need to reference the section/sub-section where this is discussed}.
+In this section we illustrate the performances of the NGE by means of experiments.
+Experiments aim to determine the performances of the NGE and to show how it provides a negligible overhead while introducing new functionalities.
 
-The importance \jhanote{aim?} of these experiments is twofold: on the one side, we illustrate the performances of the NGE; on the other side, they help to characterize TITAN's batch queue and we show that it can be used as alternative to backfilling. Since we aim to study the response time of batch queue as it is perceived by a common user,  special privileges have been asked to system administrator. \jhanote{I don't think the second point captures accurately why we are interested in the NGE. Please refine}
+All the experiments have been performed on TITAN's batch queue. This allowed us to decide the pilot size in terms of number of nodes and wall-time. For the same reason, the completion time of each run of our experiments is dominated by the queue time. However, since we are interested only in the performances of the NGE, we present only data related to the execution time of the pilot and the tasks that are run within it.
 
-%This is particularly important for the development of future execution strategies because queue time becomes dominant in
+We test the NGE pilot for weak scalability, weak scalability with resubmission, strong scalability and we provide a proof of concept about how the NGE is able to run heterogeous workloads.
 
-Experiments aim to show \jhanote{calculate? determine?} the number of completed events as function of the time.
-Each experiment corresponds to a number of different and independent runs that is meaningful from a statistical point of view. \jhanote{previous sentence needs fixing} Each run consists of a sustained execution of the ATLAS workload for a pre-determined period of time \aanote{A week? 10 days?}. \jhanote{How do we determine this time window?} Since execution of events is carried on by means \jhanote{what is an NGE job?} NGE jobs, each run is based on a script that maintains constant pressure on TITAN's batch queue. \jhanote{please separate what we are trying to achieve from how..}
 
-The main tasks of the script are to:  i) guarantee that there are constantly four NGE jobs eligible for running on TITAN's queue (note that four jobs is the maximum allowed in TITAN's batch queue \ref{}); ii)  bind Athena-MP jobs to the NGE jobs; iii) perform garbage collection. No limit in the number of NGE jobs is imposed.
+\subsubsection{Weak scalability}
+\aanote{I am using the term simulation....I will change it once we decide how to call the CU}
+The experiment consists in running as many tasks as the number of nodes controlled by the pilot.
+Tasks consists in Athena-MP job that simulate 100 events taken from ATLAS workload.
+Each Athena-MP job uses 16 cores which coincide with the number of cores available on TITAN's nodes.
+In order to minimize measurement noises, we used the very same simulation for all the tasks. Therefore, ideally all the tasks should have the same execution time which corresponds to ~$80$ minutes. 
+ 
+Tasks do not experience queue within the pilot since there is one node for each ATLAS simulation. Therefore, delays are of only three factors: i) the bootstrapping of the pilot on the nodes; ii) the manager that has to dispatch tasks to the pilot; iii) the time that the agent requires to spawn all of simulations on the nodes.
 
-The simulation of events is due to the following execution model: the script\jhanote{the script is too casual/imprecise} binds a number of Athena-MP jobs that is equal to the number of nodes on which NGE job is running; then, NGE job spawns the Athena-MP jobs on the nodes; finally, the Athena-MP jobs will simulate a number of events that is proportional to the wall-time of the NGE job. As a consequence, the number of nodes determines the number of events that can be simulated concurrently whereas the wall-time determines the number of events that can be simulated one after the other. These two parameters together determine the size of the NGE job. \jhanote{please refine. difficult to understand}
+We tested different pilot sizes, i.e. : 250, 500, 1000 and 2000. For all of them the walltime was 2 hours.
 
-The size of the NGE job is constant within an experiment. Thus, each experiment is fully characterized by the size of the NGE jobs that it send on the nodes.
+Figure \ref{fig:weakScal1} depicts the average pilot duration, the average execution time of each tasks and the average time required to send a tasks for execution.  
 
-Each execution of Athena-MP is guaranteed to be successfull and, on average, comparable with those executed by PanDA in production.
-
-Table \ref{tab:experiments} provides the list of the experiments that have been performed.
-
-\begin{table*}
-\begin{center}
-\begin{tabular}{|c|l|l|l|l|}
-  \hline
-Experiment &\# nodes &wall-time (hours) & run duration(days) & \# runs   \\
-\hline
-1 & &  & &   \\
-2 & &  & &  \\
-3 & &  & &  \\
-4 & &  & &  \\
-\hline
-\end{tabular}
-\end{center}
-\caption{List of experiments}\label{tab:experiments}
-\end{table*}
-
-Each experiment has been designed by choosing the maximum number of nodes and the maximum wall-time of each TITAN bin \ref{} \aanote{Are we really doing this???}. The length of the experiment has been decided.....\aanote{It was 10 times the wall-time or something like that}.
-
-Figure \ref{fig:avtEvts} \aanote{(DRAFT)}depicts average number of completed events as function of the time. Figure \ref{fig:avtTimes} \aanote{(DRAFT)} depicts the average queue time and execution time per experiment.
 
 \begin{figure}[!htb]
-        \includegraphics[width=0.48\textwidth]{./figures/draft/mean.pdf}
-    \caption{Average number of completed as function of the time.}
-\label{fig:avtEvts}
+        \includegraphics[width=0.5\textwidth]{./figures/NGE/Weak.pdf}
+    \caption{Average pilot execution time, average tasks execution time and average launching time for pilot sizes: 250, 500, 1000 and 2000.}
+\label{fig:weakScal1}
 \end{figure}
+\aanote{TO be commented as soon as the figure becomes definitive. Note that It would be better if we show the ratio between pilot duration and execution time}
+\subsubsection{Weak scalability with resubmission }
+This experiment is similar to the one presented above but in this case we want to test also the impact of submitting new simulations in place of those that end. Thus, we send to the pilot a number of tasks that is five times larger than the number of nodes. The reason behind this experiment is to stress the manager and the agent by pushing new tasks while others are ending their execution in such a way to increase the concurrency of these two components.
+
+In order to perform the experiments in a reasonable amount of time, we reduced  the number of events that are simulated by Athena-MP to sixteen. This allows us to complete a task in ~25 minutes only. Note that the number of events has been chosen in such a way that all the cores of a node run one event.
+
+We tested different pilot sizes, i.e. : 250, 500, 1000 and 2000. For all of them the walltime was 3 hours. 
+
+Figure \ref{fig:weakScal2} \aanote{(DRAFT)}  depicts the average pilot duration, the average execution time of each tasks and the average time required to send a tasks for execution.  
 
 \begin{figure}[!htb]
         \includegraphics[width=0.48\textwidth]{./figures/draft/AvgT.pdf}
-    \caption{Average queue time and execution time of the experiments.}
-\label{fig:avtTimes}
+    \caption{Average pilot execution time, average tasks execution time and average launching time for pilot sizes: 250, 500, 1000 and 2000.}
+\label{fig:weakScal2}
 \end{figure}
 
-Because of the definition of the experiment the results shown in Figure \ref{} are alike (but not entirely comparable to) those provided by in Figure \ref{} where the performances of backfilling are shown.
+\subsubsection{Strong scability}
 
-
-
+\subsubsection{Heterogeneous execution}
 
 
 
