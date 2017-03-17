@@ -1,9 +1,9 @@
 Currently, ATLAS deploys 20 instances of PanDA Broker on 4 Titan's DTNs, 5
 instances per DTN. Each broker submits and manages the execution of 15 to 300
-detector simulation jobs, one job for each work node, and a theoretical maximum
-concurrent use of 96,000 cores. Since November 2015, PanDA Brokers have operated
-only in backfill mode, without a defined time allocation, and running at the
-lowest priority on Titan.
+ATLAS jobs, one job for each worker node, and a theoretical maximum concurrent
+use of 96,000 cores. Since November 2015, PanDA Brokers have operated only in
+backfill mode, without a defined time allocation, and running at the lowest
+priority on Titan.
 
 We evaluate the efficiency, scalability and reliability of the PanDA Brokers
 along two dimensions: (i) the amount of backfill availability utilized by the
@@ -12,7 +12,8 @@ simulations. We based these evaluations on measuring the number of cores
 utilized by ATLAS on Titan, the overall backfill availability, the number of
 detector simulations performed on all the resources available to ATLAS and on
 Titan, and the failure rate of these simulations. All the measurements were
-performed between January 2016 and February 2017.
+performed between January 2016 and February 2017, hereafter called `experiment
+time window'.
 
 
 % -----------------------------------------------------------------------------
@@ -20,10 +21,10 @@ performed between January 2016 and February 2017.
 \label{ssec:panda_titan}
 
 Figure~\ref{fig:core-hours-utilization} shows the number of core-hours used by
-ATLAS on Titan, from January 2016 to February 2017. During that period, ATLAS
-consumed a total of 73.8M core-hours, for an average of $\approx$ 7M core-hours
-a month, with a minimum of 3.3M core-hours in April 2016 and a maximum 14.8M
-core-hours in February 2017.
+ATLAS on Titan during the experiment time window. ATLAS consumed a total of
+73.8M core-hours, for an average of $\approx$ 7M core-hours a month, with a
+minimum of 3.3M core-hours in April 2016 and a maximum 14.8M core-hours in
+February 2017.
 
 % \begin{figure}[htp]
 %     \subfloat[]{
@@ -44,17 +45,16 @@ core-hours in February 2017.
 \label{fig:core-hours-utilization}
 \end{figure}
 
-Figure~\ref{fig:backfill-utilization} shows backfill utilization from January
-2016 to February 2017 (hereafter called experiment time window).
-\jhanote{Neither figure show efficiency. Both show utilization.} Efficiency is
-defined as the fraction of Titan’s cores available via backfill that was
-utilized by the PanDA Brokers. \jhanote{I would plot the efficiency on the Y2
-axis for both.} The brokers reached 18\% average efficiency when measured across
-the experiment time window, with a minimum 8.9\% efficiency on April 2016 and a
-maximum 33.5\% efficiency on February 2017. The number of total backfill cores
-available was 38.1M in April 2016, and 33.1M in February 2017. This shows that
-the measured difference in efficiency did not depend on a comparable difference
-in total backfill availability.
+Figure~\ref{fig:backfill-utilization} shows backfill utilization during the
+experiment time window.\jhanote{Neither figure show efficiency. Both show
+utilization.} Efficiency is defined as the fraction of Titan’s cores available
+via backfill that was utilized by the PanDA Brokers. \jhanote{I would plot the
+efficiency on the Y2 axis for both.} The brokers reached 18\% average
+efficiency, with a minimum 8.9\% efficiency on April 2016 and a maximum 33.5\%
+efficiency on February 2017. The number of total backfill cores available was
+38.1M in April 2016, and 33.1M in February 2017. This shows that the measured
+difference in efficiency did not depend on a comparable difference in total
+backfill availability.
 
 \begin{figure}[htp]
 \includegraphics[clip,width=\columnwidth]{figures/backfill_consumption.png}
@@ -62,9 +62,9 @@ in total backfill availability.
 \label{fig:backfill-utilization}
 \end{figure}
 
-Figure~\ref{fig:hpc-workload-utilization} shows that between January 2016 and
-February 2017, about 2.25M detector simulation jobs were completed on Titan, for
-a total of 225M events processed. This is equivalent to 0.9\% of all the 250M
+Figure~\ref{fig:hpc-workload-utilization} shows that during the experiment time
+window, about 2.25M detector simulation jobs were completed on Titan, for a
+total of 225M events processed. This is equivalent to 0.9\% of all the 250M
 detector simulations performed by ATLAS in the same period of time, and 3.5\% of
 the 6.6B events processed by those jobs. Comparatively, Titan contributed 3.9\%
 of the total of around 200K cores available to ATLAS on Grid, Cloud, and HPC
@@ -84,8 +84,8 @@ On February 2017, PanDA Brokers used almost twice as much backfill availability
 than in any other month. No relevant code update was made during that period and
 logs indicated that the brokers were able to respond more promptly to backfill
 availability. This is likely due to hardware upgrades on the DTNs. The absence
-of continuous monitoring of the nodes does not allow to quantify bottlenecks but
-spot measurements of the DTNs load indicate that a faster CPU and better
+of continuous monitoring of those nodes does not allow to quantify bottlenecks
+but spot measurements of their load indicate that a faster CPU and better
 networking were likely responsible for the improved performance.
 
 Investigations showed an average CPU load of 3.6\% on the upgraded DTNs. As
@@ -95,48 +95,56 @@ number of brokers per DTN could be increased. This would enable the submission
 of a larger number of concurrent jobs to Titan's PBS queue, allowing for PanDA
 to consume a higher percentage of backfill availability.
 
-All the detector simulations executed on Titan process 100 events. This number
-of events is consistent with the physics of the use case and with the average
+Every detector simulation executed on Titan process 100 events. This number of
+events is consistent with the physics of the use case and with the average
 duration of backfill availability. The duration of a detector simulation is a
 function of the number of events: the more events, the longer the simulation.
 Not all events take the same time to be simulated:
-Figure~\ref{fig:100event-distrib} shows the distribution of that duration for
-XXXXX events simulated on Titan. When compared to the distribution of backfill
-availability on Titan in Figure~\ref{fig:backfill-distrib}, 100 events appear to
-be a good compromise.
+Figure~\ref{fig:100event-distrib} shows a distribution of the simulation time of
+1 event from $\approx$ 2 to $\approx$ 40 minutes, with a mean of $\approx$ 14
+minutes. Considering that each worker node process up to 16 events concurrently,
+100 events takes around 2 hours to process.
 
 \begin{figure}[htp]
     \includegraphics[clip,width=\columnwidth]{figures/tx_simulation_distribution.pdf}
-\caption{Distribution of the time taken by a Geant4 detector simulation to simulate one event. 3000 Events; 30 Titan work nodes; 16 simulations per node; 100 events per node. Average time per event \~14 min. Broad distribution from \~1 to \~40 minutes.}
+\caption{Distribution of the time taken by a Geant4 detector simulation to simulate one event. 3000 Events; 30 Titan worker nodes; 16 simulations per node; 100 events per node. Average time per event $\approx$ 14 min. Broad distribution from $\approx$ 2 to $\approx$ 40 minutes.}
 \label{fig:100event-distrib}
 \end{figure}
 
+Figure~\ref{fig:backfill-distrib} shows the distribution of backfill
+availability on Titan as a function of number of nodes and the time of their
+availability (i.e., walltime). The mean number of nodes over the experiment
+window time was $\approx$ 267, and their mean walltime was 1445 minutes.
+Detector simulations of 100 events, enable to use down to 1 node for 1/4 of the
+mean walltime of backfill availability. As such, it offers a good compromise for
+the PanDA Broker efficiency.
+
 \begin{figure}[htp]
-    \includegraphics[clip,width=\columnwidth]{figures/tx_simulation_distribution.pdf}
-\caption{\mtnote{Placeholder for the distribution of backfill walltime availability on Titan.}}
+    \includegraphics[clip,width=\columnwidth]{figures/avail_time_vs_nodes_Oct_28_Nov_3_2015.png}
+\caption{\mtnote{Waiting to know whether we have data for the experiment time window.}}
 \label{fig:backfill-distrib}
 \end{figure}
 
-Usually, detector simulations performed on the Grid process a higher number of
-events than those on Titan. This explains the difference between the percentage
-of detector simulations (9\%) and of events computed by those simulations
-(3.9\%) on Titan. PanDA Broker could fit the number of events to the walltime of
-the backfill availability on the base of the distribution of
+Usually, detector simulations performed on the Grid process 10 times the number
+of events than those on Titan. This explains the difference between the
+percentage of detector simulations (9\%) and of events computed by those
+simulations (3.9\%) on Titan. PanDA Broker could fit the number of events to the
+walltime of the backfill availability on the base of the distribution of
 Figure~\ref{fig:backfill-distrib}. That specific number of event could then be
 pulled from the PanDA Event service~\cite{panda-event-service} and given as
-input to one or more simulations. Once packaged into a MPI PBS job, these
-simulations would better fit backfill availability, increasing the efficiency of
-PanDA Brokers.
+input to one or more simulations. Once packaged into the MPI script submitted to
+titan's PBS batch system, these simulations would better fit backfill
+availability, increasing the efficiency of PanDA Brokers.
 
 The transition from a homogeneous to a heterogeneous number of events per
 detector simulation has implications for the application layer. An even number
 of events across simulations makes it easier to partition, track and package
 events across simulations, especially when they are performed on both the Grid
 and Titan. A homogeneous number of events also helps to keep the size and
-duration of other stages of the ATLAS MC workflow (\S\ref{ssec:panda-titan})
-more uniform. Further analysis is needed to evaluate the trade offs between
-increased efficiency of resource utilization and the complexity that would be
-introduced at the application layer.
+duration of other stages of the MC workflow (\S\ref{ssec:panda-titan}) more
+uniform. Further analysis is needed to evaluate the trade offs between increased
+efficiency of resource utilization and the complexity that would be introduced
+at the application layer.
 
 Currently, each PanDA Broker creates, submits, and monitor a single MPI PBS
 script at a time. This design is inherited from PanDA Pilot where a single
@@ -155,9 +163,9 @@ scripts at a time is being evaluated.
 
 % The number of concurrent detector simulation jobs that PanDA Broker can manage
 % depends on the DTNs' resources. Each PanDA Broker can execute 1 MPI PBS job on
-% up to 300 work nodes for a total of 4,800 cores. Scaling above this threshold
-% requires instantiating multiple PanDA Brokers on the same DTN and, once the
-% DTN resources are saturated, on multiple DTNs.
+% up to 300 worker nodes for a total of 4,800 cores. Scaling above this
+% threshold requires instantiating multiple PanDA Brokers on the same DTN and,
+% once the DTN resources are saturated, on multiple DTNs.
 
 
 % -----------------------------------------------------------------------------
@@ -165,10 +173,10 @@ scripts at a time is being evaluated.
 \label{ssec:panda_titan}
 
 \begin{itemize}
-    \item problem with lustre addressed with ramdisk
-    \item Competition for cache in AMD processors.
-    \item Summary overall figure of performance analogous to those produced with NGE. Diagram as discussed in F2F meeting at Rutgers.
-    \item Comparison hardware performance Titan/Grid
+    \item problem with lustre addressed with ramdisk (done)
+    \item Competition for cache in AMD processors. (done)
+    \item Comparison hardware performance Titan/Grid (data acquired)
+    \item Summary overall figure of performance analogous to those produced with NGE. Diagram as discussed in F2F meeting at Rutgers. (waiting)
 \end{itemize}
 
 We use two main parameters to measure the performance of the detector simulation
@@ -212,6 +220,7 @@ center-wide file system, this resulted in  performance degradation for all OLCF
 resources and users. \mtnote{I am afraid the details about the trace are too
 specific given the space constraints of a SC submission. Please feel free to
 uncomment it if you disagree.}
+
 % As can be seen in Listing~\ref{mdstrace} the metadata I/O activity for ATLAS
 % exhibits a spike corresponding to the beginning of the runs before tapering
 % off.
@@ -266,12 +275,12 @@ uncomment it if you disagree.}
 
 After careful characterization of the impact of ATLAS jobs on Lustre, the
 performance degradation was addressed by moving the AthenaMP distribution to a
-read-only NFS directory, shared among DTNs and work nodes. This eliminated the
-problem of metadata contention, improving metadata read performance from \~6,300
-seconds on Lustre to \~1,500 seconds on NFS. Further, at configuration time, the
-input files of each detector simulation job were stored to a ramdisk on the work
-nodes. This offered a marked improvement of reading time: from 1,320 seconds on
-Lustre to 40 seconds on NFS.
+read-only NFS directory, shared among DTNs and worker nodes. This eliminated the
+problem of metadata contention, improving metadata read performance from
+$\approx$ 6,300 seconds on Lustre to $\approx$ 1,500 seconds on NFS. Further, at
+configuration time, the input files of each detector simulation job were stored
+to a ramdisk on the work nodes. This offered a marked improvement of reading
+time: from 1,320 seconds on Lustre to 40 seconds on NFS.
 
 %Figure~\ref{fig:atlas-perf-improvement} shows the overall ATLAS performance
 %improvement on Titan. The circled region illustrates the switch from Lustre to
@@ -293,26 +302,36 @@ competes for a single FP scheduler. This creates the overhead shown in
 Figure~\ref{fig:comparison-8-16cores}: the mean runtime per event for 8
 concurrent simulations computing 50 events is 10.8 minutes, while for 16
 simulations is 14.25 minutes (consistent with
-Figure~\ref{fig:100event-distrib}). The allocation policy based on work nodes
-and not cores used, does not justify the use of 1/2 of the cores available.
+Figure~\ref{fig:100event-distrib}). Despite an inefficiency of almost 30\%,
+Titan's allocation policy based on number of worker nodes used instead of number
+of cores does not justify the use of 1/2 of the cores available.
 
 \begin{figure}[htp]
     \includegraphics[clip,width=\columnwidth]{figures/tx8_tx16_comparison.pdf}
-\caption{Comparison between distributions of the time taken by a Geant4 detector simulation to simulate one event when placing 2 simulations (h1) or 1 simulation (h2) per CPU. 2 simulation use 16 cores per node, 1 simulation 8, 1 per compute unit. 50 Events; 1 Titan work nodes; 16 work threads per node; 100 events per node. Average time per event \~14 min. Broad distribution from \~1 to \~40 minutes.}
+    \caption{Comparison between distributions of the time taken by a Geant4
+    detector simulation to simulate one event when placing 2 simulations (h1) or
+    1 simulation (h2) per CPU. 2 simulation use 16 cores per node, 1 simulation
+    8, 1 per compute unit. 50 Events; 1 Titan worker nodes; 16 work threads per
+    node; 100 events per node.}
 \label{fig:comparison-8-16cores}
 \end{figure}
 
 The compute performance of Titan for detector simulation jobs is, on average,
-lower that that of LCWG. Figure~\ref{}\mtnote{Sergey: I remember you showed us
-some plots comparing Geant4 simulation's performance on Titan and some of the
-Grid sites. Could we use one or two of the here?} shows the difference in
-execution time of the same type of simulation between Titan and
+lower that that of LCWG. Figure~\ref{fig:comparison-titan-grid} shows the
+difference in execution time of the same type of simulation between Titan and
 \ldots\mtnote{Add the name of the grid sites here}. This is not an issue with
 the design of PanDA Brokers and, more in general, with the migration of part of
 the ATLAS workload to supercomputers: Titan has been active since 2012 and more
 modern CPUs are expected to offer better performance. A pilot project is already
 in place to test PanDA Broker on Summit, the next generation supercomputer that
 will become active in 2018 at OLCF.
+
+\begin{figure}[htp]
+    \includegraphics[clip,width=\columnwidth]{figures/tx8_tx16_comparison.pdf}
+    \caption{}
+\label{fig:comparison-titan-grid}
+\end{figure}
+
 
 % ----------------------------------------------------------------------------
 \subsection{Reliability of PanDA Broker and Detector Simulations on Titan}
