@@ -1,8 +1,9 @@
 As seen in \S\ref{sec:panda_deployment}, the absence of wide area network
-connectivity on Titan's work nodes was one of the main reasons for PanDA Broker
-not to implement pilots. As discussed in \S\ref{sec:panda_titan}, the absence of
-pilots imposes the static coupling between PBS jobs and detector simulations,
-and development tailored to each type of payload that needs to be executed.
+connectivity on Titan's worker nodes was one of the main reasons for PanDA
+Broker not to implement pilots. As discussed in \S\ref{sec:panda_titan}, the
+absence of pilots imposes the static coupling between PBS jobs and detector
+simulations, and development tailored to each type of payload that needs to be
+executed.
 
 The static coupling between PBS jobs and detector simulations makes impossible
 to schedule multiple generations of workload on the same PBS job. Specifically,
@@ -30,13 +31,13 @@ generations of simulations with a different number of events and therefore
 duration.
 
 Pilots can offer a payload-independent scheduling interface while hiding the
-mechanics of coordination and communication among multiple work nodes. This
+mechanics of coordination and communication among multiple worker nodes. This
 could eliminate the need for packaging payload into PBS jobs within the broker,
 greatly simplifying the submission process. This simplification would also
 enable the submission of different types of payload, without having to develop a
 specific PBS script for each payload. The submission process would also be
-MPI-independent, as MPI is used for coordination among multiple work nodes, not
-by the payload.
+MPI-independent, as MPI is used for coordination among multiple worker nodes,
+not by the payload.
 
 \mtnote{I tried to argue that pilots facilitates the submission to a normal
 queue but I was not able to find a convincing argumentation. When we consider
