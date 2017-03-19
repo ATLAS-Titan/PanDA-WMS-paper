@@ -3,22 +3,23 @@
 
 \subsection{Experiments}
 
-In this section we illustrate the performances of the NGE by means of experiments.
-Experiments aim to determine the performances of the NGE and to show how it provides a negligible overhead while introducing new functionalities.
+In this section we present experiments that aim to determine the performances of the NGE and to show how it provides a negligible overhead while introducing new functionalities.
 
-All the experiments have been performed on TITAN's batch queue. This allowed us to decide the pilot size in terms of number of nodes and wall-time. For the same reason, the completion time of each run of our experiments is dominated by the queue time. However, since we are interested only in the performances of the NGE, we present only data related to the execution time of the pilot and the tasks that are run within it.
+Experiments consist in running AthenaMP instances by using NGE pilots where each AthenaMP simulates a pre-determined number of events taken from ATLAS workload.	
+We present four groups of experiments in which we test the NGE for weak scalability, weak scalability with resubmission, strong scalability and heterogeous workloads.
+For each group we vary the size of the pilots and the number of AthenaMP that are sent for execution. 
+We collect data about the execution time of the pilots and the AthenaMP that are executed within them by considering all stages that these entities pass through during the execution.
+Experiments have been performed out of production by using NGE's pilots on TITAN's batch queue. 
+Because of TITAN's batch queue, the turnaround time of each run of our experiments is dominated by the time spent on TITAN's queue. Since we are interested only in the performances of the NGE, we do not provide data about queue time.
 
-We test the NGE pilot for weak scalability, weak scalability with resubmission, strong scalability and we provide a proof of concept about how the NGE is able to run heterogeous workloads.
+For the experiment, AthenaMP has been set to use all the 16 cores present on TITAN's nodes. 
 
 
 \subsubsection{Weak scalability}
-\aanote{I am using the term simulation....I will change it once we decide how to call the CU}
-The experiment consists in running as many tasks as the number of nodes controlled by the pilot.
-Tasks consists in Athena-MP job that simulate 100 events taken from ATLAS workload.
-Each Athena-MP job uses 16 cores which coincide with the number of cores available on TITAN's nodes.
-In order to minimize measurement noises, we used the very same simulation for all the tasks. Therefore, ideally all the tasks should have the same execution time which corresponds to ~$80$ minutes. 
+
+The experiment consists in running as many AthenaMP instances (also referred as tasks from now-on) as the number of nodes controlled by the pilot. Each AthenaMP have been assigned with 100 events whose simulation requires  ~$80$ minutes. 
  
-Tasks do not experience queue within the pilot since there is one node for each ATLAS simulation. Therefore, delays are of only three factors: i) the bootstrapping of the pilot on the nodes; ii) the manager that has to dispatch tasks to the pilot; iii) the time that the agent requires to spawn all of simulations on the nodes.
+Tasks do not experience queue within the pilot since there is one node for each ATLAS simulation. Therefore, delays are consequence of only three factors: i) the bootstrapping of the pilot on the nodes; ii) the manager that has to dispatch tasks to the pilot; iii) the time that the agent requires to spawn all of tasks on the nodes.
 
 We tested different pilot sizes, i.e. : 250, 500, 1000 and 2000. For all of them the walltime was 2 hours.
 
@@ -46,7 +47,7 @@ Figure \ref{fig:weakScal2} \aanote{(DRAFT)}  depicts the average pilot duration,
 \label{fig:weakScal2}
 \end{figure}
 
-\subsubsection{Strong scability}
+\subsubsection{Strong scalability}
 
 \subsubsection{Heterogeneous execution}
 
