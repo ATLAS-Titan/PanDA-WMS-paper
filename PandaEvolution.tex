@@ -196,9 +196,9 @@ any other job in the Titan's queue.
 
 Usually, backfill availability is a fraction of the total capacity of the queue
 but the size of Titan mitigates this limitation. Every year, about 10\% of
-Titan's capacity remains unused~\cite{titan_utilization}, corresponding to an
-average of 30,000 unused cores. This equals approximately 270M core hours per
-year, roughly 30\% of the overall capacity of WLCG.
+Titan's capacity remains unused, corresponding to an average of 30,000 unused
+cores. This equals approximately 270M core hours per year, roughly 30\% of the
+overall capacity of WLCG.
 
 % A system that can use those temporarily free worker nodes with smaller
 % scale tasks would be very valuable. For this reason, Titan offers backfill
@@ -257,14 +257,14 @@ starting the execution of the ATLAS job's payload in a subprocess and waits
 until its completion.
 
 MPI scripts are submitted to Titan's PBS batch system via
-RADICAL-SAGA~\cite{radical-saga}, a Python module, compliant with the OGF GFD.90
-SAGA specification~\cite{saga-spec}. The Simple API for Grid Applications (SAGA)
-offers a unified interface to diverse job schedulers and file transferring
-services. In this way, SAGA provides an interoperability layer that lowers the
-complexity of using distributed infrastructures. Behind the API façade,
-RADICAL-SAGA implements a adaptor architecture: each adaptor interface the SAGA
-API with different middleware systems and services, including the PBS batch
-scheduler of Titan.
+RADICAL-SAGA~\cite{radical-saga_url}, a Python module, compliant with the OGF
+GFD.90 SAGA specification~\cite{goodale2008simple}. The Simple API for Grid
+Applications (SAGA) offers a unified interface to diverse job schedulers and
+file transferring services. In this way, SAGA provides an interoperability layer
+that lowers the complexity of using distributed infrastructures. Behind the API
+façade, RADICAL-SAGA implements a adaptor architecture: each adaptor interface
+the SAGA API with different middleware systems and services, including the PBS
+batch scheduler of Titan.
 
 The data staging capabilities of the PanDA Broker are implemented via a file
 system that is shared among DTNs and worker nodes. The input files with the

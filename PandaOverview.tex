@@ -23,7 +23,7 @@ workflows. Tasks represent a set of operations performed on a set of events,
 stored across input files. Tasks can be decomposed into jobs, where each job
 represents the task's set of operations and a partition of the task's events.
 Since 2005, a certain amount of parallelism has been progressively introduced
-for jobs~\cite{multithreaded_jobs} but, so far, no MPI jobs have been considered
+for jobs~\cite{crooks2012multi} but, so far, no MPI jobs have been considered
 for production. Jobs are supposed to be relatively self-contained, capable of
 setting up their own execution environment or having a minimal set of common
 dependences. Different types of job payload (i.e., executable) are assumed, both
@@ -104,8 +104,9 @@ accounting. Each subsystems is implemented by one or more modules as shown in
 Figure~\ref{fig:architecture}. In the following, we briefly describe the overall
 architecture of PanDA and its components. The description provides all the
 details required to understand how HPC resources have been integrated within
-PanDA (\ref{sec:integration}). For a more detailed description of PanDA
-architecture see~\cite{wiki, papers}.
+PanDA (\ref{sec:integration}).
+
+% For a more detailed description of PanDA architecture see~\cite{wiki, papers}.
 
 \begin{figure}
   \begin{center}
@@ -182,14 +183,14 @@ the payload, transferring output, and checking log files and local space; and
 % start on a worker node they contact a central server to retrieve a real
 % payload (i.e., an end-user job) and execute it.
 
-PanDA Pilot implements the pilot paradigm~\cite{pilot_review}, decoupling
-resource acquisition from job execution via multi-stage scheduling. This has
-several benefits, including increasing throughput by lowering the time taken to
-queue and schedule jobs; enabling both concurrent and sequential job execution
-depending on the number of cores available to the pilot and the time for which
-it remains available; and exposing a unified and consistent interface for the
-scheduling of jobs, independent from the middleware of the site on which the
-pilot has been instantiated.
+PanDA Pilot implements the pilot paradigm~\cite{turilli2015comprehensive},
+decoupling resource acquisition from job execution via multi-stage scheduling.
+This has several benefits, including increasing throughput by lowering the time
+taken to queue and schedule jobs; enabling both concurrent and sequential job
+execution depending on the number of cores available to the pilot and the time
+for which it remains available; and exposing a unified and consistent interface
+for the scheduling of jobs, independent from the middleware of the site on which
+the pilot has been instantiated.
 
 % The specific implementation of PanDA Pilot promotes reliability by
 % monitoring the execution of the job's payload, and a certain degree of
