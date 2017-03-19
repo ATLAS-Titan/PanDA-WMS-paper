@@ -5,7 +5,7 @@ workflows via pilots.
 
 WMS for distributed executions are a type of middlware, designed to coordinate
 specific activities about resources and workloads: discovering and selecting
-resources, submitting the tasks of a workload, and monitoring the  execution of
+resources, submitting the tasks of a workload, and monitoring the execution of
 those tasks~\cite{marco2009glite}. Pilot is an abstraction that enables
 multi-level scheduling by decoupling resource acquisition from workload
 scheduling~\cite{turilli2015comprehensive}. Pilots are implemented by resource
@@ -14,10 +14,10 @@ placeholders: a request for a certain amount of resources is scheduled on a site
 resources are acquired, tasks are scheduled directly to the pilot, not to site's
 scheduler.
 
-WMS can implement the pilot abstraction: WMS control the acquisition of
+WMS like PanDA implement the pilot abstraction: WMS control the acquisition of
 resources by means of pilots and then manage the execution of workloads or
 workflows' tasks on those pilots. In tis way, pilots expose a uniform scheduling
-interface and execution environment, isolating the differences among the
+interface and execution environment, abstracting the differences among the
 heterogeneous resources of multiple sites; WMS centralize the management of the
 execution process, offering a unified interface to the application layer.
 Pilot-enabled WMS are particularly relevant for LHC experiments, where large
@@ -30,35 +30,84 @@ AliEn~\cite{Bagnasco2010} for ALICE; DIRAC~\cite{Paterson2010} for LHCb;
 GlideinWMS~\cite{sfiligoi2008glideinwms} for CMS; and
 PanDA~\cite{maeno2014evolution} for ATLAS. These systems implement similar
 design and architectural principles: separation of concern between management
-and execution, data and compute; centralization of the management capabilities;
-distributed execution of the execution capabilities across multiple sites;
-unification of the application interface; hiding of resource heterogeneity;
-centralized monitoring and accounting of both resources and execution; and
-collection of static and sometimes dynamic information about resources.
+and execution, and data and compute; centralization of the management
+capabilities; distributed execution of the execution capabilities across
+multiple sites; unification of the application interface; hiding of resource
+heterogeneity; centralized monitoring and accounting of both resources and
+execution; and collection of static and sometimes dynamic information about
+resources.
 
-For example, \mtnote{Summarize design and architecture descriptions of the four
-WMS stressing some of their main similarities. Use a subset of the `principles'
-listed above.}
+AliEn, DIRAC, GlideinWMS and PanDA all share a similar design with two types of
+components: the management ones facing the application layer and centralizing
+the capabilities required to acquire tasks' descriptions and matching them to
+resource capabilities; and resource components required to acquire information
+about resource capabilities and the resources themselves. Architecturally, the
+management components include one or more queue and a scheduler capable of
+coordinating via push/pull protocols with the resource modules. All resource
+components include middleware-specific APIs for submitting resource requests
+and, in the case of the pilot-enabled WMS of the LHC projects, a pilot capable
+of pulling tasks from the management modules and scheduling them on their
+resources (i.e., multi-level scheduling).
 
-The implementations of pilot-enabled WMS mainly differ in how specialized they
-are for diverse middleware used to provide resources, and for specific
-workflows. All the WMS developed for LHC assume to use sites exposing different
-flavors of Grid middleware. As such, all the WMS implementations support
-Grid-like authentication and authorization and a computational model based on
-distributing a large amount of single-core tasks across hundreds of
-sites\mtnote{Is this true?}.
+AliEn, DIRAC, GlideinWMS and PanDA present several similarities also in their
+implementations. All were initially implemented to use Grid resources, using one
+or more components to the Condor software ecosystem~\cite{thain2005distributed}
+and, as with GlideinWMS, contributing to its development. Accordingly, all LHC
+WMS implemented Grid-like authentication and authorization systems and adopted a
+computational model based on distributing a large amount of single/few-cores
+tasks across hundreds of sites\mtnote{Is this true?}. Tasks are assumed to fail
+or being held and all WMS implements subsystems dedicated to manage these
+failures or simply resubmitting failed tasks.
+
+All the experiments at LHC produces and process large amount of data both from
+actual collisions in the accelerator and from their simulations. Dedicated,
+multi-tiered data systems have been built to store, replicate, and distributed
+these data. All LHC WMS interface with these systems to move data to the sites
+where related compute tasks are executed or to schedule compute tasks where
+(large amount of) data are already stored.
+
+Currently, the implementation of PanDA WMS has at least two distinguishing
+features: the scale at which it manages computation, and network-aware
+scheduling of tasks to sites. PanDA concurrently supports distributed
+computations on up to 240,000 cores, submitting more than 55 million jobs in
+2016 across more than 100 sites, and processing up to XXXXPB of data
+distributed worldwide across XX Tier 1-3 facilities. As for 2017, PanDA serves
+XXXX users, including XX production groups. The scale of this operation is
+unprecedented, making PanDA the WMS managing the largest computational campaign
+in the world.
+
+PanDA was initially implemented to support computations across an unreliable and
+relatively expensive networking infrastructure. Accordingly, PanDA assumed a
+rigid model of data placement based on replication and long-term storage of data
+on the Grid sites. This model proven too wasteful, requiring storage space for
+unused and obsolete data. PanDA implementation was evolved to benefit from the
+development of the internet and of the networking infrastructure for scientific
+research. Today, PanDA constantly monitors network throughput and latency  among
+its management components, Grid sites and data facilities. PanDA uses this
+information to schedule tasks on sites, depending on the estimated time required
+to download and/or replicate input data and to stage out output data.
+
+The dynamic management of data replication and download is an example of a
+generalized paradigm shift that distinguishes the implementation of PanDA from
+other WMS. New components are being implemented to support the dynamic sizing of
+input dataset based on resource capabilities, the dynamic sizing of the
+resources held by pilots both in terms of number of cores and duration of the
+pilot, and further abstraction of different types of resources to reconcile
+High-Throughput and High-Performance Computing paradigms.
+
+
 
 % Differences among workflow supported.
 
-AliEn, DIRAC, and PanDA are implemented to support specific experimental
-workflows, while GlideinWMS was developed as component of the Condor software
-framework. ALICE workload is \ldots. LHCb workload is \ldots. CMS workload is
-\ldots.
-
-The ATLAS project requires data, compute, and memory-intensive workflows, both
-for single users and so called `production' research groups. Generally, PanDA
-was designed to support mostly single-core tasks, requiring a variable \ldots.
-
+% AliEn, DIRAC, and PanDA are implemented to support specific experimental
+% workflows, while GlideinWMS was developed as component of the Condor software
+% framework. ALICE workload is \ldots. LHCb workload is \ldots. CMS workload is
+% \ldots.
+%
+% The ATLAS project requires data, compute, and memory-intensive workflows, both
+% for single users and so called `production' research groups. Generally, PanDA
+% was designed to support mostly single-core tasks, requiring a variable \ldots.
+%
 % In this section, we present other workload manager systems that have been
 % developed to support LHC related but they have been used also to support other
 % computing demanding projects.
@@ -107,7 +156,11 @@ The most important Central services are:
 %% Job Manager should be equal to TaskQueue
 %% Process Monitor == PIlot????
 
-The task execution in Alien is usually distributed over several sites. Each of these sites has at least one service called ClusterMonitor. On one side the Cluster Monitor is used to communicate with Central services (Task queue and Broker), on the other side it can manage Computing Elements (CE) by starting and stopping them whenever it receives the signal.
+The task execution in Alien is usually distributed over several sites. Each of
+these sites has at least one service called ClusterMonitor. On one side the
+Cluster Monitor is used to communicate with Central services (Task queue and
+Broker), on the other side it can manage Computing Elements (CE) by starting and
+stopping them whenever it receives the signal.
 
 The CE is in charge of the execution of the tasks on the resources. A CE usually
 is associated with a batch queue and can send the tasks to the worker nodes
