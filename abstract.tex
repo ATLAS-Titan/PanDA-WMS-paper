@@ -1,16 +1,31 @@
+% Experiments at the Large Hadron Collider (LHC) face unprecedented computing
+% challenges. Heterogeneous resources are distributed worldwide, thousands of
+% physicists analyzing the data need remote access to hundreds of computing
+% sites, the volume of processed data is beyond the exabyte scale, and data
+% processing requires more than billions of hours of computing usage per year. The
+% PanDA (Production and Distributed Analysis) system was developed to meet the
+% scale and complexity of LHC distributed computing for the ATLAS experiment. In
+% the process, the old batch job paradigm of computing in HEP was discarded in
+% favor of a far more flexible and scalable model. The success of PanDA at the LHC
+% is leading to widespread adoption and testing by other experiments. PanDA is
+% the first exascale workload management system in HEP, already operating at
+% a million computing jobs per day, and processing over an exabyte of data in
+% 2013. We will describe the design and implementation of PanDA, present data on
+% the performance of PanDA at the LHC, and discuss plans for future evolution
+% of the system to meet new challenges of scale, heterogeneity and increasing
+% user base.
+
 Experiments at the Large Hadron Collider (LHC) face unprecedented computing
-challenges. Heterogeneous resources are distributed worldwide, thousands of
-physicists analyzing the data need remote access to hundreds of computing
-sites, the volume of processed data is beyond the exabyte scale, and data
-processing requires more than billions of hours of computing usage per year. The
-PanDA (Production and Distributed Analysis) system was developed to meet the
-scale and complexity of LHC distributed computing for the ATLAS experiment. In
-the process, the old batch job paradigm of computing in HEP was discarded in
-favor of a far more flexible and scalable model. The success of PanDA at the LHC
-is leading to widespread adoption and testing by other experiments. PanDA is
-the first exascale workload management system in HEP, already operating at
-a million computing jobs per day, and processing over an exabyte of data in
-2013. We will describe the design and implementation of PanDA, present data on
-the performance of PanDA at the LHC, and discuss plans for future evolution
-of the system to meet new challenges of scale, heterogeneity and increasing
-user base.
+challenges. Thousands of physicists analyze exabytes of data every year, using
+billions of computing hours on hundreds of computing sites worldwide. PanDA
+(Production and Distributed Analysis) is a workload management system (WMS)
+developed to meet the scale and complexity of LHC distributed computing for the
+ATLAS experiment. PanDA is the first exascale workload management system in HEP,
+executing millions of computing jobs per day, and processing over an exabyte of
+data in 2016. In this paper, we introduce the design and implementation of
+PanDA, describing its deployment on Titan, the third biggest supercomputer in
+the world. We analyze scalability, reliability and performance of PanDA on
+Titan, highlighting the challenges addressed by its architecture and
+implementation. We present preliminary results of experiments performed with the
+Next Generation Executer, a prototype we developed to meet new challenges of
+scale and resource heterogeneity.
