@@ -128,19 +128,19 @@ minutes. Considering that each worker node process up to 16 events concurrently,
 Figure~\ref{fig:backfill-distrib} shows the distribution of backfill
 availability on Titan as a function of number of nodes and the time of their
 availability (i.e., walltime). We recorded these data by polling Titan's Moab
-scheduler at regular intervals between Oct 28 and Nov 3 2015, while developing
-PanDA Broker. The mean number of nodes was 267.1, and their mean walltime was
-1445 minutes. Detector simulations of 100 events, enable to use down to 1 node
-for 1/4 of the mean walltime of backfill availability. As such, it offers a good
-compromise for PanDA Broker efficiency.
+scheduler at regular intervals during the experiment window time, while
+developing and deploying PanDA Brokers. The mean number of nodes was 680, and
+their mean walltime was 680 minutes. Detector simulations of 100 events, enable
+to use down to 1 node for 1/2 of the mean walltime of backfill availability. As
+such, it offers a good compromise for PanDA Broker efficiency.
 
 \begin{figure}[htp]
-    \includegraphics[clip,width=\columnwidth]{figures/avail_time_vs_nodes_Oct_28_Nov_3_2015.pdf}
-    \caption{Backfill availability measures as walltime vs number of cores
-    between Oct 28 and Nov 2015. Availability was measured 5312 times: mean
-    number of work nodes available 267.1; mean walltime available 1445
-    minutes.\mtnote{Waiting to know whether we have data for the experiment
-    time window.}}
+    \includegraphics[clip,width=\columnwidth]{figures/titan_backfill_avail.pdf}
+    %figures/avail_time_vs_nodes_Oct_28_Nov_3_2015.pdf}
+    \caption{Backfill availability measures as walltime in minutes vs number of
+    work nodes during the experiment window time. Availability was measured
+    62175 times: mean number of work nodes available 680; mean walltime
+    available 680 minutes.}
 \label{fig:backfill-distrib}
 \end{figure}
 
@@ -365,6 +365,7 @@ measured on Titan.
 
 \mtnote{Figure summarizing job performance on Titan analogous to those produced
 with NGE, as discussed in F2F meeting at Rutgers?}
+
 
 % ----------------------------------------------------------------------------
 \subsection{Reliability of PanDA Broker and Detector Simulations on Titan}
