@@ -1,3 +1,6 @@
+
+\subsection{Rationale}
+\aanote{I think that the names of the states should be removed. They are meaningless without the figures. I left them just in case we decide to reintroduce the figures.}
 As seen in \S\ref{sec:panda_deployment}, the absence of wide area network
 connectivity on Titan's worker nodes was one of the main reasons for PanDA
 Broker not to implement pilots. As discussed in \S\ref{sec:panda_titan}, the
@@ -66,16 +69,136 @@ availability. This is why NGE should be presented as the pilot for PanDA Broker
 and not as an alternative to PanDA Broker. Further, NGE alone would not be able
 to speak directly to PanDA Server.}
 
+\subsection{Architecture}
+\label{sec:arch}
+We developed and we are currently integrating a prototype of Next Generation Executor (NGE) to add pilot
+capabilities to the PanDA Broker. NGE is a runtime system designed to execute heteroge\-neous and dynamic
+workloads on diverse resources (Fig.~\ref{fig:arch-overview}). Workloads and
+pilots are described via the Pilot API and passed to the NGE runtime system. NGE
+launches the pilots and executes the tasks of the workload on them.
+
+\begin{figure}
+  \centering
+   \includegraphics[width=\columnwidth]{figures/architecture_compact_rp_paper.pdf}
+  % \caption{RP overview. An application uses the Pilot API to describe pilots
+  %   (green squares) and units (red circles). The PilotManager (purple box)
+  %   instantiates (dash arrow) pilots, the UnitManager (purple box)
+  %   instantiates (solid arrow) units. Both managers are executed on the user
+  %   workstation. Pilots are launched (dashed arrows) on resources A and B
+  %   via SAGA API, an Agent (purple box) is bootstrapped for each pilot
+  %   (green box), units (solid red circles) are scheduled to the Agents via
+  %   MongoDB and executed by the Agent's Executer (yellow box).
+  \caption{NGE overview. An application uses the Pilot API to describe pilots
+    (green squares) and units (red circles). The PilotManager instantiates
+    (dash arrow) pilots, the UnitManager instantiates (solid arrow) units.
+    Both managers are executed on the user workstation. Pilots are launched
+    (dashed arrows) on resources A and B via SAGA API, an Agent is
+    bootstrapped for each pilot, units are scheduled (solid arrow) to the
+    Agents via MongoDB and executed by the Agent's Executer. Boxes color
+    coding: gray for entities external to NGE, white for APIs, purple for NGE's
+    modules, green for pilots, yellow for module's components.
+\label{fig:arch-overview}
+  }
+\end{figure}
+
+Internally, NGE represents pilots as aggregates of resources independent from
+the architecture and topology of the target machines, and workloads as a set
+of units to be executed on the resources of the pilot. Both pilots and units
+are stateful entities, each with a well-defined state model and life cycle.
+Their states and state transitions are managed via the three modules of the NGE
+architecture: PilotManager, UnitManager, and Agent
+(Fig.~\ref{fig:arch-overview}, purple boxes).
+
+The PilotManager launches pilots on resources via the SAGA API\@\cite{radical-saga_url}.
+The UnitManager schedules units to pilots for execution. A MongoDB database is used to communicate the workload between UnitManager and Agents.  For this reason, the database instance needs to be
+accessible both from the user workstation and the target resources. The Agent
+bootstraps on a remote resource, pulls units from the MongoDB instance, and
+manages their execution on the cores held by the pilot.
+
+The lifespan of pilots has four states distributed among the PilotManager,
+resource, and pilot instance.% (Fig.~\ref{fig:pilot-state-model}). 
+Pilots are instantiated in the state \T{NEW} by the PilotManager, wait in a queue to be
+launched, and transition to \T{PM\_LAUNCH} when submitted to a Resource Manager
+(RM) via the SAGA API\@. Pilots wait in the queue of the RM and, once scheduled,
+become \T{P\_ACTIVE}. They remain in this state until the end of their
+lifetime, when they transition to \T{DONE}.
+
+%\begin{figure}
+%  \centering
+%  \includegraphics[width=\columnwidth]{figures/pilot_state_model_compact_rp_paper.pdf}
+%  \caption{Pilot State Model. Instantiated in state \T{NEW}, each pilot is
+%    launched (\T{PM\_LAUNCH}) via SAGA API on a resource manager. After
+%    becoming \T{P\_ACTIVE}, it exhausts its duration ending in state
+%    \T{DONE}. The transition between states is sequential and each transition
+%    can be canceled or fail ending in the states \T{CANCELED} or \T{FAILED} (not
+%    depicted to improve the diagram clarity). Boxes color coding as per
+%    Fig.~\ref{fig:arch-overview}, with: orange for queues and blue for states.
+%\label{fig:pilot-state-model}}
+%\end{figure}
+%
+The unit state model has nine states distributed across the UnitManager,
+MongoDB instance, and Agent.% (Fig.~\ref{fig:unit-state-model}). 
+Instantiated in the state \T{NEW} by the UnitManager, every unit is scheduled on an Agent
+(\T{UM\_SCHEDULING}) via a queue on a MongoDB instance. The unit is then
+scheduled on the required number of cores held by the Agent's pilot
+(\T{A\_SCHEDULING}), and finally executed (\T{A\_EXECUTING}).
+
+The unit state model pertains also to the input and output data of the units.
+When required, the input data of a unit are either pushed to the Agent
+(\T{U\_STAGING\_IN}) or pulled from the Agent (\T{A\_STAGING\_IN}), depending
+on data locality and sharing requirements. Similarly, the output data of the
+unit are staged out by the Agent and UnitManager (\T{A\_STAGING\_OUT},
+\T{U\_STAGING\_OUT}) to a specified destination, e.g., the user workstation.
+Both input and output staging are optional, depending on the requirements of
+the units. The actual file transfers are enacted via SAGA, and support
+(gsi)-scp, (gsi)-sftp, and Globus Online.
+
+%\begin{figure}
+%  \centering
+%  \includegraphics[width=\columnwidth]{figures/unit_state_model_compact_rp_paper.pdf}
+%  \caption{Unit State Model. Instantiated in state \T{NEW}, each unit is
+%    scheduled to an Agent (\T{UM\_SCHEDULING}) via MongoDB, and then scheduled
+%    to an Agent's Executer (\T{A\_SCHEDULING}). When required, unit input data
+%    are staged to the Agent's Pilot (\T{UM\_STAGING\_IN} or
+%    \T{A\_STAGING\_IN}). Each unit is executed (\T{A\_EXECUTING}), unit output
+%    data are staged out (\T{A\_STAGING\_OUT} and \T{UM\_STAGING\_OUT}), and
+%    each unit ends in state (\T{DONE}). Color coding and state omissions
+%    as per Fig.~\ref{fig:pilot-state-model}.
+%\label{fig:unit-state-model}}
+%\end{figure}
+
+%The state transitions represented in Figures~\ref{fig:pilot-state-model}
+%and~\ref{fig:unit-state-model} are sequential and every transition can fail or
+%be canceled by the PilotManager or UnitManager. 
+All state transitions are managed by the PilotManager, UnitManager, and Agent components. The only
+special case is the transition of the pilots to the state \T{P\_ACTIVE} which
+is dictated by the resource's RM, but managed by the PilotManager.
+
+Above all NGE's components, the Agent is the one that is worth to mention the most. It runs on MOM nodes and it is based on \emph{Open Run-Time Environment (ORTE)}. ORTE is a spin-off from the Open-MPI project and is a critical component of the OpenMPI implementation. It was developed to support distributed high-performance computing applications operating in a heterogeneous environment. The system transparently provides support for interprocess communication, resource discovery and allocation, and process launch across a variety of platforms. ORTE provides a mechanism similar to the Pilot concept - it allows the user to create a \emph{“dynamic virtual machine”} (DVM) that spans multiple nodes. ORTE provides libraries to allow the user to submit, monitor and manage tasks by avoiding filesystem bottlenecks and race conditions with network sockets. As a consequence, it is able to minimize the system overhead while submitting tasks.  
+
+%Each component of RP has a independent semantic scope. This enables modularity
+%isolating implementation complexity and supporting diverse use cases and
+%environments.  For example, unit scheduling can be implemented by exchangeable
+%Scheduler components, suitable for applications of diverse scales, with
+%different coordination patterns, and executed on Beowulf clusters or Cray
+%machines.
+%
+%Components are also designed to be stateless and instantiated concurrently. In
+%this way, RP can manage multiple pilots and units at the same time, resulting
+%in scalable throughput and tolerance to failing components. Concurrent
+%components are coordinated via a dedicated communication mesh which incurs
+%infrastructure and runtime overhead, offset by the lower component complexity
+%and improved overall scalability of the system.
+
+
 % -----------------------------------------------------------------------------
-\subsection{Next Generation Executer}
-\label{ssec:nge}
+
 
 \begin{enumerate}
     \item Rationale and design (why)
     \item Architecture (how)
-    \item Integration
+    \item Integration (Not present)
     \item Characterization (experiments)
 \end{enumerate}
 
-We are developing a prototype of Next Generation Executer (NGE) to add pilot
-capabilities to the PanDA Broker. NGE is \ldots
+ \ldots
