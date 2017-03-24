@@ -104,33 +104,28 @@ the specific characteristics of the execution environment, especially the
 absence of local storage on the worker nodes and modules tailored to Compute
 Node Linux, require reengineering of ATLAS application frameworks.
 
-Currently, no HEP application can benefit from Titan's GPUs but some
-computationally-intensive and non memory-intensive tasks can be offloaded from
-the Grid to Titan's large amount of cores. Further, when HEP tasks can be
-partitioned to independent jobs, Titan worker nodes can be used to execute up to
-16 concurrent jobs' payload, one for each available core. Given these
+Currently, very few HEP applications could benefit from Titan's GPUs but some
+computationally-intensive and non memory-intensive tasks of ATLAS workflows can
+be offloaded from the Grid to Titan's large amount of cores. Further, when HEP
+tasks can be partitioned to independent jobs, Titan worker nodes can be used to
+execute up to 16 concurrent payloads, one for each available core. Given these
 constraints and challenges, the type of task most suitable for execution at the
-moment on Titan is Monte Carlo
-% event generation and
-detector simulation.
-% Both types of task are
-This type of task is mostly computational-intensive, requiring less than 2GB of
-RAM at runtime and with small input data requirements. Detector simulation tasks
-in ATLAS account for XX--XX\% of all jobs on WLCG, corresponding to X/X of the
-current Grid capacity.\mtnote{Please provide numbers to replace `XX' and,
-possibly, a diagram illustrating detector simulation stats compared to the whole
-ATLAS computation activity.}
+moment on Titan is Monte Carlo detector simulation. This type of task is mostly
+computational-intensive, requiring less than 2GB of RAM at runtime and with
+small input data requirements. Detector simulation tasks in ATLAS account for
+$\approx$ 60\% of all the jobs on WLCG, making them a primary candidate for
+offloading.
 
 Detector simulation is part of the ATLAS production Monte Carlo (MC) workflow
 (also known as MC production
 chain)~\cite{rimoldi2006atlas,de2013delphes,ritsch2014atlas}. The MC workflow
 consists of four main stages: event generation, detector simulation,
 digitization, and reconstruction. Event generation creates sets of particle
-four-momenta via different generators, e.g., PYTHIA~\cite{sjostrand2006pythia}
-and HERWIG~\cite{corcella2001herwig}. The detector simulator is called
-Geant4~\cite{agostinelli2003geant4} and simulates the interaction of these
-particles with the sensitive material of the ATLAS detector. Each interaction
-creates a so-called hit and all hits are collected and passed on for
+four-momenta via different generators, e.g., PYTHIA~\cite{sjostrand2006pythia},
+HERWIG~\cite{corcella2001herwig} and many others. The detector simulator is
+called Geant4~\cite{agostinelli2003geant4} and simulates the interaction of
+these particles with the sensitive material of the ATLAS detector. Each
+interaction creates a so-called hit and all hits are collected and passed on for
 digitalization where hits are further process to mimic the readout of the
 detector. Finally, reconstruction operates local pattern recognition, creating
 high-level objects like particles and jets.
@@ -215,20 +210,19 @@ discuss in our meeting.} \sergeynote{It's not a pilot in conventional sense. I
 call it an agent. It just happened that we were able to use full PanDA pilot's
 code base to serve our purposes on Titan. that's why, by inertia, we still call
 it a pilot.}\mtnote{Thank you. We would have a problem calling it `agent' as we
-use that term to name the pilot of NGE. Would PanDA Broker work?}\mtnote{Sergey
-agreed that we should not use `pilot'. He is quite convinced by `broker' but we
-are both open to better suggestions.}
+use that term to name the pilot of NGE. Would PanDA Broker work?}\sergeynote{OK
+broker it is for this paper.}
 
 Given the communication requirements of PanDA Pilots and the unused capacity of
-Titan, PanDA pilot was redesigned to serve as a job broker on Titan. Architected
-as a stand-alone service to be executed on a DTN, this prototype called `PanDA
-Broker' implements functionalities to: (i) interrogate Titan about backfill
-availability; (ii) pull MC jobs and events; (iii) wrap the payload of ATLAS jobs
-into MPI scripts; (iv) submitting MPI scripts to Titan's PBS batch system and
-monitor their execution; and (v) staging input/output files. Backfill querying,
-payload wrapping, and scripts submission required a new implementation while
-pulling ATLAS job and events, and file staging were mostly inherited from PanDA
-Pilot.
+Titan, PanDA pilot was repurposed to serve as a job broker on the DTN nodes of
+Titan. Maintaining the core modules of PanDA Pilot and its stand-alone
+architecture, this prototype called `PanDA Broker' implements functionalities
+to: (i) interrogate Titan about backfill availability; (ii) pull MC jobs and
+events; (iii) wrap the payload of ATLAS jobs into MPI scripts; (iv) submitting
+MPI scripts to Titan's PBS batch system and monitor their execution; and (v)
+staging input/output files. Backfill querying, payload wrapping, and scripts
+submission required a new implementation while pulling ATLAS job and events, and
+file staging were inherited from PanDA Pilot.
 
 % \sergeynote{Monitor job state and state transitions using
 % SAGA}\mtnote{Better?}
@@ -280,17 +274,17 @@ Once deployed on Titan, every PanDA Broker supports the execution of MC detector
 simulation in 8 steps: (i) PanDA Broker queries Titan's Moab scheduler about
 current backfill availability; (ii) the PanDA Broker queries the Job Dispatcher
 module of the PanDA server for ATLAS jobs that have been bound to Titan by JEDI;
-(iii) the PanDA Broker requests to the Data Service module of the PanDA Server
-what input data these ATLAS jobs require and transfer the files to the DTN via
-the ATLAS DDM service; (iv) the PanDA Broker creates an MPI script, wrapping
-enough ATLAS jobs' payload to fit backfill availability; (v) the PanDA Broker
-submits the MPI script to the Titan's PBS batch system via RADICAL-SAGA; (vi)
-upon execution on the worker node(s), the MPI script creates a ramdisk and
-configure AthenaMP to execute the ATLAS jobs' payload; (vii) the payload is
-executed into dedicated processes, 16 for each worker node, 1 for each available
-core; (viii) upon completion of the payload execution, the PanDA Broker locates
-the output on the shared filesystem and transfer it to designated computing
-centre.
+(iii) Upon receiving the descriptions of those jobs, PanDA Broker pulls their
+input files from the ATLAS DDM service to the DTN; (iv) the PanDA Broker creates
+an MPI script, wrapping enough ATLAS jobs' payload to fit backfill availability;
+(v) the PanDA Broker submits the MPI script to the Titan's PBS batch system via
+RADICAL-SAGA; (vi) upon execution on the worker node(s), the MPI script creates
+configures and executes one AthenaMP for each work node available; (vi) AthenaMP
+spawns 1 event simulation process on each available core (16); (vii) during
+execution, PanDA Broker monitors execution progress and sends PanDA Server
+``heart beats'' for each job.; and (viii) upon completion of each simulation,
+the PanDA Broker locates the output on the shared filesystem, transfer it to
+designated computing centre, and performs cleanup. 
 
 % from the Job Dispatcher module of PanDA Server (as done by a PanDA Pilot);
 % (iii) downloading events via PanDA Server's Data Service from ATLAS DDM to

@@ -116,14 +116,20 @@ Figure~\ref{fig:architecture}.
 
 \begin{figure}
   \begin{center}
-    \includegraphics[width=\columnwidth]{figures/PandaArch.jpg}
+    \includegraphics[width=\columnwidth]{figures/panda_architecture.pdf}
   \end{center}
-\caption{\mtnote{This diagram is a placeholder. I am working on a substitute
-that will be referenced when describing PanDA's subsystems.}Schematic view of
-the PanDA system, as deployed for production in 2017. Black boxes indicate
-PanDA's subsystems; Orange boxes components of a subsystem; purple boxes
-databases; green arrows http messaging interfaces; red arrows API; purple arrows
-database communications.}
+\caption{PanDA architecture representing the subsystems and components relevant
+to the integration of PanDA with Titan. Numbers indicates the execution process
+based on JEDI, from submission of tasks (1) to retrieval of their output (20).
+The monitoring subsystem, the architectural details of PanDA Pilot and the
+communication among subsystem's components are abstracted to improve clarity.
+% \mtnote{This diagram is a placeholder. I am working on a substitute
+% that will be referenced when describing PanDA's subsystems.}Schematic view of
+% the PanDA system, as deployed for production in 2017. Black boxes indicate
+% PanDA's subsystems; Orange boxes components of a subsystem; purple boxes
+% databases; green arrows http messaging interfaces; red arrows API; purple
+% arrows database communications.
+}
 % Originally PanDA was designed for grid infrastructure... In this
 % paper is focussed on the HPC use case; there are differences from
 % the grid use case. This paper discusses how PanDA has been adapted
@@ -213,12 +219,11 @@ Upon bootstrapping, PanDA Pilot downloads major parts of its runtime code via
 HTTP from a central Subversion repository. The repository works with an Apache
 web server, configured with a memory-based web proxy (Squid). The purpose of the
 cache is to reduce the request load on the back-end Subversion server. That
-improves performance \mtnote{Do we have data/numbers?} since only occasional
-queries trigger a full lookup on the back-end Subversion system, and most
-external queries are pulled from memory on the front-end web server. The
-benefits of this system include a high-performance code download service,
-combined with code updates still being immediately available as soon as they are
-committed to source code control.
+improves performance since only occasional queries trigger a full lookup on the
+back-end Subversion system, and most external queries are pulled from memory on
+the front-end web server. The benefits of this system include a high-performance
+code download service, combined with code updates still being immediately
+available as soon as they are committed to source code control.
 
 \paragraph{\textbf{AutoPyFactory}} this subsystem implements a factory to submit
 pilots locally and to both grid and cloud
