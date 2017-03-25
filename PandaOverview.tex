@@ -1,10 +1,11 @@
-\mtnote{TODO: replace `resource' with `site'; `http' to `HTTP'?}
+The design of PanDA WMS started in 2005 and its implementation went into
+production for the LHC Run 1 on 2009. PanDA was then extended with new
+subsystems to be deployed on Run 2, on 2015. In this section, we summarize the
+design, architecture, and execution process of the current state of the
+practice. We focus on those subsystems and components that are most relevant to
+the the integration of PanDA with supercomputers, the main topic of this paper.
 
-The design of the PanDA WMS started in 2005 and its implementation went into
-production for the LHC Run 1 on 2009. PanDA was then partially redesigned to be
-deployed on Run 2, on 2015. In this section, we summarize the design,
-architecture, and execution process of the current state of the practice.
-
+% \mtnote{TODO: replace `resource' with `site'; `http' to `HTTP'?}
 
 % -----------------------------------------------------------------------------
 \subsection{Design}
@@ -49,17 +50,18 @@ been instantiated.
 
 % Consistently, pilots are considered to be multitenant as jobs belonging to
 % multiple workflows and/or users can be bound and executed on them.
+% PanDA' data model mostly uses events as the unit of data
+% \mtnote{Is event an abstraction specific to the MD workflow?}.
 
-PanDA' data model uses events as the unit of data\mtnote{Is event an abstraction
-specific to the MD workflow?}. Each event represents a collision captured in the
+In PanDA's data model, each event represents a collision captured in the
 detector and one or more events can be packaged into files or data source with
 other container abstractions. As with jobs, data have both attributes and
-states, and some of the attributes are shared between events and jobs so to
-create associations. Raw, reconstruction, and simulation data are assumed to be
-distributed across multiple storage facilities and managed by the ATLAS
-Distributed Data Management (DDM)~\cite{garonne2012atlas}. Datasets required by
-each job are assumed to be replicated when necessary over the network, both for
-input and output data.
+states, and some of the attributes are shared between events and jobs.
+% so to create associations.
+Raw, reconstruction, and simulation data are assumed to be distributed across
+multiple storage facilities and managed by the ATLAS Distributed Data Management
+(DDM)~\cite{garonne2012atlas}. Datasets required by each job are assumed to be
+replicated when necessary over the network, both for input and output data.
 
 % \sergeynote{Raw data from the ATLAS detector is captured at CERN and goes
 % through reconstruction step to produce data in secondary formats, smaller in
@@ -99,13 +101,17 @@ state.
 \label{ssec:panda_arch}
 
 The implementation of PanDA consists of several interconnected subsystems, most
-of them built from off-the-shelf and Open Source components. At a high level,
-PanDA's architecture has five main subsystems: PanDA Server, AutoPyFactory,
-PanDA Pilot, PanDA Monitoring, and JEDI. Subsystems communicate via dedicated
-API or http messaging. Databases are used to store eventful entities like tasks,
-jobs and events, and to store information about resources, logs, and accounting.
-Each subsystems is implemented by one or more modules as shown in
-Figure~\ref{fig:architecture}.
+of them built from off-the-shelf and Open Source components. Subsystems
+communicate via dedicated API or HTTP messaging and each subsystems is
+implemented by one or more modules. Databases are used to store eventful
+entities like tasks, jobs and events, and to store information about sites,
+resources, logs, and accounting.
+
+The execution of specific tasks of ATLAS workflows on supercomputers involves
+four main subsystems of the PanDA architecture: PanDA Server, AutoPyFactory,
+PanDA Pilot, and JEDI. Figure~\ref{fig:architecture} shows a diagrammatic
+representation of these subsystems' architecture. For a full list of subsystems
+see Ref.~\cite{panda-wiki_url}.
 
 % In the following, we briefly describe the overall architecture of PanDA and
 % its components. The description provides all the details required to
@@ -118,34 +124,29 @@ Figure~\ref{fig:architecture}.
   \begin{center}
     \includegraphics[width=\columnwidth]{figures/panda_architecture.pdf}
   \end{center}
-\caption{PanDA architecture representing the subsystems and components relevant
-to the integration of PanDA with Titan. Numbers indicates the execution process
-based on JEDI, from submission of tasks (1) to retrieval of their output (20).
-The monitoring subsystem, the architectural details of PanDA Pilot and the
-communication among subsystem's components are abstracted to improve clarity.
-% \mtnote{This diagram is a placeholder. I am working on a substitute
-% that will be referenced when describing PanDA's subsystems.}Schematic view of
-% the PanDA system, as deployed for production in 2017. Black boxes indicate
-% PanDA's subsystems; Orange boxes components of a subsystem; purple boxes
-% databases; green arrows http messaging interfaces; red arrows API; purple
-% arrows database communications.
-}
+    \caption{PanDA architecture with the subsystems and components
+    relevant to the integration of PanDA with supercomputers. Numbers indicates
+    the execution process based on JEDI: From the submission of tasks (1) to the
+    retrieval of their output (20). The monitoring subsystem, the architectural
+    details of PanDA Pilot and the communication among subsystem's components
+    are abstracted to improve clarity.}
+\label{fig:architecture}
+\end{figure}
+
 % Originally PanDA was designed for grid infrastructure... In this
 % paper is focussed on the HPC use case; there are differences from
 % the grid use case. This paper discusses how PanDA has been adapted
 % to execute a workload % on HPC resources. The schematic overview is
 % presented for workload X on Titan......
-\label{fig:architecture}
-\end{figure}
 
 \paragraph{\textbf{PanDA Server}} this subsystem is the central hub service of
 PanDA and it operates as a web service~\cite{maeno2011overview}. It runs on
 Apache web server, interacting with the back-end database running on separate
-servers. It implements the Apache worker model, with many independent processes
-handling client requests in parallel. Since all state is maintained in the
-central database, the PanDA Server application instance itself is stateless.
-Currently, the production version of PanDA utilizes an Oracle database as
-backend, but PanDA can also work with MySQL family of databases.
+machines. PanDA Server implements the Apache worker model, with many independent
+processes handling client requests in parallel. Since all state is maintained in
+the central database, the PanDA Server instance itself is stateless. Currently,
+the production version of PanDA utilizes an Oracle database as backend, but
+PanDA Server can also work with the MySQL family of databases.
 
 % . It provides a task queue
 % managing all job information centrally. The PanDA server receives jobs through
@@ -153,10 +154,11 @@ backend, but PanDA can also work with MySQL family of databases.
 % operates to prioritize and assign work on the basis of job type, priority,
 % input data and its locality, and available CPU resources. The PanDA server
 
-PanDA Server consists of four components implemented in Python:
 % and communicating via Python APIs
-Task Buffer, Brokerage, Job Dispatcher, and Data Service. Task Buffer manages
-PanDA's global queue by: (i) storing jobs into the global queue; (ii) providing
+
+PanDA Server consists of four main components implemented in Python: Task
+Buffer, Brokerage, Job Dispatcher, and Data Service. Task Buffer manages PanDA's
+global queue by: (i) storing jobs into the global queue; (ii) providing
 information about and updating the state of each stored job. The Brokerage
 component: (i) matches job attributes with site and pilot attributes; (ii)
 manages the dispatch of input data to processing sites; and (iii) derives
@@ -164,7 +166,7 @@ PanDA's data pre-placement requirement. The Job Dispatcher: (i) receives
 requests from active pilots for new jobs to process; (ii) retrieves from Task
 Buffer the jobs with highest priority and that can be executed on the site of
 the requesting pilot; (iii) creates a wrapper script for the selected job,
-tailored to the resource of the requesting pilot; and (iv) monitors the state of
+tailored to the site of the requesting pilot; and (iv) monitors the state of
 the job execution on the pilot, updating the Task Buffer component. Finally, the
 Data Service component: (i) retrieves information from Task Buffer and Brokerage
 about the data requirements of each job and the site to which each job has been
@@ -174,19 +176,19 @@ jobs and manage their output data.
 % The job/pilot matching algorithm assigns a weight to each candidate pilot and
 % after applying a set of policies, the best ten candidates are taken.
 
+% including  recovering and cleaning up previously failed jobs on that site and
+
 \paragraph{\textbf{PanDA Pilot}} this subsystem implements the execution
 environment for PanDA's jobs\cite{nilsson2011atlas}. Implemented in Python, a
 PanDA Pilot is launched by a wrapper script submitted to a site. Wrapper scripts
 are tailored to the middleware exposed by each site so to maintain PanDA Pilot
 site-independent. PanDA Pilot: (i) prepares the execution environment for
-PanDA's jobs,
-% including  recovering and cleaning up previously failed jobs on that site and
-collecting information about the compute, data, and network capabilities of the
-site; (ii) requests a job for execution to the Job Dispatcher component of PanDA
-Server; (iii) initiates and monitors the execution of pulled jobs, including
-setting up the job, transferring its input when required, executing the payload,
-transferring output, and checking log files and local space; and (iv) cleans up
-when the payload has finished to execute.
+PanDA's jobs, collecting information about the compute, data, and network
+capabilities of the site; (ii) requests a job for execution to the Job
+Dispatcher component of PanDA Server; (iii) initiates and monitors the execution
+of pulled jobs, including setting up the job, transferring its input when
+required, executing the payload, transferring output, and checking log files and
+local space; and (iv) cleans up when the payload has finished to execute.
 
 % PanDA is a pilot based workload management system.
 % In the PanDA job lifecycle, pilot jobs (Python scripts that organize workload
@@ -196,6 +198,7 @@ when the payload has finished to execute.
 
 % -----------------------------------------------------------------------------
 % PILOT DESCRIPTION: COMMENTED OUT BECAUSE WE DESCRIBE IT LATER ON.
+% -----------------------------------------------------------------------------
 % PanDA Pilot implements the pilot paradigm~\cite{turilli2015comprehensive},
 % decoupling resource acquisition from job execution via multi-stage scheduling.
 % This has several benefits, including increasing throughput by lowering the
@@ -250,14 +253,18 @@ authentication and authorization for each site.
 % invoked in a fixed order, in a loop, each one in charge of the performance of
 % a well defined action.
 
-\paragraph{\textbf{PanDA Monitoring}} this subsystem is implemented as a
-web-based, dashboard-style graphical application~\cite{klimentov2011atlas}. It
-runs on Apache and interacts with the back-end database of PanDA Server to
-enable persistence. PanDA Monitoring enables users and site administrators to
-gather information about the status of current and past jobs, data movement, and
-pilot factory. PanDA Monitoring allows users access to all log files of each
-job, greatly simplifying code debugging and failure analysis in a distributed
-computing environment.
+% -----------------------------------------------------------------------------
+% PANDA MONITORING - SPACE SAVING
+% -----------------------------------------------------------------------------
+% \paragraph{\textbf{PanDA Monitoring}} this subsystem is implemented as a
+% web-based, dashboard-style graphical application~\cite{klimentov2011atlas}. It
+% runs on Apache and interacts with the back-end database of PanDA Server to
+% enable persistence. PanDA Monitoring enables users and site administrators to
+% gather information about the status of current and past jobs, data movement,
+% and pilot factory. PanDA Monitoring allows users access to all log files of
+% each job, greatly simplifying code debugging and failure analysis in a
+% distributed computing environment.
+% -----------------------------------------------------------------------------
 
 \paragraph{\textbf{JEDI}} this subsystem exposes a task abstraction for workload
 and workflows specification and interfaces with PanDA Server to manage their
@@ -288,17 +295,17 @@ the PanDA Server.
 
 The relation between tasks and jobs can be one-to-one or one-to-many, and the
 conversion between the two can by static or dynamic. During the LHC Run 1, PanDA
-required users or the application layer to perform a static conversion between
-tasks and jobs: tasks were described as a set of jobs with a fixed number of
-events and then submitted to the PanDA Server (Fig.~\ref{fig:architecture}:A1).
+required users or applications to perform a static conversion between tasks and
+jobs: tasks were described as a set of jobs with a fixed number of events and
+then submitted to the PanDA Server (Fig.~\ref{fig:architecture}:A1).
 
 This approach introduced inefficiency both with usability and resource
 utilization~\cite{borodin2015unified}. Ideally, users should not have to reason
 in terms of jobs: Users conceive analyses in terms of one or more, possibly
-related tasks; the `job' abstraction is required exclusively by the execution
-middleware, i.e. PanDA. Further, a static partitioning of tasks into jobs does
-not take into account the heterogeneity and dynamicity of the resources of the
-pilots on which each job will be executed.
+related tasks; the `job' abstraction is required by the execution middleware,
+i.e. PanDA. Further, a static partitioning of tasks into jobs does not take into
+account the heterogeneity and dynamicity of the resources of the pilots on which
+each job will be executed.
 
 Another problem of static job sizing is that PanDA instantiates pilots on sites
 with different type of resources and different models of availability of those
@@ -308,63 +315,74 @@ with different amount of bandwidth, and resources could be guaranteed to be
 available for a defined amount of time or could disappear at any point in time
 as with opportunistic models of resource provision.
 
-JEDI was deployed for the LHC Run 2 to address these inefficiencies with a
-machine-driven conversion of tasks into jobs. Users or the application layer (i)
-submits tasks descriptions to JEDI; (ii) JEDI partitions tasks to jobs of
+JEDI was deployed for the LHC Run 2 to address these inefficiencies. Users or
+the application layer submits tasks descriptions to JEDI
+(Fig.~\ref{fig:architecture}:1) that stores them into a queue implemented by a
+database (Fig.~\ref{fig:architecture}:2). Tasks are partitioned into jobs of
 different size, depending on both static and dynamic information about available
-resources; (iii) jobs are bound to sites with resources that best match jobs'
-requirements; and (iv) jobs are submitted to the PanDA Server for execution
-(Fig.~\ref{fig:architecture}:A2-B).
+resources (Fig.~\ref{fig:architecture}:3). Jobs are bound to sites with
+resources that best match jobs' requirements, and submitted to the PanDA Server
+for execution (Fig.~\ref{fig:architecture}:4).
 
 Once submitted to the PanDA Server, jobs are stored by the Task Buffer component
-into a global queue implemented as a relational database
-(Fig.~\ref{fig:architecture}:C). When jobs are submitted directly to the PanDA
-Server, the Brokerage component is used to bind jobs to available sites,
-depending on static information about the resources available for each site.
-Jobs submitted by JEDI are instead already bound to resources so no further
-brokerage is needed. Once jobs are bound to sites, the Brokerage module
-communicates to the Data Service module what data sets need to be made available
-on what site. The Data Service communicates these requirements to the ATLAS DDM
+into a global queue implemented as a  database (Fig.~\ref{fig:architecture}:5).
+When jobs are submitted directly to the PanDA Server, the Brokerage component is
+used to bind jobs to available sites, depending on static information about the
+resources available for each site. Jobs submitted by JEDI are already bound to
+sites so no further brokerage is needed. Once jobs are bound to sites, the
+Brokerage module communicates to the Data Service module what data sets need to
+be made available on what site (Fig.~\ref{fig:architecture}:6). The Data Service
+communicates these requirements to the ATLAS DDM (Fig.~\ref{fig:architecture}:7)
 that, when needed, takes care of aggregating files into datasets and containers,
-replicating them on the required sites.
+replicating them on the required sites (Fig.~\ref{fig:architecture}:8).
 
 The AutoPyFactory subsystem communicates with the Task Buffer component of the
-PanDA Server, acquiring information about jobs that have been bound and are
-ready for execution. On the base of this information, AutoPyFactory defines a
-set of suitable PanDA Pilots, queues them into APFQueues, and concurrently
-submits them to multiple sites.
+PanDA Server, acquiring information about jobs that are ready for execution on
+specific (type of) sites (Fig.~\ref{fig:architecture}:9). On the base of this
+information, AutoPyFactory defines a set of suitable PanDA Pilots and
+concurrently submits them a Condor-G broker (Fig.~\ref{fig:architecture}:10).
+This broker submits these pilots wrapped as jobs or VMs to the required sites
+(Fig.~\ref{fig:architecture}:11).
 
 % AutoPyFactory submits pilots only when similar pilots are not yet available
 % and maintains a predefined amount of pressure on the queue of each site. In
 % this way, resource availability and utilizations is optimized.
 
-When PanDA Pilots become available on sites, they
+When a PanDA Pilot becomes available on a site, it
 % bootstrap, download their code, collect information about the execution
 % environment and
-call the Job Dispatcher module of the PanDA Server, requesting for a job to
-execute \mtnote{Can a pilot request multiple jobs to execute
-concurrently?}\sergeynote{In principle it should be able to do that, but that's
-not how it is operated. One pilot - one job is a cleaner model in an environment
-where resources are "owned" by the organization that runs pilots. Simplifies
-many things. At least as far as I know.}. The Job Dispatcher communicates with
+calls the Job Dispatcher module of the PanDA Server, requesting for a job to
+execute (Fig.~\ref{fig:architecture}:12). The Job Dispatcher communicates with
 the Task Buffer, requesting for a job that is bound to the site of that pilot
 and ready to be executed. Task Buffer checks the global queue (i.e., the PanDA
 database) and if such a job is available, it passes the job handler to the Job
-Dispatcher. The Job Dispatcher dispatches the job to the PanDA Pilot.
+Dispatcher. The Job Dispatcher dispatches the job to the PanDA Pilot
+(Fig.~\ref{fig:architecture}:13).
+
+% \mtnote{Can a pilot request multiple jobs to execute
+% concurrently?}\sergeynote{In principle it should be able to do that, but
+% that's not how it is operated. One pilot - one job is a cleaner model in an
+% environment where resources are ``owned'' by the organization that runs
+% pilots. Simplifies many things. At least as far as I know.}
 
 Upon receiving a job, a PanDA Pilot starts a monitoring process and forks a
 subprocess for the execution of the job's payload. The job is setup, input data
-are transferred from the designated staging in location, and the job's payload
-is executed. Once completed, output is transferred to the staging out location.
+are transferred from the designated staging in location
+(Fig.~\ref{fig:architecture}:14), and the job's payload is executed
+(Fig.~\ref{fig:architecture}:15). Once completed, output is transferred to the
+staging out location (Fig.~\ref{fig:architecture}:16).
+
 % During the job's payload execution, the monitoring process of PanDA Pilot
 % checks the status of the job execution and its environment.
 
 The Data Service module of the PanDA Server tracks and collects the output
-generated by each job, updating jobs' attributes via the Task Buffer module.
-When the output of all the jobs of a task are retrieved, they are aggregated and
-made available to the user either via the PanDA Server of the JEDI service,
-depending on how tasks or jobs were initially submitted.
+generated by each job (Fig.~\ref{fig:architecture}:17), updating jobs'
+attributes via the Task Buffer module (Fig.~\ref{fig:architecture}:18). When the
+output of all the jobs of a task are retrieved, it is made available to the user
+via PanDA Server. When a task is submitted to JEDI, task is marked as done
+(Fig.~\ref{fig:architecture}:19) and the result of its execution is made
+available to the user by JEDI (Fig.~\ref{fig:architecture}:20).
 
-\mtnote{Think whether a comparison with other WMS based on the review we did
-makes sense in this context.}\sergeynote{You provided a nice description of the
-PanDA system here.}
+% \mtnote{Think whether a comparison with other WMS based on the review we did
+% makes sense in this context.}\sergeynote{You provided a nice description of
+% the PanDA system here.}
