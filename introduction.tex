@@ -24,6 +24,42 @@ production grade distributed computing solutions and have symbolized the
 paradigm of {\it high-throughput computing} viz., the effective execution of
 many independent workloads.
 
+As the LHC prepares for the high-luminosity era (Run 3 in $~\approx$ 2022), it
+is anticipated that the data volumes that will need analyzing will increase by
+10X compared to the current phase (Run 2).   The data will be larger in volume
+but will also require heterogeneous computational processes. In spite of the
+impressive scale of the ATLAS distributed computing system, demand for
+computing systems will significantly outstrip supply (availability).
+
+There are multiple levels at which this problem needs to be addressed
+urgently, e.g., the utilization of emerging parallel architectures (e.g.,
+platforms), algorithmic and advances in analytical methods (e.g., use of
+Machine Learning) and the ability to exploit different platforms (e.g., clouds
+and supercomputers).
+
+This paper is a case study of how the ATLAS experiment has "broken free" of
+the traditional computational approach of high-throughput computing on
+distributed resources to embrace new platforms, in particular high-performance
+computers. Specifically, we discuss the experience of integrating the PanDA
+workload management system with Titan ~\textemdash{} a DOE leadership
+computing facility and scaled to analyze up to \jhanote{XX\%} of the ATLAS
+experiment workload. We present the design of PanDA and show how localized
+substitution to use well established pilot-concepts allow enhanced support for
+heterogeneous workloads (such as molecular dynamics) and advanced execution
+modes.
+
+This state-of-practice paper provides multiple contributions.  (i) Documents
+the many design and operational considerations that have been  taken to
+support the sustained, scalable and production usage of Titan for historically
+high-throughput workloads, (ii) Extensions to PanDA to support non-traditional
+heterogeneous workloads and execution modes,  and (iii) As the community looks
+forward to designing the next generation of online analytical platforms
+~\cite{foap} the lessons learnt from our project provide some guidance for how
+current and future experimental and observational systems can be integrated
+with supercomputers in production.
+
+
+
 % Historically, the ATLAS Computing model~\cite{jones2008atlas} is based on a
 % Grid paradigm~\cite{foster2003grid}, with multilevel, hierarchically
 % distributed computing and storage resources.
