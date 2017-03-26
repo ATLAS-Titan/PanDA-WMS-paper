@@ -59,118 +59,82 @@ current and future experimental and observational systems can be integrated
 with supercomputers in production.
 
 
+% \subsubsection*{The following is a candidate for major compression into a single paragraph}
 
-% Historically, the ATLAS Computing model~\cite{jones2008atlas} is based on a
-% Grid paradigm~\cite{foster2003grid}, with multilevel, hierarchically
-% distributed computing and storage resources.
+% \mtnote{Used the following in related work. We may want to reduce/remove it from
+% the introduction: ``Today, PanDA serves several thousand users, managing job
+% distribution to hundreds of ATLAS sites with more than 100,000 CPU cores which
+% process more than a million jobs per day.''} % (Figure~\ref{fig:daily}).
 
-% PanDA has been developed to meet
-% growing ATLAS production and analysis requirements for a data-driven workload
-% management system capable of operating at LHC data processing scale.
+% In this paper, we describe how PanDA has been engineered to execute a specific
+% stage of the ATLAS Monte Carlo workflow on Titan, the larger high-performance
+% computing HPC system currently available in the USA\@.\mtnote{Explain the
+% benefits offered by Titan in terms of multithreading per node and possibly large
+% amount of concurrent nodes. Introduce also the notion of backfill.} This extends
+% the scope of PanDA's compute model, integrating both high-throughput and
+% high-performance computing resources and enabling the concurrent execution of
+% both  single and multi-core jobs. The integration of PanDA and Titan went
+% through three main engineering phases: (i) feasibility study and rapid
+% prototyping of an initial solution; (ii) progressing scaling of the  prototype
+% to saturate the available resources; (iii) study of a product-grade architecture
+% for generic HPC resources. Both phase i and ii have been completed enabling the
+% execution of up to eight million jobs a week on Titan. A prototype has been
+% engineered to support phase iii and experimental data are being collected.
 
+% In the next section we introduce \ldots.
 
-
-% PanDA has a highly scalable architecture. Scalability has been demonstrated in
-% ATLAS through the rapid increase in usage over the past several years of
-% operations, and PanDA is expected to meet the continuously growing computing
-% requirements of ATLAS over the next decade. PanDA was designed to have the
-% flexibility to adapt to emerging computing technologies in processing, storage,
-% networking as well as the underlying software stack. This flexibility has also
-% been successfully demonstrated through the past six years: computing centers in
-% ATLAS, spanning many continents, were seamlessly integrated into PanDA\@.
-
-% PanDA manages a wide spectrum of workloads, ranging from raw data processing to
-% Monte Carlo simulation and user analysis, while constantly evolving to meet
-% rapidly changing science needs.
-
-\mtnote{Used the following in related work. We may want to reduce/remove it from
-the introduction: ``Today, PanDA serves several thousand users, managing job
-distribution to hundreds of ATLAS sites with more than 100,000 CPU cores which
-process more than a million jobs per day.''} % (Figure~\ref{fig:daily}).
-
-% \begin{figure}
-%     \begin{center}
-%         \includegraphics[width=\columnwidth]{figures/DailyJobs.png}
-%         \caption{Daily completed jobs on ATLAS Grid for the past 12 month}
-%     \end{center}
-% \label{fig:daily}
-% \end{figure}
-
-In this paper, we describe how PanDA has been engineered to execute a specific
-stage of the ATLAS Monte Carlo workflow on Titan, the larger high-performance
-computing HPC system currently available in the USA\@.\mtnote{Explain the
-benefits offered by Titan in terms of multithreading per node and possibly large
-amount of concurrent nodes. Introduce also the notion of backfill.} This extends
-the scope of PanDA's compute model, integrating both high-throughput and
-high-performance computing resources and enabling the concurrent execution of
-both  single and multi-core jobs. The integration of PanDA and Titan went
-through three main engineering phases: (i) feasibility study and rapid
-prototyping of an initial solution; (ii) progressing scaling of the  prototype
-to saturate the available resources; (iii) study of a product-grade architecture
-for generic HPC resources. Both phase i and ii have been completed enabling the
-execution of up to eight million jobs a week on Titan. A prototype has been
-engineered to support phase iii and experimental data are being collected.
-
-In the next section we introduce \ldots.
-
-Why Titan?
-\begin{itemize}
-    \item A lot of slow (relative the grid) and homogeneous cores together
-    \item Grid is saturated
-    \item Enable HPC as a calss of computing resource
-    \item Enable future DOE experimental and observational capabilities on HPC
-    \item Why is so important: more data, run 2 and run 3.
-    \item growth of grid is flat (economic model) and saturated. We need more CPU because we have more data.
-    \item ATLAS spend most of the time on simulations this is why we want to offload simulations - that happen happen to be performed via AthenaMP.
-\end{itemize}
+% Why Titan?
+% \begin{itemize}
+%     \item A lot of slow (relative the grid) and homogeneous cores together
+%     \item Grid is saturated
+%     \item Enable HPC as a calss of computing resource
+%     \item Enable future DOE experimental and observational capabilities on HPC
+%     \item Why is so important: more data, run 2 and run 3.
+%     \item growth of grid is flat (economic model) and saturated. We need more CPU because we have more data.
+%     \item ATLAS spend most of the time on simulations this is why we want to offload simulations - that happen happen to be performed via AthenaMP.
+% \end{itemize}
 
 
+% \mtnote{Moved from related work were we use already this terminology. To be
+% iterated/adjusted for consistency once the first draft will be ready.}
 
+% The term ``workflow'' is used in many disciplines with different meaning. In the
+% field of scientific computing, ``workflow'' assumes different meanings depending
+% on the characteristics of the computation, of the software tools used to support
+% this computation, and of the resources on which it is performed. Further, a
+% workflow may indicate a whole application, a description of the computational
+% process of that application or, more commonly, a series of tasks related by data
+% dependences.
 
+% The lack of a consistent and shared definition of ``workflow'' hinders the
+% understanding of its properties and its relations with related concepts. For
+% example, we need to clarify the difference among ``workflow'', ``workload'',
+% ``task'', or ``job'' but also between workflow ``template'' and ``instance'', or
+% ``data-flow'' and ``control-flow''. This is precondition to specify properly the
+% design of software systems that support the execution of scientific
+% applications.
 
-\subsubsection*{The following is a candidate for major compression into a single paragraph}
+% In this paper, we use the following definitions:
 
+% \begin{description}
 
-\mtnote{Moved from related work were we use already this terminology. To be
-iterated/adjusted for consistency once the first draft will be ready.}
+%   \item[Task.] A set of operations to be performed on a computing platform,
+%   alongside a description of the properties and dependences of those operations,
+%   and indications on how the dependences should be satisfied and the operations
+%   should be executed.
 
-The term ``workflow'' is used in many disciplines with different meaning. In the
-field of scientific computing, ``workflow'' assumes different meanings depending
-on the characteristics of the computation, of the software tools used to support
-this computation, and of the resources on which it is performed. Further, a
-workflow may indicate a whole application, a description of the computational
-process of that application or, more commonly, a series of tasks related by data
-dependences.
+%   \item[Job.] A unit of  work performed by submitting a script to a resource
+%   management system (LRMS), like  Slurm or PBS, or by requesting a virtual
+%   machine or a container to a site supporting virtualization. One or more jobs
+%   can perform the operations described with a task.
 
-The lack of a consistent and shared definition of ``workflow'' hinders the
-understanding of its properties and its relations with related concepts. For
-example, we need to clarify the difference among ``workflow'', ``workload'',
-``task'', or ``job'' but also between workflow ``template'' and ``instance'', or
-``data-flow'' and ``control-flow''. This is precondition to specify properly the
-design of software systems that support the execution of scientific
-applications.
+%   \item[Workload.] A set of jobs that can be executed concurrently, possibly
+%   related by a set of relations. For example, jobs of a workload can share one
+%   or more input files or communicate during execution.
 
-In this paper, we use the following definitions:
+%   \item[Workflow.] Set of jobs, related by a set of relations that define the
+%   order in which each task can be executed. Data dependences are the most common
+%   relations among workloads, used to define the precedence among their
+%   executions.
 
-\begin{description}
-
-  \item[Task.] A set of operations to be performed on a computing platform,
-  alongside a description of the properties and dependences of those operations,
-  and indications on how the dependences should be satisfied and the operations
-  should be executed.
-
-  \item[Job.] A unit of  work performed by submitting a script to a resource
-  management system (LRMS), like  Slurm or PBS, or by requesting a virtual
-  machine or a container to a site supporting virtualization. One or more jobs
-  can perform the operations described with a task.
-
-  \item[Workload.] A set of jobs that can be executed concurrently, possibly
-  related by a set of relations. For example, jobs of a workload can share one
-  or more input files or communicate during execution.
-
-  \item[Workflow.] Set of jobs, related by a set of relations that define the
-  order in which each task can be executed. Data dependences are the most common
-  relations among workloads, used to define the precedence among their
-  executions.
-
-\end{description}
+% \end{description}
