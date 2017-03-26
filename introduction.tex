@@ -1,15 +1,38 @@
 The Large Hadron Collider (LHC) was created to explore the fundamental
-properties of matter for the next decades.  Since LHC start-up in 2009, multiple
-experiments  at LHC have collected and distributed hundreds of petabytes of data
-worldwide to hundreds of computer centers. Thousands of physicists analyze
-petascale data volumes daily. One of the LHC experiments, the
-ATLAS~\cite{Aad:2008}, utilizes the Production and Distributed Analysis (PanDA)
-workload management system~\cite{Maeno2011} (WMS) for distributed data
-processing and analysis. The ATLAS Computing model~\cite{jones2008atlas} is
-based on a Grid paradigm~\cite{foster2003grid}, with multilevel, hierarchically
-distributed computing and storage resources. PanDA has been developed to meet
-growing ATLAS production and analysis requirements for a data-driven workload
-management system capable of operating at LHC data processing scale.
+properties of matter for the next decades.  Since LHC start-up in 2009,
+multiple experiments  at LHC have collected and distributed hundreds of
+petabytes of data worldwide to hundreds of computer centers. Thousands of
+physicists analyze petascale data volumes daily. The detection of the Higgs
+Boson speaks to the success of the detector and experiment design, as well as
+the sophistication of computing systems devised to analyze the data.
+
+Historically the computing systems consisted of the federation of a hundreds
+to thousands of distributed resources \textemdash{} ranging in scale from
+small to mid-size resource~\cite{foster2003grid}. Although the workloads to be
+executed are independent, the management of the distribution of extremely-
+large workloads across many heterogeneous resources to ensure the effective
+utilization of resources and efficient execution of workloads presents non-
+trivial challenges.
+
+Many software solutions have been developed in response to these challenges.
+One of the LHC experiments, the CMS experiment devised a solution based around
+the HTCondor~\cite{XX} software ecosystem. The ATLAS~\cite{Aad:2008}
+experiment, utilizes the Production and Distributed Analysis (PanDA) workload
+management system~\cite{Maeno2011} (WMS) for distributed data processing and
+analysis. The CMS and ATLAS experiments represent arguably the largest
+production grade distributed computing solutions and have symbolized the
+paradigm of {\it high-throughput computing} viz., the effective execution of
+many independent workloads.
+
+% Historically, the ATLAS Computing model~\cite{jones2008atlas} is based on a
+% Grid paradigm~\cite{foster2003grid}, with multilevel, hierarchically
+% distributed computing and storage resources.
+
+% PanDA has been developed to meet
+% growing ATLAS production and analysis requirements for a data-driven workload
+% management system capable of operating at LHC data processing scale.
+
+
 
 % PanDA has a highly scalable architecture. Scalability has been demonstrated in
 % ATLAS through the rapid increase in usage over the past several years of
@@ -64,6 +87,13 @@ Why Titan?
     \item growth of grid is flat (economic model) and saturated. We need more CPU because we have more data.
     \item ATLAS spend most of the time on simulations this is why we want to offload simulations - that happen happen to be performed via AthenaMP.
 \end{itemize}
+
+
+
+
+
+\subsubsection*{The following is a candidate for major compression into a single paragraph}
+
 
 \mtnote{Moved from related work were we use already this terminology. To be
 iterated/adjusted for consistency once the first draft will be ready.}
