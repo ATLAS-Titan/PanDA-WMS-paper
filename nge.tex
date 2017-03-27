@@ -1,26 +1,31 @@
 
 \subsection{Rationale} \aanote{I think that the names of the states should be
 removed. They are meaningless without the figures. I left them just in case we
-decide to reintroduce the figures.}\mtnote{Done.} As seen in
-\S\ref{sec:panda_deployment}, the absence of wide area network
+decide to reintroduce the figures.}\mtnote{Done.}
+
 \jhanote{admittedly i haven't read earlier section in question  carefully, but
 i'm a bit confused about the use of "wide area". wide area is typically used for
 cross data center}\mtnote{Every PanDA Pilot has to communicate with PanDA
 Server. PanDA Server runs on dedicated resources, outside OLCF. Titan's worker
 nodes cannot communicate with PanDA Server because their connectivity is limited
 to Titan's network. Do you have a suggestion for an alternative to ``wide
-area''?} connectivity on Titan's worker nodes was one of the main reasons for
-PanDA Broker not to implement pilots. As discussed in \S\ref{sec:panda_titan},
-the absence of pilots imposes the static coupling between MPI scripts submitted
-to the PBS batch system and detector simulations, and development tailored to
-each type of payload that needs to be executed.
+area''?}
 
-This static coupling makes impossible to schedule multiple generations of
-workload on the same PBS job. Specifically, once a number of detector
-simulations are packaged into a PBS job and this job is queued on Titan, no
-further simulations can be added to that job. New simulations have to be
-packaged into a new PBS job that needs to be submitted to Titan on the base of
-the backfill availability of that moment.
+As seen in \S\ref{sec:panda_deployment}, PanDA Broker was deployed on DTNs
+because of the absence of wide area network connectivity on Titan's worker
+nodes. The lack of pilot capabilities impacts both the efficiency and the
+flexibility of PanDA's execution process. Pilots could help to improve
+efficiency by increasing throughput and by enabling better use of backfill
+utilization. Further, pilots makes easier to support heterogeneous workloads.
+
+As discussed in \S\ref{sec:panda_titan}, the absence of pilots imposes the
+static coupling between MPI scripts submitted to the PBS batch system and
+detector simulations. This makes impossible to schedule multiple generations of
+workload on the same PBS job: Once a number of detector simulations are packaged
+into a PBS job and this job is queued on Titan, no further simulations can be
+added to that job. New simulations have to be packaged into a new PBS job that
+needs to be submitted to Titan on the base of the backfill availability of that
+moment.
 
 The support of  multiple workload generations would enable a more efficient
 use of the backfill availability of walltime. Currently, when a set of
@@ -33,15 +38,15 @@ and submission overheads.
 
 Multiple generations would also help with relaxing two assumptions of the
 current execution model: knowing the number of simulations before submitting the
-MPI script, having a fixed amount of events per simulation (100 at the moment).
-Pilots would enable the scheduling of simulations independently from whether
-they were available at the moment of submitting the pilot. Further, simulations
-with a varying number of events could be scheduled on a pilot, depending on the
-amount of remaining walltime and the distribution of execution time per event,
-as shown in \S\ref{ssec:panda_titan}, Figure~\ref{fig:100event-distrib}. This
-capabilities would be particularly useful to increase the PanDA Broker
-efficiency for availabilities with a wide delta between the number of cores and
-walltime.
+MPI script, and having a fixed amount of events per simulation (100 at the
+moment). Pilots would enable the scheduling of simulations independently from
+whether they were available at the moment of submitting the pilot. Further,
+simulations with a varying number of events could be scheduled on a pilot,
+depending on the amount of remaining walltime and the distribution of execution
+time per event, as shown in \S\ref{ssec:panda_titan},
+Figure~\ref{fig:100event-distrib}. This capabilities would be particularly
+useful to increase the PanDA Broker efficiency for availabilities with a wide
+delta between the number of cores and walltime.
 
 % to one in which the number of events is decided on the base of the available
 % walltime. Pilots would enable to package simulations with a heterogeneous
