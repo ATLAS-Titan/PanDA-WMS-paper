@@ -57,7 +57,10 @@ Correlation between backfill availability of cores and walltime on Titan during 
 Replicability:
 
 \begin{enumerate}
-    \item
+    \item Get a log file including regular polling of backfill availability from one or more PanDA Brokers on titan.
+    \item Wrangle the ascii file with the find/replace regular expressions listed at: \url{https://github.com/ATLAS-Titan/PanDA-WMS-paper/blob/master/data/figure_5/titan_backfill_availability.ipynb}, cell \#1.
+    \item Load the Jupyter workbook from a python virtual environment with the module Jupyter installed and all the modules listed at: \url{https://github.com/ATLAS-Titan/PanDA-WMS-paper/blob/master/data/figure_5/titan_backfill_availability.ipynb}, cell \#2.
+    \item Execute each cell of the Jupyter notebook to replicate Figure 5.
 \end{enumerate}
 
 
