@@ -2,12 +2,15 @@
 \subsection{Rationale} \aanote{I think that the names of the states should be
 removed. They are meaningless without the figures. I left them just in case we
 decide to reintroduce the figures.}\mtnote{Done.} As seen in
-\S\ref{sec:panda_deployment}, the absence of wide area network connectivity on
-Titan's worker nodes was one of the main reasons for PanDA Broker not to
-implement pilots. As discussed in \S\ref{sec:panda_titan}, the absence of pilots
-imposes the static coupling between MPI scripts submitted to the PBS batch
-system and detector simulations, and development tailored to each type of
-payload that needs to be executed.
+\S\ref{sec:panda_deployment}, the absence of wide area network
+\jhanote{admittedly i haven't read earlier section in question  carefully, but
+i'm a bit confused about the use of "wide area". wide area is typically used
+for cross data center} connectivity on Titan's worker nodes was one of the
+main reasons for PanDA Broker not to implement pilots. As discussed in
+\S\ref{sec:panda_titan}, the absence of pilots imposes the static coupling
+between MPI scripts submitted to the PBS batch system and detector
+simulations, and development tailored to each type of payload that needs to be
+executed.
 
 This static coupling makes impossible to schedule multiple generations of
 workload on the same PBS job. Specifically, once a number of detector
@@ -16,12 +19,12 @@ further simulations can be added to that job. New simulations have to be
 packaged into a new PBS job that needs to be submitted to Titan on the base of
 the backfill availability of that moment.
 
-The support of workload generations would enable a more efficient use of the
-backfill availability of walltime. Currently, when a set of simulations ends
-also the PBS job ends, independently on whether more walltime would still be
-available. With a pilot, more simulations could be executed so to utilize all
-the available walltime, while avoiding further job packaging and submission
-overheads.
+The support of  multiple workload generations would enable a more efficient
+use of the backfill availability of walltime. Currently, when a set of
+simulations ends, the PBS job also ends, independent of whether more wall-time
+would still be available. With a pilot, more simulations could be executed so
+to utilize all the available wall-time, while avoiding further job packaging
+and submission overheads.
 
 % \mtnote{Are there more reasons for wanting multiple generations?}
 
