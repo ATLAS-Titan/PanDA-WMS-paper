@@ -14,6 +14,13 @@ Artifacts description.
     \item Plotting code: repository address
 \end{itemize}
 
+Replicability:
+
+\begin{enumerate}
+    \item
+\end{enumerate}
+
+
 % -----------------------------------------------------------------------------
 \subsection{Section 5.1 - Figure 4}
 \label{apndx:fig4}
@@ -28,19 +35,31 @@ Artifacts description.
     \item Plotting code: repository address
 \end{itemize}
 
+Replicability:
+
+\begin{enumerate}
+    \item
+\end{enumerate}
+
+
 % -----------------------------------------------------------------------------
 \subsection{Section 5.1 - Figure 5}
 \label{apndx:fig5}
 
-Artifacts description.
+Correlation between backfill availability of cores and walltime on Titan during the experiment time window.
 
 \begin{itemize}
-    \item Experiment code: repository address (when applicable)
-    \item Raw data: repository address
-    \item Wrangling: repository address
-    \item Analysis code: repository address
-    \item Plotting code: repository address
+    \item Raw data: \url{https://github.com/ATLAS-Titan/PanDA-WMS-paper/blob/master/data/figure_5/titan_backfill_availability.txt}, as provided by the PanDA Brokers logs on Titan.
+    \item Wrangling: \url{https://github.com/ATLAS-Titan/PanDA-WMS-paper/blob/master/data/figure_5/titan_backfill_availability.csv}
+    \item Analysis and Plotting: \url{https://github.com/ATLAS-Titan/PanDA-WMS-paper/blob/master/data/figure_5/titan_backfill_availability.ipynb}
 \end{itemize}
+
+Replicability:
+
+\begin{enumerate}
+    \item
+\end{enumerate}
+
 
 % -----------------------------------------------------------------------------
 \subsection{Section 5.2 - Figure 6}
@@ -56,6 +75,13 @@ Artifacts description.
     \item Plotting code: repository address
 \end{itemize}
 
+Replicability:
+
+\begin{enumerate}
+    \item
+\end{enumerate}
+
+
 % -----------------------------------------------------------------------------
 \subsection{Section 5.2 - Figure 7}
 \label{apndx:fig7}
@@ -70,19 +96,36 @@ Artifacts description.
     \item Plotting code: repository address
 \end{itemize}
 
+Replicability:
+
+\begin{enumerate}
+    \item
+\end{enumerate}
+
+
 % -----------------------------------------------------------------------------
 \subsection{Section 5.3 - Figure 8}
 \label{apndx:fig8}
 
-Artifacts description.
+Panda failures on Titan by exit code during the experiment window.
 
 \begin{itemize}
-    \item Experiment code: repository address (when applicable)
-    \item Raw data: repository address
-    \item Wrangling: repository address
-    \item Analysis code: repository address
-    \item Plotting code: repository address
+    \item Raw data: \url{https://github.com/ATLAS-Titan/PanDA-WMS-paper/blob/master/data/figure_8/panda-broker-failures_jan2016-feb2017.csv}
+    \item Wrangling: \url{https://github.com/ATLAS-Titan/PanDA-WMS-paper/blob/master/data/figure_8/panda-broker-failures_jan2016-feb2017.xlsx} (Pivot Data \& Wrangled Data tabs)
+    \item Analysis: \url{https://github.com/ATLAS-Titan/PanDA-WMS-paper/blob/master/data/figure_8/panda-broker-failures_jan2016-feb2017.xlsx} (Aggregated Data tab)
+    \item Plotting: \url{https://github.com/ATLAS-Titan/PanDA-WMS-paper/blob/master/data/figure_8/panda-broker-failures_jan2016-feb2017.xlsx} (Plots tab)
 \end{itemize}
+
+Replicability:
+
+\begin{enumerate}
+    \item Download raw data download in csv format from the ATLAS jobs dashboard. Download link: \url{http://dashb-atlas-job.cern.ch/dashboard/request.py/terminatedjobsstatuscsv?sites=All%20T3210&sitesCat=All%20Countries&resourcetype=All&pandares=ORNL_Titan_MCORE&activities=simul&sitesSort=7&sitesCatSort=0&start=2016-01-01&end=2017-02-28&timeRange=daily&sortBy=16&granularity=Monthly&generic=0&series=30&type=abcb}
+    \item Load the csv file into Excel (or any other software/language).
+    \item Create a pivot table with failure types as columns and months as rows.
+    \item Aggregate data of error codes of the same type by merge columns and adding the values of their raws according to this table:
+    \item Plot the resulting table as a stacked area diagram.
+\end{enumerate}
+
 
 % -----------------------------------------------------------------------------
 \subsection{Section 6.3 - Figure 14}
@@ -98,6 +141,13 @@ Artifacts description.
     \item Plotting code: repository address
 \end{itemize}
 
+Replicability:
+
+\begin{enumerate}
+    \item
+\end{enumerate}
+
+
 % -----------------------------------------------------------------------------
 \subsection{Section 6.3 - Figure 15}
 \label{apndx:fig15}
@@ -111,6 +161,13 @@ Artifacts description.
     \item Analysis code: repository address
     \item Plotting code: repository address
 \end{itemize}
+
+Replicability:
+
+\begin{enumerate}
+    \item
+\end{enumerate}
+
 
 % -----------------------------------------------------------------------------
 \subsection{Section 6.3 - Figure 17}
@@ -126,6 +183,13 @@ Artifacts description.
     \item Plotting code: repository address
 \end{itemize}
 
+Replicability:
+
+\begin{enumerate}
+    \item
+\end{enumerate}
+
+
 % -----------------------------------------------------------------------------
 \subsection{Section 6.3 - Figure 17}
 \label{apndx:fig17}
@@ -139,3 +203,9 @@ Artifacts description.
     \item Analysis code: repository address
     \item Plotting code: repository address
 \end{itemize}
+
+Replicability:
+
+\begin{enumerate}
+    \item
+\end{enumerate}
