@@ -4,13 +4,16 @@ removed. They are meaningless without the figures. I left them just in case we
 decide to reintroduce the figures.}\mtnote{Done.} As seen in
 \S\ref{sec:panda_deployment}, the absence of wide area network
 \jhanote{admittedly i haven't read earlier section in question  carefully, but
-i'm a bit confused about the use of "wide area". wide area is typically used
-for cross data center} connectivity on Titan's worker nodes was one of the
-main reasons for PanDA Broker not to implement pilots. As discussed in
-\S\ref{sec:panda_titan}, the absence of pilots imposes the static coupling
-between MPI scripts submitted to the PBS batch system and detector
-simulations, and development tailored to each type of payload that needs to be
-executed.
+i'm a bit confused about the use of "wide area". wide area is typically used for
+cross data center}\mtnote{Every PanDA Pilot has to communicate with PanDA
+Server. PanDA Server runs on dedicated resources, outside OLCF. Titan's worker
+nodes cannot communicate with PanDA Server because their connectivity is limited
+to Titan's network. Do you have a suggestion for an alternative to ``wide
+area''?} connectivity on Titan's worker nodes was one of the main reasons for
+PanDA Broker not to implement pilots. As discussed in \S\ref{sec:panda_titan},
+the absence of pilots imposes the static coupling between MPI scripts submitted
+to the PBS batch system and detector simulations, and development tailored to
+each type of payload that needs to be executed.
 
 This static coupling makes impossible to schedule multiple generations of
 workload on the same PBS job. Specifically, once a number of detector
