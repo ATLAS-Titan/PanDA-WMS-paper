@@ -6,7 +6,7 @@
 In this section we present experiments that aim to determine the performances of the NGE and to show how it provides a minimal overhead while introducing new functionalities.
 
 Experiments consist in running AthenaMP instances by using NGE pilots where each AthenaMP simulates a pre-determined number of events taken from ATLAS workload.	
-We present four groups of experiments in which we test the NGE for weak scalability, weak scalability with resubmission, strong scalability and heterogeous workloads.
+We present four groups of experiments in which we test the NGE for weak scalability, weak scalability with multiple generation, strong scalability and heterogeous workloads.
 
 We collect data about the execution time of the pilots and the AthenaMP that are executed within them by considering all stages that these entities pass through during the execution.
 Experiments have been performed out of production by using NGE's pilots on TITAN's batch queue. 
@@ -40,13 +40,13 @@ In Figure \ref{fig:weakScal1b}, we provide the time required by the pilot to sta
 We can notice that the larger is the number of units and the larger is the time required by the pilot to start running them. However, we can observe that the time does not grow linearly with the pilot size. 
 
 \begin{figure}[!htb]
-        \includegraphics[width=0.5\textwidth]{./figures/NGE/weakStart1.pdf}
-    \caption{Average time to start running AthenaMP for pilot sizes: 250, 500, 1000 and 2000.}
+        \includegraphics[width=0.5\textwidth]{./figures/NGE/weakOver1.pdf}
+    \caption{Average overhead running AthenaMP for pilot sizes: 250, 500, 1000 and 2000.}
 \label{fig:weakScal1b}
 \end{figure}
 
 
-\subsubsection{Weak scalability with resubmission }
+\subsubsection{Weak scalability with multiple generation }
 This experiment is similar to the one presented above but in this case we want to test also the impact of submitting new AthenaMP instances in place of those that end. The reason behind this experiment is to stress pilot's components by pushing new tasks while others are ending their execution.
 
 In order to perform the experiments in less than two hours per run, we decided to send for execution a number of AthenaMP instances equal to five times the number of nodes and we reduced  the number of events that are simulated by each Athena-MP to sixteen\footnote{Note that the number of events has been chosen in such a way that all the cores of a node run one event.}. This allows us to complete a single AthenaMP in ~20 minutes only. 
@@ -61,8 +61,8 @@ Figure \ref{fig:weakScal2a} depicts the average pilot duration and  the average 
 \label{fig:weakScal2a}
 \end{figure}
 \begin{figure}[!htb]
-        \includegraphics[width=0.5\textwidth]{./figures/NGE/weakStart2.pdf}
-    \caption{Average time to start running AthenaMP for pilot sizes: 256, 512, 1024 and 2048.}
+        \includegraphics[width=0.5\textwidth]{./figures/NGE/weakOver2.pdf}
+    \caption{Average overhead running AthenaMP for pilot sizes: 256, 512, 1024 and 2048.}
 \label{fig:weakScal2b}
 \end{figure}
 \subsubsection{Strong scalability}
@@ -72,16 +72,16 @@ Each AthenaMP instance simulates sixteen events as the previous experiment.
 
 Figure \ref{fig:strongScala} depicts the average pilot duration and  the average execution time of AthenaMP.  
 
-%\begin{figure}[!htb]
-%        \includegraphics[width=0.5\textwidth]{./figures/NGE/strongET.pdf}
-%    \caption{Average pilot execution time against average AthenaMP execution times  for pilot sizes: 256, 512, 1024 and 2048.}
-%\label{fig:strongScala}
-%\end{figure}
-%\begin{figure}[!htb]
-%        \includegraphics[width=0.5\textwidth]{./figures/NGE/strongStart.pdf}
-%    \caption{Average time to start running AthenaMP for pilot sizes: 256, 512, 1024 and 2048.}
-%\label{fig:strongScalb}
-%\end{figure}
+\begin{figure}[!htb]
+        \includegraphics[width=0.5\textwidth]{./figures/NGE/strongET.pdf}
+    \caption{Average pilot execution time against average AthenaMP execution times  for pilot sizes: 256, 512, 1024 and 2048.}
+\label{fig:strongScala}
+\end{figure}
+\begin{figure}[!htb]
+        \includegraphics[width=0.5\textwidth]{./figures/NGE/strongOver.pdf}
+    \caption{Average overhead running AthenaMP for pilot sizes: 256, 512, 1024 and 2048.}
+\label{fig:strongScalb}
+\end{figure}
 
  
 \subsubsection{Heterogeneous execution}
@@ -89,9 +89,18 @@ Figure \ref{fig:strongScala} depicts the average pilot duration and  the average
 The last experiment provides a proof of concept about the ability of the NGE to execute heterogeneous workload.
 In particular, we coupled the execution of AthenaMP with the execution of Gromacs to simulate molecular dynamics. 
 We performed the experiment by executing at first one AthenaMP per node and then, submitting a Gromacs simulation per core. Each Gromacs simulation requires ~20 minutes.
-We tested the following pilot sizes : 8, 32, 64. 
+We tested the following pilot sizes : 8, 16, 32, 64. 
 
-
+\begin{figure}[!htb]
+        \includegraphics[width=0.5\textwidth]{./figures/NGE/MDET.pdf}
+    \caption{Average pilot execution time against average AthenaMP execution times  for pilot sizes: 256, 512, 1024 and 2048.}
+\label{fig:strongScala}
+\end{figure}
+\begin{figure}[!htb]
+        \includegraphics[width=0.5\textwidth]{./figures/NGE/MDOver.pdf}
+    \caption{Average overhead running AthenaMP for pilot sizes: 256, 512, 1024 and 2048.}
+\label{fig:MDScal}
+\end{figure}
 
 % For this reason, the second set of the experiments aims to find
 %sub-optimal parameters with which we can minimize the trade-off between the size
