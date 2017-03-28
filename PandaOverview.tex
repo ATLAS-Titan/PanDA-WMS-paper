@@ -1,3 +1,29 @@
+The Production and Distributed Analysis (PanDA) software is a Workload
+Management System (WMS) developed to support the operations of the LHC ATLAS
+experiment. PanDA is specifically design to manage the execution of distributed
+workloads and workflows via pilots.
+
+WMS for distributed executions are a type of middleware, designed to coordinate
+specific activities about resources and workloads: discovering and selecting
+resources, submitting tasks of workloads and workflows, and monitoring the
+execution of those tasks~\cite{marco2009glite}. Pilot is an abstraction that
+enables multi-level scheduling by decoupling resource acquisition from workload
+scheduling~\cite{turilli2015comprehensive}. Pilots are implemented by resource
+placeholders: a request for a certain amount of resources is scheduled on a site
+(e.g., by submitting a job or requesting a virtual machine) and once the
+resources are acquired, tasks are scheduled directly to the pilot, not to site's
+scheduler.
+
+WMS like PanDA implement the pilot abstraction: WMS control the acquisition of
+resources by means of pilots and then manage the execution of workloads or
+workflows' tasks on those pilots. WMS centralize the management of the execution
+process, offering a unified interface to the application layer. Pilots expose a
+uniform scheduling interface and execution environment, abstracting the
+differences among the heterogeneous resources of multiple sites. Pilot-enabled
+WMS are particularly relevant for LHC experiments, where millions of tasks are
+executed across multiple sites every month, analyzing and producing petabytes of
+data.
+
 The design of PanDA WMS started in 2005 and its implementation went into
 production for the LHC Run 1 on 2009. PanDA was then extended with new
 subsystems to be deployed on Run 2, on 2015. In this section, we summarize the

@@ -1,7 +1,7 @@
 \jhanote{In this section we should talk less about PanDA and more about other
 WMS -- highlighting the fact that (i) there isn't a comprehensive systems
 (design, architecture and execution properties) discussion of other WMS so
-difficult to compare}\mtnote{What dimension(s) should we use to argue that WMS are difficult to compare?}
+difficult to compare}\mtnote{Better?}
 \jhanote{(ii) real comparison should be to the Gliden-in WMS ecosystem and use
 this as opportunity to narrate the reasons for the divergence.}\mtnote{From our
 meetings with Sergey: Before Run 1, ATLAS management become uncomfortable with
@@ -11,34 +11,8 @@ developed their own solution. PanDA proven to be able to deliver the
 usual pilot-based WMS capabilities at the right scale. For that, it was chosen
 over other solutions.}
 \jhanote{Also might this section be moved towards the rear, as this is  a
-practice paper and not a traditional research paper?}\mtnote{Fine with me.}
+practice paper and not a traditional research paper?}\mtnote{Done.}
 
-
-The Production and Distributed Analysis (PanDA) software is a Workload
-Management System (WMS) developed to support the operations of the LHC ATLAS
-experiment. PanDA is specifically design to manage the execution of distributed
-workloads and workflows via pilots.
-
-WMS for distributed executions are a type of middleware, designed to coordinate
-specific activities about resources and workloads: discovering and selecting
-resources, submitting tasks of workloads and workflows, and monitoring the
-execution of those tasks~\cite{marco2009glite}. Pilot is an abstraction that
-enables multi-level scheduling by decoupling resource acquisition from workload
-scheduling~\cite{turilli2015comprehensive}. Pilots are implemented by resource
-placeholders: a request for a certain amount of resources is scheduled on a site
-(e.g., by submitting a job or requesting a virtual machine) and once the
-resources are acquired, tasks are scheduled directly to the pilot, not to site's
-scheduler.
-
-WMS like PanDA implement the pilot abstraction: WMS control the acquisition of
-resources by means of pilots and then manage the execution of workloads or
-workflows' tasks on those pilots. WMS centralize the management of the execution
-process, offering a unified interface to the application layer. Pilots expose a
-uniform scheduling interface and execution environment, abstracting the
-differences among the heterogeneous resources of multiple sites. Pilot-enabled
-WMS are particularly relevant for LHC experiments, where millions of tasks are
-executed across multiple sites every month, analyzing and producing petabytes of
-data.
 
 Several pilot-enabled WMS were developed for the LHC experiments:
 AliEn~\cite{Bagnasco2010} for ALICE; DIRAC~\cite{Paterson2010} for LHCb;
@@ -76,41 +50,45 @@ these data. All LHC WMS interface with these systems to move data to the sites
 where related compute tasks are executed or to schedule compute tasks where
 (large amount of) data are already stored.
 
-Currently, the implementation of PanDA WMS has at least two distinguishing
-features: the scale at which it operates distributed computing, and
-network-aware scheduling of tasks to sites\mtnote{PanDA team: please let me know
-whether more unique (i.e., not present in other LHC WMS) features of PanDA
-implementation should be indicated}. PanDA concurrently supports distributed
-computations on up to 240,000 cores, submitting more than 365 million jobs a
-year across 100 sites, and processing up to XXXXPB of data distributed worldwide
-on XX Tier 1-3 facilities. As for 2017, PanDA serves several thousand users,
-including XX production groups. The scale of this operation is unprecedented,
-making PanDA the WMS that manages the largest computational campaign in the
-world.
+% -----------------------------------------------------------------------------
+% NOTES ON TASK, JOBS, AND WORKFLOW TERMINOLOGY
+% -----------------------------------------------------------------------------
+% Currently, the implementation of PanDA WMS has at least two distinguishing
+% features: the scale at which it operates distributed computing, and
+% network-aware scheduling of tasks to sites\mtnote{PanDA team: please let me
+% know whether more unique (i.e., not present in other LHC WMS) features of
+% PanDA implementation should be indicated}. PanDA concurrently supports
+% distributed computations on up to 240,000 cores, submitting more than 365
+% million jobs a year across 100 sites, and processing up to XXXXPB of data
+% distributed worldwide on XX Tier 1-3 facilities. As for 2017, PanDA serves
+% several thousand users, including XX production groups. The scale of this
+% operation is unprecedented, making PanDA the WMS that manages the largest
+% computational campaign in the world.
 
-PanDA was initially implemented to support computations across an unreliable and
-relatively expensive networking infrastructure. Accordingly, PanDA assumed a
-rigid model of data placement based on replication and long-term storage of data
-on the Grid sites. This model proven too wasteful, requiring storage space for
-unused and obsolete data. PanDA implementation was evolved to benefit from the
-development of the internet and of the networking infrastructure for scientific
-research. Today, PanDA constantly monitors network throughput and latency among
-its management components, Grid sites and data facilities. PanDA uses this
-information to schedule tasks on sites, depending on the estimated time required
-to download and/or replicate input data and to stage out output data.
+% PanDA was initially implemented to support computations across an unreliable
+% and relatively expensive networking infrastructure. Accordingly, PanDA
+% assumed a rigid model of data placement based on replication and long-term
+% storage of data on the Grid sites. This model proven too wasteful, requiring
+% storage space for unused and obsolete data. PanDA implementation was evolved
+% to benefit from the development of the internet and of the networking
+% infrastructure for scientific research. Today, PanDA constantly monitors
+% network throughput and latency among its management components, Grid sites and
+% data facilities. PanDA uses this information to schedule tasks on sites,
+% depending on the estimated time required to download and/or replicate input
+% data and to stage out output data.
 
-The dynamic management of data replication and download is an example of a
-generalized paradigm shift that distinguishes the implementation of PanDA from
-other WMS. New components are being implemented to support: (i) dynamic sizing
-of input dataset based on resource capabilities; (ii) dynamic sizing of the
-resources held by pilots both in terms of number of cores and duration of the
-pilot; and (iii) further abstraction of different types of resources to
-reconcile high-throughput and high-performance computing paradigms.
+% The dynamic management of data replication and download is an example of a
+% generalized paradigm shift that distinguishes the implementation of PanDA from
+% other WMS. New components are being implemented to support: (i) dynamic sizing
+% of input dataset based on resource capabilities; (ii) dynamic sizing of the
+% resources held by pilots both in terms of number of cores and duration of the
+% pilot; and (iii) further abstraction of different types of resources to
+% reconcile high-throughput and high-performance computing paradigms.
+% -----------------------------------------------------------------------------
 
-% \subsection{Terminology}
-%
-% \mtnote{To be moved to the end of the introduction.}
-
+% -----------------------------------------------------------------------------
+% NOTES ON TASK, JOBS, AND WORKFLOW TERMINOLOGY
+% -----------------------------------------------------------------------------
 % Each task may have an arbitrary number of properties like number of cores,
 % executables, or input/output files. Tasks may have precedence interrelations,
 % depending on their data dependences or any other type of dependency mandated
@@ -143,3 +121,4 @@ reconcile high-throughput and high-performance computing paradigms.
 %     \item Naming and nomenclature is a contribution
 %     \item 1, 1.5 pages.
 % \end{itemize}
+% -----------------------------------------------------------------------------
