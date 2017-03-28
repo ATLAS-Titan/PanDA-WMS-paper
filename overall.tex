@@ -363,13 +363,12 @@ average newer than the CPU of Titan. The heterogeneity of the Grid sites' CPUs
 explain the higher performance variance compared to the performance consistency
 measured on Titan.
 
-\mtnote{Figure summarizing job performance on Titan analogous to those produced
-with NGE, as discussed in F2F meeting at Rutgers?}
-
+% \mtnote{Figure summarizing job performance on Titan analogous to those
+% produced with NGE, as discussed in F2F meeting at Rutgers?}
 
 % ----------------------------------------------------------------------------
-\subsection{Reliability of PanDA Broker and Detector Simulations on Titan}
-\label{ssec:reliability}
+% \subsection{Reliability of PanDA Broker and Detector Simulations on Titan}
+% \label{ssec:reliability}
 
 The current design and architecture of the PanDA Broker is proving to be as
 reliable as PanDA Pilot when used on the WLCG. Between Jan 2016 and Feb 2017,
@@ -383,29 +382,29 @@ PanDA Pilot for implementing the PanDA Broker. It also shows that adopting
 third-party libraries like RADICAL-SAGA did not have a measurable adverse effect
 on reliability.
 
-Figure~\ref{fig:failures-titan} shows a breakdown of the type of failures
-recorded by the PanDA Brokers between January 2016 and February 2017. The
-initial preponderance of unknown failures was progressively addressed by a more
-accurate failure model, specifically tailored to the PanDA Broker and Titan.
-Figure~\ref{fig:failures-titan} also shows the progressive improvement of the
-broker's reliability: In Februrary 2017, errors related to input files and
-initialization were almost eliminated and execution errors were comparable to
-those recorded in January 2017 even if almost twice as many simulations were
-performed (Figure~\ref{fig:backfill-utilization}). The increased amount of
-unknown failure in February indicates that furter work is needed to improve the
-PanDA Broker failure model.
+% Figure~\ref{fig:failures-titan} shows a breakdown of the type of failures
+% recorded by the PanDA Brokers between January 2016 and February 2017. The
+% initial preponderance of unknown failures was progressively addressed by a
+% more accurate failure model, specifically tailored to the PanDA Broker and
+% Titan. Figure~\ref{fig:failures-titan} also shows the progressive improvement
+% of the broker's reliability: In Februrary 2017, errors related to input files
+% and initialization were almost eliminated and execution errors were comparable
+% to those recorded in January 2017 even if almost twice as many simulations
+% were performed (Figure~\ref{fig:backfill-utilization}). The increased amount
+% of unknown failure in February indicates that furter work is needed to improve
+% the PanDA Broker failure model.
 
-\begin{figure}[htp]
-    \includegraphics[clip,width=\columnwidth]{figures/failures_titan.pdf}
-    \caption{PanDA Broker failures during the experiment time window. Failures
-    were recorded with 52 exit codes, here aggregated into 6 categories. The
-    number of failures should be compared to the number of simulations executed
-    in each month as plotted in Figure~\ref{fig:backfill-utilization}.
-    Improvements in the failure model of PanDA Broker shows a decrease in
-    unknown failure and a the progressive addressing of other categories of
-    failure.}
-\label{fig:failures-titan}
-\end{figure}
+% \begin{figure}[htp]
+%     \includegraphics[clip,width=\columnwidth]{figures/failures_titan.pdf}
+    % \caption{PanDA Broker failures during the experiment time window. Failures
+    % were recorded with 52 exit codes, here aggregated into 6 categories. The
+    % number of failures should be compared to the number of simulations
+    % executed in each month as plotted in
+    % Figure~\ref{fig:backfill-utilization}. Improvements in the failure model
+    % of PanDA Broker shows a decrease in unknown failure and a the progressive
+    % addressing of other categories of failure.}
+% \label{fig:failures-titan}
+% \end{figure}
 
 
 % -----------------------------------------------------------------------------
