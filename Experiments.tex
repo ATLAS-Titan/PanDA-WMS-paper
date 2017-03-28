@@ -6,9 +6,9 @@
 In this section we present experiments that aim to determine the performances of the NGE and to show how it provides a minimal overhead while introducing new functionalities.
 
 Experiments consist in running AthenaMP instances by using NGE pilots where each AthenaMP simulates a pre-determined number of events taken from ATLAS workload.	
-We present four groups of experiments in which we test the NGE for weak scalability, weak scalability with multiple generation, strong scalability and heterogeous workloads.
+We present three groups of experiments in which we test the NGE for weak scalability, weak scalability with multiple generation and strong scalability.
 
-We collect data about the execution time of the pilots and the AthenaMP that are executed within them by considering all stages that these entities pass through during the execution.
+We collected data about the execution time of the pilots and the AthenaMP that have been executed within them by considering all stages of the execution.
 Experiments have been performed out of production by using NGE's pilots on TITAN's batch queue. 
 Because of TITAN's batch queue, the turnaround time of each run of our experiments is dominated by the time spent on TITAN's queue. Since we are interested only in the performances of the NGE, we removed queue time from our statistics.
 
@@ -17,31 +17,26 @@ All the experiments have been performed by setting AthenaMP in such a way that i
 
 \subsubsection{Weak scalability}
 
-The experiment consists in running as many AthenaMP instances (also referred as tasks from now-on) as the number of nodes controlled by the pilot. Each AthenaMP have been assigned with 100 events whose simulation requires  ~$80$ minutes. 
+The experiment consists in running as many AthenaMP instances (also referred as tasks from now-on) as the number of nodes controlled by the pilot. Each AthenaMP have been assigned with 100 events whose simulation requires  ~$70$ minutes. 
  
-Tasks do not experience queue within the pilot since there is one node for each AthenaMP instance. Therefore, delays are consequence of only three factors: i) the bootstrapping of the pilot on the nodes; ii) the manager, as defined in Section \ref{}, that has to dispatch tasks to the pilot; iii) the time that the agent requires to spawn all the tasks on the nodes.
+Tasks do not experience queue within the pilot since there is one node for each AthenaMP instance. Therefore, delays are consequence of only three factors: i) the bootstrapping of the pilot on the nodes; ii) the manager, as defined in Section \ref{sec:arch}, that has to dispatch tasks to the pilot; iii) the time that the agent requires to spawn all the tasks on the nodes.
 
 We tested different pilot sizes, i.e. : 250, 500, 1000 and 2000. For all of them the walltime was 2 hours.
 
 Figure \ref{fig:weakScal1a} depicts the average pilot duration and the average execution time of AthenaMP as function of the pilot size.  
 
 \begin{figure}[!htb]
-        \includegraphics[width=0.5\textwidth]{./figures/NGE/weakET1.pdf}
-    \caption{Average pilot execution time against average AthenaMP execution times for pilot sizes: 250, 500, 1000 and 2000.}
+        \includegraphics[width=0.4\textwidth]{./figures/NGE/weakET1.pdf}
+    \caption{Weak scalability: average pilot duration and average duration of a single AthenaMP execution by running on 200, 500, 1000 and 2000 nodes.}
 \label{fig:weakScal1a}
 \end{figure}
 
-On the one side, we can observe that the average pilot duration is insensitive to the pilot size. This indicates that, on average, the overhead introduced by the pilot does not grow significatively with the size of the pilot.
-On the other side, we can notice that the average execution time of AthenaMP is smaller than the average pilot duration. This indicates that the overhead of the pilot is not null and can be quantified in ~5 minutes.  
-
-\aanote{I think we should say something about the execution time of AthenaMP that is smaller than the others.}
-
-In Figure \ref{fig:weakScal1b}, we provide the time required by the pilot to start running AthenaMP instances.  
-We can notice that the larger is the number of units and the larger is the time required by the pilot to start running them. However, we can observe that the time does not grow linearly with the pilot size. 
+Firstly, we can observe that, despite some fluctuations due to external factors\footnote{such as the Titan's shared filesystem and the shared database used by the NGE}, the average execution time of AthenaMP oscillates between 4200 and 4800 seconds. Secondly, we can observe that in all the cases the gap between AthenaMP execution time and the pilot duration is minimal although it slightly increases with the pilot size.
+In order to allow a better comparison, NGE's overhead is shown in Figure \ref{fig:weakScal1b} where we can notice that the overhead does not grow linearly with the number of units.
 
 \begin{figure}[!htb]
-        \includegraphics[width=0.5\textwidth]{./figures/NGE/weakOver1.pdf}
-    \caption{Average overhead running AthenaMP for pilot sizes: 250, 500, 1000 and 2000.}
+        \includegraphics[width=0.4\textwidth]{./figures/NGE/weakOver1.pdf}
+    \caption{Weak scalability: average overhead by running AthenaMP on 200, 500, 1000 and 2000 nodes.}
 \label{fig:weakScal1b}
 \end{figure}
 
@@ -53,54 +48,59 @@ In order to perform the experiments in less than two hours per run, we decided t
 
 We tested different pilot sizes, i.e. : 256, 512, 1024 and 2048. For all of them the walltime was 3 hours. 
 
-Figure \ref{fig:weakScal2a} depicts the average pilot duration and  the average execution time of AthenaMP.  
+Figure \ref{fig:weakScal2a} depicts the average pilot duration and  the average execution time of five sequential instances of AthenaMP.  
+We can observe that the difference between the two durations is more marked than in the previous experiments. Despite this, by observing Figure \ref{fig:weakScal2b}, we can notice that the growth of the overhead is still less than linear.
 
 \begin{figure}[!htb]
-        \includegraphics[width=0.5\textwidth]{./figures/NGE/weakET2.pdf}
-    \caption{Average pilot execution time against average AthenaMP execution times  for pilot sizes: 256, 512, 1024 and 2048.}
+        \includegraphics[width=0.4\textwidth]{./figures/NGE/weakET2.pdf}
+    \caption{Weak scalability with multiple generations: average pilot duration and average duration of five sequential AthenaMP executions by running on 256, 512, 1024 and 2048 nodes.}
 \label{fig:weakScal2a}
 \end{figure}
 \begin{figure}[!htb]
-        \includegraphics[width=0.5\textwidth]{./figures/NGE/weakOver2.pdf}
-    \caption{Average overhead running AthenaMP for pilot sizes: 256, 512, 1024 and 2048.}
+        \includegraphics[width=0.4\textwidth]{./figures/NGE/weakOver2.pdf}
+    \caption{Weak scalability with multiple generations: average overhead by running AthenaMP on 256, 512, 1024 and 2048 nodes.}
 \label{fig:weakScal2b}
 \end{figure}
 \subsubsection{Strong scalability}
-This experiments aim to test strong scalability. Therefore, we run the same amount of tasks for different pilot sizes. 
-We used a number of AthenaMP instances equal to 2048 and tested pilots with 256, 512, 1024 and 2048 nodes. 
+The last experiments deals with strong scalability. Therefore, we run the same amount of tasks for different pilot sizes. 
+We used a number of AthenaMP instances equal to 2048 and tested pilots with 256, 512, 1024 and 2048 nodes. Thus, the number of sequential AthenaMP instances is equal to eight for the smallest pilot and is null for the largest.  
 Each AthenaMP instance simulates sixteen events as the previous experiment.
 
-Figure \ref{fig:strongScala} depicts the average pilot duration and  the average execution time of AthenaMP.  
+Figure \ref{fig:strongScala} depicts the average pilot duration and  the average execution time of possibly sequential AthenaMP instances.  We can notice that the difference between the pilot duration and the AthenaMP execution times is almost constant for all the pilot sizes although the overall duration of the pilot decreases linearly with the pilot size. This is confirmed by Figure \ref{fig:strongScalb} which depicts the overhead of the pilot.  
 
 \begin{figure}[!htb]
-        \includegraphics[width=0.5\textwidth]{./figures/NGE/strongET.pdf}
-    \caption{Average pilot execution time against average AthenaMP execution times  for pilot sizes: 256, 512, 1024 and 2048.}
+        \includegraphics[width=0.4\textwidth]{./figures/NGE/strongET.pdf}
+    \caption{Strong scalability: average pilot duration and average duration sequential AthenaMP executions by running on 256, 512, 1024 and 2048 nodes.}
 \label{fig:strongScala}
 \end{figure}
+
+
+
+
 \begin{figure}[!htb]
-        \includegraphics[width=0.5\textwidth]{./figures/NGE/strongOver.pdf}
-    \caption{Average overhead running AthenaMP for pilot sizes: 256, 512, 1024 and 2048.}
+        \includegraphics[width=0.4\textwidth]{./figures/NGE/strongOver.pdf}
+    \caption{Strong scalability: average overhead running AthenaMP on 256, 512, 1024 and 2048 nodes.}
 \label{fig:strongScalb}
 \end{figure}
 
  
-\subsubsection{Heterogeneous execution}
-
-The last experiment provides a proof of concept about the ability of the NGE to execute heterogeneous workload.
-In particular, we coupled the execution of AthenaMP with the execution of Gromacs to simulate molecular dynamics. 
-We performed the experiment by executing at first one AthenaMP per node and then, submitting a Gromacs simulation per core. Each Gromacs simulation requires ~20 minutes.
-We tested the following pilot sizes : 8, 16, 32, 64. 
-
-\begin{figure}[!htb]
-        \includegraphics[width=0.5\textwidth]{./figures/NGE/MDET.pdf}
-    \caption{Average pilot execution time against average AthenaMP execution times  for pilot sizes: 256, 512, 1024 and 2048.}
-\label{fig:strongScala}
-\end{figure}
-\begin{figure}[!htb]
-        \includegraphics[width=0.5\textwidth]{./figures/NGE/MDOver.pdf}
-    \caption{Average overhead running AthenaMP for pilot sizes: 256, 512, 1024 and 2048.}
-\label{fig:MDScal}
-\end{figure}
+%\subsubsection{Heterogeneous execution}
+%
+%The last experiment provides a proof of concept about the ability of the NGE to execute heterogeneous workload.
+%In particular, we coupled the execution of AthenaMP with the execution of Gromacs to simulate molecular dynamics. 
+%We performed the experiment by executing at first one AthenaMP per node and then, submitting a Gromacs simulation per core. Each Gromacs simulation requires ~20 minutes.
+%We tested the following pilot sizes : 8, 16, 32, 64. 
+%
+%\begin{figure}[!htb]
+%        \includegraphics[width=0.5\textwidth]{./figures/NGE/MDET.pdf}
+%    \caption{Average pilot execution time against average AthenaMP execution times  for pilot sizes: 256, 512, 1024 and 2048.}
+%\label{fig:strongScala}
+%\end{figure}
+%\begin{figure}[!htb]
+%        \includegraphics[width=0.5\textwidth]{./figures/NGE/MDOver.pdf}
+%    \caption{Average overhead running AthenaMP for pilot sizes: 256, 512, 1024 and 2048.}
+%\label{fig:MDScal}
+%\end{figure}
 
 % For this reason, the second set of the experiments aims to find
 %sub-optimal parameters with which we can minimize the trade-off between the size
