@@ -3,19 +3,21 @@ distributed workloads and workflows via pilots. WMS is middleware for
 discovering and selecting resources, submitting tasks of workloads and
 workflows, and monitoring their execution~\cite{marco2009glite}. Pilot is an
 abstraction that enables multi-level scheduling by decoupling resource
-acquisition from tasks scheduling~\cite{turilli2015comprehensive}. Once
-implemented, a pilot is scheduled on a site (e.g., by submitting a job or
-requesting a virtual machine) and, once active, tasks are scheduled to the
-pilot, not to the site's scheduler.
+acquisition from tasks scheduling~\cite{turilli2015comprehensive}. When
+implemented, a pilot is scheduled on a site and, once active, tasks are
+scheduled to the pilot, not to the site's scheduler.
 
-Pilot-enabled WMS are particularly relevant for LHC experiments, where millions
-of tasks are executed across multiple sites every month, analyzing and producing
-petabytes of data. The design of PanDA WMS started in 2005 and its
-implementation went into production for the LHC Run 1 on 2009. PanDA was then
-extended with new subsystems to be deployed on Run 2, on 2015. We summarize
-PanDA's design, architecture, and execution process, focussing on those
-subsystems and components that are most relevant to the the integration of PanDA
-with supercomputers.
+Pilot-enabled WMS enable high throughput of tasks execution while supporting
+interoperability across multiple sites. This is particularly relevant for LHC
+experiments, where millions of tasks are executed across multiple sites every
+month, analyzing and producing petabytes of data. The design of PanDA WMS
+started in 2005 and its implementation went into production for the LHC Run 1 on
+2009. PanDA was then extended with new subsystems to be deployed on Run 2, on
+2015.
+
+% We summarize PanDA's design, architecture, and execution process, focussing on
+% those subsystems and components that are most relevant to the the integration
+% of PanDA with supercomputers.
 
 % \mtnote{TODO: replace `resource' with `site'; `http' to `HTTP'?}
 
