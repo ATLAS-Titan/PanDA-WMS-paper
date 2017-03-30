@@ -135,7 +135,7 @@ to use down to 1 node for 1/2 of the mean walltime of backfill availability. As
 such, it offers a good compromise for PanDA Broker efficiency.
 
 \begin{figure}[htp]
-    \includegraphics[clip,width=\columnwidth]{figures/titan_backfill_avail.pdf}
+    \includegraphics[clip,width=\columnwidth]{figures/titan_backfill_avail.png}
     %figures/avail_time_vs_nodes_Oct_28_Nov_3_2015.pdf}
     \caption{Backfill availability measures as walltime in minutes vs number of
     work nodes during the experiment window time. Availability was measured
@@ -231,15 +231,17 @@ including those required to access of small python scripts.
 % results in a large number of read operations accesses to small python
 % scripts, with many includes and imports Python calls.
 
-Initially, all the shared libraries of AthenaMP and the python scripts for the
-configuration stage were stored on the Spider 2 Lustre file system. However, the
-I/O patterns of the initialization and configuration stages degraded the
-performance of the filesystem (Figure~\ref{}\mtnote{We may want to aggregate
-some of the diagrams about lustre's experiments here}). Since Spider 2 is a
-center-wide file system, this resulted in  performance degradation for all OLCF
-resources and users. \mtnote{I am afraid the details about the trace are too
-specific given the space constraints of a SC submission. Please feel free to
-uncomment it if you disagree.}
+\mtnote{TODO: specify that this is work in progress (see Sergey's comment) and
+see how to move it to the data performance subsection}Initially, all the shared
+libraries of AthenaMP and the python scripts for the configuration stage were
+stored on the Spider 2 Lustre file system. However, the I/O patterns of the
+initialization and configuration stages degraded the performance of the
+filesystem (Figure~\ref{}\mtnote{We may want to aggregate some of the diagrams
+about lustre's experiments here}). Since Spider 2 is a center-wide file system,
+this resulted in  performance degradation for all OLCF resources and users.
+\mtnote{I am afraid the details about the trace are too specific given the space
+constraints of a SC submission. Please feel free to uncomment it if you
+disagree.}
 
 % As can be seen in Listing~\ref{mdstrace} the metadata I/O activity for ATLAS
 % exhibits a spike corresponding to the beginning of the runs before tapering
