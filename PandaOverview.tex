@@ -114,6 +114,14 @@ state.
 \subsection{Implementation and Execution}
 \label{ssec:panda_arch}
 
+\mtnote{DDM: just enacts decisions about registering files into datasets. These
+decisions are made by productions. DDM DOES OT DECIDE which file should be in
+which dataset.}
+\mtnote{No communication between APF and PanDA Server (deleted arrow, adjust
+numbers and related text)}
+\mtnote{No more DDM Service on Edge on grid sites. DDM directly interacts with
+SE (deleted arrows, moved number 8. Update labels and related text)}
+
 The implementation of PanDA consists of several interconnected subsystems, most
 of them built from off-the-shelf and Open Source components. Subsystems
 communicate via dedicated API or HTTP messaging, and each subsystem is
