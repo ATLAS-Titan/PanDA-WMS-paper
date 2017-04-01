@@ -1,12 +1,15 @@
 The next LHC run for taking data (Run 3) will require more resources than the
 Worldwide LHC Computing Grid (WLCG) can provide. Currently, PanDA WMS uses more
-than 100,000 cores at over 100 Grid sites, with a peak performance of 0.3
-petaFLOPS. This capacity will be sufficient for the planned analysis and data
-processing, but it will be insufficient for the Monte Carlo production workflow
-and any extra activity. To alleviate these challenges, ATLAS is engaged in a
-program to expand the current computing model to include additional resources
-such as the opportunistic use of supercomputers as well as commercial and
-academic clouds.
+than
+% 100,000
+300,000 cores at over 100 Grid sites\mtnote{Addresses Alexei's comment.
+Increased Grid capacity to 300K cores. Is the number of sites still 100 or
+should I increase that too?}, with a peak performance of 0.3 petaFLOPS. This
+capacity will be sufficient for the planned analysis and data processing, but it
+will be insufficient for the Monte Carlo production workflow and any extra
+activity. To alleviate these challenges, ATLAS is engaged in a program to expand
+the current computing model to include additional resources such as the
+opportunistic use of supercomputers as well as commercial and academic clouds.
 
 
 % -----------------------------------------------------------------------------
@@ -122,11 +125,12 @@ chain)~\cite{rimoldi2006atlas,de2013delphes,ritsch2014atlas}. The MC workflow
 consists of four main stages: event generation, detector simulation,
 digitization, and reconstruction. Event generation creates sets of particle
 four-momenta via different generators, e.g., PYTHIA~\cite{sjostrand2006pythia},
-HERWIG~\cite{corcella2001herwig} and many others. The detector simulator is
-called Geant4~\cite{agostinelli2003geant4} and simulates the interaction of
-these particles with the sensitive material of the ATLAS detector. Each
-interaction creates a so-called hit and all hits are collected and passed on for
-digitalization where hits are further process to mimic the readout of the
+HERWIG~\cite{corcella2001herwig} and many others. \mtnote{Addresses Alexei's comment. Is the following sentence correct?} The detector simulator is
+called Geant4~\cite{agostinelli2003geant4} and simulates both the ATLAS detector and it's interaction physical processes.
+% the interaction of these particles with the sensitive material of the ATLAS
+% detector.
+Each interaction creates a so-called hit and all hits are collected and passed
+on for digitalization where hits are further process to mimic the readout of the
 detector. Finally, reconstruction operates local pattern recognition, creating
 high-level objects like particles and jets.
 
@@ -284,7 +288,7 @@ spawns 1 event simulation process on each available core (16); (vii) during
 execution, PanDA Broker monitors execution progress and sends PanDA Server
 ``heart beats'' for each job.; and (viii) upon completion of each simulation,
 the PanDA Broker locates the output on the shared filesystem, transfer it to
-designated computing centre, and performs cleanup. 
+designated computing centre, and performs cleanup.
 
 % from the Job Dispatcher module of PanDA Server (as done by a PanDA Pilot);
 % (iii) downloading events via PanDA Server's Data Service from ATLAS DDM to
