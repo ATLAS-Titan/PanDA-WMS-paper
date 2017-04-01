@@ -1,4 +1,4 @@
-Currently, ATLAS deploys 20 instances of PanDA Broker on 4 Titan's DTNs, 5
+Currently, ATLAS deploys 20 instances of the PanDA Broker on 4 Titan's DTNs, 5
 instances per DTN. Each broker submits and manages the execution of 15 to 300
 ATLAS jobs, one job for each worker node, and a theoretical maximum concurrent
 use of 96,000 cores. Since November 2015, PanDA Brokers have operated only in
@@ -6,7 +6,7 @@ backfill mode, without a defined time allocation, and running at the lowest
 priority on Titan.
 
 We evaluate the efficiency, scalability and reliability of the PanDA Brokers
-along two dimensions: (i) the amount of backfill availability utilized by the
+along two dimensions: (i) backfill utilization by the
 PanDA Brokers; and (ii) the amount of runtime spent performing detector
 simulations. We based these evaluations on measuring the number of cores
 utilized by ATLAS on Titan, the overall backfill availability, the number of
@@ -17,7 +17,7 @@ time window'.
 
 
 % -----------------------------------------------------------------------------
-\subsection{Utilization and Efficiency of PanDA Broker on Titan}
+\subsection{Characterizing the PanDA Broker on Titan}
 \label{ssec:panda_titan}
 
 Figure~\ref{fig:backfill-utilization} (gray bars) shows the number of core-hours
@@ -37,14 +37,15 @@ February 2017.
 \end{figure}
 
 Figure~\ref{fig:backfill-utilization} (green bars) shows backfill utilization
-during the experiment time window. Efficiency
-(Figure~\ref{fig:backfill-utilization}, red labels) is defined as the fraction
-of Titan’s cores available via backfill that was utilized by the PanDA Brokers.
-The brokers reached 18\% average efficiency, with a minimum 8.9\% efficiency on
-April 2016 and a maximum 33.5\% efficiency on February 2017. The number of total
-backfill cores available was 38.1M in April 2016, and 33.1M in February 2017.
-This shows that the measured difference in efficiency did not depend on a
-comparable difference in total backfill availability.
+during the experiment time window.  Efficiency 
+(Figure~\ref{fig:backfill-utilization}, red labels) is defined as the fraction of core-hours utilized by
+the PanDA Brokers (for ATLAS jobs) to the total of Titan’s backfill
+availability. The brokers reached 18\% average efficiency, with a minimum
+8.9\% efficiency on April 2016 and a maximum 33.5\% efficiency on February
+2017. The total backfill available was 38.1M core-hours in April 2016,
+and 33.1M core-hours in February 2017. This shows that the measured difference in
+efficiency did not depend on a comparable difference in total backfill
+availability.
 
 \mtnote{Elaborate further and put it at the end, after giving several of the
 measurements we would need. ``Currently, this measure of efficiency is being
@@ -179,7 +180,7 @@ scripts at a time is being evaluated.
 
 
 % -----------------------------------------------------------------------------
-\subsection{Efficiency, Scalability, and Reliability of Detector Simulation on Titan}
+\subsection{Characterizing the Detector Simulation on Titan}
 \label{ssec:panda_titan}
 
 % \begin{itemize}
@@ -405,7 +406,7 @@ on reliability.
 
 
 % -----------------------------------------------------------------------------
-\subsection{PanDA I/O Impact at OLCF}
+\subsection{Characterizing PanDA I/O}
 
 To better understand the I/O impact of ATLAS PanDA project on Titan
 supercomputing environment we analyzed 1,175 jobs ran on the week of 10/25/2016,
