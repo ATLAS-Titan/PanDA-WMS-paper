@@ -26,25 +26,6 @@ of 73.8M core-hours, for an average of $\approx$7M core-hours a month, with a
 minimum of 3.3M core-hours in April 2016 and a maximum 14.8M core-hours in
 February 2017.
 
-% \begin{figure}[htp]
-%     \subfloat[]{
-%         \includegraphics[clip,width=\columnwidth]{figures/cpu_hours.png}
-%         \label{fig:core-hours-utilization}
-%     }
-%
-%     \subfloat[]{
-%         \includegraphics[clip,width=\columnwidth]{figures/backfill_consumption.png}
-%         \label{fig:backfill-utilization}
-%     }
-% \caption{(a).(b).}
-% \end{figure}
-
-% \begin{figure}[htp]
-% \includegraphics[clip,width=\columnwidth]{figures/cpu_hours.png}
-% \caption{Caption.}
-% \label{fig:core-hours-utilization}
-% \end{figure}
-
 \begin{figure}[htp]
     \includegraphics[clip,width=\columnwidth]{figures/backfill_consumption.pdf}
     \caption{Gray bars: Number of unused cores of Titan's backfill availability;
@@ -64,6 +45,15 @@ April 2016 and a maximum 33.5\% efficiency on February 2017. The number of total
 backfill cores available was 38.1M in April 2016, and 33.1M in February 2017.
 This shows that the measured difference in efficiency did not depend on a
 comparable difference in total backfill availability.
+
+\mtnote{Elaborate further and put it at the end, after giving several of the
+measurements we would need. ``Currently, this measure of efficiency is being
+refined on the base of the actual minimum amount of walltime that PanDA Broker
+can request when submitting job requests. This is not a fixed value as it
+depends on variable initialization and configuration overheads, simulation time,
+and number of nodes obtained. Part of the undergoing effort is to enable the
+measurements of  the distribution of these parameters to derive an optimization
+function.''}
 
 \jhanote{I would plot the efficiency on the Y2 axis for both
 [diagrams].}\mtnote{Done but then the first diagram ended up plotting a subset
@@ -111,19 +101,20 @@ events is consistent with the physics of the use case and with the average
 duration of backfill availability. The duration of a detector simulation is a
 function of the number of events: the more events, the longer the simulation.
 Not all events take the same time to be simulated:
-Figure~\ref{fig:100event-distrib} shows a distribution of the simulation time of
-1 event from $\approx$2 to $\approx$40 minutes, with a mean of $\approx$14
-minutes. Considering that each worker node process up to 16 events concurrently,
-100 events takes around 2 hours to process.
+% Figure~\ref{fig:100event-distrib} shows a distribution of the simulation time
+% of
+1 event takes from $\approx$2 to $\approx$40 minutes to be simulated, with a
+mean of $\approx$14 minutes. Considering that each worker node process up to 16
+events concurrently, 100 events takes around 2 hours to process.
 
-\begin{figure}[htp]
-    \includegraphics[clip,width=\columnwidth]{figures/tx_simulation_distribution.pdf}
-    \caption{Distribution of the time taken by a Geant4 detector simulation to
-    simulate one event. 3000 Events; 30 Titan worker nodes; 16 simulations per
-    node; 100 events per node. Average time per event $\approx$14 min. Broad
-    distribution from $\approx$2 to $\approx$40 minutes.}
-\label{fig:100event-distrib}
-\end{figure}
+% \begin{figure}[htp]
+%     \includegraphics[clip,width=\columnwidth]{figures/tx_simulation_distribution.pdf}
+%     \caption{Distribution of the time taken by a Geant4 detector simulation to
+%     simulate one event. 3000 Events; 30 Titan worker nodes; 16 simulations per
+%     node; 100 events per node. Average time per event $\approx$14 min. Broad
+%     distribution from $\approx$2 to $\approx$40 minutes.}
+% \label{fig:100event-distrib}
+% \end{figure}
 
 Figure~\ref{fig:backfill-distrib} shows the distribution of backfill
 availability on Titan as a function of number of nodes and the time of their
@@ -323,10 +314,10 @@ cores. When using 16 cores for FP-intensive calculations, each pair of cores
 competes for a single FP scheduler. This creates the overhead shown in
 Figure~\ref{fig:comparison-8-16cores}: the mean runtime per event for 8
 concurrent simulations computing 50 events is 10.8 minutes, while for 16
-simulations is 14.25 minutes (consistent with
-Figure~\ref{fig:100event-distrib}). Despite an inefficiency of almost 30\%,
-Titan's allocation policy based on number of worker nodes used instead of number
-of cores does not justify the use of 1/2 of the cores available.
+simulations is 14.25 minutes (consistent with the measured distribution of the
+duration of event simulation). Despite an inefficiency of almost 30\%, Titan's
+allocation policy based on number of worker nodes used instead of number of
+cores does not justify the use of 1/2 of the cores available.
 
 \begin{figure}[htp]
     \includegraphics[clip,width=\columnwidth]{figures/tx8_tx16_comparison.pdf}
@@ -344,19 +335,23 @@ resources with heterogeneous CPU architectures and a maximum of 8 (virtual)
 cores per worker node, while Titan's offer an homogeneous 16 cores architecture.
 We used the rate of events processes per minute as a measure of the efficiency
 of executing the same detector simulation on both Titan or Grid sites.
-Figure~\ref{fig:comparison-titan-grid} compares the efficiencies of Titan to the
-BNL and SIGNET Grid sites, normalized for 8 cores. Effective performance
-per-core at Titan is $\approx$0.57 event per minute, roughly 1/2 of BNL and 1/3
-of SIGNET performances.
+% Figure~\ref{fig:comparison-titan-grid} compares the efficiencies of Titan to
+% the BNL and SIGNET Grid sites, normalized for 8 cores. Effective performance
+% per-core at Titan is $\approx$0.57 event per minute, roughly 1/2 of BNL and
+% 1/3 of SIGNET performances.
+Comparisons of the efficiencies of Titan to  the BNL and SIGNET Grid sites,
+normalized for 8 cores, show that the effective performance per-core at Titan is
+$\approx$0.57 event per minute, roughly 1/2 of BNL and  1/3 of SIGNET
+performances.
 
-\begin{figure}[htp]
-    \includegraphics[clip,width=\columnwidth]{figures/titan_grid_event_rate.pdf}
-    \caption{Comparison of the event rate for finished jobs at Titan (h1), BNL
-    (h2) and GRIDNET (h3). Titan histogram shows 1/2 of the measured values to
-    account for the core difference between Titan (16) and the Grid sites (8).
-    Performance per core: BNL 1.126; SIGNET 0.885; Titan 0.577.\mtnote{TO BE DELATED.}}
-\label{fig:comparison-titan-grid}
-\end{figure}
+% \begin{figure}[htp]
+%     \includegraphics[clip,width=\columnwidth]{figures/titan_grid_event_rate.pdf}
+%     \caption{Comparison of the event rate for finished jobs at Titan (h1), BNL
+%     (h2) and GRIDNET (h3). Titan histogram shows 1/2 of the measured values to
+%     account for the core difference between Titan (16) and the Grid sites (8).
+%     Performance per core: BNL 1.126; SIGNET 0.885; Titan 0.577.\mtnote{TO BE DELETED.}}
+% \label{fig:comparison-titan-grid}
+% \end{figure}
 
 The differences in performance between Titan and the BNL and SIGNET Grid sites
 are due to the FP scheduler competition and the availability of newer
