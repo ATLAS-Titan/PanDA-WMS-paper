@@ -67,8 +67,9 @@ broker, greatly simplifying the submission process. This simplification would
 also enable the submission of different types of payload, without having to
 develop a specific PBS script for each payload. The submission process would
 also be MPI-independent, as MPI is used for coordination among multiple worker
-nodes, not by the payload.
-
+nodes, not by the payload. \jhanote{candidate for compression/contraction into
+earlier paragraph(s)}
+ 
 % \mtnote{I tried to argue that pilots facilitates the submission to a normal
 % queue but I was not able to find a convincing argumentation. When we consider
 % only Titan, a PBS job is the only way to submit a job to its queue(s). With %
@@ -117,7 +118,7 @@ on diverse resources. Fig.~\ref{fig:arch-overview} illustrates its current
 architecture as deployed on Titan: the two management modules represent a
 simplified version of the PanDA Broker while the agent module is the pilot
 submitted to Titan and executed on its worker nodes. The communication between
-PanDA Broker and PanDA Server is abstracted away as not immediately useful to
+PanDA Broker and PanDA Server is abstracted away as it is not immediately useful to
 evaluate the performance and capabilities of a pilot on Titan.
 
 % Thus, workloads and pilots are described via the Pilot API and passed to the
@@ -165,7 +166,7 @@ Agent's executors can manage one or more worker nodes, depending on performance
 evaluations.
 
 The UnitManager and the Agent communicate via a database that is instantiated on
-one of Titan's DTN so to be reachable by both modules. A similar approach would
+one of Titan's DTN so as to be reachable by both modules. A similar approach would
 be used to enable PanDA Broker to schedule pilots instead of MPI
 scripts.\mtnote{Rewrite this after checking it with Andre.}
 
