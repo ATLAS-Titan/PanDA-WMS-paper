@@ -186,14 +186,12 @@ can be shaped to request no more than the backfill availability. As such, when
 submitted this job is usually scheduled immediately, spending almost no time in
 the queue.
 
-Compared to pilots, backfill has the disadvantage of limiting the amount of work
-nodes that can be requested. Pilots are normal jobs: they can request as many
-worker nodes for as much time as a queue can offer. On the contrary, jobs sized
-on the basis of backfill information availability \jhanote{should be resource
-availability or backfill queue information?}\mtnote{AFAIH, there is no dedicated
-queue to backfill} depend on the number of worker nodes that cannot be given to
-any other job in the Titan's queue.
-% \sergeynote{any other job currently in the Titan's queue?}\mtnote{Better?}.
+Compared to pilots, backfill has the disadvantage of limiting the amount of
+work nodes that can be requested. Pilots are normal jobs: they can request as
+many worker nodes for as much time as a queue can offer. On the contrary, jobs
+sized on the basis of backfill information availability depend on the number
+of worker nodes that cannot be given to any other job in the Titan's queue. %
+\sergeynote{any other job currently in the Titan's queue?}\mtnote{Better?}.
 
 Usually, backfill availability is a fraction of the total capacity of the queue
 but the size of Titan mitigates this limitation. Every year, about 10\% of
