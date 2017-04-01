@@ -25,15 +25,25 @@ started in 2005 and its implementation went into production for the LHC Run 1 on
 \subsection{Design}
 \label{ssec:panda_design}
 
+\mtnote{Addresses Alexei's comment. I eliminated `event' as abstraction and used
+datum/data/physical process when discussing data management in the whole
+section.}
+
 PanDA's application model assumes tasks, workloads and workflows. Tasks
-represent a set of operations performed on a set of events that are stored in
-one or more input files. Tasks are decomposed into jobs, where each job
-represents the task's set of operations and a partition of the task's events.
-Since 2005, a certain amount of parallelism has been progressively introduced
-for job execution~\cite{crooks2012multi} but, so far, no MPI jobs have been
-considered for production. Jobs are supposed to be relatively self-contained,
-capable of setting up their own execution environment or having a minimal set of
-common dependences.
+represent a set of operations performed on
+% a set of events that are
+data sets stored in one or more input files. Tasks are decomposed into jobs,
+where each job represents the task's set of operations and a partition of the
+task's
+% events
+data set. Since 2005, a certain amount of parallelism has been
+progressively introduced for job execution~\cite{crooks2012multi} but, so far,
+% no MPI jobs have been considered for production
+HEP applications have not required MPI\mtnote{Addresses Alexei's comment. If
+this is still too soft, we can write: ``but HEP applications do not require
+MPI.''}. Jobs are supposed to be relatively self-contained, capable of setting
+up their own execution environment or having a minimal set of common
+dependences.
 
 PanDA's usage model is based on multitenancy of resources and the support of at
 least two types of HEP users: individual researchers and groups executing so
@@ -44,22 +54,35 @@ authentication, authorization and accounting for both single users and group of
 users. Both authentication and authorization are based on digital certificates
 and the X.509 standard and on the virtual organization (VO) abstraction.
 
-Currently, PanDA's execution model is based on five main abstractions: task,
-job, queue, pilot, and event. Both tasks and jobs are assumed to have attributes
-and states and to be queued into a global queue for execution. Prioritization
-and binding of jobs are assumed to depend on the attributes of each job. Pilot
-is used to indicate the abstraction of resource capabilities. Each job is
-thought to be bound to one pilot and executed on the site where the pilot has
-been instantiated.
+% Currently, PanDA's execution model is based on five main abstractions: task,
+% job, queue, pilot, and event. Both tasks and jobs are assumed to have
+% attributes and states and to be queued into a global queue for execution.
+% Prioritization and binding of jobs are assumed to depend on the attributes of
+% each job. Pilot is used to indicate the abstraction of resource capabilities.
+% Each job is thought to be bound to one pilot and executed on the site where
+% the pilot has been instantiated.
 
-In PanDA's data model, each event refers to the recorded or simulated
-measurement of a physical event. One or more events can be packaged into files
-or other data containers. As with jobs, data have both attributes and states,
-and some of the attributes are shared between events and jobs. Raw,
-reconstruction, and simulation data are assumed to be distributed across
-multiple storage facilities and managed by the ATLAS Distributed Data Management
-(DDM)~\cite{garonne2012atlas}. When necessary, datasets required by each job are
-assumed to be replicated over the network, both for input and output data.
+Currently, PanDA's execution model is based on four main abstractions: task,
+job, queue, and pilot. Both tasks and jobs are assumed to have attributes and
+states and to be queued into a global queue for execution. Prioritization and
+binding of jobs are assumed to depend on the attributes of each job. Pilot is
+used to indicate the abstraction of resource capabilities. Each job is thought
+to be bound to one pilot and executed on the site where the pilot has been
+instantiated.
+
+In PanDA's data model, each
+% event
+datum refers to the recorded or simulated measurement of a physical
+% event
+process.
+% One or more events
+Data can be packaged into files or other containers. As with jobs, data
+have both attributes and states, and some of the attributes are shared between
+events and jobs. Raw, reconstruction, and simulation data are assumed to be
+distributed across multiple storage facilities and managed by the ATLAS
+Distributed Data Management (DDM)~\cite{garonne2012atlas}. When necessary,
+datasets required by each job are assumed to be replicated over the network,
+both for input and output data.
 
 PanDA's design supports provenance and traceability for both jobs and data.
 Attributes enable provenance by linking jobs and data items, providing
@@ -126,7 +149,8 @@ The implementation of PanDA consists of several interconnected subsystems, most
 of them built from off-the-shelf and Open Source components. Subsystems
 communicate via dedicated API or HTTP messaging, and each subsystem is
 implemented by one or more modules. Databases are used to store eventful
-entities like tasks, jobs and events, and to store information about sites,
+entities and entities' description like tasks, jobs and % events
+input/output data, and to store information about sites,
 resources, logs, and accounting.
 
 Currently, PanDA's architecture has five main subsystems: PanDA
