@@ -9,12 +9,12 @@ capacity will be sufficient for the planned analysis and data processing, but it
 will be insufficient for the Monte Carlo production workflow and any extra
 activity. To alleviate these challenges, ATLAS is engaged in a program to expand
 the current computing model to include additional resources such as the
-opportunistic use of supercomputers as well as commercial and academic clouds.
-
+opportunistic use of supercomputers.
+% as well as commercial and academic clouds.
 
 % -----------------------------------------------------------------------------
-\subsection{Use of Supercomputers with PanDA}
-\label{ssec:panda-supercomputers}
+% \subsection{Use of Supercomputers with PanDA}
+% \label{ssec:panda-supercomputers}
 
 Modern supercomputers have been designed mainly to support parallel computation
 that requires runtime communication. Job execution is parallelized across
@@ -33,32 +33,34 @@ ATLAS workloads or workflows involves concurrent and/or sequential runs of
 possibly large amount of jobs, each requiring no or minimal parallelization and
 no runtime communication. Thus, computing infrastructure like WLCG have been
 designed to aggregate large amount of computing resources across multiple sites.
-While each site may deploy runtime message-passing capabilities, usually these
-are not used to perform distributed computations.
+While each site may deploy MPI capabilities, usually these are not used to
+perform distributed computations.
 
-There are at least two approaches to enable PanDA WMS to execute ATLAS workloads
-or workflows on supercomputers: (i) using the subset of resources and
-capabilities shared by both supercomputers and WLCG; (ii) reconciling the
-parallel and distributed computing paradigms by means of dedicated abstractions.
-The former is a pragmatic approach that enables the execution of specific
-workloads by prototyping single-point solutions. The latter is a principled
-approach, better suited for a production-grade solution, capable of supporting
-general-purpose workloads and workflows on both supercomputers and Grid
-infrastructures. These two approaches are not mutually exclusive: developing a
-single-point solution gives the opportunity to better understand the problem
-space, supporting the creation of abstractions for the integration of computing
-paradigms.
+We developed and deployed a single-point solution to better understand the
+problem space and study abstractions for the integration of HTC and HPC
+computing paradigms. Specifically, the PanDA team developed a job broker to
+support the execution of part of the ATLAS production Monte Carlo workflow on
+Titan, a leadership-class supercomputer managed by the Oak Ridge Leadership
+Computing Facility (OLCF) at the Oak Ridge National Laboratory (ORNL).
 
-This section illustrates the design and architecture of a job broker prototyped
-by the PanDA team. This broker supports execution of part of the ATLAS
-production Monte Carlo workflow on Titan, a leadership-class supercomputer
-managed by the Oak Ridge Leadership Computing Facility (OLCF) at the Oak Ridge
-National Laboratory (ORNL). After an analysis of the results obtained and the
-lessons learned, the following section introduces the design and first
-experimental characterization of a next generation executor (NGE). NGE is
-designed to abstract resources and capabilities, enabling the concurrent
-execution of both parallel and distributed computing on generic high performance
-computing (HPC) machines.
+\mtnote{Move this to the introduction: ``There are at least two approaches to
+enable PanDA WMS to execute ATLAS workloads or workflows on supercomputers: (i)
+using the subset of resources and capabilities shared by both supercomputers and
+WLCG; (ii) reconciling the parallel and distributed computing paradigms by means
+of dedicated abstractions. The former is a pragmatic approach that enables the
+execution of specific workloads by prototyping single-point solutions. The
+latter is a principled approach, better suited for a production-grade solution,
+capable of supporting general-purpose workloads and workflows on both
+supercomputers and Grid infrastructures. \\ This section illustrates the design
+and architecture of a job broker prototyped by the PanDA team. This broker
+supports execution of part of the ATLAS production Monte Carlo workflow on
+Titan, a leadership-class supercomputer managed by the Oak Ridge Leadership
+Computing Facility (OLCF) at the Oak Ridge National Laboratory (ORNL).After an
+analysis of the results obtained and the lessons learned, the following section
+introduces the design and first experimental characterization of a next
+generation executor (NGE). NGE is designed to abstract resources and
+capabilities, enabling the concurrent execution of both parallel and distributed
+computing on generic high performance computing (HPC) machines.''}
 
 
 % -----------------------------------------------------------------------------
