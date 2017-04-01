@@ -37,8 +37,8 @@ While each site may deploy MPI capabilities, usually these are not used to
 perform distributed computations.
 
 We developed and deployed a single-point solution to better understand the
-problem space and study abstractions for the integration of HTC and HPC
-computing paradigms. Specifically, the PanDA team developed a job broker to
+problem space of enabling a WMS designed for HTC to execute production workflows
+on resources designed to support HPC. The PanDA team developed a job broker to
 support the execution of part of the ATLAS production Monte Carlo workflow on
 Titan, a leadership-class supercomputer managed by the Oak Ridge Leadership
 Computing Facility (OLCF) at the Oak Ridge National Laboratory (ORNL).
@@ -188,7 +188,6 @@ allocation policies).
 % availability. As such, when submitted this job is usually scheduled
 % immediately, spending almost no time in the queue.
 
-
 Titan’s backfill functionality offers the opportunity to avoid the overhead of
 queue wait times without using pilot abstraction. Backfill availability is the
 number of node-hours (or core-hours) that  is not utilized by regular jobs
@@ -303,6 +302,8 @@ execution, PanDA Broker monitors execution progress and sends PanDA Server
 ``heart beats'' for each job.; and (viii) upon completion of each simulation,
 the PanDA Broker locates the output on the shared filesystem, transfer it to
 designated computing centre, and performs cleanup.
+
+\mtnote{Address Alexei's comments: Add a paragraph explaining how this solution has been ported to other HPC machines and reference relevant publications.}
 
 % from the Job Dispatcher module of PanDA Server (as done by a PanDA Pilot);
 % (iii) downloading events via PanDA Server's Data Service from ATLAS DDM to
