@@ -114,13 +114,13 @@ state.
 \subsection{Implementation and Execution}
 \label{ssec:panda_arch}
 
-\mtnote{DDM: just enacts decisions about registering files into datasets. These
-decisions are made by productions. DDM DOES OT DECIDE which file should be in
-which dataset.}
+\mtnote{From Danila: DDM enacts decisions about registering files into datasets.
+These decisions are made by productions. DDM DOES OT DECIDE which file should be
+in which dataset.}\mtnote{Done.}
 \mtnote{No communication between APF and PanDA Server (deleted arrow, adjust
-numbers and related text)}
+numbers and related text)}\mtnote{Done.}
 \mtnote{No more DDM Service on Edge on grid sites. DDM directly interacts with
-SE (deleted arrows, moved number 8. Update labels and related text)}
+SE (deleted arrows, moved number 8. Update labels and related text)}\mtnote{Done.}
 
 The implementation of PanDA consists of several interconnected subsystems, most
 of them built from off-the-shelf and Open Source components. Subsystems
@@ -148,7 +148,7 @@ monitoring details to improve readability.
     \caption{PanDA architecture with the subsystems and components
     relevant to the integration of PanDA with supercomputers. Numbers indicates
     the execution process based on JEDI: From the submission of tasks (1) to the
-    retrieval of their output (20). The monitoring subsystem, the architectural
+    retrieval of their output (19). The monitoring subsystem, the architectural
     details of PanDA Pilot and the communication among subsystem's components
     are abstracted to improve clarity.}
 \label{fig:architecture}
@@ -336,8 +336,9 @@ monitoring details to improve readability.
 The relation between tasks and jobs can be one-to-one or one-to-many, and the
 conversion between the two can by static or dynamic. During the LHC Run 1, PanDA
 required users or applications to perform a static conversion between tasks and
-jobs: tasks were described as a set of jobs with a fixed number of events and
-then submitted to the PanDA Server.
+jobs: tasks were described as a set of jobs
+% with a fixed number of events
+and then submitted to the PanDA Server.
 
 This approach introduced inefficiency both with usability and resource
 utilization~\cite{borodin2015unified}. Ideally, users should not have to reason
@@ -369,35 +370,35 @@ into a global queue implemented as a  database (Fig.~\ref{fig:architecture}:5).
 When jobs are submitted directly to the PanDA Server, the Brokerage component is
 used to bind jobs to available sites, depending on static information about the
 resources available for each site. Jobs submitted by JEDI are already bound to
-sites so no further brokerage is needed. Once jobs are bound to sites, the
-Brokerage module communicates to the Data Service module what data sets need to
-be made available on what site (Fig.~\ref{fig:architecture}:6). The Data Service
-communicates these requirements to the ATLAS DDM (Fig.~\ref{fig:architecture}:7)
-that, when needed, takes care of aggregating files into datasets and containers,
+sites so no further brokerage is needed.
+
+Once jobs are bound to sites, the Brokerage module communicates to the Data
+Service module what data sets need to be made available on what site
+(Fig.~\ref{fig:architecture}:6). The Data Service communicates these
+requirements to the ATLAS DDM (Fig.~\ref{fig:architecture}:7) that, when needed,
+takes care of % aggregating files into datasets and containers,
 replicating them on the required sites (Fig.~\ref{fig:architecture}:8).
 
-The AutoPyFactory subsystem communicates with the Task Buffer component of the
-PanDA Server, acquiring information about jobs that are ready for execution on
-specific (type of) sites (Fig.~\ref{fig:architecture}:9). On the basis of this
-information, AutoPyFactory defines a set of suitable PanDA Pilots and
-concurrently submits them to a Condor-G broker (Fig.~\ref{fig:architecture}:10).
-This broker submits these pilots wrapped as jobs or VMs to the required sites
-(Fig.~\ref{fig:architecture}:11).
+% AutoPyFactory subsystem communicates with the Task Buffer component of the
+% PanDA Server, acquiring information about jobs that are ready for execution on
+% specific (type of) sites (Fig.~\ref{fig:architecture}:9). On the basis of this
+% information,
+Meanwhile, AutoPyFactory defines a set of suitable PanDA Pilots and concurrently
+submits them to a Condor-G broker (Fig.~\ref{fig:architecture}:9). This broker
+submits these pilots wrapped as jobs or VMs to the required sites
+(Fig.~\ref{fig:architecture}:10).
 
 % AutoPyFactory submits pilots only when similar pilots are not yet available
 % and maintains a predefined amount of pressure on the queue of each site. In
 % this way, resource availability and utilizations is optimized.
 
-When a PanDA Pilot becomes available on a site, it
-% bootstrap, download their code, collect information about the execution
-% environment and
-calls the Job Dispatcher module of the PanDA Server, requesting for a job to
-execute (Fig.~\ref{fig:architecture}:12). The Job Dispatcher communicates with
-the Task Buffer, requesting for a job that is bound to the site of that pilot
-and ready to be executed. Task Buffer checks the global queue (i.e., the PanDA
-database) and if such a job is available, it passes the job handler to the Job
-Dispatcher. The Job Dispatcher dispatches the job to the PanDA Pilot
-(Fig.~\ref{fig:architecture}:13).
+When a PanDA Pilot becomes available on a site, it calls the Job Dispatcher
+module of the PanDA Server, requesting for a job to execute
+(Fig.~\ref{fig:architecture}:11). The Job Dispatcher interrogates the Task
+Buffer module for a job that is bound to the site of that pilot and ready to be
+executed. Task Buffer checks the global queue (i.e., the PanDA database) and,
+upon availability, returns a suitable job the Job Dispatcher. The Job Dispatcher
+dispatches that job to the PanDA Pilot (Fig.~\ref{fig:architecture}:12).
 
 % \mtnote{Can a pilot request multiple jobs to execute
 % concurrently?}\sergeynote{In principle it should be able to do that, but
@@ -406,22 +407,22 @@ Dispatcher. The Job Dispatcher dispatches the job to the PanDA Pilot
 % pilots. Simplifies many things. At least as far as I know.}
 
 Upon receiving a job, a PanDA Pilot starts a monitoring process and forks a
-subprocess for the execution of the job's payload. The job is setup, input data
-are transferred from the designated staging in location
-(Fig.~\ref{fig:architecture}:14), and the job's payload is executed
-(Fig.~\ref{fig:architecture}:15). Once completed, output is transferred to the
-staging out location (Fig.~\ref{fig:architecture}:16).
+subprocess for the execution of the job's payload. The job is set up, input data
+are transferred from the designated staging-in location
+(Fig.~\ref{fig:architecture}:13), and the job's payload is executed
+(Fig.~\ref{fig:architecture}:14). Once completed, output is transferred to the
+staging-out location (Fig.~\ref{fig:architecture}:15).
 
 % During the job's payload execution, the monitoring process of PanDA Pilot
 % checks the status of the job execution and its environment.
 
 The Data Service module of the PanDA Server tracks and collects the output
-generated by each job (Fig.~\ref{fig:architecture}:17), updating jobs'
-attributes via the Task Buffer module (Fig.~\ref{fig:architecture}:18). When the
+generated by each job (Fig.~\ref{fig:architecture}:16), updating jobs'
+attributes via the Task Buffer module (Fig.~\ref{fig:architecture}:17). When the
 output of all the jobs of a task are retrieved, it is made available to the user
-via PanDA Server. When a task is submitted to JEDI, task is marked as done
-(Fig.~\ref{fig:architecture}:19) and the result of its execution is made
-available to the user by JEDI (Fig.~\ref{fig:architecture}:20).
+via PanDA Server. When a task is submitted to JEDI, task is instead marked as
+done (Fig.~\ref{fig:architecture}:18) and the result of its execution is made
+available to the user by JEDI (Fig.~\ref{fig:architecture}:19).
 
 % \mtnote{Think whether a comparison with other WMS based on the review we did
 % makes sense in this context.}\sergeynote{You provided a nice description of
