@@ -15,6 +15,10 @@ they 100 events?}\aanote{`Not always.'}
 We present three groups of experiments in which we test the NGE for weak
 scalability, weak scalability with multiple generation, and strong scalability.
 
+
+\jhanote{Do we need to be consistent in use of NGE and pilots or should we
+continue to use them inter-changably?}
+
 We % collected data about
 measured the execution time of the pilots and of the AthenaMP % that have been
 executed within them, collecting timestamps at % by considering
@@ -23,7 +27,7 @@ by % using
 submitting NGE's pilots % on
 to Titan's batch queue. Because of Titan's % batch queue
 policies, the turnaround time of each run of our experiments is dominated by
-% the time spent on TITAN's queue
+% the time spent on Titan's queue
 queue time. Since we are interested only in the performances of the NGE, we
 removed queue time from our statistics.
 

@@ -125,14 +125,16 @@ chain)~\cite{rimoldi2006atlas,de2013delphes,ritsch2014atlas}. The MC workflow
 consists of four main stages: event generation, detector simulation,
 digitization, and reconstruction. Event generation creates sets of particle
 four-momenta via different generators, e.g., PYTHIA~\cite{sjostrand2006pythia},
-HERWIG~\cite{corcella2001herwig} and many others. \mtnote{Addresses Alexei's comment. Is the following sentence correct?} The detector simulator is
-called Geant4~\cite{agostinelli2003geant4} and simulates both the ATLAS detector and it's interaction physical processes.
+HERWIG~\cite{corcella2001herwig} and many others. \mtnote{Addresses Alexei's
+comment. Is the following sentence correct?} The detector simulator is called
+Geant4~\cite{agostinelli2003geant4} and simulates the ATLAS detector and the
+interaction between that detector and particles.
 % the interaction of these particles with the sensitive material of the ATLAS
 % detector.
 Each interaction creates a so-called hit and all hits are collected and passed
-on for digitalization where hits are further process to mimic the readout of the
-detector. Finally, reconstruction operates local pattern recognition, creating
-high-level objects like particles and jets.
+on for digitalization, where hits are further process to mimic the readout of
+the detector. Finally, reconstruction operates local pattern recognition,
+creating high-level objects like particles and jets.
 
 % While this is different from the HEP computing paradigm, where jobs are
 % independent, it still shares common features such as the use of
@@ -205,17 +207,17 @@ overall capacity of WLCG.
 % free nodes are currently available and for how long. If a user submit a
 % requestvfor that number of nodes and walltime, queue time will be minimal.
 
-\mtnote{Please feel free to add details about backfill as needed.}
-\mtnote{Please note: I know the following departs for the current name given to
-the PanDA subsystem installed on Titan. I think there is a good reason to call
-it a broker instead of a pilot, and I think I explained it in the previous
-paragraphs. Please  take this just as a suggestion, something I would like to
-discuss in our meeting.} \sergeynote{It's not a pilot in conventional sense. I
-call it an agent. It just happened that we were able to use full PanDA pilot's
-code base to serve our purposes on Titan. that's why, by inertia, we still call
-it a pilot.}\mtnote{Thank you. We would have a problem calling it `agent' as we
-use that term to name the pilot of NGE. Would PanDA Broker work?}\sergeynote{OK
-broker it is for this paper.}
+% \mtnote{Please feel free to add details about backfill as needed.}
+% \mtnote{Please note: I know the following departs for the current name given
+% to the PanDA subsystem installed on Titan. I think there is a good reason to
+% call it a broker instead of a pilot, and I think I explained it in the
+% previous paragraphs. Please  take this just as a suggestion, something I would
+% like to discuss in our meeting.} \sergeynote{It's not a pilot in conventional
+% sense. I call it an agent. It just happened that we were able to use full
+% PanDA pilot's code base to serve our purposes on Titan. that's why, by
+% inertia, we still call it a pilot.}\mtnote{Thank you. We would have a problem
+% calling it `agent' as we use that term to name the pilot of NGE. Would PanDA
+% Broker work?}\sergeynote{OK broker it is for this paper.}
 
 Given the communication requirements of PanDA Pilots and the unused capacity of
 Titan, PanDA pilot was repurposed to serve as a job broker on the DTN nodes of
