@@ -15,8 +15,8 @@ set grid ytics
 #set y2range[0:4200]
 #set y2tics 
 set style fill solid 1.0 border rgb 'black'
-plot 'data.csv' u ($1-0.2):2:4:5:(0.2) axes x1y1  title 'AthenaMP Execution time' with boxerrorbars fs solid lc rgb 'blue' lw 3,\
-'data.csv' u ($1):17:19:20:(0.2) axes x1y1 title 'Pilot Duration' with boxerrorbars fs solid lc rgb 'red' lw 3,\
+plot 'data.csv' u ($1):2:4:5:(0.2) axes x1y1  title 'AthenaMP Execution time' with boxerrorbars fs solid lc rgb 'blue' lw 3,\
+'data.csv' u ($1-0.2):17:19:20:(0.2) axes x1y1 title 'Pilot Duration' with boxerrorbars fs solid lc rgb 'red' lw 3,\
 'data.csv' u ($1+0.2):(f($12)):(f($14)):(f($15)):(0.2) axes x1y1 title 'Overhead' with boxerrorbars fs solid lc rgb 'green' lw 3;
 
 
@@ -38,8 +38,8 @@ set grid ytics
 #set y2range[0:*]
 #set y2tics 
 set style fill solid 1.0 border rgb 'black'
-plot 'weak2.csv' u ($1-0.2):2:4:5:(0.2) axes x1y1   title 'AthenaMP (5 executions)' with boxerrorbars fs solid lc rgb 'blue' lw 3,\
-'weak2.csv' u ($1):17:19:20:(0.2) axes x1y1  title 'Pilot Duration' with boxerrorbars fs solid lc rgb 'red' lw 3,\
+plot 'weak2.csv' u ($1):2:4:5:(0.2) axes x1y1   title 'AthenaMP (5 executions)' with boxerrorbars fs solid lc rgb 'blue' lw 3,\
+'weak2.csv' u ($1-0.2):17:19:20:(0.2) axes x1y1  title 'Pilot Duration' with boxerrorbars fs solid lc rgb 'red' lw 3,\
 'weak2.csv' u ($1+0.2):($12):($14):($15):(0.2) axes x1y1 title 'Overhead' with boxerrorbars fs solid lc rgb 'green' lw 3;
 
 
@@ -60,8 +60,8 @@ set xtics ("2048/256" 1,"2048/512" 2,"2048/1024" 3,"2048/2048" 4)
 set ytics (400,1000,2000,4000,6000,8000,10000)
 set grid ytics
 set style fill solid 1.0 border rgb 'black'
-plot 'strong.csv' u ($1-0.2):2:4:5:(0.2) axes x1y1 title 'Pilot Duration' with boxerrorbars fs solid lc rgb 'blue' lw 3,\
-'strong.csv' u ($1):17:19:20:(0.2) axes x1y1 title 'AthenaMP duration per node' with boxerrorbars fs solid lc rgb 'red' lw 3,\
+plot 'strong.csv' u ($1):2:4:5:(0.2) axes x1y1 title 'Pilot Duration' with boxerrorbars fs solid lc rgb 'blue' lw 3,\
+'strong.csv' u ($1-0.2):17:19:20:(0.2) axes x1y1 title 'AthenaMP duration per node' with boxerrorbars fs solid lc rgb 'red' lw 3,\
 'strong.csv' u ($1+0.2):($12):($14):($15):(0.2) axes x1y1 title 'Overhead' with boxerrorbars fs solid lc rgb 'green' lw 3;
 
 
