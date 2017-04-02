@@ -3,73 +3,52 @@
 
 \subsection{Experiments}
 
-In this section we present experiments % that aim
-to determine the performances of the NGE and to show how it provides a minimal
-overhead while introducing new functionalities.
+We designed experiments to characterize the performance of the NGE on Titan,
+with an emphasis on understanding its overhead and thus the cost of
+introducing new functionalities.  We perform three groups of experiments in
+which we investigate the weak scalability, weak scalability with multiple
+generation, and strong scalability of the NGE. 
 
-Experiments % consist in running
-run instances of AthenaMP by using NGE pilots, % where each AthenaMP simulates
-simulating a pre-determined number of events in the ATLAS detector.\mtnote{are
-they 100 events?}\aanote{`Not always.'}
-% taken from ATLAS workload.
-We present three groups of experiments in which we test the NGE for weak
-scalability, weak scalability with multiple generation, and strong scalability.
+Each experiment entails executing multiple instances of AthenaMP using the NGE
+to simulate a pre-determined number of events. All the experiments have been
+performed by  configuring AthenaMP to use all the 16 cores  of Titan's worker
+nodes.
 
-
-\jhanote{Do we need to be consistent in use of NGE and pilots or should we
-continue to use them inter-changably?}
-
-We % collected data about
-measured the execution time of the pilots and of the AthenaMP % that have been
-executed within them, collecting timestamps at % by considering
-all stages of the execution. Experiments have been performed % out of production
-by % using
-submitting NGE's pilots % on
-to Titan's batch queue. Because of Titan's % batch queue
-policies, the turnaround time of each run of our experiments is dominated by
-% the time spent on Titan's queue
-queue time. Since we are interested only in the performances of the NGE, we
+We  measured the execution time of the pilots and of the AthenaMP  executed
+within them, collecting timestamps at  all stages of the execution.
+Experiments have been performed  by  submitting NGE's pilots  to Titan's batch
+queue.  The turnaround time of an individual run is determined by queue
+waiting times. Since we are interested only in the performances of the NGE, we
 removed queue time from our statistics.
-
-All the experiments have been performed by % setting
-configuring AthenaMP
-% in such a way that it uses
-to use all the 16 cores % present on
-of Titan's worker nodes.
-
 
 \subsubsection{Weak scalability}
 
-% The
-In this experiment % consists in running
-we run as many AthenaMP instances (also referred as tasks from now-on) as the number of nodes controlled by the pilot. Each AthenaMP
-% have been assigned with 100 events whose simulation requires
-simulates 100 events, requiring $\sim 70$ minutes on average.
+In this experiment  we run as many AthenaMP instances (hereafter referred to
+as tasks)  as the number of nodes controlled by the pilot. Each AthenaMP
+simulates 100 events, requiring $\sim 70$ minutes on average. \jhanote{Please
+convert all measurements into seconds!}
 
-Tasks do not % experience
-wait within the NGE Agent's queue % within the pilot
-since % there is
-one node %for
-is available to each AthenaMP instance. % Therefore, d
-Delays in tasks execution are consequence of % only
-three other factors: (i) the bootstrapping of the pilot on the nodes; (ii) the
-UnitManager, as defined in Section~\ref{sec:arch}, that has to dispatch tasks to
-the agent; and (iii) the time that the agent requires to spawn all the tasks on
-the nodes.
+Tasks do not  wait within the NGE Agent's queue since  one node  is available
+to each AthenaMP instance.  Overheads in task execution are consequence
+primarily of the three other factors: (i) the  initial bootstrapping of the
+pilot on the nodes; (ii) the UnitManager's dispatching of  units (tasks) to
+the agent; and (iii) time for the agent to spawn all the tasks on the nodes.
+\jhanote{"spawn" is the right word here. The agent does not spawn tasks. These
+are predefined. I would say "initialize" maybe? Something better?}
+
 
 We tested % different
 pilots % sizes, i.e. :
 with 250, 500, 1000 and 2000 worker nodes and
 %. For all of them, the walltime was
-2 hours walltime. Figure~\ref{fig:weakScal1a} depicts the average pilot
-duration, the average execution time of AthenaMP, and the pilot's overhead as
+2 hours walltime. The time duration is determined by the Titan's walltime policy. Figure~\ref{fig:weakScal1a} depicts the average pilot
+duration, the average execution time of AthenaMP, and the NGE pilot overhead as
 function of the pilot size.
 
 \begin{figure}[!htb]
         \includegraphics[height=4.5cm,width=\columnwidth]{./figures/NGE/weak1.pdf}
-    \caption{Weak scalability: average pilot duration, average duration of a
-    single AthenaMP execution, and pilot's overhead for different pilot sizes
-    (250, 500, 1000 and 2000 worker nodes). }
+    \caption{Weak scalability: Average duration of a
+    single AthenaMP execution, average pilot duration and pilot's overhead as a function of different pilot sizes. \jhanote{Caption should be in consistent order as the bars in the figure. Ideally pilot first then AthenMP.}}
 \label{fig:weakScal1a}
 \end{figure}
 
@@ -86,6 +65,7 @@ the pilot durations is minimal, although it slightly increases with the pilot
 size. % By observing NGE's overhead, w
 We % can
 notice that NGE's overhead does not grow linearly with the number of units.
+\jhanote{It does grow linearly with units! What am I missing??}
 
 %\begin{figure}[!htb]
 %        \includegraphics[width=0.4\textwidth]{./figures/NGE/weakOver1.pdf}
