@@ -25,7 +25,7 @@ detector simulations. This makes the scheduling of multiple generations of
 workload on the same PBS job impossible: Once a statically defined number of
 detector simulations are packaged into a PBS job and this job is queued on
 Titan, no further simulations can be added to that job. New simulations have
-to be packaged into a new PBS job that needs to be submitted to Titan based 
+to be packaged into a new PBS job that needs to be submitted to Titan based
 upon backfill availability.
 
 The support of  multiple generations of workload would enable more efficient
@@ -37,17 +37,20 @@ packaging and submission overheads.
 
 % \mtnote{Are there more reasons for wanting multiple generations?}
 
-\jhanote{not sure MPI script is optimal description or ambigious.} Multiple
-generations would also relax two assumptions of the current execution model:
-knowing the number of simulations before submitting the MPI script, and having
-a fixed number of events per simulation (100 at the moment). Pilots would
-enable the scheduling of simulations independently from whether they were
-available at the moment of submitting the pilot. Further, simulations with a
-varying number of events could be scheduled on a pilot, depending on the
-amount of remaining walltime and the distribution of execution time per event,
-as shown in \S\ref{ssec:panda_titan}, Figure~\ref{fig:100event-distrib}.
-These capabilities would increase the efficiency of the PanDA Broker when
-there is a large difference between the number of cores and walltime.
+\jhanote{not sure MPI script is optimal description or ambiguous.}\mtnote{Is
+what we used in the previous section(s) to designate what PanDA Broker submits
+to Titan's Torque batch system. Job is already used for what is pulled from
+PanDA server.} Multiple generations would also relax two assumptions of the
+current execution model: knowing the number of simulations before submitting the
+MPI script, and having a fixed number of events per simulation (100 at the
+moment). Pilots would enable the scheduling of simulations independently from
+whether they were available at the moment of submitting the pilot. Further,
+simulations with a varying number of events could be scheduled on a pilot,
+depending on the amount of remaining walltime and the distribution of execution
+time per event, as shown in \S\ref{ssec:panda_titan},
+Figure~\ref{fig:100event-distrib}. These capabilities would increase the
+efficiency of the PanDA Broker when there is a large difference between the
+number of cores and walltime.
 
 % to one in which the number of events is decided on the base of the available
 % walltime. Pilots would enable to package simulations with a heterogeneous
@@ -68,7 +71,7 @@ develop a specific PBS script for each payload. The submission process would
 also be MPI-independent, as MPI is used for coordination among multiple worker
 nodes, not by the payload. \jhanote{candidate for compression/contraction into
 earlier paragraph(s)}
- 
+
 % \mtnote{I tried to argue that pilots facilitates the submission to a normal
 % queue but I was not able to find a convincing argumentation. When we consider
 % only Titan, a PBS job is the only way to submit a job to its queue(s). With %
@@ -113,16 +116,16 @@ this prototype Next Generation Executor (NGE).
 % Executor (NGE) to add pilot capabilities to the PanDA Broker.
 
 \jhanote{Alternative: "NGE is a runtime system to execute heterogeneous and
-dynamically determined tasks that constitute workloads." This definition put
-the focus on tasks and not workloads, which is a level above in the RADICAL
-conceptual layer diagram.} NGE is a runtime system designed to execute
-heterogeneous and dynamic workloads on diverse resources. Fig.~\ref{fig:arch-
-overview} illustrates its current architecture as deployed on Titan: the two
-management modules (Pilot and Unit) represent a simplified version of the PanDA Broker while
-the agent module is the pilot submitted to Titan and executed on its worker
-nodes. The communication between PanDA Broker and PanDA Server is abstracted
-away as it is not immediately useful to evaluate the performance and
-capabilities of a pilot on Titan.
+dynamically determined tasks that constitute workloads." This definition put the
+focus on tasks and not workloads, which is a level above in the RADICAL
+conceptual layer diagram.}\mtnote{Done.} NGE is a runtime system to execute
+heterogeneous and dynamically determined tasks that constitute workloads.
+Fig.~\ref{fig:arch- overview} illustrates its current architecture as deployed
+on Titan: the two management modules (Pilot and Unit) represent a simplified
+version of the PanDA Broker while the agent module is the pilot submitted to
+Titan and executed on its worker nodes. The communication between PanDA Broker
+and PanDA Server is abstracted away as it is not immediately useful to evaluate
+the performance and capabilities of a pilot on Titan.
 
 % Thus, workloads and pilots are described via the Pilot API and passed to the
 % NGE runtime system. NGE launches the pilots and executes the tasks of the
@@ -156,24 +159,28 @@ capabilities of a pilot on Titan.
 % (Fig.~\ref{fig:arch-overview}, purple boxes).
 
 
-NGE exposes an API for the application  \jhanote{workload management?} layer
-to describe workloads (Fig.~\ref{fig:arch-overview}, green squares) and pilots
+NGE exposes an API for the application  \jhanote{workload management?} layer to
+describe workloads (Fig.~\ref{fig:arch-overview}, green squares) and pilots
 (Fig.~\ref{fig:arch-overview}, red circles), and to instantiate a PilotManager
-and a UnitManager.   The PilotManager submits pilots to Titan's PBS
-\jhanote{for consistency should we say Moab?} batch system via SAGA API
-(Fig.~\ref{fig:arch-overview}, dash arrow), as done by PanDA Broker to submit
-MPI scripts. Once scheduled, the pilot's Agent is bootstrapped on Titan's MOM
-node and \jhanote{the Agent's Executors on the} worker nodes, and  the
+and a UnitManager.   The PilotManager submits pilots to Titan's Torque
+\jhanote{for consistency should we say Moab?}\mtnote{Moab = Scheduler; Torque =
+Batch system.} batch system via SAGA API (Fig.~\ref{fig:arch-overview}, dash
+arrow), as done by PanDA Broker to submit MPI scripts. Once scheduled, the
+pilot's Agent is bootstrapped on Titan's MOM node and \jhanote{the Agent's
+Executors on the} the Agent's Executors on the worker nodes, and the
 UnitManager schedules units to the Agent's Scheduler (Fig.~\ref{fig:arch-
 overview}, solid arrow). The Agent's Scheduler schedules the units on one or
 more Agent's Executor for execution. The Agent's executors can manage one or
-more worker nodes, depending on performance evaluations.
+more worker nodes, depending on performance evaluations. The UnitManager and the
+Agent communicate via a database that is instantiated on one of Titan's DTN so
+as to be reachable by both modules.
 
-The UnitManager and the Agent communicate via a database that is instantiated on
-one of Titan's DTN so as to be reachable by both modules. A similar approach would
-be used to enable PanDA Broker to schedule pilots instead of MPI
-scripts.\mtnote{Rewrite this after checking it with Andre.}\jhanote{In the interest of space and clarity, I would  remove the last sentence of this para. And merge
-the first sentence with the para above.}
+% A similar approach would be used to enable PanDA Broker to schedule pilots
+% instead of MPI scripts.\mtnote{Rewrite this after checking it with
+% Andre.}
+\jhanote{In the interest of space and clarity, I would  remove the last
+sentence of this para. And merge the first sentence with the para
+above.}\mtnote{Done.}
 
 % The lifespan of pilots has four states distributed among the PilotManager,
 % resource, and pilot instance.% (Fig.~\ref{fig:pilot-state-model}).
@@ -240,19 +247,19 @@ the first sentence with the para above.}
 % Above all NGE's components, the Agent is the one that is worth to mention the
 % most.
 
-The NGE Agent uses the \emph{Open Run-Time Environment (ORTE)} for
-communication and coordination of the execution of units. ORTE is a critical
-component of the OpenMPI implementation, developed to support distributed
-high-performance computing applications operating in a heterogeneous
-environment~\cite{XXX}. The system \jhanote{which system? ORTE or OpenMPI in
-general?} transparently provides support for interprocess communication,
-resource discovery and allocation, and process launching across a variety of
-platforms. ORTE provides a mechanism similar to the Pilot concept - it allows
-the user to create a \emph{``dynamic virtual machine''} (DVM) that spans
-multiple nodes. ORTE provides libraries to enable the submission, monitoring
-and managing of tasks, avoiding filesystem bottlenecks and race conditions
-with network sockets. As a consequence, it is able to minimize the system
-overhead while submitting tasks.
+The NGE Agent uses the \emph{Open Run-Time Environment (ORTE)} for communication
+and coordination of the execution of units. ORTE is a critical component of the
+OpenMPI implementation, developed to support distributed high-performance
+computing applications operating in a heterogeneous environment~\cite{XXX}. The
+system \jhanote{which system? ORTE or OpenMPI in general?}\mtnote{I am not sure
+but I think ORTE?} transparently provides support for interprocess
+communication, resource discovery and allocation, and process launching across a
+variety of platforms. ORTE provides a mechanism similar to the Pilot concept -
+it allows the user to create a \emph{``dynamic virtual machine''} (DVM) that
+spans multiple nodes. ORTE provides libraries to enable the submission,
+monitoring and managing of tasks, avoiding filesystem bottlenecks and race
+conditions with network sockets. As a consequence, it is able to minimize the
+system overhead while submitting tasks.
 
 %Each component of RP has a independent semantic scope. This enables modularity
 %isolating implementation complexity and supporting diverse use cases and
