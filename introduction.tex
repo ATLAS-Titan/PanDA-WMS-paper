@@ -1,16 +1,17 @@
 The Large Hadron Collider (LHC) was created to explore the fundamental
-properties of matter for the next decades.  Since LHC start-up in 2009,
-multiple experiments  at LHC have collected and distributed hundreds of
-petabytes of data worldwide to hundreds of computer centers. Thousands of
-physicists analyze petascale data volumes daily. The detection of the Higgs
-Boson speaks to the success of the detector and experiment design, as well as
-the sophistication of computing systems devised to analyze the data.
+properties of matter for the next decades.   Multiple experiments at LHC have
+collected and distributed hundreds of petabytes of data worldwide to hundreds
+of computer centers. Thousands of physicists analyze petascale data volumes
+daily. The detection of the Higgs Boson in 2013 speaks to the success of the
+detector and experiment design, as well as the sophistication of computing
+systems devised to analyze the data.
 
-Historically the computing systems consisted of the federation of a hundreds
-to thousands of distributed resources \textemdash{} ranging in scale from
-small to mid-size resource~\cite{foster2003grid}. Although the workloads to be
-executed are independent, the management of the distribution of extremely-
-large workloads across many heterogeneous resources to ensure the effective
+Historically the computing systems used by LHC experiments consisted of the
+federation of a hundreds to thousands of distributed resources \textemdash{}
+ranging in scale from small to mid-size resource~\cite{foster2003grid}.
+Although the workloads to be executed are comprised of tasks that are
+independent of each other, the management of the distribution of 
+workloads across many heterogeneous resources to ensure the effective
 utilization of resources and efficient execution of workloads presents non-
 trivial challenges.
 
@@ -22,14 +23,15 @@ management system~\cite{Maeno2011} (WMS) for distributed data processing and
 analysis. The CMS and ATLAS experiments represent arguably the largest
 production grade distributed computing solutions and have symbolized the
 paradigm of {\it high-throughput computing} viz., the effective execution of
-many independent workloads.
+many independent tasks.
 
-As the LHC prepares for the high-luminosity era (Run 3 in $~\approx$ 2022), it
-is anticipated that the data volumes that will need analyzing will increase by
-10X compared to the current phase (Run 2).   The data will be larger in volume
-but will also require heterogeneous computational processes. In spite of the
-impressive scale of the ATLAS distributed computing system, demand for
-computing systems will significantly outstrip supply (availability).
+As the LHC prepares for the high-luminosity era (Run 4) and Run 3 in
+$~\approx$ 2022, it is anticipated that the data volumes that will need
+analyzing will increase by factors of 10-100  compared to the current phase
+(Run 2). The data will be larger in volume but will also require more
+sophisticated computational processing. In spite of the impressive scale of
+the ATLAS distributed computing system, demand for computing systems will
+significantly outstrip supply (availability).
 
 There are multiple levels at which this problem needs to be addressed
 urgently, e.g., the utilization of emerging parallel architectures (e.g.,
@@ -42,21 +44,23 @@ the traditional computational approach of high-throughput computing on
 distributed resources to embrace new platforms, in particular high-performance
 computers. Specifically, we discuss the experience of integrating the PanDA
 workload management system with Titan ~\textemdash{} a DOE leadership
-computing facility and scaled to analyze up to \jhanote{XX\%} of the ATLAS
-experiment workload. We present the design of PanDA and show how localized
-substitution to use well established pilot-concepts allow enhanced support for
-heterogeneous workloads (such as molecular dynamics) and advanced execution
-modes.
+computing facility. Consequently, Titan now analyzes up to 5\% of workload  of
+the ATLAS experiment. The case study presents the design and integration of
+PanDA to reach sustained production scales (ca. 100 M core-hours a years). It
+also discusses the investigation of a task execution runtime system on Titan,
+that is based on  the pilot-abstractions and which allows advanced execution
+modes of the ATLAS workload as well as the enhanced support for heterogeneous
+workloads (such as molecular dynamics).
 
-This state-of-practice paper provides multiple contributions.  (i) Documents
-the many design and operational considerations that have been  taken to
-support the sustained, scalable and production usage of Titan for historically
-high-throughput workloads, (ii) Extensions to PanDA to support non-traditional
-heterogeneous workloads and execution modes,  and (iii) As the community looks
-forward to designing the next generation of online analytical platforms
-~\cite{foap} the lessons learnt from our project provide some guidance for how
-current and future experimental and observational systems can be integrated
-with supercomputers in production.
+This state-of-practice paper provides multiple contributions.  It (i)
+documents the many design and operational considerations that have been  taken
+to support the sustained, scalable and production usage of Titan for
+historically high-throughput workloads, (ii) Extensions to PanDA to support
+non-traditional heterogeneous workloads and execution modes,  and (iii) As the
+community looks forward to designing the next generation of online analytical
+platforms~\cite{foap}, this project provides some early lessons and guidance
+for how current and future experimental and observational systems can be
+integrated with production supercomputers in a general and extensible manner.
 
 
 % \subsubsection*{The following is a candidate for major compression into a single paragraph}
