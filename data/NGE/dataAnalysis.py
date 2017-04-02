@@ -1,4 +1,5 @@
 import os
+import radical.pilot as rp
 import radical.analytics as ra
 import math
 import numpy as np
@@ -80,8 +81,29 @@ def extractTimes(path,states,sampling=1):
 			times[numstates].append(countall)
 			times[numstates+1].append(value1-queueTime)
 			del session	
-        os.chdir(currPath)
+       	os.chdir(currPath) 
 	return times
+
+def extractTimestamp(path):
+	currPath = os.getcwd()
+	times = []
+	os.chdir(path)
+	timestamps = {}
+        for sandbox in os.listdir('./'):
+                if os.path.isdir("./"+sandbox):
+			session = ra.Session(sandbox, 'radical.pilot')
+			startpilot = session.get(etype='pilot', uid='pilot.0000')[0].states[rp.ACTIVE]['time']
+			del session
+			fileInput = open("./"+sandbox+'/pmgr.launching.0.prof')
+			fileInput.readline()
+			ts = float(fileInput.readline().split(',')[0])
+			if ts > 0 and startpilot > 0:
+				timestamps[sandbox]=ts+startpilot
+	os.chdir(currPath)
+	return timestamps
+
+
+
 
 
 def countServiceTimes(data):
