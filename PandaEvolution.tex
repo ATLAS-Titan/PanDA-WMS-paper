@@ -189,21 +189,22 @@ allocation policies).
 % immediately, spending almost no time in the queue.
 
 Titan’s backfill functionality offers the opportunity to avoid the overhead of
-queue wait times without using pilot abstraction. Backfill availability is the
-number of node-hours (or core-hours) that  is not utilized by regular jobs
-submitted to the queues on Titan. Titan’s backfill functionality offers the
-opportunity to avoid the overhead of queue wait times without using pilot
-abstraction.  It is important to note that backfill availability is  computed
-retrospectively and is determined by Titan's operation team. Backfill
-availability represents the theoretical maximum of node-hours that could be
-utilized by ATLAS (or any other project) that submit under backfill mode.
+queue wait times without using pilot abstraction~\cite{maui_backfill_url}.
+Backfill availability is the number of node-hours (or core-hours) that cannot be
+utilized by regular jobs queued on Titan at a specific point in time.  It is
+important to note that backfill availability is computed retrospectively and is
+determined by Titan's operation team. Backfill availability represents the
+theoretical maximum of node-hours that could be utilized by ATLAS (or any other
+project) that submit under backfill mode.
 
-Compared to pilots, backfill has the disadvantage of limiting the amount of
-work nodes that can be requested. Pilots are normal jobs: they can request as
-many worker nodes for as much time as a queue can offer. On the contrary, jobs
-sized on the basis of backfill information availability depend on the number
-of worker nodes that cannot be given to any other job in the Titan's queue. %
-\sergeynote{any other job currently in the Titan's queue?}\mtnote{Better?}.
+Compared to pilots, backfill has the disadvantage of limiting the amount of work
+nodes that can be requested. Pilots are normal jobs: they can request as many
+worker nodes for as much time as a queue can offer. On the contrary, jobs sized
+on the basis of backfill information availability depend on the number of worker
+nodes that cannot be given to any other job in the Titan's queue at that moment
+in time.
+
+% \sergeynote{any other job currently in the Titan's queue?}\mtnote{Better?}.
 
 Backfill availability is typically a small fraction of the total capacity  of a
 resource. Notwithstanding,  given the size of Titan this translates into a
