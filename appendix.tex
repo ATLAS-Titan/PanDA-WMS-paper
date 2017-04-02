@@ -281,84 +281,84 @@ Replicability:
 
 
 % -----------------------------------------------------------------------------
-\subsection{Section 6.3 - Figure 14}
-\label{apndx:fig14}
-
-Artifacts description.
+\subsection{Section 6.3 - Figure 7}
+\label{apndx:fig9}
 
 \begin{itemize}
-    \item Experiment code: repository address (when applicable)
-    \item Raw data: repository address
-    \item Wrangling: repository address
-    \item Analysis code: repository address
-    \item Plotting code: repository address
+    \item Raw data: \url{https://github.com/ATLAS-Titan/misc/tree/master/atlas-paper-experiments/data}
+     \item Processed data: \url{ https://github.com/ATLAS-Titan/PanDA-WMS-paper/blob/master/data/NGE/data.csv} 
+    \item Raw data processing: 
+    	\begin{itemize}
+    		\item Download \url{https://github.com/ATLAS-Titan/PanDA-WMS-paper/blob/master/data/NGE/dataAnalysis.py}
+    		\item Download \url{https://github.com/ATLAS-Titan/PanDA-WMS-paper/blob/master/data/NGE/script.py}
+    		\item Follow instructions at: \url{https://github.com/ATLAS-Titan/PanDA-WMS-paper/wiki/How-to-extract-data-from-the-sandbox}
+   	\end{itemize}
+    \item Plotting code: \url{https://github.com/ATLAS-Titan/PanDA-WMS-paper/blob/master/data/NGE/plot.gnu}
 \end{itemize}
 
-Replicability:
+Replicability: Follow instructions at the following link: \url{https://github.com/ATLAS-Titan/PanDA-WMS-paper/wiki/How-to-reproduce-experiments-on-TITAN} to prepare the environment on Titan.
+Launch:
+\begin{itemize}
+\item python dispatcher.py 250 250 120 etc/input\_100 to replicate experiments with 250 nodes;
+\item python dispatcher.py 500 500 120 etc/input\_100 to replicate experiments with 500 nodes;
+\item python dispatcher.py 1000 1000 120 etc/input\_100 to replicate experiments with 1000 nodes;
+\item python dispatcher.py 2000 2000 120 etc/input\_100 to replicate experiments with 2000 nodes.
+\end{itemize}
 
-\begin{enumerate}
-    \item
-\end{enumerate}
 
 
 % -----------------------------------------------------------------------------
-\subsection{Section 6.3 - Figure 15}
-\label{apndx:fig15}
-
-Artifacts description.
-
+\subsection{Section 6.3 - Figure 8}
+\label{apndx:fig10}
 \begin{itemize}
-    \item Experiment code: repository address (when applicable)
-    \item Raw data: repository address
-    \item Wrangling: repository address
-    \item Analysis code: repository address
-    \item Plotting code: repository address
+    \item Raw data: \url{https://github.com/ATLAS-Titan/misc/tree/master/atlas-paper-experiments/weak2}
+     \item Processed data: \url{ https://github.com/ATLAS-Titan/PanDA-WMS-paper/blob/master/data/NGE/weak2.csv} 
+    \item Raw data processing: 
+    	\begin{itemize}
+    		\item Download \url{https://github.com/ATLAS-Titan/PanDA-WMS-paper/blob/master/data/NGE/dataAnalysis.py}
+    		\item Download \url{https://github.com/ATLAS-Titan/PanDA-WMS-paper/blob/master/data/NGE/script.py}
+    		\item Follow instructions at: \url{https://github.com/ATLAS-Titan/PanDA-WMS-paper/wiki/How-to-extract-data-from-the-sandbox}
+   	\end{itemize}
+    \item Plotting code: \url{https://github.com/ATLAS-Titan/PanDA-WMS-paper/blob/master/data/NGE/plot.gnu}
 \end{itemize}
 
-Replicability:
-
-\begin{enumerate}
-    \item
-\end{enumerate}
+Replicability: Follow instructions at the following link: \url{https://github.com/ATLAS-Titan/PanDA-WMS-paper/wiki/How-to-reproduce-experiments-on-TITAN} to prepare the environment on Titan.
+Launch:
+\begin{itemize}
+\item python dispatcher.py 256 1280 256 180 etc/input\_16 to replicate experiments with 256 nodes;
+\item python dispatcher.py 512 2560 512 180 etc/input\_16 to replicate experiments with 512 nodes;
+\item python dispatcher.py 1024 5120 180 etc/input\_16 to replicate experiments with 1024 nodes;
+\item python dispatcher.py 2048 10240 180 etc/input\_16 to replicate experiments with 2048 nodes.
+\end{itemize}
 
 
 % -----------------------------------------------------------------------------
-\subsection{Section 6.3 - Figure 16}
+\subsection{Section 6.3 - Figure 9}
 \label{apndx:fig16}
 
-Artifacts description.
-
+\label{apndx:fig10}
 \begin{itemize}
-    \item Experiment code: repository address (when applicable)
-    \item Raw data: repository address
-    \item Wrangling: repository address
-    \item Analysis code: repository address
-    \item Plotting code: repository address
+    \item Raw data: \url{https://github.com/ATLAS-Titan/misc/tree/master/atlas-paper-experiments/strong}
+     \item Processed data: \url{ https://github.com/ATLAS-Titan/PanDA-WMS-paper/blob/master/data/NGE/strong.csv} 
+    \item Raw data processing: 
+    	\begin{itemize}
+    		\item Download \url{https://github.com/ATLAS-Titan/PanDA-WMS-paper/blob/master/data/NGE/dataAnalysis.py}
+    		\item Download \url{https://github.com/ATLAS-Titan/PanDA-WMS-paper/blob/master/data/NGE/script.py}
+    		\item Follow instructions at: \url{https://github.com/ATLAS-Titan/PanDA-WMS-paper/wiki/How-to-extract-data-from-the-sandbox}
+   	\end{itemize}
+    \item Plotting code: \url{https://github.com/ATLAS-Titan/PanDA-WMS-paper/blob/master/data/NGE/plot.gnu}
 \end{itemize}
 
-Replicability:
+Replicability: Follow instructions at the following link: \url{https://github.com/ATLAS-Titan/PanDA-WMS-paper/wiki/How-to-reproduce-experiments-on-TITAN} to prepare the environment on Titan.
+Launch:
+\begin{itemize}
+\item python dispatcher.py 256  2048 256 180 etc/input\_16 to replicate experiments with 256 nodes;
+\item python dispatcher.py 512 2048 512 180 etc/input\_16 to replicate experiments with 512 nodes;
+\item python dispatcher.py 1024 2048 180 etc/input\_16 to replicate experiments with 1024 nodes;
+\item python dispatcher.py 2048 2048 180 etc/input\_16 to replicate experiments with 2048 nodes.
+\end{itemize}
 
-\begin{enumerate}
-    \item
-\end{enumerate}
 
 
 % -----------------------------------------------------------------------------
-\subsection{Section 6.3 - Figure 17}
-\label{apndx:fig17}
 
-Artifacts description.
-
-\begin{itemize}
-    \item Experiment code: repository address (when applicable)
-    \item Raw data: repository address
-    \item Wrangling: repository address
-    \item Analysis code: repository address
-    \item Plotting code: repository address
-\end{itemize}
-
-Replicability:
-
-\begin{enumerate}
-    \item
-\end{enumerate}
