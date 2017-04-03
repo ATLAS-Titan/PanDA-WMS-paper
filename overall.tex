@@ -118,13 +118,19 @@ for PanDA to consume a higher percentage of backfill availability.
 
 It should be noted that increasing the number of brokers requires also to
 increase the number of concurrent jobs that can be submitted to Titan's queue.
-Each broker submits 1 job at a time with at least 2 hours walltime. Backfill
-availability is polled every 10 minutes, giving a theoretical maximum of 110
-concurrent jobs submitted to Titan. Titan's policy was already changed in
-September 2016, enabling the submission of 20 concurrent jobs and the deployment
-of 20 PanDA brokers. Further study is required to understand the impact that a
-larger amount of concurrent queued jobs would have on the overall efficiency of
-Titan's scheduler. 
+Each broker submits 1 job at a time, asking for no more than 300 worker nodes
+and at least 2 hours walltime. When backfill availability exceeds 300 worker
+nodes, multiple brokers are used to submit multiple jobs. Backfill availability
+is polled every 10 minutes, giving a maximum of 11 concurrent sets of jobs
+submitted to Titan. Considering the variable amount of time spent by each job in
+Titan's queue, a large number of brokers and concurrent queued jobs may be
+required to use all the backfill availability.
+
+Titan's policy was already changed in September 2016, enabling the submission of
+20 concurrent jobs. As shown in Fig.~\ref{fig:backfill-utilization}, this
+improved the efficiency of PanDA brokers but further study is required to
+understand the impact that a larger amount of concurrent queued jobs would have
+on the overall efficiency of Titan's scheduler.
 
 Every detector simulation executed on Titan process 100 events. This number of
 events is consistent with the physics of the use case and with the average
