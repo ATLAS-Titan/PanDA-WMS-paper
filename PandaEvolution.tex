@@ -97,24 +97,25 @@ are in place both for the PBS batch system and shared file systems.
 % data staging. Fair-share policies are in place both for the batch system and
  %for the use of DTN resources.
 
-Titan's architecture, configuration and policies poses several challenges to the
-integration with PanDA. The deployment model of PanDA Pilot is unfeasible on
-Titan: PanDA Pilot requires to contact the Job Dispatcher of the PanDA Server to
-pull jobs to execute but this is not possible on Titan because worker nodes do
-not offer outbound network connectivity. Further, Titan does not support PanDA's
-security model based on certificates and virtual organizations, making the
-PanDA's approach to identity management also unfeasible. While DTNs offer wide
-area network data transfer, an integration with ATLAS DDM is beyond the
-functional and administrative scope of the current prototyping phase. Finally,
-the specific characteristics of the execution environment, especially the
-absence of local storage on the worker nodes and modules tailored to Compute
-Node Linux, require reengineering of ATLAS application frameworks.
+Titan's architecture, configuration and policies poses several challenges to
+the integration with PanDA. The \jhanote{default?} deployment model of PanDA
+Pilot is unfeasible on Titan: PanDA Pilot is required to contact the Job
+Dispatcher of the PanDA Server to pull jobs to execute, but this is not
+possible on Titan because worker nodes do not offer outbound network
+connectivity. Further, Titan does not support PanDA's security model based on
+certificates and virtual organizations, making PanDA's approach to
+identity management also unfeasible. While DTNs offer wide area network data
+transfer, an integration with ATLAS DDM is beyond the functional and
+administrative scope of the current prototyping phase. Finally, the specific
+characteristics of the execution environment, especially the absence of local
+storage on the worker nodes and modules tailored to Compute Node Linux,
+require re-engineering of ATLAS application frameworks.
 
 Currently, very few HEP applications can benefit from Titan's GPUs but some
 computationally-intensive and non memory-intensive tasks of ATLAS workflows can
-be offloaded from the Grid to Titan's large amount of cores. Further, when HEP
-tasks can be partitioned to independent jobs, Titan worker nodes can be used to
-execute up to 16 concurrent payloads, one for each available core. Given these
+be off-loaded from the Grid to Titan's large amount of cores. Further, when HEP
+tasks can be partitioned into independent jobs, Titan worker nodes can be used to
+execute up to 16 concurrent payloads, one per each available core. Given these
 constraints and challenges, the type of task most suitable for execution at the
 moment on Titan is Monte Carlo detector simulation. This type of task is mostly
 computational-intensive, requiring less than 2GB of RAM at runtime and with
@@ -137,7 +138,7 @@ interaction between that detector and particles.
 % the interaction of these particles with the sensitive material of the ATLAS
 % detector.
 Each interaction creates a so-called hit and all hits are collected and passed
-on for digitalization, where hits are further process to mimic the readout of
+on for digitalization, where hits are further processed to mimic the readout of
 the detector. Finally, reconstruction operates local pattern recognition,
 creating high-level objects like particles and jets.
 
@@ -254,7 +255,7 @@ pulling ATLAS job and events, and file staging were inherited from PanDA Pilot.
     \includegraphics[width=\columnwidth]{figures/panda_broker_architecture.pdf}
     \caption{PanDA Broker architecture as deployed on Titan. Numbers indicates
     the execution process of a detector simulation job, part of the production
-    ATLAS MD workflow.}
+    ATLAS MD workflow. \jhanote{minor error in figure: "ATLAS MC" not "MD"}}
 \label{fig:panda_broker}
 \end{figure}
 
