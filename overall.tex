@@ -5,28 +5,39 @@ use of 96,000 cores. Since November 2015, PanDA Brokers have operated only in
 backfill mode, without a defined time allocation, and running at the lowest
 priority on Titan.
 
-We evaluate the efficiency, scalability and reliability of the deployment of PanDA WMS on Titan by characterizing the behavior of both PanDA Broker and AthenaMP.
+We evaluate the efficiency, scalability and reliability of the deployment of
+PanDA WMS on Titan by characterizing the behavior of both PanDA Broker and
+AthenaMP. All the measurements were performed between January 2016 and February
+2017, hereafter called `experiment time window'.
+
 % two dimensions: (i) backfill utilization by the PanDA Brokers; and (ii) the
 % amount of runtime spent performing detector simulations.
-We based our characterizations on measuring the number of cores utilized by
-ATLAS on Titan, the overall backfill availability, the number of detector
-simulations performed on all the resources available to ATLAS and on Titan, and
-the failure rate of these simulations. We also consider the the time taken to
-setup AthenaMP and to simulate events in the ATLAS detector with it. All the
-measurements were performed between January 2016 and February 2017, hereafter
-called `experiment time window'.
 
-\mtnote{TODO: expand the previous paragraph to include dimensions of AthenaMP characterization.}
+% We based our characterizations on measuring the number of cores utilized by
+% ATLAS on Titan, the overall backfill availability, the number of detector
+% simulations performed on all the resources available to ATLAS and on Titan,
+% and the failure rate of these simulations. We also consider the the time taken
+% to setup AthenaMP and to simulate events in the ATLAS detector with it. All
+% the measurements were performed between January 2016 and February 2017,
+% hereafter called `experiment time window'.
+
+% \mtnote{TODO: expand the previous paragraph to include dimensions of AthenaMP
+% characterization.}
 
 % -----------------------------------------------------------------------------
 \subsection{Characterizing the PanDA Broker on Titan}
 \label{ssec:panda_titan}
 
-Figure~\ref{fig:backfill-utilization} (gray bars) shows the number of
-core-hours used by ATLAS during the experiment time window. ATLAS consumed a
-total of 73.8M core-hours, for an average of $\approx$7M core-hours a month,
-with a minimum of 3.3M core-hours in April 2016 and a maximum 14.8M core-hours
-in February 2017.
+% Figure~\ref{fig:backfill-utilization} (gray bars) shows the number of
+% core-hours used by ATLAS during the experiment time window. ATLAS consumed a
+% total of 73.8M core-hours, for an average of $\approx$7M core-hours a month,
+% with a minimum of 3.3M core-hours in April 2016 and a maximum 14.8M core-hours
+% in February 2017.
+
+Figure~\ref{fig:backfill-utilization} (gray bars) shows the number of core-hours
+used by ATLAS during the experiment time window. ATLAS consumed a total of 39.3M
+core-hours, for an average of $\approx$3.7M core-hours a month, with a minimum
+of 1.7M core-hours in April 2016 and a maximum 7.8M core-hours in February 2017.
 
 \begin{figure}[htp]
     \includegraphics[clip,width=\columnwidth]{figures/backfill_consumption.pdf}
@@ -37,32 +48,37 @@ in February 2017.
 \label{fig:backfill-utilization}
 \end{figure}
 
-Figure~\ref{fig:backfill-utilization} (green bars) shows backfill utilization
-during the experiment time window.  Efficiency
+Figure~\ref{fig:backfill-utilization} (blue bars) shows backfill utilization
+during the experiment time window. Efficiency
 (Figure~\ref{fig:backfill-utilization}, red labels) is defined as the fraction
 of Titan core-hours utilized by the PanDA Brokers (for ATLAS jobs) to the total
 of Titan’s backfill availability. The brokers reached 18\% average efficiency,
 with a minimum 8.9\% efficiency on April 2016 and a maximum 33.5\% efficiency on
-February 2017. The total backfill available was 38.1M Titan core-hours in April
-2016, and 33.1M Titan core-hours in February 2017. This shows that the measured
+February 2017.
+% The total backfill available was 38.1M Titan core-hours in April 2016, and
+% 33.1M Titan core-hours in February 2017. This shows that the measured
+% difference in efficiency did not depend on a comparable difference in total
+% backfill availability.
+The total backfill available was 20.3M Titan core-hours in April
+2016, and 17.6M Titan core-hours in February 2017. This shows that the measured
 difference in efficiency did not depend on a comparable difference in total
 backfill availability.
 
-\mtnote{Elaborate further and put it at the end, after giving several of the
-measurements we would need. ``Currently, this measure of efficiency is being
-refined on the base of the actual minimum amount of walltime that PanDA Broker
-can request when submitting job requests. This is not a fixed value as it
-depends on variable initialization and configuration overheads, simulation time,
-and number of nodes obtained. Part of the undergoing effort is to enable the
-measurements of  the distribution of these parameters to derive an optimization
-function.''}
+% \mtnote{Elaborate further and put it at the end, after giving several of the
+% measurements we would need. ``Currently, this measure of efficiency is being
+% refined on the base of the actual minimum amount of walltime that PanDA Broker
+% can request when submitting job requests. This is not a fixed value as it
+% depends on variable initialization and configuration overheads, simulation time,
+% and number of nodes obtained. Part of the undergoing effort is to enable the
+% measurements of  the distribution of these parameters to derive an optimization
+% function.''}
 
-\jhanote{I would plot the efficiency on the Y2 axis for both
-[diagrams].}\mtnote{Done but then the first diagram ended up plotting a subset
-of the data of the second diagram. I used only the second diagram.} \jhanote{I
-would suggest similar style of X-axis as previous figure. Difficult to parse
-which is April if we are going to call out a specific month. Also consistency in
-style is generally good to keep cognitive burden low.}\mtnote{Done.}
+% \jhanote{I would plot the efficiency on the Y2 axis for both
+% [diagrams].}\mtnote{Done but then the first diagram ended up plotting a subset
+% of the data of the second diagram. I used only the second diagram.} \jhanote{I
+% would suggest similar style of X-axis as previous figure. Difficult to parse
+% which is April if we are going to call out a specific month. Also consistency
+% in style is generally good to keep cognitive burden low.}\mtnote{Done.}
 
 % Figure~\ref{fig:hpc-workload-utilization} shows that d
 
@@ -70,11 +86,12 @@ During the experiment time window, about 2.25M detector simulation jobs were
 completed on Titan, for a total of 225M events processed. This is equivalent to
 0.9\% of all the 250M detector simulations performed by ATLAS in the same period
 of time, and 3.5\% of the 6.6B events processed by those jobs. Comparatively,
-Titan contributed 3.9\% of the total of around 200K cores available to ATLAS on
-Grid, Cloud, and HPC infrastructures together. These figures confirms the
-relevance of supercomputers' resource contribution to the LHC Run 2, especially
-when accounting for the amount of unused backfill availability and the
-improvement of PanDA efficiency across the experiment time window.
+Titan contributed 3.9\% of the total of around 200K\mtnote{TODO: Fix this
+number} cores available to ATLAS on Grid, Cloud, and HPC infrastructures
+together. These figures confirms the relevance of supercomputers' resource
+contribution to the LHC Run 2, especially when accounting for the amount of
+unused backfill availability and the improvement of PanDA efficiency across the
+experiment time window.
 
 % \begin{figure}[htp]
 %     \includegraphics[clip,width=\columnwidth]{figures/cpu_hours.png}
