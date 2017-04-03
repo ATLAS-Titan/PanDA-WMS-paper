@@ -200,11 +200,11 @@ independent of whether the low-priority jobs were queued after the
 high-priority jobs.
 
 When the backfill optimization is enabled, users can interrogate Moab about the
-number of worker nodes and walltime that would be available to a low-priority job at
-that moment in time. If a job is immediately submitted to Titan with that number
-of worker nodes and walltime, chances are that Moab will immediately schedule
-it, reducing its queue time to a minimum. In this paper, we call this number of
-worker nodes and walltime `backfill availability'.
+number of worker nodes and walltime that would be available to a low-priority
+job at that moment in time. If a job is immediately submitted to Titan with that
+number of worker nodes and walltime, chances are that Moab will immediately
+schedule it, reducing its queue time to a minimum. In this paper, we call this
+number of worker nodes and walltime an available `backfill slot'.
 
 % It is important to note that backfill availability is computed retrospectively
 % and is determined by Titan's operation team. Backfill availability represents
@@ -214,18 +214,19 @@ worker nodes and walltime `backfill availability'.
 Compared to pilots, backfill has the disadvantage of limiting the amount of
 worker nodes that can be requested. Pilots are normal jobs: they can request as
 many worker nodes for as much time as a queue can offer. On the contrary, jobs
-sized on the basis of backfill availability depend on the number of worker nodes
-that cannot be given to any other job in the Titan's queue at that moment in
-time.
+sized on the basis of an available backfill slot depend on the number of worker
+nodes that cannot be given to any other job in the Titan's queue at that moment
+in time.
 
 % \sergeynote{any other job currently in the Titan's queue?}\mtnote{Better?}.
 
-At any point in time, backfill availability is typically a small fraction of the
-total capacity of a resource. Notwithstanding, given the size of Titan this
-translates into a substantial capacity. Every year, about 10\% of Titan's
-capacity remains unused~\cite{barker2016us}, corresponding to an average of
-30,000 unused cores (excluding GPU cores). This equals approximately 270M core
-hours per year, roughly 10\% of the overall capacity of WLCG.
+At any point in time, the size of an available backfill slot is typically a
+small fraction of the total capacity of a resource. Notwithstanding, given the
+size of Titan this translates into a substantial capacity. Every year, about
+10\% of Titan's capacity remains unused~\cite{barker2016us}, corresponding to an
+average of 30,000 unused cores (excluding GPU cores). This equals
+% approximately 270M core-hours per year,
+to roughly 10\% of the overall capacity of WLCG.
 
 % A system that can use those temporarily free worker nodes with smaller
 % scale tasks would be very valuable. For this reason, Titan offers backfill
@@ -309,10 +310,11 @@ PanDA server for ATLAS jobs that have been bound to Titan by JEDI
 (Fig.~\ref{fig:panda_broker}:1). Upon receiving jobs descriptions, PanDA Broker
 pulls jobs' input files from the ATLAS DDM service to the OLCF Lustre file
 system (Fig.~\ref{fig:panda_broker}:3). PanDA Broker queries Titan's Moab
-scheduler about current backfill availability (Fig.~\ref{fig:panda_broker}:2)
-and creates an MPI script, wrapping enough ATLAS jobs' payload to fit backfill
-availability. PanDA Broker submits the MPI script to the Titan's Torque batch
-system via RADICAL-SAGA (Fig.~\ref{fig:panda_broker}:4).
+scheduler about the current available backfill slot
+(Fig.~\ref{fig:panda_broker}:2) and creates an MPI script, wrapping enough ATLAS
+jobs' payload to fit the backfill slot. PanDA Broker submits the MPI script to
+the Titan's Torque batch system via RADICAL-SAGA
+(Fig.~\ref{fig:panda_broker}:4).
 
 Upon execution on the worker node(s) (Fig.~\ref{fig:panda_broker}:5), the MPI
 script initializes and configures the execution environment
