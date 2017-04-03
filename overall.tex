@@ -111,10 +111,20 @@ networking were likely responsible for the improved performance.
 
 Investigations showed an average CPU load of 3.6\% on the upgraded DTNs. As
 such, further hardware upgrades seem unlikely to improve significantly the
-performance of PanDA Brokers. Nonetheless, the current load suggests that the
-number of brokers per DTN could be increased. This would enable the submission
-of a larger number of concurrent jobs to Titan's PBS queue, allowing for PanDA
-to consume a higher percentage of backfill availability.
+performance of PanDA Brokers. Nonetheless, current DTN load suggests that the
+number of brokers per DTN could be further increased. This would enable the
+submission of a larger number of concurrent jobs to Titan's PBS queue, allowing
+for PanDA to consume a higher percentage of backfill availability.
+
+It should be noted that increasing the number of brokers requires also to
+increase the number of concurrent jobs that can be submitted to Titan's queue.
+Each broker submits 1 job at a time with at least 2 hours walltime. Backfill
+availability is polled every 10 minutes, giving a theoretical maximum of 110
+concurrent jobs submitted to Titan. Titan's policy was already changed in
+September 2016, enabling the submission of 20 concurrent jobs and the deployment
+of 20 PanDA brokers. Further study is required to understand the impact that a
+larger amount of concurrent queued jobs would have on the overall efficiency of
+Titan's scheduler. 
 
 Every detector simulation executed on Titan process 100 events. This number of
 events is consistent with the physics of the use case and with the average
