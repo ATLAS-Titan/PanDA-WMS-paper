@@ -112,25 +112,11 @@ networking were likely responsible for the improved performance.
 Investigations showed an average CPU load of 3.6\% on the upgraded DTNs. As
 such, further hardware upgrades seem unlikely to improve significantly the
 performance of PanDA Brokers. Nonetheless, current DTN load suggests that the
-number of brokers per DTN could be further increased. This would enable the
-submission of a larger number of concurrent jobs to Titan's PBS queue, allowing
-for PanDA to consume a higher percentage of backfill availability.
-
-It should be noted that increasing the number of brokers requires also to
-increase the number of concurrent jobs that can be submitted to Titan's queue.
-Each broker submits 1 job at a time, asking for no more than 300 worker nodes
-and at least 2 hours walltime. When backfill availability exceeds 300 worker
-nodes, multiple brokers are used to submit multiple jobs. Backfill availability
-is polled every 10 minutes, giving a maximum of 11 concurrent sets of jobs
-submitted to Titan. Considering the variable amount of time spent by each job in
-Titan's queue, a large number of brokers and concurrent queued jobs may be
-required to use all the backfill availability.
-
-Titan's policy was already changed in September 2016, enabling the submission of
-20 concurrent jobs. As shown in Fig.~\ref{fig:backfill-utilization}, this
-improved the efficiency of PanDA brokers but further study is required to
-understand the impact that a larger amount of concurrent queued jobs would have
-on the overall efficiency of Titan's scheduler.
+number of brokers per DTN could be increased. In September 2016, increasing the
+number of concurrent PanDA Broker from 4 to 20 markedly improved efficiency (see
+Fig.~\ref{fig:backfill-utilization}) but further research is needed to
+understand whether an even larger number brokers would allow PanDA to consume a
+higher percentage of backfill availability.
 
 Every detector simulation executed on Titan process 100 events. This number of
 events is consistent with the physics of the use case and with the average
