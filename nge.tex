@@ -254,7 +254,16 @@ computing applications operating in a heterogeneous environment~\cite{castain05:
 it allows the user to create a \emph{``dynamic virtual machine''} (DVM) that
 spans multiple nodes. ORTE provides libraries to enable the submission,
 monitoring and managing of tasks, avoiding filesystem bottlenecks and race
-conditions with network sockets. As a consequence, it is able to minimize the
+conditions with network sockets. 
+\aanote{Requires validation: Alternative version of the three sentences above (too many ORTE in my opinion): 
+ORTE provides a mechanism similar to the Pilot concept - it allows the user to create a \emph{``dynamic virtual machine''} (DVM) that spans multiple nodes. The DVM transparently provides support for interprocess communication, resource discovery and allocation, and process launching across a variety of platforms. 
+Libraries allow the interaction between users and ORTE to enable the submission,
+monitoring and managing of tasks, avoiding filesystem bottlenecks and race
+conditions with network sockets. 
+}
+
+
+As a consequence, ORTE is able to minimize the
 system overhead while submitting tasks.
 
 %Each component of RP has a independent semantic scope. This enables modularity
