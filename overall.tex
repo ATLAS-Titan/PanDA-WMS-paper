@@ -34,44 +34,51 @@ AthenaMP. All the measurements were performed between January 2016 and February
 % with a minimum of 3.3M core-hours in April 2016 and a maximum 14.8M core-hours
 % in February 2017.
 
-Figure~\ref{fig:backfill-utilization} (gray bars) shows the number of core-hours
-used by ATLAS during the experiment time window. ATLAS consumed a total of 39.3M
-core-hours, for an average of $\approx$3.7M core-hours a month, with a minimum
-of 1.7M core-hours in April 2016 and a maximum 7.8M core-hours in February 2017.
+We calculate the total amount of backfill availability over a period of time by:
+(i) polling backfill availability at regular intervals during that time window;
+(ii) converting the number of worker nodes available and their walltime into
+core-hours; (iii) summing the number of core-hours. We call this number of
+core-hours `total backfill availability'.
+
+Figure~\ref{fig:backfill-utilization} shows the total backfill availability on
+Titan (gray bars) and the number of core-hours of that availability used by
+ATLAS (blue bars) during the experiment time window. ATLAS consumed a total of
+51.4M core-hours, for an average of $\approx$3.7M core-hours a month, with a
+minimum of 1.7M core-hours in April 2016 and a maximum 7.9M core-hours in
+February 2017.
 
 \begin{figure}[htp]
     \includegraphics[clip,width=\columnwidth]{figures/backfill_consumption.pdf}
-    \caption{Gray bars: Number of unused cores of Titan's backfill availability;
-    blue bars: Number of cores of Titan's backfill availability used by ATLAS
-    via PanDA Brokers; red labels: Efficiency of PanDA Brokers defined as
-    percentage of Titan's backfill availability used by ATLAS.}
+
+    \caption{Titan's total backfill availability: CPU core-hours (gray) and CPU
+    core-hours used by ATLAS (blue). GPU core-hours unaccounted for as they
+    cannot be used by ATLAS. Efficiency of PanDA Brokers defined as percentage
+    of total Titan's backfill availability used by ATLAS (Red labels).}
+
 \label{fig:backfill-utilization}
 \end{figure}
 
-Figure~\ref{fig:backfill-utilization} (blue bars) shows backfill utilization
-during the experiment time window. Efficiency
-(Figure~\ref{fig:backfill-utilization}, red labels) is defined as the fraction
-of Titan core-hours utilized by the PanDA Brokers (for ATLAS jobs) to the total
-of Titan’s backfill availability. The brokers reached 18\% average efficiency,
-with a minimum 8.9\% efficiency on April 2016 and a maximum 33.5\% efficiency on
-February 2017.
+PanDA Brokers' efficiency (Figure~\ref{fig:backfill-utilization}, red labels) is
+defined as the fraction of core-hours utilized by the PanDA Brokers to  Titan’s
+total backfill availability during the experiment time window. The brokers
+reached 18\% average efficiency, with a minimum 7.8\% efficiency on May 2016 and
+a maximum 30.9\% efficiency on February 2017.
 % The total backfill available was 38.1M Titan core-hours in April 2016, and
 % 33.1M Titan core-hours in February 2017. This shows that the measured
 % difference in efficiency did not depend on a comparable difference in total
 % backfill availability.
-The total backfill available was 20.3M Titan core-hours in April
-2016, and 17.6M Titan core-hours in February 2017. This shows that the measured
-difference in efficiency did not depend on a comparable difference in total
-backfill availability.
+The total backfill availability was 20.3M in April 2016, and 17.6M in February
+2017. This shows that the measured difference in efficiency did not depend on a
+comparable difference in the total backfill availability.
 
 % \mtnote{Elaborate further and put it at the end, after giving several of the
 % measurements we would need. ``Currently, this measure of efficiency is being
 % refined on the base of the actual minimum amount of walltime that PanDA Broker
 % can request when submitting job requests. This is not a fixed value as it
-% depends on variable initialization and configuration overheads, simulation time,
-% and number of nodes obtained. Part of the undergoing effort is to enable the
-% measurements of  the distribution of these parameters to derive an optimization
-% function.''}
+% depends on variable initialization and configuration overheads, simulation
+% time, and number of nodes obtained. Part of the undergoing effort is to
+% enable the measurements of  the distribution of these parameters to derive an
+% optimization function.''}
 
 % \jhanote{I would plot the efficiency on the Y2 axis for both
 % [diagrams].}\mtnote{Done but then the first diagram ended up plotting a subset
@@ -90,9 +97,9 @@ of time, and 3.5\% of the 6.6B events processed by those jobs.
 % 200K\mtnote{TODO: Fix this number} cores available to ATLAS on Grid, Cloud,
 % and HPC infrastructures together.
 These figures confirms the relevance of supercomputers' resource contribution to
-the LHC Run 2, especially when accounting for the amount of unused backfill
-availability and the improvement of PanDA efficiency across the experiment time
-window.
+the LHC Run 2, especially when accounting for the amount of unused total
+backfill availability and the improvement of PanDA efficiency across the
+experiment time window.
 
 % \begin{figure}[htp]
 %     \includegraphics[clip,width=\columnwidth]{figures/cpu_hours.png}
@@ -101,33 +108,30 @@ window.
 % \label{fig:hpc-workload-utilization}
 % \end{figure}
 
-On February 2017, PanDA Brokers used almost twice as much backfill availability
-than in any other month. No relevant code update was made during that period and
-logs indicated that the brokers were able to respond more promptly to backfill
-availability. This is likely due to hardware upgrades on the DTNs. The absence
-of continuous monitoring of those nodes does not allow to quantify bottlenecks
-but spot measurements of their load indicate that a faster CPU and better
-networking were likely responsible for the improved performance.
-
+On February 2017, PanDA Brokers used almost twice as much total backfill
+availability than in any other month (preliminary results for March 2017
+displayed in Fig.~\ref{fig:backfill-utilization} confirm this trend). No
+relevant code update was made during that period and logs indicated that the
+brokers were able to perform faster. This is likely due to hardware upgrades on
+the DTNs. The absence of continuous monitoring of those nodes does not allow to
+quantify bottlenecks but spot measurements of their load indicate that a faster
+CPU and better networking were likely responsible for the improved performance.
 Investigations showed an average CPU load of 3.6\% on the upgraded DTNs. As
 such, further hardware upgrades seem unlikely to improve significantly the
-performance of PanDA Brokers. Nonetheless, current DTN load suggests that the
-number of brokers per DTN could be increased. In September 2016, increasing the
-number of concurrent PanDA Broker from 4 to 20 markedly improved efficiency (see
-Fig.~\ref{fig:backfill-utilization}) but further research is needed to
-understand whether an even larger number brokers would allow PanDA to consume a
-higher percentage of backfill availability.
+performance of PanDA Brokers.
 
 Every detector simulation executed on Titan process 100 events. This number of
 events is consistent with the physics of the use case and with the average
 duration of backfill availability. The duration of a detector simulation is a
-function of the number of events: the more events, the longer the simulation.
-Not all events take the same time to be simulated:
+function of the number of events simulated but not all events take the same time
+to be simulated.
 % Figure~\ref{fig:100event-distrib} shows a distribution of the simulation time
 % of
-1 event takes from $\approx$2 to $\approx$40 minutes to be simulated, with a
-mean of $\approx$14 minutes. Considering that each worker node process up to 16
-events concurrently, 100 events takes around 2 hours to process. As such, PanDA brokers do not use backfill availability with less than 2 hours walltime.
+1 event simulation takes from $\approx$2 to $\approx$40 minutes, with a mean of
+$\approx$14 minutes. Considering that each worker node process up to 16 events
+concurrently, 100 events takes an average of 105 minutes to process. As such,
+PanDA brokers do not use backfill availability with less than 105 minutes
+walltime.
 
 % \begin{figure}[htp]
 %     \includegraphics[clip,width=\columnwidth]{figures/tx_simulation_distribution.pdf}
@@ -152,16 +156,18 @@ such, it offers a good compromise for PanDA Broker efficiency.
     \includegraphics[clip,width=0.32\textwidth]{figures/titan_backfill_walltime_distribution.pdf}
     \includegraphics[clip,width=0.32\textwidth]{figures/titan_backfill_avail.png}
     %figures/avail_time_vs_nodes_Oct_28_Nov_3_2015.pdf}
-    \caption{Backfill availability: distribution of number of work nodes (left); distribution of walltime in minutes (center); and a scatter plot of the two variables (right). 62175 measures: mean number of work nodes available 691; mean
-    walltime available 126 minutes.}
+    \caption{Backfill availability: distribution of number of work nodes (left);
+    distribution of walltime in minutes (center); and a scatter plot of the two
+    variables (right). 62175 measures: mean number of work nodes available 691;
+    mean walltime available 126 minutes.}
 \label{fig:backfill-distrib}
 \end{figure*}
 
 Usually, detector simulations performed on the Grid process 10 times the number
 of events than those on Titan. This explains the difference between the
-percentage of detector simulations (9\%) and of events computed by those
-simulations (3.9\%) on Titan. PanDA Broker could fit the number of events to the
-walltime of the backfill availability on the base of the distributions of
+percentage of detector simulations and of events computed by those simulations
+on Titan. PanDA Broker could fit the number of events to the walltime of the
+backfill availability on the base of the distributions of
 Fig.~\ref{fig:backfill-distrib}. That specific number of event could then be
 pulled from the PanDA Event service~\cite{calafiura2015atlas} and given as input
 to one or more simulations. Once packaged into the MPI script submitted to
@@ -181,17 +187,18 @@ at the application layer.
 Currently, each PanDA Broker creates, submits, and monitor a single MPI PBS
 script at a time. This design is inherited from PanDA Pilot where a single
 process is spawn at a time to execute the payload. As a consequence, the
-utilization of a larger portion of Titan's backfill availability depends on the
-the number of concurrent PanDA Brokers instantiated on the DTNs: When all the 20
-PanDA Brokers have submitted a MPI PBS Job, further backfill availability cannot
-be used.
+utilization of a larger portion of Titan's total backfill availability depends
+on the the number of concurrent PanDA Brokers instantiated on the DTNs: When all
+the 20 PanDA Brokers have submitted a MPI PBS Job, further backfill availability
+cannot be used.
 
-Based on the current data, increasing PanDA Brokers efficiency on Titan would
-require around 60 concurrent brokers. Further testing and better monitoring
-capabilities are required to establish whether the DTN capabilities can support
-this load, especially when considering the volume of files staged in and out the
-DTNs. Alternatively, a design of a PanDA Broker capable of managing multiple MPI
-scripts at a time is being evaluated.
+In September 2016, increasing the number of concurrent PanDA Broker from 4 to 20
+markedly improved efficiency (see Fig.~\ref{fig:backfill-utilization}) but
+further research is undergoing to understand whether an even larger number
+brokers would yield similar results. This research focuses on evaluating the the
+overheads of input/output files staging, including its impact on DTNs, and on an
+alternative design of PanDA Broker to enable the concurrent submission of
+multiple MPI scripts~\cite{barreiro2016panda}.
 
 % The number of concurrent detector simulation jobs that PanDA Broker can manage
 % depends on the DTNs' resources. Each PanDA Broker can execute 1 MPI PBS job on
