@@ -39,7 +39,7 @@ packaging and submission overheads.
 
 \jhanote{not sure MPI script is optimal description or ambiguous.}\mtnote{Is
 what we used in the previous section(s) to designate what PanDA Broker submits
-to Titan's Torque batch system. Job is already used for what is pulled from
+to Titan's PBS batch system. Job is already used for what is pulled from
 PanDA server.} Multiple generations would also relax two assumptions of the
 current execution model: knowing the number of simulations before submitting the
 MPI script, and having a fixed number of events per simulation (100 at the
@@ -162,18 +162,19 @@ the performance and capabilities of a pilot on Titan.
 NGE exposes an API for the application  \jhanote{workload management?} layer to
 describe workloads (Fig.~\ref{fig:arch-overview}, green squares) and pilots
 (Fig.~\ref{fig:arch-overview}, red circles), and to instantiate a PilotManager
-and a UnitManager.   The PilotManager submits pilots to Titan's Torque
-\jhanote{for consistency should we say Moab?}\mtnote{Moab = Scheduler; Torque =
-Batch system.} batch system via SAGA API (Fig.~\ref{fig:arch-overview}, dash
-arrow), as done by PanDA Broker to submit MPI scripts. Once scheduled, the
-pilot's Agent is bootstrapped on Titan's MOM node and \jhanote{the Agent's
-Executors on the} the Agent's Executors on the worker nodes, and the
-UnitManager schedules units to the Agent's Scheduler (Fig.~\ref{fig:arch-
-overview}, solid arrow). The Agent's Scheduler schedules the units on one or
-more Agent's Executor for execution. The Agent's executors can manage one or
-more worker nodes, depending on performance evaluations. The UnitManager and the
-Agent communicate via a database that is instantiated on one of Titan's DTN so
-as to be reachable by both modules.
+and a UnitManager.   The PilotManager submits pilots to Titan's PBS \jhanote{for
+consistency should we say Moab?}\mtnote{Moab = Scheduler; Torque = Batch system.
+I used PBS Batch System because it makes easier to speak about both the system
+and the script submitted to it.} batch system via SAGA API
+(Fig.~\ref{fig:arch-overview}, dash arrow), as done by PanDA Broker to submit
+MPI scripts. Once scheduled, the pilot's Agent is bootstrapped on Titan's MOM
+node and \jhanote{the Agent's Executors on the} the Agent's Executors on the
+worker nodes, and the UnitManager schedules units to the Agent's Scheduler
+(Fig.~\ref{fig:arch- overview}, solid arrow). The Agent's Scheduler schedules
+the units on one or more Agent's Executor for execution. The Agent's executors
+can manage one or more worker nodes, depending on performance evaluations. The
+UnitManager and the Agent communicate via a database that is instantiated on one
+of Titan's DTN so as to be reachable by both modules.
 
 % A similar approach would be used to enable PanDA Broker to schedule pilots
 % instead of MPI scripts.\mtnote{Rewrite this after checking it with
