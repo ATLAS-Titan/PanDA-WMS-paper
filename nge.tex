@@ -156,20 +156,19 @@ pilot on Titan.
 % (Fig.~\ref{fig:arch-overview}, purple boxes).
 
 
-NGE exposes an API for the application  \jhanote{workload management?} layer
-to describe workloads (Fig.~\ref{fig:arch-overview}, green squares) and pilots
-(Fig.~\ref{fig:arch-overview}, red circles), and to instantiate a PilotManager
-and a UnitManager.   The PilotManager submits pilots to Titan's PBS  batch
-system via SAGA API (Fig.~\ref{fig:arch-overview}, dash arrow), as done by
-PanDA Broker to submit MPI scripts. Once scheduled, the pilot's Agent is
-bootstrapped on Titan's MOM node and \jhanote{the Agent's Executors on the}
-the Agent's Executors on the worker nodes, and the UnitManager schedules units
-to the Agent's Scheduler (Fig.~\ref{fig:arch- overview}, solid arrow). The
-Agent's Scheduler schedules the units on one or more Agent's Executor for
-execution. The Agent's executors can manage one or more worker nodes,
-depending on performance evaluations. The UnitManager and the Agent
-communicate via a database that is instantiated on one of Titan's DTN so as to
-be reachable by both modules.
+NGE exposes an API to describe workloads (Fig.~\ref{fig:arch-overview}, green
+squares) and pilots (Fig.~\ref{fig:arch-overview}, red circles), and to
+instantiate a PilotManager and a UnitManager.   The PilotManager submits
+pilots to Titan's PBS  batch system via SAGA API (Fig.~\ref{fig:arch-
+overview}, dash arrow), as done by PanDA Broker to submit MPI scripts. Once
+scheduled, the pilot's Agent is bootstrapped on Titan's MOM node and
+\jhanote{the Agent's Executors on the} the Agent's Executors on the worker
+nodes, and the UnitManager schedules units to the Agent's Scheduler
+(Fig.~\ref{fig:arch- overview}, solid arrow). The Agent's Scheduler schedules
+the units on one or more Agent's Executor for execution. The Agent's executors
+can manage one or more worker nodes, depending on performance evaluations. The
+UnitManager and the Agent communicate via a database that is instantiated on
+one of Titan's DTN so as to be reachable by both modules.
 
 % \jhanote{for consistency should we say Moab?}\mtnote{Moab = Scheduler; Torque
 % = Batch system. I used PBS Batch System because it makes easier to speak about
