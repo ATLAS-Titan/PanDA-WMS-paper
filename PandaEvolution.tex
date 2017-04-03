@@ -62,6 +62,9 @@ generation executor (NGE). NGE is designed to abstract resources and
 capabilities, enabling the concurrent execution of both parallel and distributed
 computing on generic high performance computing (HPC) machines.''}
 
+\jhanote{Do you mean the top of section 3? Or do you mean the very beginning
+section?}
+
 
 % -----------------------------------------------------------------------------
 %\subsection{Interfacing PanDA with Titan}
@@ -98,7 +101,7 @@ are in place both for the PBS batch system and shared file systems.
  %for the use of DTN resources.
 
 Titan's architecture, configuration and policies poses several challenges to the
-integration with PanDA. The \jhanote{default?}\mtnote{Done.} default deployment
+integration with PanDA. The default deployment
 model of PanDA Pilot is unfeasible on Titan: PanDA Pilot is required to contact
 the Job Dispatcher of the PanDA Server to pull jobs to execute, but this is not
 possible on Titan because worker nodes do not offer outbound network
@@ -255,7 +258,7 @@ pulling ATLAS job and events, and file staging were inherited from PanDA Pilot.
     \includegraphics[width=\columnwidth]{figures/panda_broker_architecture.pdf}
     \caption{PanDA Broker architecture as deployed on Titan. Numbers indicates
     the execution process of a detector simulation job, part of the production
-    ATLAS MD workflow. \jhanote{minor error in figure: "ATLAS MC" not "MD"}\mtnote{Fixed.}}
+    ATLAS MD workflow.}
 \label{fig:panda_broker}
 \end{figure}
 
