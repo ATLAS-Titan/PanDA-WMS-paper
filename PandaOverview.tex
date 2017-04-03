@@ -417,11 +417,11 @@ submits these pilots wrapped as jobs or VMs to the required sites
 When a PanDA Pilot becomes available on a site, it calls the Job Dispatcher
 module of the PanDA Server, requesting  a job to execute
 (Fig.~\ref{fig:architecture}:11). The Job Dispatcher interrogates the Task
-Buffer module for a job that is bound to the site of that pilot and ready to be
-executed. Task Buffer checks the global queue (i.e., the PanDA database) and,
-upon availability, returns a suitable job to the Job Dispatcher. \jhanote{end of
-previous sentence needs some attention}\mtnote{Done.} The Job Dispatcher
-dispatches that job to the PanDA Pilot (Fig.~\ref{fig:architecture}:12).
+Buffer module for a job that is bound to the site of that pilot and ready to
+be executed. Task Buffer checks the global queue (i.e., the PanDA database)
+and, upon availability, returns a suitable job to the Job Dispatcher. The Job
+Dispatcher dispatches that job to the PanDA Pilot
+(Fig.~\ref{fig:architecture}:12).
 
 % \mtnote{Can a pilot request multiple jobs to execute
 % concurrently?}\sergeynote{In principle it should be able to do that, but
