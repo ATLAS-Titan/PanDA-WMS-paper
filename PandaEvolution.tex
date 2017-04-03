@@ -174,7 +174,7 @@ The unavailability of pilots is a potential drawback when executing distributed
 workloads like MC detector simulation. Pilots are used to increase the
 throughput of distributed workloads: while pilots have to wait in the
 supercomputer's queue, once scheduled, they can pull and execute jobs
-independently from the system's queue. Jobs can be concurrently executed on
+independent from the system's queue. Jobs can be concurrently executed on
 every core available to the pilot, and multiple generations of concurrent
 executions can be performed until the pilot's walltime is exhausted. This is
 particularly relevant for machines like Titan where queue policies privilege
@@ -196,13 +196,13 @@ The backfill optimization of Titan's Moab scheduler offers the opportunity to
 avoid the overhead of queue wait times without using pilot
 abstraction~\cite{maui_backfill_url}. This optimization enables Moab to start
 low-priority jobs as long as they do not delay higher priority jobs,
-independently on whether the low-priority jobs were queued after the
+independent of whether the low-priority jobs were queued after the
 high-priority jobs.
 
-When the backfill optimization is enabled, users can interrogate Moab about what
-number of worker nodes and walltime would be available to a low-priority job at
+When the backfill optimization is enabled, users can interrogate Moab about the
+number of worker nodes and walltime that would be available to a low-priority job at
 that moment in time. If a job is immediately submitted to Titan with that number
-of worker nodes and walltime, chances are that Moab will immediately scheduled
+of worker nodes and walltime, chances are that Moab will immediately schedule
 it, reducing its queue time to a minimum. In this paper, we call this number of
 worker nodes and walltime `backfill availability'.
 
