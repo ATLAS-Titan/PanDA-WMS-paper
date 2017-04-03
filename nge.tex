@@ -116,7 +116,7 @@ this prototype Next Generation Executor (NGE).
 % Executor (NGE) to add pilot capabilities to the PanDA Broker.
 
 NGE is a runtime system to execute heterogeneous and dynamically determined
-tasks that constitute workloads. Fig.~\ref{fig:arch- overview} illustrates its
+tasks that constitute workloads. Fig.~\ref{fig:arch-overview} illustrates its
 current architecture as deployed on Titan: the two management modules (Pilot
 and Unit) represent a simplified version of the PanDA Broker while the agent
 module is the pilot submitted to Titan and executed on its worker nodes. The
@@ -159,12 +159,11 @@ pilot on Titan.
 NGE exposes an API to describe workloads (Fig.~\ref{fig:arch-overview}, green
 squares) and pilots (Fig.~\ref{fig:arch-overview}, red circles), and to
 instantiate a PilotManager and a UnitManager.   The PilotManager submits
-pilots to Titan's PBS  batch system via SAGA API (Fig.~\ref{fig:arch-
-overview}, dash arrow), as done by PanDA Broker to submit MPI scripts. Once
+pilots to Titan's PBS  batch system via SAGA API (Fig.~\ref{fig:arch-overview}, dash arrow), as done by PanDA Broker to submit MPI scripts. Once
 scheduled, the pilot's Agent is bootstrapped on Titan's MOM node and
-\jhanote{the Agent's Executors on the} the Agent's Executors on the worker
+the Agent's Executors on the on the worker
 nodes, and the UnitManager schedules units to the Agent's Scheduler
-(Fig.~\ref{fig:arch- overview}, solid arrow). The Agent's Scheduler schedules
+(Fig.~\ref{fig:arch-overview}, solid arrow). The Agent's Scheduler schedules
 the units on one or more Agent's Executor for execution. The Agent's executors
 can manage one or more worker nodes, depending on performance evaluations. The
 UnitManager and the Agent communicate via a database that is instantiated on
@@ -250,11 +249,8 @@ one of Titan's DTN so as to be reachable by both modules.
 The NGE Agent uses the \emph{Open Run-Time Environment (ORTE)} for communication
 and coordination of the execution of units. ORTE is a critical component of the
 OpenMPI implementation, developed to support distributed high-performance
-computing applications operating in a heterogeneous environment~\cite{XXX}. The
-system \jhanote{which system? ORTE or OpenMPI in general?}\mtnote{I am not sure
-but I think ORTE?} transparently provides support for interprocess
-communication, resource discovery and allocation, and process launching across a
-variety of platforms. ORTE provides a mechanism similar to the Pilot concept -
+computing applications operating in a heterogeneous environment~\cite{castain05:_open_rte, cug-2016}.  
+ ORTE transparently provides support for interprocess communication, resource discovery and allocation, and process launching across a variety of platforms. ORTE provides a mechanism similar to the Pilot concept -
 it allows the user to create a \emph{``dynamic virtual machine''} (DVM) that
 spans multiple nodes. ORTE provides libraries to enable the submission,
 monitoring and managing of tasks, avoiding filesystem bottlenecks and race
