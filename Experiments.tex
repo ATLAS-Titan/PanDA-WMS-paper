@@ -25,17 +25,13 @@ removed queue time from our statistics.
 
 In this experiment  we run as many AthenaMP instances (hereafter referred to
 as tasks)  as the number of nodes controlled by the pilot. Each AthenaMP
-simulates 100 events, requiring $\sim 4200$ seconds on average. \jhanote{Please
-convert all measurements into seconds!}\aanote{Done}
+simulates 100 events, requiring $\sim 4200$ seconds on average. 
 
 Tasks do not  wait within the NGE Agent's queue since  one node  is available
 to each AthenaMP instance.  Overheads in task execution are consequence
 primarily of the three other factors: (i) the  initial bootstrapping of the
 pilot on the nodes; (ii) the UnitManager's dispatching of  units (tasks) to
-the agent; and (iii) time for the agent to initialize all the tasks on the nodes.
-\jhanote{"spawn" is the right word here. The agent does not spawn tasks. These
-are predefined. I would say "initialize" maybe? Something better?}\aanote{Done. I put initialize, maybe bootstrap would be better?}
-
+the agent; and (iii) time for the agent to bootstrap all the tasks on the nodes.
 
 We tested % different
 pilots % sizes, i.e. :
@@ -65,7 +61,7 @@ the pilot durations is minimal, although it slightly increases with the pilot
 size. % By observing NGE's overhead, w
 We % can
 notice that NGE's overhead does grow linearly with the number of units.
-\jhanote{It does grow linearly with units! What am I missing??}\aanote{Corrected. I think that ``not'' came from a previous version of the sentence. }
+
 
 %\begin{figure}[!htb]
 %        \includegraphics[width=0.4\textwidth]{./figures/NGE/weakOver1.pdf}
