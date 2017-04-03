@@ -190,36 +190,42 @@ allocation policies).
 % queue wait times without using pilot abstraction. Backfill availability is the
 % number of node-hours (or core-hours) that cannot be used for a certain amount
 % of time by any of the jobs already queued on Titan: All queued jobs are either
-% too large or their walltime is too long. At any point in time, Titan’s Moab
-% scheduler can be queried for backfill availability. Based upon the result of
-% this query, a job can be shaped to request no more than the backfill
-% availability. As such, when submitted this job is usually scheduled
-% immediately, spending almost no time in the queue.
+% too large or their walltime is too long.
 
-Titan’s backfill functionality offers the opportunity to avoid the overhead of
-queue wait times without using pilot abstraction~\cite{maui_backfill_url}.
-Backfill availability is the number of node-hours (or core-hours) that cannot be
-utilized by regular jobs queued on Titan at a specific point in time.  It is
-important to note that backfill availability is computed retrospectively and is
-determined by Titan's operation team. Backfill availability represents the
-theoretical maximum of node-hours that could be utilized by ATLAS (or any other
-project) that submit under backfill mode.
+The backfill optimization of Titan's Moab scheduler offers the opportunity to
+avoid the overhead of queue wait times without using pilot
+abstraction~\cite{maui_backfill_url}. This optimization enables Moab to start
+low-priority jobs as long as they do not delay higher priority jobs,
+independently on whether the low-priority jobs were queued after the
+high-priority jobs.
 
-Compared to pilots, backfill has the disadvantage of limiting the amount of work
-nodes that can be requested. Pilots are normal jobs: they can request as many
-worker nodes for as much time as a queue can offer. On the contrary, jobs sized
-on the basis of backfill information availability depend on the number of worker
-nodes that cannot be given to any other job in the Titan's queue at that moment
-in time.
+When the backfill optimization is enabled, users can interrogate Moab about what
+number of worker nodes and walltime would be available to a low-priority job at
+that moment in time. If a job is immediately submitted to Titan with that number
+of worker nodes and walltime, chances are that Moab will immediately scheduled
+it, reducing its queue time to a minimum. In this paper, we call this number of
+worker nodes and walltime `backfill availability'.
+
+% It is important to note that backfill availability is computed retrospectively
+% and is determined by Titan's operation team. Backfill availability represents
+% the theoretical maximum of node-hours that could be utilized by ATLAS (or any
+% other project) that submit under backfill mode.
+
+Compared to pilots, backfill has the disadvantage of limiting the amount of
+worker nodes that can be requested. Pilots are normal jobs: they can request as
+many worker nodes for as much time as a queue can offer. On the contrary, jobs
+sized on the basis of backfill availability depend on the number of worker nodes
+that cannot be given to any other job in the Titan's queue at that moment in
+time.
 
 % \sergeynote{any other job currently in the Titan's queue?}\mtnote{Better?}.
 
-Backfill availability is typically a small fraction of the total capacity  of a
-resource. Notwithstanding,  given the size of Titan this translates into a
-substantial capacity. Every year, about 10\% of Titan's capacity remains
-unused~\cite{barker2016us}, corresponding to an average of 30,000 unused cores.
-This equals approximately 270M core hours per year, roughly 10\% of the overall
-capacity of WLCG.
+At any point in time, backfill availability is typically a small fraction of the
+total capacity of a resource. Notwithstanding, given the size of Titan this
+translates into a substantial capacity. Every year, about 10\% of Titan's
+capacity remains unused~\cite{barker2016us}, corresponding to an average of
+30,000 unused cores (excluding GPU cores). This equals approximately 270M core
+hours per year, roughly 10\% of the overall capacity of WLCG.
 
 % A system that can use those temporarily free worker nodes with smaller
 % scale tasks would be very valuable. For this reason, Titan offers backfill
