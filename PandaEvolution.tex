@@ -64,7 +64,8 @@ computing on generic high performance computing (HPC) machines.''}
 
 
 % -----------------------------------------------------------------------------
-\subsection{Interfacing PanDA with Titan}
+%\subsection{Interfacing PanDA with Titan}
+\subsection{Architectures and Interfaces}
 \label{ssec:panda-titan}
 
 The Titan supercomputer, current number three on the Top 500 list~\cite{top500},
@@ -117,7 +118,9 @@ execute up to 16 concurrent payloads, one for each available core. Given these
 constraints and challenges, the type of task most suitable for execution at the
 moment on Titan is Monte Carlo detector simulation. This type of task is mostly
 computational-intensive, requiring less than 2GB of RAM at runtime and with
-small input data requirements. Detector simulation tasks in ATLAS account for
+small input data requirements. Detector simulation tasks in ATLAS are performed
+via AthenaMP~\cite{aad2010atlas}, the ATLAS software framework integrating the
+GEANT4 simulation toolkit~\cite{agostinelli2003geant4}. These tasks account for
 $\approx$ 60\% of all the jobs on WLCG, making them a primary candidate for
 offloading.
 
@@ -151,7 +154,8 @@ creating high-level objects like particles and jets.
 % reorganization of the standard workflow is therefore needed.
 
 % -----------------------------------------------------------------------------
-\subsection{PanDA Broker on Titan}
+% \subsection{PanDA Broker on Titan}
+\subsection{PanDA Broker}
 \label{ssec:panda_titan}
 
 The lack of wide area network connectivity on Titan's worker nodes is the most
@@ -246,12 +250,11 @@ pulling ATLAS job and events, and file staging were inherited from PanDA Pilot.
 % SAGA}\mtnote{Better?}
 
 \begin{figure}
-  \begin{center}
+    \centering
     \includegraphics[width=\columnwidth]{figures/panda_broker_architecture.pdf}
     \caption{PanDA Broker architecture as deployed on Titan. Numbers indicates
     the execution process of a detector simulation job, part of the production
     ATLAS MD workflow.}
-  \end{center}
 \label{fig:panda_broker}
 \end{figure}
 
