@@ -85,13 +85,14 @@ backfill availability.
 During the experiment time window, about 2.25M detector simulation jobs were
 completed on Titan, for a total of 225M events processed. This is equivalent to
 0.9\% of all the 250M detector simulations performed by ATLAS in the same period
-of time, and 3.5\% of the 6.6B events processed by those jobs. Comparatively,
-Titan contributed 3.9\% of the total of around 200K\mtnote{TODO: Fix this
-number} cores available to ATLAS on Grid, Cloud, and HPC infrastructures
-together. These figures confirms the relevance of supercomputers' resource
-contribution to the LHC Run 2, especially when accounting for the amount of
-unused backfill availability and the improvement of PanDA efficiency across the
-experiment time window.
+of time, and 3.5\% of the 6.6B events processed by those jobs.
+% Comparatively, Titan contributed 3.9\% of the total of around
+% 200K\mtnote{TODO: Fix this number} cores available to ATLAS on Grid, Cloud,
+% and HPC infrastructures together.
+These figures confirms the relevance of supercomputers' resource contribution to
+the LHC Run 2, especially when accounting for the amount of unused backfill
+availability and the improvement of PanDA efficiency across the experiment time
+window.
 
 % \begin{figure}[htp]
 %     \includegraphics[clip,width=\columnwidth]{figures/cpu_hours.png}
@@ -124,7 +125,7 @@ Not all events take the same time to be simulated:
 % of
 1 event takes from $\approx$2 to $\approx$40 minutes to be simulated, with a
 mean of $\approx$14 minutes. Considering that each worker node process up to 16
-events concurrently, 100 events takes around 2 hours to process.
+events concurrently, 100 events takes around 2 hours to process. As such, PanDA Broker do not use backfill availability with less than 2 hours walltime.
 
 % \begin{figure}[htp]
 %     \includegraphics[clip,width=\columnwidth]{figures/tx_simulation_distribution.pdf}
