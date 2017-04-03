@@ -17,16 +17,38 @@ extreme scale computing  resources with a low barrier of entry. The technology
 base provided by the PanDA system will enhance the usage of a variety  of
 high-performance computing resources available to basic research.
 
-Impact of WMS on HEP foreshadows the importance of WMS for other experiments and
-their computational campaign.
+HEP was amongst the first, if not the very first experimental community to
+realize the importance of using WMS to manage their computational campaign(s).
+As computing become increasingly critical for a range of other experiments,
+the impact of WMS on HEP foreshadows the importance of WMS for other
+experiments and their computational campaigns. Other experiments such as SKA,
+LSST etc.., will have their own workload characteristics, resources types and
+federation constraints, as well metrics of performance.  The design and
+experience captured in this paper should proof invaluable for computational
+campaigns that need to evaluate the relative merits of different approaches.
 
-Titan has upwards of 93\%. Compare that with Blue Waters 80\% (XDMoD).
+Thanks to the efforts captured in this paper, the time-averaged utilization of
+Titan has consistently been upwards of 90\%. Compare this to the time averaged
+utilization of other similar leadership machines such as NSF's flagship Blue
+Waters, where the average utilization fluctuates between 60-80\% (XDMoD)
+machine~\cite{bw-sucks}. These impressive if not unprecedented operation gains
+aside, this work is just a starting point towards more effective operational
+models for future leadership and online analytical platforms\cite{foap-url},
+which will have to support ever increasing complex workloads with varying
+models for dynamic resource federation. Recent efforts with Google Cloud for
+the CMS experiment -- HEPCloud~\cite{hepcloud,google-hep} represent similar
+yet different approaches to dynamic resource federation.
 
-Role of abstractions. Important/critical. As platforms available to science
-changes, both in terms of type of infrastructure (Summit) as well as Clouds.
+Our experience demonstrated the advantages arising from a  systems engineering
+and abstractions based approach, in particular the pilot abstraction. As the
+type, heterogeneity and complexity of future platforms  (e.g., Exascale,
+Commercial Clouds) for science increases, there will be a greater need and
+emphasis on abstractions to ensure WMS can both utilize as well as support
+platforms.
 
-This work is a starting point and represents our initial experience. However, 
-this initial experience allows us to 
 
-Sets the basis for more optimized and studied operation points.
+
+
+
+
 
