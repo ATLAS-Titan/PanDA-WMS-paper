@@ -7,14 +7,14 @@ new functionalities.  We perform three groups of experiments in which we
 investigate the weak scalability, weak scalability with multiple generation, and
 strong scalability of the NGE.
 
-Each experiment entails executing multiple instances of AthenaMP using the NGE
+Each experiment entails executing multiple instances of AthenaMP 
 to simulate a pre-determined number of events. All the experiments have been
 performed by  configuring AthenaMP to use all the 16 cores  of Titan's worker
 nodes.
 
-We  measured the execution time of the pilots and of the AthenaMP  executed
+We  measured the execution time of the pilots and of AthenaMP 
 within them, collecting timestamps at  all stages of the execution. Experiments
-have been performed  by  submitting NGE's pilots  to Titan's batch queue.  The
+were performed  by  submitting NGE's pilots  to Titan's batch queue.  The
 turnaround time of an individual run is determined by queue waiting times. Since
 we are interested only in the performances of the NGE, we removed queue time
 from our statistics.
