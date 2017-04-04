@@ -152,12 +152,13 @@ Titan, PanDA pilot was repurposed to serve as a job broker on the DTN nodes of
 Titan (Fig.~\ref{fig:panda_broker}). Maintaining the core modules of PanDA Pilot
 and its stand-alone architecture, this prototype called `PanDA Broker'
 implements functionalities to: (i) interrogate Titan about backfill
-availability; (ii) pull MC jobs and events; (iii) wrap the payload of ATLAS jobs
-into MPI scripts; (iv) submitting MPI scripts to Titan's PBS batch system and
-monitor their execution; and (v) staging input/output files. Backfill querying,
-payload wrapping, and scripts submission required a new implementation while
-pulling ATLAS job and events, and file staging were inherited from PanDA Pilot.
-%
+availability; (ii) pull ATLAS jobs and events from PanDA Server; (iii) wrap the
+payload of ATLAS jobs into MPI scripts; (iv) submitting MPI scripts to Titan's
+PBS batch system and monitor their execution; and (v) staging and preparing
+input/output files. Backfill querying, payload wrapping, and scripts submission
+required a new implementation while pulling ATLAS job and events, and file
+staging were inherited from PanDA Pilot.
+
 \begin{figure}
     \centering
     \includegraphics[width=\columnwidth]{figures/panda_broker_architecture.pdf}
@@ -166,7 +167,7 @@ pulling ATLAS job and events, and file staging were inherited from PanDA Pilot.
     ATLAS MD workflow.}
 \label{fig:panda_broker}
 \end{figure}
-%
+
 Backfill querying is performed via a dedicated Moab scheduler command while a
 tailored Python MPI script is used to execute the payload of ATLAS jobs. This
 MPI script enables the execution of unmodified Grid-centric, ATLAS jobs on
@@ -189,34 +190,35 @@ batch scheduler of Titan.
 
 The data staging capabilities of the PanDA Broker are implemented via a file
 system that is shared among DTNs and worker nodes. The input files with the
-events of the ATLAS jobs are downloaded on the shared filesystem via the ATLAS
-DDM service. The MPI script setup process includes making the location of these
-files available to the payload of the ATLAS's jobs. The PanDA Broker can locate
-the payload's output files on the shared filesystem and transfer them from Titan
-to any computing center used by ATLAS.
+events of the ATLAS jobs are downloaded on the shared filesystem from the data
+center of Brookhaven National Laboratory (BNL). The MPI script setup process
+includes making the location of these files available to the payload of the
+ATLAS's jobs. The PanDA Broker can locate the payload's output files on the
+shared filesystem and transfer them from Titan BNL.
 
 Once deployed on Titan, every PanDA Broker supports the execution of MC detector
-simulation in 9 steps. PanDA Broker queries the Job Dispatcher module of the
+simulations in 9 steps. PanDA Broker queries the Job Dispatcher module of the
 PanDA server for ATLAS jobs that have been bound to Titan by JEDI
 (Fig.~\ref{fig:panda_broker}:1). Upon receiving jobs descriptions, PanDA Broker
-pulls jobs' input files from the ATLAS DDM service to the OLCF Lustre file
-system (Fig.~\ref{fig:panda_broker}:3). PanDA Broker queries Titan's Moab
-scheduler about the current available backfill slot
-(Fig.~\ref{fig:panda_broker}:2) and creates an MPI script, wrapping enough ATLAS
-jobs' payload to fit the backfill slot. PanDA Broker submits the MPI script to
-the Titan's Torque batch system via RADICAL-SAGA
-(Fig.~\ref{fig:panda_broker}:4).
+pulls jobs' input files from BNL to the OLCF Lustre file system
+(Fig.~\ref{fig:panda_broker}:2). PanDA Broker queries Titan's Moab scheduler
+about the current available backfill slot (Fig.~\ref{fig:panda_broker}:3) and
+creates an MPI script, wrapping enough ATLAS jobs' payload to fit the backfill
+slot. PanDA Broker submits the MPI script to the Titan's Torque batch system via
+RADICAL-SAGA (Fig.~\ref{fig:panda_broker}:4).
 
 Upon execution on the worker node(s) (Fig.~\ref{fig:panda_broker}:5), the MPI
 script initializes and configures the execution environment
 (Fig.~\ref{fig:panda_broker}:6), and executes one AthenaMP for each available
 work node (Fig.~\ref{fig:panda_broker}:7). AthenaMP retrieves events from Lustre
-(Fig.~\ref{fig:panda_broker}:8) and spawns 1 event simulation process on each of
-the 16 available cores (Fig.~\ref{fig:panda_broker}:9).
-Upon completion of each MPI script, PanDA Broker transfer the jobs' output to
-designated computing centre via the ATLAS DDM(Fig.~\ref{fig:panda_broker}:10),
-and performs cleanup.
+(Fig.~\ref{fig:panda_broker}:8) and spawns 1 Geant4 event simulation process on
+each of the 16 available cores (Fig.~\ref{fig:panda_broker}:9). Upon completion
+of each MPI script, PanDA Broker transfer the jobs' output to BNL
+(Fig.~\ref{fig:panda_broker}:10), and performs cleanup.
 
 While PanDA Broker implementation is resource specific, it was successfully
-ported also to other supercomputers, including the Ansel (?) at \ldots and
-Cori at the National Energy Research Scientific Computing Center (NERSC).
+ported to other supercomputers, including the HPC2 at the National Research
+Center ``Kurchatov Institute'' (NRC-KI)~\cite{belyaev2015integration},
+Edison/Cori at the National Energy Research Scientific Computing Center
+(NERSC)~\cite{barreiro2016panda}, and SuperMUC at the Leibniz Supercomputing
+Centre (LRZ)~\cite{barreiro2016panda}.
