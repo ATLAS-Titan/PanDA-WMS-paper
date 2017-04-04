@@ -36,7 +36,7 @@ input files. Tasks are decomposed into jobs, where each job consists of the
 task's operations performed on a partition of the task's data set. Since 2005, a
 certain amount of parallelism has been progressively introduced for job
 execution~\cite{crooks2012multi} but, so far, HEP applications have not required
-MPI.
+a message passing interface (MPI).
 % Jobs are supposed to be capable of setting up their own execution
 % environment and have a minimal set of common dependences.
 
@@ -173,6 +173,6 @@ available to the user by JEDI (Fig.~\ref{fig:architecture}:19).
     \includegraphics[width=\columnwidth]{figures/panda_architecture.pdf}
     \caption{PanDA WMS architecture. Numbers indicates the JEDI-based execution
     process. Several subsystems, components, and architectural and
-    communication details are abstracted for clarity.}
+    communication details are abstracted to improve clarity.}
 \label{fig:architecture}
 \end{figure}
