@@ -1,5 +1,5 @@
 !rm 'weak1.eps'
-set term pos eps color enhanced "Helvetica" 10
+set term pos eps color enhanced "Helvetica" 16
 set out 'weak1.eps' 
 set key top left
 set xlabel '# AthenaMP/# nodes'  
