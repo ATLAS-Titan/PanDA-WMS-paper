@@ -25,24 +25,21 @@ for Run 2 in 2015.
 \subsection{Design}
 \label{ssec:panda_design}
 
-\mtnote{Addresses Alexei's comment. I eliminated `event' as abstraction and used
-datum/data/physical process when discussing data management in the whole
-section.}
+% \mtnote{Addresses Alexei's comment. I eliminated `event' as abstraction and used
+% datum/data/physical process when discussing data management in the whole
+% section.}
+
+% \mtnote{Addresses Alexei's comment. If this is still too soft, we can write:
+% ``but HEP applications do not require MPI.''}
 
 PanDA's application model assumes tasks, workloads and workflows. Tasks
-represent a set of operations performed on
-% a set of events that are
-data sets stored in one or more input files. Tasks are decomposed into jobs,
-where each job represents the task's set of operations and a partition of the
-task's
-% events
-data set. Since 2005, a certain amount of parallelism has been
-progressively introduced for job execution~\cite{crooks2012multi} but, so far,
-HEP applications have not required MPI\mtnote{Addresses Alexei's comment. If
-this is still too soft, we can write: ``but HEP applications do not require
-MPI.''}. Jobs are supposed to be relatively self-contained, capable of setting
-up their own execution environment or having a minimal set of common
-dependences.
+represent a set of operations performed on data sets stored in one or more input
+files. Tasks are decomposed into jobs, where each job represents the task's set
+of operations and a partition of the task's data set. Since 2005, a certain
+amount of parallelism has been progressively introduced for job
+execution~\cite{crooks2012multi} but, so far, HEP applications have not required
+MPI. Jobs are supposed to be relatively self-contained, capable of setting up
+their own execution environment or having a minimal set of common dependences.
 
 PanDA's usage model is based on multitenancy of resources and the support of at
 least two types of HEP users: individual researchers and groups executing so
@@ -69,19 +66,14 @@ used to indicate the abstraction of resource capabilities. Each job is thought
 to be bound to one pilot and executed on the site where the pilot has been
 instantiated.
 
-In PanDA's data model, each
-% event
-datum refers to the recorded or simulated measurement of a physical
-% event
-process.
-% One or more events
-Data can be packaged into files or other containers. As with jobs, data
-have both attributes and states, and some of the attributes are shared between
-events and jobs. Raw, reconstruction, and simulation data are assumed to be
-distributed across multiple storage facilities and managed by the ATLAS
-Distributed Data Management (DDM)~\cite{garonne2012atlas}. When necessary,
-datasets required by each job are assumed to be replicated over the network,
-both for input and output data.
+In PanDA's data model, each datum refers to the recorded or simulated
+measurement of a physical process. Data can be packaged into files or other
+containers. As with jobs, data have both attributes and states, and some of the
+attributes are shared between events and jobs. Raw, reconstruction, and
+simulation data are assumed to be distributed across multiple storage facilities
+and managed by the ATLAS Distributed Data Management
+(DDM)~\cite{garonne2012atlas}. When necessary, datasets required by each job are
+assumed to be replicated over the network, both for input and output data.
 
 PanDA's design supports provenance and traceability for both jobs and data.
 Attributes enable provenance by linking jobs and data items, providing
@@ -136,13 +128,13 @@ state.
 \subsection{Implementation and Execution}
 \label{ssec:panda_arch}
 
-\mtnote{From Danila: DDM enacts decisions about registering files into datasets.
-These decisions are made by productions. DDM DOES OT DECIDE which file should be
-in which dataset.}\mtnote{Done.}
-\mtnote{No communication between APF and PanDA Server (deleted arrow, adjust
-numbers and related text)}\mtnote{Done.}
-\mtnote{No more DDM Service on Edge on grid sites. DDM directly interacts with
-SE (deleted arrows, moved number 8. Update labels and related text)}\mtnote{Done.}
+% \mtnote{From Danila: DDM enacts decisions about registering files into datasets.
+% These decisions are made by productions. DDM DOES OT DECIDE which file should be
+% in which dataset.}\mtnote{Done.}
+% \mtnote{No communication between APF and PanDA Server (deleted arrow, adjust
+% numbers and related text)}\mtnote{Done.}
+% \mtnote{No more DDM Service on Edge on grid sites. DDM directly interacts with
+% SE (deleted arrows, moved number 8. Update labels and related text)}\mtnote{Done.}
 
 The implementation of PanDA consists of several interconnected subsystems, most
 of them built from off-the-shelf and Open Source components. Subsystems
