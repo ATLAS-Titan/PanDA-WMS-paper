@@ -1,16 +1,15 @@
 The next LHC run for taking data (Run 3) will require more resources than the
 Worldwide LHC Computing Grid (WLCG) can provide. Currently, PanDA WMS uses more
-than
-% 100,000
-300,000 cores at over 100 Grid sites\mtnote{Addresses Alexei's comment.
-Increased Grid capacity to 300K cores. Is the number of sites still 100 or
-should I increase that too?}, with a peak performance of 0.3 petaFLOPS. This
-capacity will be sufficient for the planned analysis and data processing, but it
-will be insufficient for the Monte Carlo production workflow and any extra
-activity. To alleviate these challenges, ATLAS is engaged in a program to expand
-the current computing model to include additional resources such as the
-opportunistic use of supercomputers.
+than 300,000 cores at over 100 Grid sites, with a peak performance of 0.3
+petaFLOPS. This capacity will be sufficient for the planned analysis and data
+processing, but it will be insufficient for the Monte Carlo production workflow
+and any extra activity. To alleviate these challenges, ATLAS is engaged in a
+program to expand the current computing model to include additional resources
+such as the opportunistic use of supercomputers.
+
 % as well as commercial and academic clouds.
+% \mtnote{Addresses Alexei's comment. Increased Grid capacity to 300K cores. Is
+% the number of sites still 100 or should I increase that too?}
 
 % -----------------------------------------------------------------------------
 % \subsection{Use of Supercomputers with PanDA}
@@ -43,27 +42,27 @@ support the execution of part of the ATLAS production Monte Carlo workflow on
 Titan, a leadership-class supercomputer managed by the Oak Ridge Leadership
 Computing Facility (OLCF) at the Oak Ridge National Laboratory (ORNL).
 
-\mtnote{Move this to the introduction: ``There are at least two approaches to
-enable PanDA WMS to execute ATLAS workloads or workflows on supercomputers: (i)
-using the subset of resources and capabilities shared by both supercomputers and
-WLCG; (ii) reconciling the parallel and distributed computing paradigms by means
-of dedicated abstractions. The former is a pragmatic approach that enables the
-execution of specific workloads by prototyping single-point solutions. The
-latter is a principled approach, better suited for a production-grade solution,
-capable of supporting general-purpose workloads and workflows on both
-supercomputers and Grid infrastructures. \\ This section illustrates the design
-and architecture of a job broker prototyped by the PanDA team. This broker
-supports execution of part of the ATLAS production Monte Carlo workflow on
-Titan, a leadership-class supercomputer managed by the Oak Ridge Leadership
-Computing Facility (OLCF) at the Oak Ridge National Laboratory (ORNL).After an
-analysis of the results obtained and the lessons learned, the following section
-introduces the design and first experimental characterization of a next
-generation executor (NGE). NGE is designed to abstract resources and
-capabilities, enabling the concurrent execution of both parallel and distributed
-computing on generic high performance computing (HPC) machines.''}
-
-\jhanote{Do you mean the top of section 3? Or do you mean the very beginning
-section?}
+% \mtnote{Move this to the introduction: ``There are at least two approaches to
+% enable PanDA WMS to execute ATLAS workloads or workflows on supercomputers: (i)
+% using the subset of resources and capabilities shared by both supercomputers and
+% WLCG; (ii) reconciling the parallel and distributed computing paradigms by means
+% of dedicated abstractions. The former is a pragmatic approach that enables the
+% execution of specific workloads by prototyping single-point solutions. The
+% latter is a principled approach, better suited for a production-grade solution,
+% capable of supporting general-purpose workloads and workflows on both
+% supercomputers and Grid infrastructures. \\ This section illustrates the design
+% and architecture of a job broker prototyped by the PanDA team. This broker
+% supports execution of part of the ATLAS production Monte Carlo workflow on
+% Titan, a leadership-class supercomputer managed by the Oak Ridge Leadership
+% Computing Facility (OLCF) at the Oak Ridge National Laboratory (ORNL).After an
+% analysis of the results obtained and the lessons learned, the following section
+% introduces the design and first experimental characterization of a next
+% generation executor (NGE). NGE is designed to abstract resources and
+% capabilities, enabling the concurrent execution of both parallel and distributed
+% computing on generic high performance computing (HPC) machines.''}
+%
+% \jhanote{Do you mean the top of section 3? Or do you mean the very beginning
+% section?}
 
 
 % -----------------------------------------------------------------------------
@@ -128,22 +127,21 @@ GEANT4 simulation toolkit~\cite{agostinelli2003geant4}. These tasks account for
 $\approx$ 60\% of all the jobs on WLCG, making them a primary candidate for
 offloading.
 
+% \mtnote{Addresses Alexei's comment. Is the following sentence correct?}
+
 Detector simulation is part of the ATLAS production Monte Carlo (MC) workflow
 (also known as MC production
 chain)~\cite{rimoldi2006atlas,de2013delphes,ritsch2014atlas}. The MC workflow
 consists of four main stages: event generation, detector simulation,
 digitization, and reconstruction. Event generation creates sets of particle
 four-momenta via different generators, e.g., PYTHIA~\cite{sjostrand2006pythia},
-HERWIG~\cite{corcella2001herwig} and many others. \mtnote{Addresses Alexei's
-comment. Is the following sentence correct?} The detector simulator is called
-Geant4~\cite{agostinelli2003geant4} and simulates the ATLAS detector and the
-interaction between that detector and particles.
-% the interaction of these particles with the sensitive material of the ATLAS
-% detector.
-Each interaction creates a so-called hit and all hits are collected and passed
-on for digitalization, where hits are further processed to mimic the readout of
-the detector. Finally, reconstruction operates local pattern recognition,
-creating high-level objects like particles and jets.
+HERWIG~\cite{corcella2001herwig} and many others. The detector simulator is
+called Geant4~\cite{agostinelli2003geant4} and simulates the ATLAS detector and
+the interaction between that detector and particles. Each interaction creates a
+so-called hit and all hits are collected and passed on for digitalization, where
+hits are further processed to mimic the readout of the detector. Finally,
+reconstruction operates local pattern recognition, creating high-level objects
+like particles and jets.
 
 % While this is different from the HEP computing paradigm, where jobs are
 % independent, it still shares common features such as the use of
@@ -276,13 +274,13 @@ Titan. Typically, a MPI script is workload-specific as it sets up the execution
 environment for a specific payload. This involves organization of worker
 directories, data management, optional input parameters modification, and
 cleanup on exit. Upon submission, a copy of the MPI script runs on every
-available worker node,
+available worker node, starting the execution of the ATLAS job's payload in a
+subprocess and waits until its completion.
+
 % Each script knows its MPI rank (an index that runs from zero to a maximum
 % number of nodes or script copies) as well as the total number of ranks in the
 % current submission. When activated on worker nodes, each copy of the MPI
 % script
-starting the execution of the ATLAS job's payload in a subprocess and waits
-until its completion.
 
 MPI scripts are submitted to Titan's PBS batch system via
 RADICAL-SAGA~\cite{radical-saga_url}, a Python module, compliant with the OGF
@@ -328,8 +326,8 @@ Upon completion of each MPI script, PanDA Broker transfer the jobs' output to
 designated computing centre via the ATLAS DDM(Fig.~\ref{fig:panda_broker}:10),
 and performs cleanup.
 
-\mtnote{Address Alexei's comments: Add a paragraph explaining how this solution
-has been ported to other HPC machines and reference relevant publications.}
+% \mtnote{Address Alexei's comments: Add a paragraph explaining how this solution
+% has been ported to other HPC machines and reference relevant publications.}
 While PanDA Broker implementation is resource specific, it was successfully
 ported also to other supercomputers, including the Ansel (?) at \ldots and
 Cori at the National Energy Research Scientific Computing Center (NERSC).
