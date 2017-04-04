@@ -5,14 +5,14 @@ execution process. Pilots could improve efficiency by increasing throughput and
 enabling greater backfill utilization. Further, pilots makes it easier to
 support heterogeneous workloads.
 
-As discussed in \S\ref{sec:panda_titan}, the absence of pilots imposes the
-static coupling between MPI scripts submitted to the PBS batch system and
-detector simulations. This makes the scheduling of multiple generations of
-workload on the same PBS job impossible: Once a statically defined number of
-detector simulations are packaged into a PBS job and this job is queued on
-Titan, no further simulations can be added to that job. New simulations have to
-be packaged into a new PBS job that needs to be submitted to Titan based upon
-backfill availability.
+The absence of pilots imposes the static coupling between MPI scripts
+submitted to the PBS batch system and detector simulations
+(\S\ref{sec:panda_titan}). This makes the scheduling of multiple generations
+of workload on the same PBS job impossible: once a statically defined number
+of detector simulations are packaged into a PBS job and this job is queued on
+Titan, no further simulations can be added to that job. New simulations have
+to be packaged into a new PBS job that needs to be submitted to Titan based
+upon backfill availability.
 
 The support of  multiple generations of workload would enable more efficient use
 of the backfill availability of walltime. Currently, when a set of simulations
@@ -84,17 +84,16 @@ can manage one or more worker nodes, depending on performance evaluations. The
 UnitManager and the Agent communicate via a database that is instantiated on
 one of Titan's DTN so as to be reachable by both modules.
 
-The NGE Agent uses the \emph{Open Run-Time Environment (ORTE)} for communication
-and coordination of the execution of units. This environment is a critical
-component of the OpenMPI implementation, developed to support distributed
-high-performance computing applications operating in a heterogeneous
-environment~\cite{castain05:_open_rte, cug-2016}.
-
-ORTE provides a mechanism to create a \emph{``dynamic virtual machine''} (DVM)
-that spans multiple nodes. The DVM transparently provides support for
-interprocess communication, resource discovery and allocation, and process
-launching across a variety of platforms. Libraries enable the interaction
-between users and ORTE to enable the submission, monitoring and managing of
-tasks, avoiding filesystem bottlenecks and race conditions with network sockets.
-As a consequence, ORTE is able to minimize the system overhead while submitting
+The NGE Agent uses the \emph{Open Run-Time Environment (ORTE)} for
+communication and coordination of the execution of units. This environment is
+a critical component of the OpenMPI implementation, developed to support
+distributed high-performance computing applications operating in a
+heterogeneous environment~\cite{castain05:_open_rte, cug-2016}. ORTE provides
+a mechanism to create a \emph{``dynamic virtual machine''} (DVM) that spans
+multiple nodes. The DVM transparently provides support for interprocess
+communication, resource discovery and allocation, and process launching across
+a variety of platforms. Libraries enable the interaction between users and
+ORTE to enable the submission, monitoring and managing of tasks, avoiding
+filesystem bottlenecks and race conditions with network sockets. As a
+consequence, ORTE is able to minimize the system overhead while submitting
 tasks.
