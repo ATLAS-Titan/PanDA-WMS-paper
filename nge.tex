@@ -1,7 +1,7 @@
 % \subsection{Rationale}
-\aanote{I think that the names of the states should be removed. They are
-meaningless without the figures. I left them just in case we decide to
-reintroduce the figures.}\mtnote{Done.}
+% \aanote{I think that the names of the states should be removed. They are
+% meaningless without the figures. I left them just in case we decide to
+% reintroduce the figures.}\mtnote{Done.}
 
 % \jhanote{admittedly i haven't read earlier section in question  carefully, but
 % i'm a bit confused about the use of "wide area". wide area is typically used for
@@ -12,46 +12,46 @@ reintroduce the figures.}\mtnote{Done.}
 % area''?} \jhanote{how is the following: "... deployed on the DTNs as Titan's worker
 % nodes lack connectivity to the wide area network"}.
 
-As seen in \S\ref{sec:panda_deployment}, PanDA Broker was  deployed on the
-DTNs as Titan's worker nodes lack connectivity to the wide area network The
-lack of pilot capabilities impacts both the efficiency and the flexibility of
-PanDA's execution process. Pilots could improve efficiency by increasing
-throughput and enabling greater backfill utilization. Further, pilots makes it
-easier to support heterogeneous workloads.
+As seen in \S\ref{sec:panda_deployment}, PanDA Broker was  deployed on the DTNs
+as Titan's worker nodes lack connectivity to the wide area network The lack of
+pilot capabilities impacts both the efficiency and the flexibility of PanDA's
+execution process. Pilots could improve efficiency by increasing throughput and
+enabling greater backfill utilization. Further, pilots makes it easier to
+support heterogeneous workloads.
 
 As discussed in \S\ref{sec:panda_titan}, the absence of pilots imposes the
 static coupling between MPI scripts submitted to the PBS batch system and
 detector simulations. This makes the scheduling of multiple generations of
 workload on the same PBS job impossible: Once a statically defined number of
 detector simulations are packaged into a PBS job and this job is queued on
-Titan, no further simulations can be added to that job. New simulations have
-to be packaged into a new PBS job that needs to be submitted to Titan based
-upon backfill availability.
+Titan, no further simulations can be added to that job. New simulations have to
+be packaged into a new PBS job that needs to be submitted to Titan based upon
+backfill availability.
 
-The support of  multiple generations of workload would enable more efficient
-use of the backfill availability of walltime. Currently, when a set of
-simulations ends, the PBS job also ends, independent of whether more wall-time
-would still be available. With a pilot, additional simulations could be
-executed  to utilize all the available wall-time, while avoiding further job
-packaging and submission overheads.
+The support of  multiple generations of workload would enable more efficient use
+of the backfill availability of walltime. Currently, when a set of simulations
+ends, the PBS job also ends, independent of whether more wall-time would still
+be available. With a pilot, additional simulations could be executed  to utilize
+all the available wall-time, while avoiding further job packaging and submission
+overheads.
 
 % \mtnote{Are there more reasons for wanting multiple generations?}
 
 % \jhanote{not sure MPI script is optimal description or ambiguous.}\mtnote{Is
 % what we used in the previous section(s) to designate what PanDA Broker submits
 % to Titan's PBS batch system. Job is already used for what is pulled from
-% PanDA server.} 
+% PanDA server.}
 
 Multiple generations would also relax two assumptions of the current execution
 model: knowing the number of simulations before submitting the MPI script, and
-having a fixed number of events per simulation (100 at the moment). Pilots
-would enable the scheduling of simulations independently from whether they
-were available at the moment of submitting the pilot. Further, simulations
-with a varying number of events could be scheduled on a pilot, depending on
-the amount of remaining walltime and the distribution of execution time per
-event, as shown in \S\ref{ssec:panda_titan}, Figure~\ref{fig:100event-
-distrib}. These capabilities would increase the efficiency of the PanDA Broker
-when there is a large difference between the number of cores and walltime.
+having a fixed number of events per simulation (100 at the moment). Pilots would
+enable the scheduling of simulations independently from whether they were
+available at the moment of submitting the pilot. Further, simulations with a
+varying number of events could be scheduled on a pilot, depending on the amount
+of remaining walltime and the distribution of execution time per event, as shown
+in \S\ref{ssec:panda_titan}, Figure~\ref{fig:100event- distrib}. These
+capabilities would increase the efficiency of the PanDA Broker when there is a
+large difference between the number of cores and walltime.
 
 % to one in which the number of events is decided on the base of the available
 % walltime. Pilots would enable to package simulations with a heterogeneous
@@ -70,7 +70,7 @@ broker, greatly simplifying the submission process. This simplification would
 also enable the submission of different types of payload, without having to
 develop a specific PBS script for each payload. The submission process would
 also be MPI-independent, as MPI is used for coordination among multiple worker
-nodes, not by the payload. 
+nodes, not by the payload.
 
 % \mtnote{I tried to argue that pilots facilitates the submission to a normal
 % queue but I was not able to find a convincing argumentation. When we consider
@@ -87,18 +87,18 @@ nodes, not by the payload.
 % (maybe, let's see what our experiments say about that). I do not see how NGE
 % could make all this any different.}
 
-\mtnote{NOTE: I would speak about about backfill/not backfill in the discussion
-of NGE, when speaking about its generality towards resources, i.e., unified
-submission and scheduling process across different resources and multiple
-resources. Part of this generality is being able to submit to whatever batch
-system is supported by SAGA (including Titan's PBS and all its queues) and, in
-case, to multiple resources at the same time.}
-
-\mtnote{NOTE: NGE is not able to use backfill on Titan as we do not have
-specific functionalities to interrogate the Moab scheduler about backfill
-availability. This is why NGE should be presented as the pilot for PanDA Broker
-and not as an alternative to PanDA Broker. Further, NGE alone would not be able
-to speak directly to PanDA Server.}
+% \mtnote{NOTE: I would speak about about backfill/not backfill in the discussion
+% of NGE, when speaking about its generality towards resources, i.e., unified
+% submission and scheduling process across different resources and multiple
+% resources. Part of this generality is being able to submit to whatever batch
+% system is supported by SAGA (including Titan's PBS and all its queues) and, in
+% case, to multiple resources at the same time.}
+%
+% \mtnote{NOTE: NGE is not able to use backfill on Titan as we do not have
+% specific functionalities to interrogate the Moab scheduler about backfill
+% availability. This is why NGE should be presented as the pilot for PanDA Broker
+% and not as an alternative to PanDA Broker. Further, NGE alone would not be able
+% to speak directly to PanDA Server.}
 
 
 % -----------------------------------------------------------------------------
@@ -247,24 +247,29 @@ one of Titan's DTN so as to be reachable by both modules.
 % most.
 
 The NGE Agent uses the \emph{Open Run-Time Environment (ORTE)} for communication
-and coordination of the execution of units. ORTE is a critical component of the
-OpenMPI implementation, developed to support distributed high-performance
-computing applications operating in a heterogeneous environment~\cite{castain05:_open_rte, cug-2016}.  
- ORTE transparently provides support for interprocess communication, resource discovery and allocation, and process launching across a variety of platforms. ORTE provides a mechanism similar to the Pilot concept -
-it allows the user to create a \emph{``dynamic virtual machine''} (DVM) that
-spans multiple nodes. ORTE provides libraries to enable the submission,
-monitoring and managing of tasks, avoiding filesystem bottlenecks and race
-conditions with network sockets. 
-\aanote{Requires validation: Alternative version of the three sentences above (too many ORTE in my opinion): 
-ORTE provides a mechanism similar to the Pilot concept - it allows the user to create a \emph{``dynamic virtual machine''} (DVM) that spans multiple nodes. The DVM transparently provides support for interprocess communication, resource discovery and allocation, and process launching across a variety of platforms. 
-Libraries allow the interaction between users and ORTE to enable the submission,
-monitoring and managing of tasks, avoiding filesystem bottlenecks and race
-conditions with network sockets. 
-}
+and coordination of the execution of units. This environment is a critical
+component of the OpenMPI implementation, developed to support distributed
+high-performance computing applications operating in a heterogeneous
+environment~\cite{castain05:_open_rte, cug-2016}.
 
+ORTE provides a mechanism to create a \emph{``dynamic virtual machine''} (DVM)
+that spans multiple nodes. The DVM transparently provides support for
+interprocess communication, resource discovery and allocation, and process
+launching across a variety of platforms. Libraries enable the interaction
+between users and ORTE to enable the submission, monitoring and managing of
+tasks, avoiding filesystem bottlenecks and race conditions with network sockets.
+As a consequence, ORTE is able to minimize the system overhead while submitting
+tasks.
 
-As a consequence, ORTE is able to minimize the
-system overhead while submitting tasks.
+% ORTE transparently provides support for interprocess communication, resource
+% discovery and allocation, and process launching across a variety of platforms.
+% ORTE provides a mechanism similar to the Pilot concept - it allows the user to
+% create a \emph{``dynamic virtual machine''} (DVM) that spans multiple nodes.
+% ORTE provides libraries to enable the submission, monitoring and managing of
+% tasks, avoiding filesystem bottlenecks and race conditions with network sockets.
+% \aanote{Requires validation: Alternative version of the three sentences above
+% (too many ORTE in my opinion):}
+
 
 %Each component of RP has a independent semantic scope. This enables modularity
 %isolating implementation complexity and supporting diverse use cases and
