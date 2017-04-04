@@ -58,7 +58,7 @@ passage of particles through matter and\ldots
 
 \subsubsection{High-level Description}
 
-\paragraph{Figure~\ref{fig:atlas_workflow} (1)} Multiple end-users (i.e.,
+\paragraph{Fig.~\ref{fig:atlas_workflow} (1)} Multiple end-users (i.e.,
 physicists) submit descriptions of ATLAS Monte Carlo Workflows to the JEDI
 component of ATLAS middleware. JEDI supervises the execution of these workflows
 through a set of eight predefined stages. Each stage requires a specific type of
@@ -66,17 +66,17 @@ input and returns a specific type of output. In this paper, we focus on the
 third stage called ``Detector Simulator'': the only one, at the moment, executed
 on the HPC resources of Titan.
 
-\paragraph{Figure~\ref{fig:atlas_workflow} (2)} JEDI submits/hands over events
+\paragraph{Fig.~\ref{fig:atlas_workflow} (2)} JEDI submits/hands over events
 to a PANDA Server. This server manages the execution of all the ATLAS workflows
 and their stages, including the ATLAS Monte Carlo Workflow. In
-Figure~\ref{fig:atlas_workflow} we depicted only how the events of the third
+Fig.~\ref{fig:atlas_workflow} we depicted only how the events of the third
 stage are organized within PANDA Server. Tasks are container of jobs and each
 job contains itself a set of events. Each task, each job in that task and all
 the events of those jobs belongs to a specific user. This enables provenance
 across the PanDA stack and isolating the management of the data of each task by
 dedicated subsystems.
 
-\paragraph{Figure~\ref{fig:atlas_workflow} (3)} Sets of events belonging to
+\paragraph{Fig.~\ref{fig:atlas_workflow} (3)} Sets of events belonging to
 multiple tasks and jobs are pulled from the PANDA Server by one or more PANDA
 Pilot. Currently, twenty PANDA Pilots are instantiated on four dedicated DSL
 nodes of Titan. These pilots are responsible for the packaging of a set of
@@ -86,59 +86,12 @@ Depending on the amount of nodes available on Titan, a specific number of events
 is packaged into the PBS script. It should be noted that the events packaged
 into a PBS job can belong to different tasks and therefore users.
 
-\paragraph{Figure~\ref{fig:atlas_workflow} (4)} AthenaMP is used to perform the
+\paragraph{Fig.~\ref{fig:atlas_workflow} (4)} AthenaMP is used to perform the
 simulation of the events within the ATLAS detector, one AthenaMP thread for each
 core available on the Titan nodes. Currently, sixteen threads are used for each
 node, each thread being able to simulate an average of 1 event every n??
-minutes?/second? (see Figure~\ref{distribution_amp_titan}). So far, no
+minutes?/second? (see Fig.~\ref{distribution_amp_titan}). So far, no
 description has been given of the flow of data required to simulate each event.
-
-% Questions for Danila/Sergey:
-% \begin{itemize}
-%     \item Does each job of a PANDA Server (and therefore all the tasks of that specific job) belong to the same `user'/VO\@?
-%     \item Does a PANDA Pilot pull jobs/tasks from a PANDA Server or does a PANDA server push jobs/tasks to a PANDA Pilot?
-%     \item Does a PANDA Pilot pull jobs or tasks from a PANDA Server? Are the jobs within a PANDA Pilot the same jobs (i.e., the same container of the same tasks) in the PANDA Server?
-%     \item Do we have 16 PANDA Pilots on a Titan DSL (is this the right acronym?) node? How many DSL nodes?
-%     \item Can the events packaged into a PBS job belong to different submissions, i.e., different jobs, i.e., different users?
-%     \item Do we have the distribution of the time taken on titan to process 1 event of the Monte Carlo workflow?
-% \end{itemize}
-
-% Notes - answers
-%
-% - Does each job of a PANDA Server (and therefore all the tasks of that
-%   specific job) belong to the same ‘user’/VO? • Does a PANDA Pilot pull
-%   jobs/tasks from a PANDA Server or does a PANDA server push jobs/tasks to a
-%   PANDA Pilot?
-%
-% Same user task->job on the server.
-%
-% - Does a PANDA Pilot pull jobs or tasks from a PANDA Server? Are the jobs
-%   within a PANDA Pilot the same jobs (i.e., the same container of the same
-%   tasks) in the PANDA Server?
-%
-% Panda pilot is a edge service on titan, event-driven by backfill
-% availability. When available, it DOES THE PULL from the panda server.
-%
-% - Do we have 16 PANDA Pilots on a Titan DTN (is this the right acronym?)
-%   node? How many DTN nodes?
-%
-% Currently 20, thinking to go higher, on 4 DTN (Data Transfer Node), 5 pilots
-% for DTN, DTN that enable interactive data transfer. New DTN farm is being
-% rolled on. Our set up will change. More node, more pilots per node. This is
-% bound by DTN performance, overloading DTN (currently absence of data on why
-% these nodes are overladed. Network/memory should not be a problem, it is
-% probably purely CPU because of tools used to move files, e.g., GridFTP.)
-%
-% - Can the events packaged into a PBS job belong to different submissions,
-%   i.e., different jobs, i.e., different.
-%
-% They do belong to different tasks.
-%
-% - Do we have the distribution of the time taken on titan to process 1 event
-%   of the Monte Carlo workflow?
-%
-% To be added to Section VI about performance. See presentation:
-% https://drive.google.com/drive/u/0/folders/0BxWZQExiTsWNRTdMQXN4a1g3bHc
 
 
 \subsubsection{Backfill - High-level Description}
@@ -155,8 +108,6 @@ The resubmission might change the size of the PAnDA job is the number of availab
 No job is submitted to TITAN's queue If less than \emph{XXX} nodes are available or if they are not  available for at least 2 hours.
 
 Once the PAnDA job is running on the nodes, it spawns an Athena-MP job per node. Each Athena-MP job runs 16 concurrent processes that are in charge for the simulation of 100 events. No Athena-MP job is submitted after another. Therefore, PanDA job terminates immediately after all the Athena-MP jobs completed their simulation.
-
-
 
 Questions:
 \begin{itemize}
