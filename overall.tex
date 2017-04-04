@@ -1,9 +1,9 @@
 Currently, ATLAS deploys 20 instances of the PanDA Broker on 4 Titan's DTNs, 5
 instances per DTN. Each broker submits and manages the execution of 15 to 300
-ATLAS jobs, one job for each worker node, and a theoretical maximum concurrent
-use of 96,000 cores. Since November 2015, PanDA Brokers have operated only in
-backfill mode, without a defined time allocation, and running at the lowest
-priority on Titan.
+ATLAS jobs, one job for each Titan's worker node, and a theoretical maximum
+concurrent use of 96,000 cores. Since November 2015, PanDA Brokers have operated
+only in backfill mode, without a defined time allocation, and running at the
+lowest priority on Titan.
 
 We evaluate the efficiency, scalability and reliability of the deployment of
 PanDA WMS on Titan by characterizing the behavior of both PanDA Broker and
@@ -41,10 +41,10 @@ PanDA Brokers' efficiency (Fig.~\ref{fig:backfill-utilization}, red labels) is
 defined as the fraction of core-hours utilized by the PanDA Brokers to  Titan’s
 total backfill availability during the experiment time window. The brokers
 reached 18\% average efficiency, with a minimum 7.8\% efficiency on May 2016 and
-a maximum 30.9\% efficiency on February 2017. The total backfill availability
-was 20.3M in April 2016, and 17.6M in February 2017. This shows that the
-measured difference in efficiency did not depend on a comparable difference in
-the total backfill availability.
+a maximum 30.9\% efficiency on February 2017 (excluding the preliminary results
+of March). The total backfill availability was 20.3M in April 2016, and 17.6M in
+February 2017. This shows that the measured difference in efficiency did not
+depend on a comparable difference in the total backfill availability.
 
 During the experiment time window, about 2.25M detector simulation jobs were
 completed on Titan, for a total of 225M events processed. This is equivalent to
@@ -77,14 +77,13 @@ process up to 16 events concurrently, 100 events takes an average of 105 minutes
 to process. As such, PanDA brokers do not use backfill availability with less
 than 105 minutes walltime.
 
-Fig.~\ref{fig:backfill-distrib} shows the distribution of backfill
-availability on Titan as a function of number of nodes and the time of their
-availability (i.e., walltime). We recorded these data by polling Titan's Moab
-scheduler at regular intervals during the experiment window time, while
-developing and deploying PanDA Brokers. The mean number of nodes was 691, and
-their mean walltime was 126 minutes. Detector simulations of 100 events, enable
-to use down to 1 node for 1/2 of the mean walltime of backfill availability. As
-such, it offers a good compromise for PanDA Broker efficiency.
+Fig.~\ref{fig:backfill-distrib} shows the distribution of backfill availability
+on Titan as a function of number of nodes and the time of their availability
+(i.e., walltime). We recorded these data by polling Titan's Moab scheduler at
+regular intervals during the experiment window time. The mean number of nodes
+was 691, and their mean walltime was 126 minutes. Detector simulations of 100
+events, enable to use down to 5/6 of the mean walltime of backfill availability.
+As such, it offers a good compromise for PanDA Broker efficiency.
 
 \begin{figure*}[!t]
     \includegraphics[clip,width=0.32\textwidth]{figures/titan_backfill_wnodes_distribution.pdf}
@@ -99,16 +98,17 @@ such, it offers a good compromise for PanDA Broker efficiency.
 \label{fig:backfill-distrib}
 \end{figure*}
 
-Usually, detector simulations performed on the Grid process 10 times the number
-of events than those on Titan. This explains the difference between the
-percentage of detector simulations and of events computed by those simulations
-on Titan. PanDA Broker could fit the number of events to the walltime of the
-backfill availability on the base of the distributions of
-Fig.~\ref{fig:backfill-distrib}. That specific number of event could then be
-pulled from the PanDA Event service~\cite{calafiura2015atlas} and given as input
-to one or more simulations. Once packaged into the MPI script submitted to
-titan's PBS batch system, these simulations would better fit backfill
-availability, increasing the efficiency of PanDA Brokers.
+% Usually, detector simulations performed on the Grid process 10 times the
+% number of events than those on Titan. This explains the difference between the
+% percentage of detector simulations and of events computed by those simulations
+% on Titan.
+PanDA Broker could fit the number of events to the walltime of each available
+backfill slot on the base of the distributions of the time taken by one event to
+be simulated. That specific number of event could then be pulled from the PanDA
+Event service~\cite{calafiura2015atlas} and given as input to one or more
+simulations. Once packaged into the MPI script submitted to titan's PBS batch
+system, these simulations would better fit their available backfill slot,
+contributing to increase the efficiency of PanDA Brokers.
 
 The transition from a homogeneous to a heterogeneous number of events per
 detector simulation has implications for the application layer. An even number
@@ -120,21 +120,34 @@ uniform. Further analysis is needed to evaluate the trade offs between increased
 efficiency of resource utilization and the complexity that would be introduced
 at the application layer.
 
-Currently, each PanDA Broker creates, submits, and monitor a single MPI PBS
+Currently, each PanDA Broker creates, submits, and monitors a single MPI PBS
 script at a time. This design is inherited from PanDA Pilot where a single
 process is spawn at a time to execute the payload. As a consequence, the
 utilization of a larger portion of Titan's total backfill availability depends
 on the the number of concurrent PanDA Brokers instantiated on the DTNs: When all
-the 20 PanDA Brokers have submitted a MPI PBS Job, further backfill availability
-cannot be used.
+the 20 PanDA Brokers have submitted a MPI PBS script, further backfill
+availability cannot be used.
 
-In September 2016, increasing the number of concurrent PanDA Broker from 4 to 20
-markedly improved efficiency (see Fig.~\ref{fig:backfill-utilization}) but
-further research is undergoing to understand whether an even larger number
-brokers would yield similar results. This research focuses on evaluating the the
+In September 2016, increasing the number of concurrent PanDA brokers from 4 to
+20 markedly improved efficiency (see Fig.~\ref{fig:backfill-utilization}) but
+further research is undergoing to understand whether an even larger number of
+brokers would yield similar results. This research focuses on evaluating the
 overheads of input/output files staging, including its impact on DTNs, and on an
-alternative design of PanDA Broker to enable the concurrent submission of
+alternative design of PanDA Broker that enables the concurrent submission of
 multiple MPI scripts~\cite{barreiro2016panda}.
+
+The current design and architecture of the PanDA Broker is proving to be as
+reliable as PanDA Pilot when used on the WLCG. Between Jan 2016 and Feb 2017,
+the overall failure rate of all the ATLAS detector simulation jobs was 14\%,
+while the failure rate of jobs submitted to Titan was a comparable 13.6\%. PanDA
+Brokers were responsible for around the 19\% of the failures, compared to the
+29\% of failures produced by the JobDispatcher module of the PanDA Server, and
+the 13\% failures produced by the Geant4 toolkit. The current failure rate of
+the PanDA Brokers confirms the benefits of reusing most of the code base of the
+PanDA Pilot for implementing the PanDA Broker. It also shows that adopting
+third-party libraries like RADICAL-SAGA did not have a measurable adverse effect
+on reliability.
+
 
 % -----------------------------------------------------------------------------
 \subsection{Characterizing the Detector Simulation on Titan}
@@ -151,22 +164,21 @@ type of payload that will have to be computed. Once initialized, every algorithm
 and service of AthenaMP is configured by a set of Python scripts. Both these
 operations result in a large number of read operations on the filesystem shared
 between the worker nodes and the DTNs, including the operations required to
-access of small python scripts.
+access small python scripts.
 
-Initially, all the shared libraries of AthenaMP and the python scripts for the
-configuration stage were stored on the Spider 2 Lustre file system. However, the
-I/O patterns of the initialization and configuration stages degraded the
-performance of the filesystem. This was addressed by moving the AthenaMP
-distribution to a read-only NFS directory, shared among DTNs and worker nodes.
-NFS eliminated the problem of metadata contention, improving metadata read
-performance from $\approx$6,300 seconds on Lustre to $\approx$1,500 seconds on
-NFS.
+Initially, all the shared libraries of AthenaMP and the python scripts for its
+configuration were stored on the Spider 2 Lustre file system. However, the I/O
+patterns of the initialization and configuration stages degraded the performance
+of the filesystem. This was addressed by moving the AthenaMP distribution to a
+read-only NFS directory, shared among DTNs and worker nodes. NFS eliminated the
+problem of metadata contention, improving metadata read performance from
+$\approx$6,300 seconds on Lustre to $\approx$1,500 seconds on NFS.
 
-Once set up, AthenaMP is used to execute 16 concurrent Geant4 simulators on each
-of Titan's worker node. Geant4 requires to read events descriptions from a
-filesystem and simulate them as they would happen within the ATLAS detector. We
-characterized both the compute performance of the simulation and the impact of
-acquiring event descriptions on the filesystem.
+Once initialized and configured, AthenaMP is used to execute 16 concurrent
+Geant4 simulators on a Titan's worker node. Geant4 requires to read events
+descriptions from a filesystem and simulate them as they would happen within the
+ATLAS detector. We characterized both the compute performance of the simulation
+and the impact of acquiring event descriptions on the filesystem.
 
 The AMD Opteron 6274 CPU used on Titan has 16 cores, divided into 8 compute
 units. Each compute units has 1 floating point (FP) scheduler shared between 2
@@ -195,18 +207,17 @@ to compare Titan and Grid site performances. Usually, Grid sites exposes
 resources with heterogeneous CPU architectures and a maximum of 8 (virtual)
 cores per worker node, while Titan's offer an homogeneous 16 cores architecture.
 We used the rate of events processes per minute as a measure of the efficiency
-of executing the same detector simulation on both Titan or Grid sites.
-Comparisons of the efficiencies of Titan to  the BNL and SIGNET Grid sites,
-normalized for 8 cores, show that the effective performance per-core at Titan is
-$\approx$0.57 event per minute, roughly 1/2 of BNL and  1/3 of SIGNET
-performances.
+of executing the same detector simulation on Titan or Grid sites. Comparisons of
+the efficiencies of Titan to the BNL and SIGNET Grid sites, normalized for 8
+cores, show that the effective performance per-core at Titan is $\approx$0.57
+event per minute, roughly 1/2 of BNL and  1/3 of SIGNET performances.
 
 The differences in performance between Titan and the BNL and SIGNET Grid sites
 are due to the FP scheduler competition and the availability of newer
 processors. The CPUs at the Grid sites have one FP scheduler per core and are on
 average newer than the CPU of Titan. The heterogeneity of the Grid sites' CPUs
-explain the higher performance variance compared to the performance consistency
-measured on Titan.
+explain the higher performance variance we observed compared to the performance
+consistency we measured on Titan.
 
 We studied the impact of acquiring event descriptions on Lustre by analyzing
 1,175 jobs ran on the week of 10/25/2016, for a total of 174 hours.
@@ -255,15 +266,3 @@ reduced to 40 seconds by loading the event descriptions into the RAM disk
 available on each worker node. Events descriptions could be transferred from
 Lustre to the RAM disk while configuring and initializing AthenaMP, almost
 halving the time currently required by initiating a Genat4 simulation.
-
-The current design and architecture of the PanDA Broker is proving to be as
-reliable as PanDA Pilot when used on the WLCG. Between Jan 2016 and Feb 2017,
-the overall failure rate of all the ATLAS detector simulation jobs was 14\%,
-while the failure rate of jobs submitted to Titan was a comparable 13.6\%. PanDA
-Brokers were responsible for around the 19\% of the failures, compared to the
-29\% of failures produced by the JobDispatcher module of the PanDA Server, and
-the 13\% failures produced by the Geant4 toolkit. The current failure rate of
-the PanDA Brokers confirms the benefits of reusing most of the code base of the
-PanDA Pilot for implementing the PanDA Broker. It also shows that adopting
-third-party libraries like RADICAL-SAGA did not have a measurable adverse effect
-on reliability.
