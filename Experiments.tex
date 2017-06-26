@@ -70,7 +70,7 @@ scale experiments to large node counts by being conservative with allocation.
 We ran pilots with 256, 512, 1024 and 2048 worker nodes and 3\mtnote{2?} hours
 walltime. Fig.~\ref{fig:weakScal2a} depicts the average pilot duration, the
 average execution time of five sequential generations of AthenaMP, and the
-corresponding overhead. We observe that the difference between the two durations
+corresponding overhead. The difference between the two durations
 is more marked than in the previous experiments. Despite this, we notice that
 the growth of the overhead is consistent with the increment of the number of
 tasks per node for pilots with 256, 512 and 1024 worker nodes, and less than
@@ -89,7 +89,7 @@ linear for the pilot with 2048 worker nodes.
 
 \subsubsection{Strong scalability}
 
-The last experiments  study strong scalability by running the same number of
+We investigate strong scalability by running the same number of
 tasks for different pilot sizes. We used 2048 AthenaMP instances and  pilots
 with 256, 512, 1024 and 2048 nodes. Thus, the number of AthenaMP generations is
 equal to eight times the size of the smallest pilot and corresponds to the size

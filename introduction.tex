@@ -1,5 +1,5 @@
 The Large Hadron Collider (LHC) was created to explore the fundamental
-properties of matter for the next decades. Multiple experiments at LHC have
+properties of matter. Multiple experiments at LHC have
 collected and distributed hundreds of petabytes of data worldwide to hundreds of
 computer centers. Thousands of physicists analyze petascale data volumes daily.
 The detection of the Higgs Boson in 2013 speaks to the success of the detector
@@ -11,7 +11,7 @@ federation of hundreds to thousands of distributed resources, %\textemdash{}
 ranging in scale from small to mid-size resource~\cite{foster2003grid}. Although
 the workloads to be executed are comprised of tasks that are independent of each
 other, the management of the distribution of workloads across many heterogeneous
-resources to ensure the effective utilization of resources and efficient
+resources, the effective utilization of resources and efficient
 execution of workloads presents non-trivial challenges.
 
 Many software solutions have been developed in response to these challenges.
@@ -28,30 +28,30 @@ As the LHC prepares for Run 3 in $~\approx$ 2022 and the high-luminosity era
 (Run 4), it is anticipated that the data volumes that will need analyzing will
 increase by factors of 10-100 compared to the current phase (Run 2). Data will
 be larger in volume but will also require more sophisticated computational
-processing. In spite of the impressive scale of the ATLAS distributed computing
-system, demand for computing systems will significantly outstrip current and projected supply. %(availability).
+processing. In spite of the impressive scale of the ATLAS distributed
+computing system, demand for computing systems will significantly outstrip
+current and projected supply.  There are multiple levels at which this problem
+needs to be addressed: the utilization of emerging parallel architectures
+(e.g., platforms); algorithmic and advances in analytical methods (e.g., use
+of Machine Learning); and the ability to exploit different platforms (e.g.,
+clouds and supercomputers).
 
-There are multiple levels at which this problem needs to be addressed: the
-utilization of emerging parallel architectures (e.g., platforms); algorithmic
-and advances in analytical methods (e.g., use of Machine Learning); and the
-ability to exploit different platforms (e.g., clouds and supercomputers).
-
-This paper is a case study of how the ATLAS experiment has ``broken free'' of
-the traditional computational approach of high-throughput computing on
-distributed resources to embrace new platforms, in particular high-performance
-computers. Specifically, we discuss the experience of integrating PanDA WMS with
-a DOE leadership computing facility called Titan to reach sustained production
-scales of approximately 51M core-hours a year. We also discusses the
-investigation of a task execution runtime system on Titan, that is based on the
-pilot-abstractions and which allows advanced execution modes of the ATLAS
-workload as well as the enhanced support for heterogeneous workloads such as
-molecular dynamics.
+This paper represents the experience of how the ATLAS experiment has ``broken
+free'' of the traditional computational approach of high-throughput computing
+on distributed resources to embrace new platforms, in particular  high-
+performance computers. Specifically, we discuss the experience of integrating
+PanDA WMS with a US DOE leadership computing facility called Titan to reach
+sustained production scales of approximately 51M core-hours a year. We also
+discusses the investigation of a pilot-abstraction based task execution
+runtime system on Titan, which allows advanced execution modes of the ATLAS
+workload as well as the enhanced support for heterogeneous workloads, 
+e.g., molecular dynamics.
 
 % . Consequently, Titan now analyzes up to 3.6\% of the simulation workload of
 % the ATLAS experiment. The case study presents the design and integration of
 % PanDA
 
-This state-of-practice paper provides three main contributions:  (i) a critical
+This experience paper provides three main contributions:  (i) a critical
 evaluation of the many design and operational considerations that have been
 taken to support the sustained, scalable and production usage of Titan for
 historically high-throughput workloads; (ii) a preliminary characterization of a
