@@ -1,45 +1,34 @@
-% PanDA WMS was developed to meet the scale and complexity of LHC
-% distributed computing for the ATLAS experiment. In the process, the old batch
-% job paradigm of computing in HEP was discarded in favor of a far more
-% flexible and scalable model. The success of PanDA at the LHC is leading to
-% widespread adoption and testing by other experiments. PanDA is the first
-% exascale workload management system in HEP, already operating at a million
-% computing jobs per day, and processing over an exabyte of data in 2013. Next
-% LHC run will pose massive computing challenges. With a doubling of the beam
-% energy and luminosity as well as an increased need for simulates data, the
-% data volume is expected to increase with a factor 5--6 or more. Storing and
-% processing this amount of data is a challenge that cannot be resolved with the
-% currently existing computing resources in ATLAS\@. To resolve this challenge,
-% ATLAS is turning to commercial as well as academic Cloud services and HPCs via
-% the PanDA system. Also the work underway is enabling the use of PanDA by new
-% scientific collaborations and communities as a means of leveraging extreme
-% scale computing resources with a low barrier of entry. The technology base
-% provided by the PanDA system will enhance the usage of a variety of
-% high-performance computing resources available to basic research.
+Comments to address in this section:
+\begin{enumerate}
+	\item REVIEWER 3: How extensible is this? Do you have a sense of backfill
+	availability on other systems? Is this unique to Titan or Cray or more
+	ubiquitous of an option?
+\end{enumerate}
 
 The deployment of PanDA Broker on Titan enabled distributed computing on a
 leadership-class HPC machine at unprecedented scale. In the past 13 months,
-PanDA WMS has consumed almost 52M core-hours on Titan, simulating 3.5\% of the
-total number of detector events of the ATLAS production Monte Carlo workflow. We
-described the implementation and execution process of PanDA WMS
-(\S\ref{sec:panda_overview}) and PanDA Broker (\S\ref{sec:panda_titan}), showing
-how they support and enable distributed computing at this scale on Titan, a
-leadership-class HPC machine managed by OCLF at ORNL.
+PanDA WMS has consumed almost 52M core-hours on Titan, simulating 3.5\% of
+the total number of detector events of the ATLAS production Monte Carlo
+workflow. We described the implementation and execution process of PanDA WMS
+(\S\ref{sec:panda_overview}) and PanDA Broker (\S\ref{sec:panda_titan}),
+showing how they support and enable distributed computing at this scale on
+Titan, a leadership-class HPC machine managed by OCLF at ORNL.
 
-We characterized the experience by evaluating the efficiency, scalability
-and reliability of both PanDA Broker and AthenaMP as deployed on Titan
-(\S\ref{sec:panda_titan}). Our characterization highlighted the strengths
-and limitations of the current design and implementation: PanDA Brokers enable
-the sustained execution of millions of simulations per week but further work is
-required to optimize its efficiency and reliability (\S\ref{ssec:broker_titan}).
-PanDA Brokers support the concurrent execution of multiple AthenaMP instances,
-enabling each AthenaMP to perform the concurrent execution of up to 16 Geant4
-simulators. Nonetheless, our characterization showed how improving I/O
-performance could reduce overheads (\S\ref{ssec:athenamp_titan}), increasing the
-overall utilization of Titan's backfill availability.
+We characterized the experience by evaluating the efficiency, scalability and
+reliability of both PanDA Broker and AthenaMP as deployed on Titan
+(\S\ref{sec:panda_titan}). Our characterization highlighted the strengths and
+limitations of the current design and implementation: PanDA Brokers enable
+the sustained execution of millions of simulations per week but further work
+is required to optimize its efficiency and reliability
+(\S\ref{ssec:broker_titan}). PanDA Brokers support the concurrent execution
+of multiple AthenaMP instances, enabling each AthenaMP to perform the
+concurrent execution of up to 16 Geant4 simulators. Nonetheless, our
+characterization showed how improving I/O performance could reduce overheads
+(\S\ref{ssec:athenamp_titan}), increasing the overall utilization of Titan's
+backfill availability.
 
 % More generally, this paper highlights the fundamental role of WMS for
-% experimental science. 
+% experimental science.
 
 HEP was amongst the first, if not the first experimental community to realize
 the importance of using WMS to manage their computational campaign(s). As
@@ -47,28 +36,28 @@ computing becomes increasingly critical for a range of experiments, the
 experience foreshadows the importance of WMS for other experiments (such as
 SKA, LSST etc.).  These experiments will have their own workload
 characteristics, resources types and federation constraints, as well metrics
-of performance. The experience captured in this paper will prove
-invaluable for designing WMS for computational campaigns and will provide a
-baseline to evaluate the relative merits of different approaches.
+of performance. The experience captured in this paper will prove invaluable
+for designing WMS for computational campaigns and will provide a baseline to
+evaluate the relative merits of different approaches.
 
 The 52M core hours used by ATLAS, via PanDA, is over 2\% of the total
 utilization on Titan over the same period, bringing the time-averaged
 utilization of Titan to be consistently upwards of 90\%. Given that the
 average average utilization of most other leadership class machines is less
 (e.g., NSF's flagship Blue Waters the average utilization fluctuates between
-60-80\% (see XDMoD\cite{bw-sucks})) there is ample headroom for similar
-approaches elsewhere. These unprecedented efficiency gains aside, this work is
-just a starting point towards more effective operational models for future
+60--80\% (see XDMoD\cite{bw-sucks})) there is ample headroom for similar
+approaches elsewhere. These unprecedented efficiency gains aside, this work
+is just a starting point towards more effective operational models for future
 leadership and online analytical platforms~\cite{foap-url}. These platforms
-will have to support ever increasing complex workloads with varying models for
-dynamic resource federation. 
+will have to support ever increasing complex workloads with varying models
+for dynamic resource federation.
 
-% Recent efforts with Google Cloud for the CMS
-% experiment -- HEPCloud~\cite{hepcloud,googlehep} represent similar yet
-% different approaches to dynamic resource federation. As the type,
-% heterogeneity and complexity of future platforms  (e.g., Exascale, Commercial
-% Clouds) for science increases, there will be a greater need and emphasis on
+% Recent efforts with Google Cloud for the CMS experiment --
+% HEPCloud~\cite{hepcloud,googlehep} represent similar yet different
+% approaches to dynamic resource federation. As the type, heterogeneity and
+% complexity of future platforms  (e.g., Exascale, Commercial Clouds) for
+% science increases, there will be a greater need and emphasis on
 % abstractions to ensure WMS can both utilize as well as support evolving
 % platforms. Our experience demonstrated the advantages arising from an
-% abstractions based approach \textendash{} in particular scalable implementations
-% of pilot abstraction.
+% abstractions based approach \textendash{} in particular scalable
+% implementations of pilot abstraction.
