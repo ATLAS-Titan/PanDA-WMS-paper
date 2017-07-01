@@ -1,23 +1,23 @@
 \ifreview
 Comments to address in this section:
 \begin{enumerate}
-    \item REVIEWER 2: In Figure 4, there are some inconsistencies. The figure
-    caption shows there are only 62175 measures, but in the scatter plot
-    (right) there are 62555 data points. In addition, according to the
-    distribution of the number of work nodes (left), it does not look like
-    the mean number of work available is 691 as the figure caption
-    illustrates.
-    \item REVIEWER 3: t’s interesting that Feb/March have such an increase in
-    backfill availability in 2017. The authors attribute this to hardware
+    % \item REVIEWER 2: In Figure 4, there are some inconsistencies. The
+    % figure caption shows there are only 62175 measures, but in the scatter
+    % plot (right) there are 62555 data points. In addition, according to the
+    % distribution of the number of work nodes (left), it does not look like
+    % the mean number of work available is 691 as the figure caption
+    % illustrates.
+    \item REVIEWER 3: It’s interesting that Feb/March have such an increase
+    in backfill availability in 2017. The authors attribute this to hardware
     upgrades for the DTNs. It’s mentioned that the load is only 3.6\% now and
     therefore further upgrades will likely not cause similar improvement.
     What was the previous CPU load? Why were particularly low percentages
     utilized in April/May 2016?
-    \item REVIEWER 4: “Genat4” at the end of Section 4 is a typo.
-    \item REVIEWER 4: Please explain why you used Titan at all, in spite of
-    your statement that it is 1/2 to 1/3 as efficient as other resources. Was
-    it merely that you were given so much time on this resource that the
-    inefficiency doesn’t matter?
+    % \item REVIEWER 4: “Genat4” at the end of Section 4 is a typo.
+    % \item REVIEWER 4: Please explain why you used Titan at all, in spite of
+    % your statement that it is 1/2 to 1/3 as efficient as other resources.
+    % Was it merely that you were given so much time on this resource that
+    % the inefficiency doesn’t matter?
     \item REVIEWER 4: Why didn’t you benchmark the performance of your
     workload on other HPC resources that might have delivered better
     performance, prior to reengineering your entire workflow to deal with the
@@ -27,8 +27,9 @@ Comments to address in this section:
     LCFs are 90\% uptime. Using large batches of Geant4 jobs that run on a
     single node or less to reach this metric sounds like gaming the system
     rather than an accomplishment.
-    \item REVIEWER 5: In Figure 3, it shows the unused core hours are much
-    higher than those used by ATLAS. What are the reasons for such low usage?
+    % \item REVIEWER 5: In Figure 3, it shows the unused core hours are much
+    % higher than those used by ATLAS\@. What are the reasons for such low
+    % usage?
 \end{enumerate}
 \fi
 
@@ -37,14 +38,15 @@ Currently, ATLAS deploys 20 instances of the PanDA Broker on 4 Titan's DTNs,
 300 ATLAS jobs, one job for each Titan's worker node, and a theoretical
 maximum concurrent use of 96,000 cores. Since November 2015, PanDA Brokers
 have operated only in backfill mode, without a defined time allocation, and
-running at the lowest priority on Titan.
+running at the lowest priority on Titan. Therefore, ATLAS contributed to
+increase the Titan's overall utilization without affecting other users.
 
 We evaluate the efficiency, scalability and reliability of the deployment of
 PanDA WMS on Titan by characterizing the behavior of both PanDA Broker and
 AthenaMP\@. We discuss challenges and limitations of our approach at multiple
 levels arising from the specifics of workload, middleware and methods. All
 the measurements were performed between January 2016 and February 2017,
-hereafter called ‘experiment time window
+hereafter called `experiment time window'.
 
 % ---------------------------------------------------------------------------
 \subsection{Characterizing the PanDA Broker on Titan}
@@ -59,16 +61,16 @@ this number of core-hours `total backfill availability'.
 Fig.~\ref{fig:backfill-utilization} shows the total backfill availability on
 Titan (gray bars) and the number of core-hours of that availability used by
 ATLAS (blue bars) during the experiment time window. ATLAS consumed a total
-of 51.4M core-hours, for an average of $\approx$3.7M core-hours a month, with
-a minimum of 1.7M core-hours in April 2016 and a maximum 7.9M core-hours in
-February 2017.
+of 51.4M core-hours, for an average of $\approx$3.7M core-hours a month. 
+% , with a minimum of 1.7M core-hours in April 2016 and a maximum 7.9M
+% core-hours in February 2017.
 
 \begin{figure}[!t]
     \includegraphics[clip,width=\columnwidth]{figures/backfill_consumption.pdf}
     \vspace{-0.3in}
     \caption{Titan's total backfill availability: CPU core-hours (gray) and
     CPU core-hours used by ATLAS (blue). GPU core-hours unaccounted for as
-    they cannot be used by ATLAS. Efficiency of PanDA Brokers defined as
+    they cannot be used by ATLAS\@. Efficiency of PanDA Brokers defined as
     percentage of total Titan's backfill availability used by ATLAS (Red
     labels).}
 \label{fig:backfill-utilization}
@@ -103,39 +105,45 @@ allow to quantify bottlenecks but spot measurements of their load indicate
 that a faster CPU and better networking were likely responsible for the
 improved performance. Investigations showed an average CPU load of 3.6\% on
 the upgraded DTNs. As such, further hardware upgrades seem unlikely to
-improve significantly the performance of PanDA Brokers.
+improve significantly the performance of PanDA Brokers.\mtnote{Asked Segey
+and Danila for values previous HW upgrade}
 
 Every detector simulation executed on Titan process 100 events. This number
 of events is consistent with the physics of the use case and with the average
 duration of backfill availability. The duration of a detector simulation is a
 function of the number of events simulated but not all events take the same
-time to be simulated. 1 event simulation takes from $\approx$2 to $\approx$40
-minutes, with a mean of $\approx$14 minutes. Considering that each worker
-node process up to 16 events concurrently, 100 events takes an average of 105
-minutes to process. As such, PanDA brokers do not use backfill availability
-with less than 105 minutes walltime.
+time to be simulated. One event simulation takes from $\approx$2 to
+$\approx$40 minutes, with a mean of $\approx$14 minutes. Considering that
+each worker node process up to 16 events concurrently, 100 events takes an
+average of 105 minutes to process. As such, PanDA brokers do not use backfill
+availability with less than 105 minutes walltime.
 
-Fig.~\ref{fig:backfill-distrib} shows the distribution of backfill
-availability on Titan as a function of number of nodes and the time of their
-availability (i.e., walltime). We recorded these data by polling Titan's Moab
-scheduler at regular intervals during the experiment window time. The mean
-number of nodes was 691, and their mean walltime was 126 minutes. Detector
-simulations of 100 events, enable to use down to 5/6 of the mean walltime of
-backfill availability. As such, it offers a good compromise for PanDA Broker
+Fig.~\ref{fig:backfill-distrib} shows backfill availability on Titan as a
+function of number of nodes and the time of their availability (i.e.,
+walltime). We recorded these data by polling Titan's Moab scheduler at
+regular intervals during the experiment window time. The mean number of nodes
+was 691, and their mean walltime was 126 minutes. Detector simulations of 100
+events, enable to use down to 5/6 of the mean walltime of backfill
+availability. As such, it offers a good compromise for PanDA Broker
 efficiency.
 
-\begin{figure*}[!t]
-    \includegraphics[clip,width=0.32\textwidth]{figures/titan_backfill_wnodes_distribution.pdf}
-    \includegraphics[clip,width=0.32\textwidth]{figures/titan_backfill_walltime_distribution.pdf}
-    \includegraphics[clip,width=0.32\textwidth]{figures/titan_backfill_avail.png}
+%\begin{figure*}[!t]
+\begin{figure}[!t]
+    % \includegraphics[clip,width=0.32\textwidth]{figures/titan_backfill_wnodes_distribution.pdf}
+    % \includegraphics[clip,width=0.32\textwidth]{figures/titan_backfill_walltime_distribution.pdf}
+    % \includegraphics[clip,width=0.32\textwidth]{figures/titan_backfill_avail.png}
+    \includegraphics[clip,width=\columnwidth]{figures/titan_backfill_avail.png}
    \vspace{-0.1in}
-    \caption{Backfill availability: distribution of number of work nodes
-    (left) and of walltime in minutes (center). Scatter plot of the two
-    variables (right). 62175 measures: mean number of work nodes available
-    691; mean walltime available 126 minutes.}
-
+    \caption{
+    % Backfill availability: distribution of number of work nodes (left) and
+    % of walltime in minutes (center). Scatter plot of the two variables.
+    % (right).
+    62555 measures of Backfill availability on Titan during the experiment
+    time window. Mean number of work nodes available 691; mean walltime
+    available 126 minutes.}
 \label{fig:backfill-distrib}
-\end{figure*}
+%\end{figure*}
+\end{figure}
 
 % Usually, detector simulations performed on the Grid process 10 times the
 % number of events than those on Titan. This explains the difference between
@@ -173,46 +181,48 @@ but further research is undergoing to understand whether an even larger
 number of brokers would yield similar results. This research focuses on
 evaluating the overheads of input/output files staging, including its impact
 on DTNs, and on an alternative design of PanDA Broker that enables the
-concurrent submission of multiple MPI scripts~\cite{barreiro2016panda}.
+concurrent submission of multiple MPI scripts~\cite{barreiro2016panda}. The
+results of these investigation will contribute to improve the efficienty of
+PanDA Brokers beyond the 30\% limit showed in
+Fig.~\ref{fig:backfill-utilization}.
 
 The current design and architecture of the PanDA Broker is proving to be as
-reliable as PanDA Pilot when used on the WLCG. Between Jan 2016 and Feb 2017,
-the overall failure rate of all the ATLAS detector simulation jobs was 14\%,
-while the failure rate of jobs submitted to Titan was a comparable 13.6\%.
-PanDA Brokers were responsible for around the 19\% of the failures, compared
-to the 29\% of failures produced by the JobDispatcher module of the PanDA
-Server, and the 13\% failures produced by the Geant4 toolkit. The current
-failure rate of the PanDA Brokers confirms the benefits of reusing most of
-the code base of the PanDA Pilot for implementing the PanDA Broker. It also
-shows that adopting third-party libraries like RADICAL-SAGA did not have a
-measurable adverse effect on reliability.
+reliable as PanDA Pilot when used on the WLCG\@. Between Jan 2016 and Feb
+2017, the overall failure rate of all the ATLAS detector simulation jobs was
+14\%, while the failure rate of jobs submitted to Titan was a comparable
+13.6\%. PanDA Brokers were responsible for around the 19\% of the failures,
+compared to the 29\% of failures produced by the JobDispatcher module of the
+PanDA Server, and the 13\% failures produced by the Geant4 toolkit. 
+% The current failure rate of the PanDA Brokers confirms the benefits of
+% reusing most of the code base of the PanDA Pilot for implementing the PanDA
+% Broker. It also shows that adopting third-party libraries like RADICAL-SAGA
+% did not have a measurable adverse effect on reliability.
 
-
-% -----------------------------------------------------------------------------
+% ---------------------------------------------------------------------------
 \subsection{Characterizing the Detector Simulation on Titan}
 \label{ssec:athenamp_titan}
 
 We use two main parameters to measure the performance of the detector
-simulation jobs submitted to Titan: (i) the time taken to setup AthenaMP; and
-(ii) the distribution of the time taken by the Geant4 toolkit to simulate a
-certain number of events.
+simulation jobs submitted to Titan: (i) the time taken to setup AthenaMP\@;
+and (ii) the distribution of the time taken by the Geant4 toolkit to simulate
+a certain number of events.
 
 AthenaMP has an initialization and configuration stage. At initialization
-time, AthenaMP is assembled from a large number of shared libraries,
-depending on the type of payload that will have to be computed. Once
-initialized, every algorithm and service of AthenaMP is configured by a set
-of Python scripts. Both these operations result in a large number of read
-operations on the filesystem shared between the worker nodes and the DTNs,
-including the operations required to access small python scripts.
+time, AthenaMP is assembled from a set of shared libraries, depending on the
+type of payload that will have to be computed. Once initialized, every
+algorithm and service of AthenaMP is configured via Python scripts. Both
+these operations result in read operations on the filesystem shared between
+the worker nodes and the DTNs, including the operations required to access
+small python scripts.
 
-Initially, all the shared libraries of AthenaMP and the python scripts for
-its configuration were stored on the Spider 2 Lustre file system. However,
-the I/O patterns of the initialization and configuration stages degraded the
-performance of the filesystem. This was addressed by moving the AthenaMP
-distribution to a read-only NFS directory, shared among DTNs and worker
-nodes. NFS eliminated the problem of metadata contention, improving metadata
-read performance from $\approx$6,300 seconds on Lustre to $\approx$1,500
-seconds on NFS.
+Initially, all the shared libraries and the python scripts of AthenaMP were
+stored on the OLCF Spider 2 Lustre file system. However, the I/O patterns of
+the initialization and configuration stages degraded the performance of the
+filesystem. This was addressed by moving the AthenaMP distribution to a
+read-only NFS directory, shared among Titan's DTNs and worker nodes. NFS
+eliminated the problem of metadata contention, improving metadata read
+performance from $\approx$6,300 seconds on Lustre to $\approx$1,500 seconds
+on NFS\@.
 
 Once initialized and configured, AthenaMP is used to execute 16 concurrent
 Geant4 simulators on a Titan's worker node. Geant4 requires to read events
@@ -235,7 +245,7 @@ number of cores does not justify the use of 1/2 of the cores available.
     \includegraphics[clip,width=\columnwidth]{figures/tx8_tx16_comparison_vsquashed.pdf}
    \vspace{-0.3in}
     \caption{Distributions of the time taken to simulate one event when
-    placing 2 simulations (h1) or 1 simulation (h2) per Titan's CPU. 2
+    placing 2 simulations (h1) or 1 simulation (h2) per Titan's CPU\@. 2
     simulation use 16 cores per node, 1 simulation 8. 50 Events; 1 Titan
     worker nodes; 16 work threads per node; 100 events per node.}
 
@@ -258,7 +268,12 @@ sites are due to the FP scheduler competition and the availability of newer
 processors. The CPUs at the Grid sites have one FP scheduler per core and are
 on average newer than the CPU of Titan. The heterogeneity of the Grid sites'
 CPUs explain the higher performance variance we observed compared to the
-performance consistency we measured on Titan.
+performance consistency we measured on Titan. This difference in performance
+is compensated by the amount of resources available on Titan (capable of
+executing up to 30\%/year of the ATLAS detector simulations) and by the lack
+of further resources available to WLCG\@. Also, it should be noted that Titan
+is at the end of its life-cycle and that Summit, Titan's successor, will
+offer cutting-edge performances.
 
 We studied the impact of acquiring event descriptions on Lustre by analyzing
 1,175 jobs ran on the week of 10/25/2016, for a total of 174 hours.
@@ -304,8 +319,9 @@ per every file $open()$ issued.
 
 Overall, the average time taken to read events from input files stored on
 Lustre is 1,320, comparable to the time taken to read the file required by
-assembling AthenaMP from NFS. Preliminary investigation shows that this time
-could be reduced to 40 seconds by loading the event descriptions into the RAM
-disk available on each worker node. Events descriptions could be transferred
-from Lustre to the RAM disk while configuring and initializing AthenaMP,
-almost halving the time currently required by initiating a Genat4 simulation.
+assembling AthenaMP from NFS\@. Preliminary investigation shows that this
+time could be reduced to 40 seconds by loading the event descriptions into
+the RAM disk available on each worker node. Events descriptions could be
+transferred from Lustre to the RAM disk while configuring and initializing
+AthenaMP, almost halving the time currently required by initiating a Geant4
+simulation.
