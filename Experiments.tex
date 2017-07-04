@@ -60,25 +60,24 @@ Titan's shared filesystem and the shared database used by the NGE), the
 average execution time of AthenaMP ranges between 4500 and 4800 seconds. We
 also observe that in all the cases the gap between AthenaMP execution times
 and the pilot durations is minimal, although it slightly increases with the
-pilot size. We notice that NGE's overhead does grow linearly with the number
+pilot size. We notice that NGE's overhead grows linearly with the number
 of units.
 
-\subsubsection{Weak scalability with multiple generation }
+\subsubsection{Weak scalability with multiple generation}
 
 The NGE provides an important new capability of submitting multiple
-generations of AthenaMP to the same pilot. In order to investigate the cost
+generations of tasks to the same pilot. In order to investigate the cost
 of doing so, we performed a variant of the weak scalability experiments. This
 stresses the pilot's components, as new tasks are scheduled for execution on
 the Agent while other tasks are still running.
 
 In these experiments, we run five AthenaMP instances per node. As these
-experiments are designed to investigate the overhead of 
-scheduling and bootstraping of AthenaMP instances, the number of
-events simulated by each AthenaMP task was reduced to sixteen such that the
-running time of each AthenaMP was, on average, $\sim 1200$ seconds. This
-experiment design choice does not affect the objectives or accuracy of the
-experiments, but allows us to scale experiments to large node counts by being
-conservative with allocation.
+experiments are designed to investigate the overhead of  scheduling and
+bootstraping of AthenaMP instances, the number of events simulated by each
+AthenaMP task was reduced to sixteen such that the running time of each
+AthenaMP was $\sim 1200$ seconds on average. This experiment design choice
+does not affect the objectives or accuracy of the experiments, but allows us
+to scale experiments to large node counts by conserving project allocation.
 
 We ran pilots with 256, 512, 1024 and 2048 worker nodes and 3\mtnote{2?}
 hours walltime. Fig.~\ref{fig:weakScal2a} depicts the average pilot duration,
@@ -92,7 +91,7 @@ linear for the pilot with 2048 worker nodes.
 \begin{figure}[!t]
         \includegraphics[height=4.5cm,width=\columnwidth]{./figures/NGE/weak2.pdf}
         \vspace{-0.3in}
-    \caption{Weak scalability with multiple generations: average pilot
+    \caption{Weak scalability with multiple generations (where each generation has approximately 1/6th the number of events compared to Fig. 7): average pilot
     duration, average duration of sequential AthenaMP executions, and
     pilot's overhead for pilot with 256, 512, 1024 and 2048 nodes.}
 \label{fig:weakScal2a}
