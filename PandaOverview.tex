@@ -1,7 +1,7 @@
-PanDA is a Workload Management System (WMS)%~\cite{marco2009glite} 
+PanDA is a Workload Management System (WMS) %~\cite{marco2009glite} 
 designed to support the execution of distributed workloads and workflows via
 pilots~\cite{turilli2015comprehensive}. Pilot-capable WMS enable high
-throughput of tasks execution via multi-level scheduling while supporting
+throughput execution of tasks via multi-level scheduling while supporting
 interoperability across multiple sites. This is particularly relevant for LHC
 experiments, where millions of tasks are executed across multiple sites every
 month, analyzing and producing petabytes of data. 
@@ -126,7 +126,7 @@ needed, replicates data sets on the required sites
 
 Meanwhile, AutoPyFactory defines PanDA Pilots, submitting them to a Condor-G
 agent (Fig.~\ref{fig:architecture}:9). Condor-G schedules these pilots
-wrapped as jobs or VMs to the required sites
+wrapped as jobs to the required sites
 (Fig.~\ref{fig:architecture}:10).
 
 When a PanDA Pilot becomes available, it requests the Job Dispatcher module
@@ -137,10 +137,10 @@ the global queue (i.e., the PanDA database) and, upon availability, returns a
 job to the Job Dispatcher. The Job Dispatcher dispatches that job to the
 PanDA Pilot (Fig.~\ref{fig:architecture}:12).
 
-Upon receiving a job, a PanDA Pilot starts a monitoring process and forks a
-subprocess for the execution of the job's payload. Input data are transferred
-from the stage-in location (Fig.~\ref{fig:architecture}:13) and the job's
-payload is executed (Fig.~\ref{fig:architecture}:14). Once completed, output
+A PanDA Pilot starts a monitoring process on receiving a job and forks a
+subprocess to execute the job's payload. Input data are transferred
+from the stage-in location (Fig.~\ref{fig:architecture}:13), the job's
+payload is executed (Fig.~\ref{fig:architecture}:14) and once completed, output
 is transferred to the staging-out location (Fig.~\ref{fig:architecture}:15).
 
 The Data Service module of the PanDA Server tracks and collects the output
