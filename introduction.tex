@@ -66,24 +66,23 @@ high-performance computers. Specifically, we discuss the experience of integrati
 PanDA WMS with a US DOE leadership machine (Titan) to reach
 sustained production scales of approximately 51M core-hours a year. 
 
-We demonstrate how Titan is more efficient utilized by the mixing of small and
-short-lived tasks in backfill with regular payloads. Cycles otherwise unusable
-(or very difficult to use) are used for science thus, increasing the overall
-utilization on Titan without loss of quality-of-service. The conventional mix
-of jobs at OLCF cannot be effectively backfilled because of size, duration,
-and scheduling policies. Our approach is extensible to any HPC with
-"capability scheduling" policies.  We also investigate a pilot-abstraction
-based task execution runtime system which allows advanced execution modes of
-the ATLAS workload, as well as heterogeneous workloads, e.g., molecular
-dynamics. As such, our work is an exemplary use case for general approaches to
-HPC and HTC integration.
+We demonstrate how Titan is more efficiently utilized by the mixing of small
+and short-lived tasks in backfill with regular payloads. Cycles otherwise
+unusable (or very difficult to use) are used for science thus, increasing the
+overall utilization on Titan without loss of quality-of-service. The
+conventional mix of jobs at OLCF cannot be effectively backfilled because of
+size, duration, and scheduling policies. Our approach is extensible to any HPC
+with "capability scheduling" policies.  We also investigate the use of a
+pilot-abstraction based task execution runtime system to flexibly execute
+ATLAS and other heterogeneous workloads (molecular dynamics) using regular
+queues. As such, our approach provides a general solution and investigation of
+the convergence of HPC and HTC execution of workloads.
 
 This work demonstrates a viable production route to delivering large amounts
 of computing resources to ATLAS and, in the future, to other experimental and
 observational use cases.  This broadens the use of leadership computing while
 demonstrating how distributed workflows can be integrated with leadership
-resources, and thus how HTC and HPC workloads can be effectively accommodated
-simultaneously. 
+resources, and effectively accommodating HTC and HPC workloads simultaneously. 
 
 This paper also provides: (i) a critical evaluation of the many design and
 operational considerations that have been taken to support the sustained,
