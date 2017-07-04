@@ -38,20 +38,21 @@ include middleware-specific APIs to request for resources, and a pilot capable
 of pulling tasks from the management modules and executing them on its
 resources.
 
-AliEn, DIRAC, GlideinWMS and PanDA also have similar implementations. These WMS
-were initially implemented to use Grid resources, using one or more components
-to the Condor software ecosystem~\cite{thain2005distributed} and, as with
-GlideinWMS, contributing to its development. Accordingly, all LHC WMS
-implemented Grid-like authentication and authorization systems and adopted a
-computational model based on distributing a large amount of single/few-cores
-tasks across hundreds of sites\mtnote{Is this true?}.
+%~\cite{thain2005distributed}
 
-All the experiments at LHC produces and process large amount of data both from
-actual collisions in the accelerator and from their simulations. Dedicated,
-multi-tiered data systems have been built to store, replicate, and distributed
-these data. All LHC WMS interface with these systems to move data to the sites
-where related compute tasks are executed or to schedule compute tasks where
-(large amount of) data are already stored.
+AliEn, DIRAC, GlideinWMS and PanDA also have similar implementations. These
+WMS were initially implemented to use Grid resources using the Condor software
+ecosystem~\cite{thain2005distributed}. Accordingly, all LHC WMS implemented
+Grid-like authentication and authorization systems and adopted a computational
+model based on distributing a large amount of single/few-cores tasks across
+hundreds of sites\mtnote{Is this true?}.
+
+All LHC experiments produce and process large amounts  of data from actual
+collisions in the accelerator and from their simulations. Dedicated, multi-
+tiered data systems have been built to store, replicate, and distributed these
+data. All LHC WMS interface with these systems to move data to the sites where
+related compute tasks are executed or to schedule compute tasks where (large
+amount of) data are already stored.
 
 % -----------------------------------------------------------------------------
 % NOTES ON TASK, JOBS, AND WORKFLOW TERMINOLOGY
