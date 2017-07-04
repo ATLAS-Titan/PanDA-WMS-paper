@@ -5,7 +5,6 @@ Comments to address in this section:
 	consistent fashion. I found The 5 points listed in the first part of the
 	rebuttal quite compelling, and strongly urge the authors to put them in
 	the paper in a prominent location.
-	\item REVIEWER 1: A glossary would be welcomed.
 	\item REVIEWER 5: I would have preferred to see a more detailed list of
 	contributions, including the novelty of the proposed approach as compared
 	to prior work.
@@ -15,41 +14,39 @@ Comments to address in this section:
 	(parallelization), lowering communication, etc., which are often major
 	concerns in HPC programming. In this sense, the paper is closer in spirit
 	to how to port high-throughput apps to high-performance clusters. Agreed?
+	{\bf  Need to clarify it is not the task that is being converged but the workload and execution model that is being converged}
+	\item REVIEWER 1: A glossary would be welcomed. {\bf Not addressable}
 \end{enumerate}
 \fi
-
-
 
 The Large Hadron Collider (LHC) was created to explore the fundamental
 properties of matter. Multiple experiments at LHC have collected and
 distributed hundreds of petabytes of data worldwide to hundreds of computer
 centers. Thousands of physicists analyze petascale data volumes daily. The
-detection of the Higgs Boson in 2013 speaks to the success of the detector
-and experiment design, as well as the sophistication of computing systems
-devised to analyze the data.
+detection of the Higgs Boson in 2013 speaks to the success of the detector and
+experiment design, as well as the sophistication of computing systems devised
+to analyze the data, which historically, consisted of the federation of
+hundreds to thousands of distributed resources, ranging in
+scale from small to mid-size resource~\cite{foster2003grid}.
 
-Historically, the computing systems used by LHC experiments consisted of the
-federation of hundreds to thousands of distributed resources, %\textemdash{}
-ranging in scale from small to mid-size resource~\cite{foster2003grid}.
 Although the workloads to be executed are comprised of tasks that are
 independent of each other, the management of the distribution of workloads
 across many heterogeneous resources, the effective utilization of resources
-and efficient execution of workloads presents non-trivial challenges.
-
-Many software solutions have been developed in response to these challenges.
-CMS, one of the LHC experiments, devised a solution based around the
+and efficient execution of workloads present non-trivial challenges. Many
+software solutions have been developed in response to these challenges. The
+CMS experiment, devised a solution based around the
 HTCondor~\cite{thain2005distributed} software ecosystem. The
-ATLAS~\cite{Aad:2008} experiment, utilizes the Production and Distributed
+ATLAS~\cite{Aad:2008} experiment utilizes the Production and Distributed
 Analysis (PanDA) workload management system~\cite{Maeno2011} (WMS) for
 distributed data processing and analysis. The CMS and ATLAS experiments
-represent arguably the largest production grade distributed computing
-solutions and have symbolized the paradigm of {\it high-throughput
-computing}, i.e., the effective execution of many independent tasks.
+utilize, arguably the largest production grade distributed computing
+solutions and have symbolized the paradigm of {\it high-throughput computing},
+i.e., the effective execution of many independent tasks.
 
 In spite of the impressive scale of the ATLAS distributed computing system,
 demand for computing systems will soon significantly outstrip current and
-projected supply.   The data volumes that will need analyzing in LHC-Run 3 in
-$~\approx$ 2022 and the high-luminosity era (Run 4) will increase by factors
+projected supply.   The data volumes that will need analyzing in LHC-Run 3 
+($~\approx$ 2022) and the high-luminosity era (Run 4) will increase by factors
 of 10-100 compared to the current phase (Run 2). There are multiple levels at
 which this problem needs to be addressed: the utilization of emerging parallel
 architectures (e.g., platforms); algorithmic and advances in analytical
@@ -62,29 +59,36 @@ platforms (e.g., clouds and supercomputers).
 % Data will be larger in volume but will also require more sophisticated
 % computational processing. 
 
-
 This paper represents the experience of how the ATLAS experiment has ``broken
 free'' of the traditional computational approach of high-throughput computing
 on distributed resources to embrace new platforms, in particular  
 high-performance computers. Specifically, we discuss the experience of integrating
-PanDA WMS with a US DOE leadership computing facility called Titan to reach
-sustained production scales of approximately 51M core-hours a year. We also
-discusses the investigation of a pilot-abstraction based task execution
-runtime system on Titan, which allows advanced execution modes of the ATLAS
-workload as well as the enhanced support for heterogeneous workloads, e.g.,
-molecular dynamics.
+PanDA WMS with a US DOE leadership machine (Titan) to reach
+sustained production scales of approximately 51M core-hours a year. 
 
-% . Consequently, Titan now analyzes up to 3.6\% of the simulation workload
-% of the ATLAS experiment. The case study presents the design and integration
-% of PanDA
+We demonstrate how Titan is more efficient utilized by the mixing of small and
+short-lived tasks in backfill with regular payloads. Cycles otherwise unusable
+(or very difficult to use) are used for science thus, increasing the overall
+utilization on Titan without loss of quality-of-service. The conventional mix
+of jobs at OLCF cannot be effectively backfilled because of size, duration,
+and scheduling policies. Our approach is extensible to any HPC with
+"capability scheduling" policies.  We also investigate a pilot-abstraction
+based task execution runtime system which allows advanced execution modes of
+the ATLAS workload, as well as heterogeneous workloads, e.g., molecular
+dynamics. As such, our work is an exemplary use case for general approaches to
+HPC and HTC integration.
 
-This experience paper provides three main contributions:  (i) a critical
-evaluation of the many design and operational considerations that have been
-taken to support the sustained, scalable and production usage of Titan for
-historically high-throughput workloads; (ii) a preliminary characterization
-of a next generation executor (NGE) for PanDA to support non-traditional
-heterogeneous workloads and execution modes;  and (iii) early lessons and
-guidance as the community looks forward to designing the next generation of
-online analytical platforms~\cite{foap-url}, for how current and future
-experimental and observational systems can be integrated with production
-supercomputers in a general and extensible manner.
+This work demonstrates a viable production route to delivering large amounts
+of computing resources to ATLAS and, in the future, to other experimental and
+observational use cases.  This broadens the use of leadership computing while
+demonstrating how distributed workflows can be integrated with leadership
+resources, and thus how HTC and HPC workloads can be effectively accommodated
+simultaneously. 
+
+This paper also provides: (i) a critical evaluation of the many design and
+operational considerations that have been taken to support the sustained,
+scalable and production usage of Titan for historically high-throughput
+workloads, and (ii) early lessons and guidance as the community looks forward
+to designing the next generation of online analytical platforms~\cite{foap-
+url}, for how current and future experimental and observational systems can be
+integrated with production supercomputers in a general and extensible manner.
