@@ -18,31 +18,31 @@
 % \fi
 The upcoming LHC Run 3 will require more resources than the Worldwide LHC
 Computing Grid (WLCG) can provide. Currently, PanDA WMS uses more than
-300,000 cores at over 100 Grid sites, with a peak performance of 0.3
+300,000 cores at more than 100 Grid sites, with a peak performance of 0.3
 petaFLOPS\@. This capacity will be sufficient for the planned analysis and
 data processing, but it will be insufficient for the Monte Carlo production
 workflow and any extra activity. To alleviate these challenges, ATLAS is
 expanding the current computing model to include additional resources such as
 the opportunistic use of supercomputers.
 
-Generally, supercomputers are designed to support parallel computation that
-requires runtime communication. Jobs are executed across multiple cores, each
-core calculating a small part of the problem and communicating with other
-cores via MPI\@. Accordingly, supercomputers have large number of worker
+Supercomputers are designed to support parallel computation that
+requires runtime communication. Jobs are executed across multiple nodes, each
+node calculating a small part of the problem and communicating with other
+node, typically via MPI\@. Accordingly, supercomputers have large number of worker
 nodes, connected through a high-speed, low-latency dedicated network. Each
 worker node has multicore CPUs, usually augmented with Graphics Processing
-Units (GPUs) or other specialized coprocessors.
+Units (GPUs) or other specialized co-processors.
 
 PanDA WMS has been designed to support distributed Grid computing. Executing
 ATLAS workloads or workflows involves concurrent and/or sequential runs of
-possibly large amount of jobs, each requiring no or minimal parallelization
+possibly large number of jobs, each requiring minimal, if any parallelization
 and no runtime communication. Thus, computing infrastructure like WLCG have
 been designed to aggregate large amount of computing resources across
 multiple sites. While each site may deploy MPI capabilities, usually these
 are not used to perform distributed computations.
 
 Currently, ATLAS workloads do not require fast interconnects or specilized
-coprocessors but supercomputers tend not to reach 100\% utilization due to
+co-processors, but supercomputers tend not to reach 100\% utilization due to
 the scheduling of jobs requiring large amount of resources. This offers the
 possibility to execute ATLAS-like workloads on supercomputers to increase
 utilization and reducing the waste of available resources.
@@ -52,7 +52,7 @@ of enabling a WMS designed for HTC to execute production workflows on
 resources designed to support HPC\@. The PanDA team developed a job broker to
 support the execution of part of the ATLAS production Monte Carlo workflow on
 Titan, a leadership-class supercomputer managed by the Oak Ridge Leadership
-Computing Facility (OLCF) at the Oak Ridge National Laboratory (ORNL).
+Computing Facility (OLCF).
 
 % ---------------------------------------------------------------------------
 \subsection{Architectures, Interfaces and Workloads}
@@ -78,12 +78,12 @@ Computing Facility (OLCF) at the Oak Ridge National Laboratory (ORNL).
 % place both for the PBS batch system and shared file systems.
 
 Titan's architecture, configuration and policies poses several challenges to
-the integration with PanDA\@. The default deployment model of PanDA Pilot is
+the deployment of PanDA\@. The default deployment model of PanDA Pilot is
 unfeasible on Titan: PanDA Pilot is required to contact the Job Dispatcher of
 the PanDA Server to pull jobs to execute, but this is not possible on Titan
 because worker nodes do not offer outbound network connectivity. Further,
 Titan does not support PanDA's security model based on certificates and
-virtual organizations, making PanDA's approach to identity management also
+virtual organizations, making PanDA's approach to identity management 
 unfeasible. While Titan's data transfer nodes (DTNs) offer wide area network
 data transfer, an integration with ATLAS DDM is beyond the functional and
 administrative scope of the current prototyping phase. Finally, the specific
@@ -96,24 +96,24 @@ computationally-intensive and non memory-intensive tasks of ATLAS workflows
 can be off-loaded from the Grid to Titan's. Further, when HEP tasks can be
 partitioned into independent jobs, Titan worker nodes can be used to execute
 up to 16 concurrent payloads, one per each available core. Given these
-constraints and challenges, the type of task most suitable for execution at
-the moment on Titan is Monte Carlo detector simulation. This type of task is
-mostly computational-intensive, requiring less than 2GB of RAM at runtime and
-small input data. Detector simulation tasks in ATLAS are performed via
+constraints and challenges, the  Monte Carlo detector simulation task is most
+suitable for execution on Titan at the moment. This type of task is mostly
+computational-intensive, requiring less than 2GB of RAM at runtime and small
+input data. Detector simulation tasks in ATLAS are performed via
 AthenaMP~\cite{aad2010atlas}, the ATLAS software framework integrating the
 GEANT4 detector simulation toolkit~\cite{agostinelli2003geant4}. These tasks
 account for $\approx$ 60\% of all the jobs on WLCG, making them a primary
 candidate for offloading.
 
 Detector simulation is part of the ATLAS production Monte Carlo (MC)
-workflow~\cite{rimoldi2006atlas}.%,de2013delphes,ritsch2014atlas}. 
+workflow~\cite{rimoldi2006atlas}. %,de2013delphes,ritsch2014atlas}. 
 The MC workflow consists of four main stages: event generation, detector
 simulation, digitization, and reconstruction. Event generation creates sets
 of particle four-momenta via different generators, e.g.,
-PYTHIA,%~\cite{sjostrand2006pythia}, 
-HERWIG,%~\cite{corcella2001herwig} 
+PYTHIA, %~\cite{sjostrand2006pythia}, 
+HERWIG, %~\cite{corcella2001herwig} 
 and many others. Geant4 simulates the ATLAS detector and the interaction
-between that detector and particles. Each interaction creates a so-called hit
+between the detector and particles. Each interaction creates a so-called hit
 and all hits are collected and passed on for digitalization, where hits are
 further processed to mimic the readout of the detector. Finally,
 reconstruction operates local pattern recognition, creating high-level
