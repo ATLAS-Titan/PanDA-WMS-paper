@@ -5,6 +5,7 @@ Comments to address in this section:
     with the number of the nodes. Can you explain why the average time
     execution time of AthenaMP is decreased even when the overhead is
     increasing?
+    I checked the data. Figure 8 was simply wrong. I think that we have overwritten the original with an older version.  Figure 7: I used a smaller integration step to compute the integral of the pilot concurrency. It gets better but not as much as I would like. Our data has something sketchy.  
 \end{enumerate}
 
 \subsection{Experiments}
@@ -54,7 +55,7 @@ pilot size.
 
 We observe that, despite some fluctuations due to external factors (e.g.,
 Titan's shared filesystem and the shared database used by the NGE), the
-average execution time of AthenaMP ranges between 4200 and 4800 seconds. We
+average execution time of AthenaMP ranges between 4500 and 4800 seconds. We
 also observe that in all the cases the gap between AthenaMP execution times
 and the pilot durations is minimal, although it slightly increases with the
 pilot size. We notice that NGE's overhead does grow linearly with the number
