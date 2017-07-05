@@ -25,7 +25,7 @@ configuring AthenaMP to use all the 16 cores of Titan's worker nodes.
 
 We measured the execution time of the pilots and of AthenaMP within them,
 collecting timestamps at all stages of the execution. Experiments were
-performed by submitting NGE's pilots to Titan's batch queue. The turnaround
+performed by submitting pilots to Titan's batch queue. The turnaround
 time of an individual run is determined by queue waiting times. Since we are
 interested only in the performances of the NGE, we removed queue time from
 our statistics.
@@ -36,7 +36,7 @@ In this experiment we run as many AthenaMP instances (hereafter referred to
 as tasks) as the number of nodes controlled by the pilot. Each AthenaMP
 simulates 100 events, requiring $\sim 4200$ seconds on average.
 
-Tasks do not wait within the NGE Agent's queue since one node is available to
+Tasks do not wait within the Agent's queue since one node is available to
 each AthenaMP instance. Task execution  overheads result primarily from  three
 factors: (i) the initial bootstrapping of the pilot on the nodes; (ii) the
 UnitManager's dispatching of units (tasks) to the agent; and (iii) time for
@@ -45,7 +45,7 @@ the agent to bootstrap all the tasks on the nodes.
 We tested pilots with 250, 500, 1000 and 2000 worker nodes and 2 hours
 walltime. The time duration is determined by the Titan's walltime policy.
 Fig.~\ref{fig:weakScal1a} depicts the average pilot duration, the average
-execution time of AthenaMP, and the NGE pilot overhead as function of the
+execution time of AthenaMP, and the pilot overhead as function of the
 pilot size.
 
 \begin{figure}[!t]
