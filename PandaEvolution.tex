@@ -25,13 +25,13 @@ workflow and any extra activity. To alleviate these challenges, ATLAS is
 expanding the current computing model to include additional resources such as
 the opportunistic use of supercomputers.
 
-Supercomputers are designed to support parallel computation that
-requires runtime communication. Jobs are executed across multiple nodes, each
-node calculating a small part of the problem and communicating with other
-node, typically via MPI\@. Accordingly, supercomputers have large number of worker
-nodes, connected through a high-speed, low-latency dedicated network. Each
-worker node has multicore CPUs, usually augmented with Graphics Processing
-Units (GPUs) or other specialized co-processors.
+% Supercomputers are designed to support parallel computation that requires
+% runtime communication. Jobs are executed across multiple nodes, each node
+% calculating a small part of the problem and communicating with other node,
+% typically via MPI\@. Accordingly, supercomputers have large number of
+% worker nodes, connected through a high-speed, low-latency dedicated
+% network. Each worker node has multicore CPUs, usually augmented with
+% Graphics Processing Units (GPUs) or other specialized co-processors.
 
 PanDA WMS has been designed to support distributed Grid computing. Executing
 ATLAS workloads or workflows involves concurrent and/or sequential runs of
@@ -69,7 +69,7 @@ Computing Facility (OLCF).
 % II~\cite{oral2013olcf}, a Lustre filesystem with 32 PB of disk storage, and
 % by a 29 PB HPSS tape storage system. Titan’s worker nodes run Compute Node
 % Linux, a run time environment based on SUSE Linux Enterprise Server.
-
+%
 % Titan's users submit jobs to Titan's PBS scheduler by logging into login or
 % data transfer nodes (DTNs). Titan's authentication and authorization model
 % is based on two-factor authentication with a RSA SecurID key. Login nodes
@@ -93,7 +93,7 @@ require re-engineering of ATLAS application frameworks.
 
 Currently, very few HEP applications can benefit from Titan's GPUs but some
 computationally-intensive and non memory-intensive tasks of ATLAS workflows
-can be off-loaded from the Grid to Titan's. Further, when HEP tasks can be
+can be off-loaded from the Grid to Titan. Further, when HEP tasks can be
 partitioned into independent jobs, Titan worker nodes can be used to execute
 up to 16 concurrent payloads, one per each available core. Given these
 constraints and challenges, the  Monte Carlo detector simulation task is most
