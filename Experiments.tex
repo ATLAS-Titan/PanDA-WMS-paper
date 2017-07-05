@@ -103,14 +103,13 @@ linear for the pilot with 2048 worker nodes.
 
 We investigate strong scalability by running the same number of tasks for
 different pilot sizes. We used 2048 AthenaMP instances and pilots with 256,
-512, 1024 and 2048 nodes. Thus, the number of AthenaMP generations is equal
-to eight times the size of the smallest pilot and corresponds to the size of
-the largest pilot. As a consequence, the number of consecutive generations of
-AthenaMP decreases with the pilot size by generating different dynamics
-within the pilots. These experiments are designed to investigate whether
-pilot overhead is affected by the degree of concurrency within the pilot
-and/or the number of tasks. Each AthenaMP instance simulates sixteen events
-as in the previous experiment.
+512, 1024 and 2048 nodes. Thus, the number of AthenaMP generations is equal to
+eight times the size of the smallest pilot and corresponds to the size of the
+largest pilot. As a consequence, the number of consecutive generations of
+AthenaMP decreases with the pilot size. These experiments are designed to
+investigate whether pilot overhead is affected by the degree of concurrency
+within the pilot and/or the number of tasks. Each AthenaMP instance simulates
+sixteen events as in the previous experiment.
 
 Fig.~\ref{fig:strongScala} shows the average pilot duration and the average
 execution time of possibly sequential AthenaMP instances. We notice that the
