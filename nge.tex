@@ -68,7 +68,7 @@ Titan.
    \includegraphics[width=\columnwidth]{figures/rp_architecture_compact_atlaswms_paper.pdf}
    \vspace{-0.3in}
   \caption{NGE Architecture: The PilotManager and UnitManager reside on a DTN
-  while the Agent is executed on a worker node. Color coding: gray for
+  while the Pilot Agent is executed on a worker node. Color coding: gray for
   entities external to NGE\@; white for APIs; purple for NGE's modules; green
   for pilots; yellow for module's components.}
 \label{fig:arch-overview}
@@ -79,17 +79,17 @@ squares) and pilots (Fig.~\ref{fig:arch-overview}, red circles), and to
 instantiate a PilotManager and a UnitManager. The PilotManager submits pilots
 to Titan's PBS batch system via SAGA API (Fig.~\ref{fig:arch-overview}, dash
 arrow). %, as done by PanDA Broker to submit MPI scripts. 
-Once scheduled, the pilot's Agent is bootstrapped on a MOM node and the
+Once scheduled, the Pilot Agent is bootstrapped on a MOM node and the
 Agent's Executors on the worker nodes.
 
-The UnitManager and the Agent communicate via a database instantiated on a
+The UnitManager and the Pilot Agent communicate via a database instantiated on a
 DTN so as to be reachable by both modules. The UnitManager schedules units to
 the Agent's Scheduler (Fig.~\ref{fig:arch-overview}, solid arrow) and the
 Agent's Scheduler schedules the units on one or more Agent's Executor.
 % for execution. The Agent's executors can manage one or more worker nodes,
 % depending on performance evaluations.
 
-The Agent uses the Open Run-Time Environment (ORTE) for communication and
+The Pilot Agent uses the Open Run-Time Environment (ORTE) for communication and
 coordination of the execution of units. This environment is a critical
 component of the OpenMPI implementation~\cite{castain05:_open_rte}.
 %, cug-2016}.
