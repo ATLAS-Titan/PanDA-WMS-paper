@@ -23,11 +23,11 @@ The Large Hadron Collider (LHC) was created to explore the fundamental
 properties of matter. Multiple experiments at LHC have collected and
 distributed hundreds of petabytes of data worldwide to hundreds of computer
 centers. Thousands of physicists analyze petascale data volumes daily. The
-detection of the Higgs Boson in 2013 speaks to the success of the detector and
-experiment design, as well as the sophistication of computing systems devised
-to analyze the data, which historically, consisted of the federation of
-hundreds to thousands of distributed resources, ranging in
-scale from small to mid-size resource~\cite{foster2003grid}.
+detection of the Higgs Boson in 2013 speaks to the success of the detector
+and experiment design, as well as the sophistication of computing systems
+devised to analyze the data, which historically, consisted of the federation
+of hundreds to thousands of distributed resources, ranging in scale from
+small to mid-size resource~\cite{foster2003grid}.
 
 Although the workloads to be executed are comprised of tasks that are
 independent of each other, the management of the distribution of workloads
@@ -40,43 +40,43 @@ ATLAS~\cite{Aad:2008} experiment utilizes the Production and Distributed
 Analysis (PanDA) workload management system~\cite{Maeno2011} (WMS) for
 distributed data processing and analysis. The CMS and ATLAS experiments
 utilize, arguably the largest production grade distributed computing
-solutions and have symbolized the paradigm of {\it high-throughput computing},
-i.e., the effective execution of many independent tasks.
+solutions and have symbolized the paradigm of {\it high-throughput
+computing}, i.e., the effective execution of many independent tasks.
 
 In spite of the impressive scale of the ATLAS distributed computing system,
 demand for computing systems will soon significantly outstrip current and
-projected supply.   The data volumes that will need analyzing in LHC-Run 3 
-($~\approx$ 2022) and the high-luminosity era (Run 4) will increase by factors
-of 10-100 compared to the current phase (Run 2). There are multiple levels at
-which this problem needs to be addressed: the utilization of emerging parallel
-architectures (e.g., platforms); algorithmic and advances in analytical
-methods (e.g., use of Machine Learning); and the ability to exploit different
-platforms (e.g., clouds and supercomputers).
+projected supply.   The data volumes that will need analyzing in LHC-Run 3
+($~\approx$ 2022) and the high-luminosity era (Run 4) will increase by
+factors of 10--100 compared to the current phase (Run 2). There are multiple
+levels at which this problem needs to be addressed: the utilization of
+emerging parallel architectures (e.g., platforms); algorithmic and advances
+in analytical methods (e.g., use of Machine Learning); and the ability to
+exploit different platforms (e.g., clouds and supercomputers).
 
-% As the LHC prepares for Run 3 in $~\approx$ 2022 and the high-luminosity era
-% (Run 4), it is anticipated that the data volumes that will need analyzing
-% will increase by factors of 10-100 compared to the current phase (Run 2).
-% Data will be larger in volume but will also require more sophisticated
-% computational processing. 
+% As the LHC prepares for Run 3 in $~\approx$ 2022 and the high-luminosity
+% era (Run 4), it is anticipated that the data volumes that will need
+% analyzing will increase by factors of 10-100 compared to the current phase
+% (Run 2). Data will be larger in volume but will also require more
+% sophisticated computational processing.
 
 This paper represents the experience of how the ATLAS experiment has ``broken
 free'' of the traditional computational approach of high-throughput computing
-on distributed resources to embrace new platforms, in particular  
-high-performance computers. Specifically, we discuss the experience of integrating
-PanDA WMS with a US DOE leadership machine (Titan) to reach
-sustained production scales of approximately 51M core-hours a year. 
+on distributed resources to embrace new platforms, in particular
+high-performance computers. Specifically, we discuss the experience of
+integrating PanDA WMS with a US DOE leadership machine (Titan) to reach
+sustained production scales of approximately 51M core-hours a year.
 
 We demonstrate how Titan is more efficiently utilized by the mixing of small
 and short-lived tasks in backfill with regular payloads. Cycles otherwise
 unusable (or very difficult to use) are used for science thus, increasing the
 overall utilization on Titan without loss of quality-of-service. The
 conventional mix of jobs at OLCF cannot be effectively backfilled because of
-size, duration, and scheduling policies. Our approach is extensible to any HPC
-with "capability scheduling" policies.  We also investigate the use of a
-pilot-abstraction based task execution runtime system to flexibly execute
+size, duration, and scheduling policies. Our approach is extensible to any
+HPC with ``capability scheduling'' policies.  We also investigate the use of
+a pilot-abstraction based task execution runtime system to flexibly execute
 ATLAS and other heterogeneous workloads (molecular dynamics) using regular
-queues. As such, our approach provides a general solution and investigation of
-the convergence of HPC and HTC execution of workloads.
+queues. As such, our approach provides a general solution and investigation
+of the convergence of HPC and HTC execution of workloads.
 
 This work demonstrates a viable production route to delivering large amounts
 of computing resources to ATLAS and, in the future, to other experimental and
@@ -88,6 +88,7 @@ This paper also provides: (i) a critical evaluation of the many design and
 operational considerations that have been taken to support the sustained,
 scalable and production usage of Titan for historically high-throughput
 workloads, and (ii) early lessons and guidance as the community looks forward
-to designing the next generation of online analytical platforms~\cite{foap-
-url}, for how current and future experimental and observational systems can be
-integrated with production supercomputers in a general and extensible manner.
+to designing the next generation of online analytical
+platforms~\cite{foap-url}, for how current and future experimental and
+observational systems can be integrated with production supercomputers in a
+general and extensible manner.
