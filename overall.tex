@@ -38,9 +38,9 @@ Currently 20 instances of the PanDA Broker are deployed on 4 Titan DTNs, with
 5 instances per DTN\@. Each broker submits and manages the execution of 15 to
 300 ATLAS jobs, one job for each Titan worker node, and a theoretical maximum
 concurrent use of 96,000 cores. Since November 2015, PanDA Brokers have
-operated only in backfill mode, without a defined time allocation, and running
-at the lowest priority on Titan.  Therefore, ATLAS contributed to an increase
-of Titan's overall utilization.
+operated only in backfill mode, without a defined time allocation, and
+running at the lowest priority on Titan.  Therefore, ATLAS contributed to an
+increase of Titan's overall utilization.
 
 % without affecting other users.
 
@@ -79,15 +79,15 @@ of 51.4M core-hours, for an average of $\approx$3.7M core-hours a month.
 \label{fig:backfill-utilization}
 \end{figure}
 
-PanDA Brokers' efficiency (Fig.~\ref{fig:backfill-utilization}, red labels) is
-defined as the fraction (or percentage) of core-hours utilized by the PanDA
-Brokers to Titan’s total backfill availability during the experiment time
-window. The brokers reached 18\% average efficiency, with a minimum 7.8\%
-efficiency on May 2016 and a maximum 30.9\% efficiency on February 2017
+PanDA Brokers' efficiency (Fig.~\ref{fig:backfill-utilization}, red labels)
+is defined as the fraction (or percentage) of core-hours utilized by the
+PanDA Brokers to Titan’s total backfill availability during the experiment
+time window. The brokers reached 18\% average efficiency, with a minimum
+7.8\% efficiency on May 2016 and a maximum 30.9\% efficiency on February 2017
 (excluding the preliminary results of March). The total backfill availability
 was 20.3M in April 2016, and 17.6M in February 2017. This shows that the
-measured difference in efficiency did not depend on a comparable difference in
-the total backfill availability.
+measured difference in efficiency did not depend on a comparable difference
+in the total backfill availability.
 
 During the experiment time window, about 2.25M detector simulation jobs were
 completed on Titan, for a total of 225M events processed. This is equivalent
@@ -109,8 +109,7 @@ that a faster CPU and better networking were likely responsible for the
 improved performance. Investigations showed an average CPU load of 3.6\% on
 the upgraded DTNs, as opposed to the ``high'' utilization reported by OLCF
 for the previous DTNs. As such, further hardware upgrades seem unlikely to
-improve significantly the performance of PanDA Brokers.\mtnote{Asked Segey
-and Danila for values previous HW upgrade}
+improve significantly the performance of PanDA Brokers.
 
 Every detector simulation executed on Titan process 100 events. This number
 of events is consistent with the physics of the use case and with the average
