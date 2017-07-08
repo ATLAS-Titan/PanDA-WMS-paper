@@ -45,14 +45,19 @@ WMS were initially implemented to use Grid resources using the Condor software
 ecosystem~\cite{thain2005distributed}. Accordingly, all LHC WMS implemented
 Grid-like authentication and authorization systems and adopted a computational
 model based on distributing a large amount of single/few-cores tasks across
-hundreds of sites\mtnote{Is this true?}.
+hundreds of sites. 
 
 All LHC experiments produce and process large amounts  of data from actual
-collisions in the accelerator and from their simulations. Dedicated, multi-
-tiered data systems have been built to store, replicate, and distributed these
+collisions in the accelerator and from their simulations. Dedicated,  
+multi-tiered data systems have been built to store, replicate, and distributed these
 data. All LHC WMS interface with these systems to move data to the sites where
 related compute tasks are executed or to schedule compute tasks where (large
 amount of) data are already stored.
+
+It is interesting to note that most WMS developed to support LHC experiments
+are gradually evolving towards integrating HPC resources, though none have
+reached sustained operational usage at the scales that PanDA has achieved for
+ATLAS on Titan.
 
 % -----------------------------------------------------------------------------
 % NOTES ON TASK, JOBS, AND WORKFLOW TERMINOLOGY
