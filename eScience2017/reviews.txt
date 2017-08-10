@@ -1,0 +1,115 @@
+Reviews
+Review 1
+Overall evaluation:	
+3: (strong accept)
+This paper provides a description of work done to allow the LHC ATLAS experiment to move workload to Titan, describing various problems that needed to be overcome and providing good analysis of how the HTC workload can be fit into the gaps (backfill) on a HPC facility.
+
+There is a problem with capitalization in some reference titles, ie. [2], [3], [4], [7], [8], [9], [10], [11], [12], [13].
+Reference [6] is just an author list, year and title. Should there be more here?
+Review 2
+Overall evaluation:	
+-1: (weak reject)
+Title:
+Converging High-Throughput and High-Performance Computing: A Case Study
+
+Summary of the paper:
+The paper describes the prototypical integration of HPC resources into the workload management system of the ATLAS collaboration. An extensive description of the ATLAS workload management system is provided, as well as two approaches for integrating HPC resources into current HTC workflows. A broad range of challenges is briefly discussed and analysed, including communication via a proxy, backfill scheduling and performance characteristics.
+
+Relevance:
+The topic presented in the paper is of vital importance to the LHC collaborations, and potentially similar scientific fields. Integrating specialised computing environments such as HPC resources into general purpose processing infrastructure such as the WLCG is a complex challenge both from a technical and conceptual standpoint. Advancements are required both to provide resources for research, and to evolve the applicability of HPC.
+
+Major comments:
+- General
+The paper has a strong relevance and presents an interesting field of research. However, structure, style and analysis fail to convincingly present key contributions, explore major questions and highlight advances towards other work. The prevalence of technical jargon and focus on implementation details makes it difficult to understand without background knowledge; yet, the paper neglects to address questions that follow from such background knowledge.
+
+- Jargon and domain specific details
+A large portion of the paper is dominated by domain specific content. Many terms are not applicable or common outside the LHC collaborations or even ATLAS. The use of wrong wordings, such as "eventful" instead of the common term "stateful" (§II), is highly confusing. Key concepts such as pilot jobs, tasks and workloads are not meaningfully defined.
+Even with domain knowledge, the use of internal component names of the PanDA WMS, often historically motivated, makes descriptions difficult to comprehend. The authors should consider using an abstract, logical description and concentrate on conceptual meaning.
+
+In addition, many technical details are not relevant for the topic presented. For example, only a small part of the PanDA WMS architecture is actually relevant, and could be summarised as a pilot based WMS. Such details detract from important topics, for example the technical discussion of TITAN and WLCG differences is abruptly stopped by the description of Monte Carlo event generation and detector simulation (§IIIA). It is highly recommended that the authors isolate their actual contribution from domain specific details, and minimise the later.
+
+- Key contributions and related work
+The paper leaves its main contributions unclear: the three contributions listed in the abstract and introduction are only loosely discussed in the paper body itself. For example, the discussion of design and operational considerations (i) is interspersed into several chapters (§IIIB, §IVAB) addressing a multitude of other topics. This is exemplified by the study of open/close system calls (§IVB) in the general ATLAS Monte Carlo workflow. Overall, the description switches back and forth between topics - for example, the issue of metadata operations on LUSTRE is brought up at least 3 times (§IVB).
+As a result, it is difficult as a reader to distinguish technical details from key messages. This could be improved by revising the structure of the paper to clearly distinguish background, challenges and solutions for individual topics.
+
+In general, the relevance of the presented information is difficult to assess due to a lack of comparison against related work.
+The appropriate section (§VI) only roughly presents other WMS of the LHC collaborations. Even for the scope of LHC or ATLAS, the topic of other HPC usage models [OCCAM,FRHPC], elastic simulation jobs [ELASTICMC], opportunistic HPC usage [ATLASHPC] or proxy infrastructure [ACTATLAS,ACTHYDRA] is not discussed. The single listing (§IIIB) of similar projects within the collaboration does not detail whether this is derived or separate work. As a result, the reliability and novelty of presented evaluations, conclusions and contributions remains questionable. The paper requires a serious revision of the volume and scope of related work.
+
+- Technical approach and analysis
+The biggest weakness of the paper is the lack of depth in the description of the technical background, approach and their analysis. Constraints are not well defined, technical decissions are not sufficiently motivated, and evaluations are one-sided. In combination with the lack of comparison with related work, and the contrast in volume of unnecessary domain specific detail, the paper is inappropriate to support its claimed contributions: the information provided is insufficient to asses in how far any of the presented evaluation, characterization or lessons are applicable outside of TITAN and PanDA Broker combined.
+
+The presentation and level of detail raise several significant questions about the approaches and results. The following (§II,§III) is not an exhaustive listing:
+* How does the TITAN environment prevent usage of DTNs as thin proxies? Is connectivity possible from compute node to DTNs via MPI, message queues, sockets or other means? Are the restrictions a shortcomming of TITAN, or the majority of HPC environments? Given the proclaimed importance of HPC resources, a generic evaluation seems needed.
+* Why was the PanDA Broker designed orthogonal to the pilot model, performing both resource acquisition and workload execution? How do pilots conflict with backfill slots, when the former are designed to acquire resources independent of workload requirements? Why does each Broker instance query and use backfill separately? Given that this seems to be a major bottleneck, the choice of such a design begs for motivation.
+* What are the reasons for the low efficiency of PanDA Broker? Why are only 30% of backfill slots useable, if they are basically uncontested? Why does Fig 3 show an increase of absolute and relative efficiency in Aug-16, when the text claims this in Sep-16 due to more PanDA Brokers? Why are only 20 PanDA Brokers deployed if this is a limiting factor? Why is it questionable that more PanDA Brokers would increase efficiency? If only 5/6 of resources below the mean are unusable, this implies an efficiency of almost 60% being reachable.
+* Given an expected increase in resource need of 10-100, how is the capacity of 4% WLCG significant? How does this relate to the manpower required to develop and maintain a custom solution per HPC site? How many TITAN resources are actually available to HEP, given the use by other domains? The magnitude of capacities presented as available is in major contrast to the requirements sketched in the introduction.
+* How does the poor metadata read performance of 1500-6300 s (25%-100% of minimum walltime!) affect efficiency? Is it factored into the choice of walltime requests? Is it applicable only to TITAN, to HPC in general, or even to regular WLCG sites? Are there solutions at application, e.g. the use of packaged python scripts and libraries? The information presented is insufficient to estimate whether this issue applies to other environments and usecases as well, or is simply due to suboptimal implementation/configuration.
+* How does the shared FP unit relate to the use of Hyperthreading on WLCG sites? Are there implications for the resource provider, such as energy efficiency? Does the lower mean runtime and tighter RMS for exclusive FP usage allow for more efficient usage of backfill slots? Given the constraints of the environment, it is worth discussing whether HTC or HPC paradigms are preferable.
+* How does Summit, the TITAN successor, compare to the conclusions? The end of the TITAN life-cycle basically invalidates the applicability of all conclusions if this generalisation is missing.
+Similar questions arise for following chapters.
+
+Minor Comments:
+- The introduction is overly verbose and prosaic. The praise for LHC collaborations is off-putting, especially as it ignores other work. For example, claiming "CMS and ATLAS experiments utilize arguably the largest production grade distributed computing solutions" disregards the obvious commercial contenders. By blatantly excluding obvious comparisons, it raises the question how much other work is ignored.
+- Some facts about WLCG seem outdated: (non-exhaustive list)
+* The number of 30,000 unused TITAN cores (§IIIB) is equated to roughly 10% of the WLCG. However, WLCG currently has 591,282 cores [REBUSCPU].
+* WLCG sites are claimed to provide only 8 cores per worker node (§IIIB). WLCG has a significant number of sites providing 16 or more cores per worker node [REBUSCPU].
+- Schematic figures (Fig 1, Fig 2) are overly complex, while their captions are not sufficient to understand them. The numbering is only partially explained in the text.
+- Formatting of plots is inconsistent. Fig 3 looks like Excel, Fig 4,7-9 look like matplotlib, Fig 5 is a raw ROOT plot. Formatting is incosistent with text, especially Fig 7-9 has vertically squeezed text.
+- Several references are of poor quality. For example, [19] is a slide collection even though there are many papers for the referenced work.
+
+Overall Conclusion:
+While the presented topic is interesting and of relevance, the content and its presentation in the paper is not appropriate. Both style and structure are not suitable for an objective, unambiguous assessment and evaluation. Most critically, many key questions remain unanswered, leaving the validity of conclusions questionable.
+
+Given that the paper is an "Experience" paper, it would be sufficient if internal inconsistencies are addressed, and a motivation provided for technical choices. However, it is highly recommended that the authors consider a major revision of this paper to reach a quality adequate for the topic.
+
+References used in this Review:
+[FRHPC]
+http://iopscience.iop.org/article/10.1088/1742-6596/664/2/022022
+
+[OCCAM]
+https://indico.cern.ch/event/595536/contributions/2548584/
+
+[ELASTICMC]
+http://iopscience.iop.org/article/10.1088/1742-6596/664/6/062060
+
+[ATLASHPC]
+http://iopscience.iop.org/article/10.1088/1742-6596/664/9/092025
+
+[ACTATLAS]
+http://iopscience.iop.org/article/10.1088/1742-6596/664/6/062015
+
+[ACTHYDRA]
+http://iopscience.iop.org/article/10.1088/1742-6596/664/9/092019
+
+[REBUSCPU]
+https://wlcg-rebus.cern.ch/apps/capacities/federations/
+Review 3
+Overall evaluation:	
+2: (accept)
+This paper reports on the design and implementation of an adapter component (named "PanDA broker") for the PanDA workload management system, which allows the ATLAS LHC experiment to run jobs on unused nodes on the Titan supercomputer at OLCF. The paper also includes an analysis of the performance of the PanDA broker compared to the pilot-job executor on HTC cluster resources, and a discussion of future developments to increase resource utilization efficiency.
+
+The paper is very well written and includes a short introduction to the stack used in ATLAS LHC computing, challenges to be solved for adapting PanDA jobs to run on a Cray supercomputer (e.g., no outbound network connectivity, minimal unit of resource allocation is the node), and a performance and utilization analysis.
+
+This is a good experience paper, although I find that it tries to position itself as much more general than it actually is; I would ask that the authors correct at least the following points:
+
+* This statement in the "conclusions" section is quite exaggerated: "The experience captured in this paper will prove invaluable for designing WMS for computational campaigns and will provide a baseline to evaluate the relative merits of different approaches." WMS systems for LHC experiments have been developed and run in production for many years; while this paper adds interesting experience and data points, it's unlikely that this will be "invaluable" for new designs and a cornerstone for their evaluation.
+
+* Title looks too general for what amounts to the implementation of an adapter component in a system that is very specific to a single HEP experiment. (In general, title, abstract and conclusions seem to over-state the contributions of this paper, considering this is a general eScience conference and not a WLCG-specific one.)
+
+* The first paragraphs of section V. are basically a rediscovery of the advantages of pilot jobs for WLCG task scheduling. Since all those pain points were well-known in the WLCG community before the project started, it should be explained why a pilot job approach was not taken in the first place.
+
+I am not convinced by the performance analysis in a couple of points:
+
+* The HEP-SPEC06 benchmark, which is used as a "computing power" measure in LCG is mostly integer-artihmetic based: FP operations accounts for ~10% of the average workload (see [1], section "Why do you use "all_cpp" instead of SPECint or SPECfp?") While this figure certainly comes from averaging over many different workloads across all experiments, it seems a bit surprising that FP scheduling contention is responsible for 50% decrease in compute efficiency on Titan when compared to other WLCG sites (paper page 6).
+
+* The scalability benchmarks in section "V.B Experiments" should be better explained: what *extacly* is being kept constant in each experiment, and what is being varied and over what range. Also the captions in the figures do not help much.
+
+* Figure 6. refers to a "User Workstation" as the running place for the Pilot and Unit Managers, which is never mentioned in the text. (I got the impression that the NGE would run on a DTN node; if this is not the case and separate workstations are being used for the testing phase, this should be made clear.)
+
+I would recommend acceptance, although the relevance to the wider eScience community (i.e., non-WLCG) may be rather low.
+
+[1]: http://w3.hepix.org/benchmarks/doku.php?id=bench:howto
+Review 4
+Overall evaluation:	
+3: (strong accept)
+The work deals with the deployment of PanDA Broker on Titan enabled distributed computing on a leadership-class HPC machine at a massive scale. The work provides some interesting insights and the results are quite impressive. The paper is well written and it fits the scope of the conference very well. I recommend acceptance.
