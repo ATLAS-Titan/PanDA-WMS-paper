@@ -1,17 +1,16 @@
 \ifreview
 Comments to address in this section:
 \begin{enumerate}
-    \item REVIEWER 2: In the weak scalability evaluations (in Figure 7 and
-    8), the overhead of the Next Generation Executor (NGE) has grown linearly
-    with the number of the nodes. Can you explain why the average time
-    execution time of AthenaMP is decreased even when the overhead is
-    increasing?
-    I checked the data. Figure 8 was simply wrong. I think that we have overwritten the original with an older version.  Figure 7: I used a smaller integration step to compute the integral of the pilot concurrency. It gets better but not as much as I would like. Our data has something sketchy.  
+    \color{red} 
+    \item REVIEWER 3: The scalability benchmarks in section "V.B Experiments"
+    should be better explained: what *extacly* is being kept constant in each
+    experiment, and what is being varied and over what range. Also the
+    captions in the figures do not help much.
 \end{enumerate}
 \fi
 
-\subsection{Experiments}
-\label{sec:ngeExp}
+% ---------------------------------------------------------------------------
+\subsection{Experiments}\label{sec:ngeExp}
 
 We designed experiments to characterize the performance of the NGE on Titan,
 with an emphasis on understanding its overhead and thus the cost of
@@ -30,29 +29,31 @@ time of an individual run is determined by queue waiting times. Since we are
 interested only in the performances of the NGE, we removed queue time from
 our statistics.
 
+% ---------------------------------------------------------------------------
 \subsubsection{Weak scalability}
 
 In this experiment we run as many AthenaMP instances (hereafter referred to
 as tasks) as the number of nodes controlled by the pilot. Each AthenaMP
-simulates 100 events, requiring $\sim 4200$ seconds on average.
+simulates 100 events, requiring \(\sim 4200\) seconds on average.
 
 Tasks do not wait within the Agent's queue since one node is available to
-each AthenaMP instance. Task execution  overheads result primarily from  three
-factors: (i) the initial bootstrapping of the pilot on the nodes; (ii) the
-UnitManager's dispatching of units (tasks) to the agent; and (iii) time for
-the agent to bootstrap all the tasks on the nodes.
+each AthenaMP instance. Task execution  overheads result primarily from
+three factors: (i) the initial bootstrapping of the pilot on the nodes; (ii)
+the UnitManager's dispatching of units (tasks) to the agent; and (iii) time
+for the agent to bootstrap all the tasks on the nodes.
 
 We tested pilots with 250, 500, 1000 and 2000 worker nodes and 2 hours
 walltime. The time duration is determined by the Titan's walltime policy.
 Fig.~\ref{fig:weakScal1a} depicts the average pilot duration, the average
-execution time of AthenaMP, and the pilot overhead as function of the
-pilot size.
+execution time of AthenaMP, and the pilot overhead as function of the pilot
+size.
 
 \begin{figure}[!t]
-        \includegraphics[height=4.5cm,width=\columnwidth]{./figures/NGE/weak1.pdf}
+    \includegraphics[height=4.5cm,width=\columnwidth]{./figures/NGE/weak1.pdf}
    	\vspace{-0.3in}
-    \caption{Weak scalability: average pilot duration, average duration of one AthenaMP execution, and pilot's overhead as a function of pilot sizes (200, 500, 1000 and 2000 nodes).}
-\label{fig:weakScal1a}
+    \caption{Weak scalability: average pilot duration, average duration of
+    one AthenaMP execution, and pilot's overhead as a function of pilot sizes
+    (200, 500, 1000 and 2000 nodes).}\label{fig:weakScal1a}
 \end{figure}
 
 We observe that, despite some fluctuations due to external factors (e.g.,
@@ -63,6 +64,7 @@ and the pilot durations is minimal, although it slightly increases with the
 pilot size. We notice that NGE's overhead grows linearly with the number
 of units.
 
+% ---------------------------------------------------------------------------
 \subsubsection{Weak scalability with multiple generation}
 
 The NGE provides an important new capability of submitting multiple
@@ -89,23 +91,25 @@ tasks per node for pilots with 256, 512 and 1024 worker nodes, and less than
 linear for the pilot with 2048 worker nodes.
 
 \begin{figure}[!t]
-        \includegraphics[height=4.5cm,width=\columnwidth]{./figures/NGE/weak2.pdf}
-        \vspace{-0.3in}
-    \caption{Weak scalability with multiple generations (where each generation has approximately 1/6th the number of events compared to Fig. 7): average pilot
-    duration, average duration of sequential AthenaMP executions, and
-    pilot's overhead for pilot with 256, 512, 1024 and 2048 nodes.}
-\label{fig:weakScal2a}
+    \includegraphics[height=4.5cm,width=\columnwidth]{./figures/NGE/weak2.pdf}
+    \vspace{-0.3in}
+    \caption{Weak scalability with multiple generations (where each
+    generation has approximately 1/6th the number of events compared to Fig.
+    7): average pilot duration, average duration of sequential AthenaMP
+    executions, and pilot's overhead for pilot with 256, 512, 1024 and 2048
+    nodes.}\label{fig:weakScal2a}
 \end{figure}
 
 %\vspace{-0.2in}
 
+% ---------------------------------------------------------------------------
 \subsubsection{Strong scalability}
 
 We investigate strong scalability by running the same number of tasks for
 different pilot sizes. We used 2048 AthenaMP instances and pilots with 256,
-512, 1024 and 2048 nodes. Thus, the number of AthenaMP generations is equal to
-eight times the size of the smallest pilot and corresponds to the size of the
-largest pilot. As a consequence, the number of consecutive generations of
+512, 1024 and 2048 nodes. Thus, the number of AthenaMP generations is equal
+to eight times the size of the smallest pilot and corresponds to the size of
+the largest pilot. As a consequence, the number of consecutive generations of
 AthenaMP decreases with the pilot size. These experiments are designed to
 investigate whether pilot overhead is affected by the degree of concurrency
 within the pilot and/or the number of tasks. Each AthenaMP instance simulates
@@ -118,11 +122,11 @@ almost constant for all the pilot sizes, although the overall duration of the
 pilot decreases linearly with the pilot size.
 
 \begin{figure}[!t]
-        \includegraphics[height=4.5cm,width=\columnwidth]{./figures/NGE/strong.pdf}
-        \vspace{-0.3in}
+    \includegraphics[height=4.5cm,width=\columnwidth]{./figures/NGE/strong.pdf}
+    \vspace{-0.3in}
     \caption{Strong scalability: Average pilot duration, average duration of
-    sequential AthenaMP executions, and pilot's overhead for pilots with 256, 512, 1024 and 2048 nodes.}
-\label{fig:strongScala}
+    sequential AthenaMP executions, and pilot's overhead for pilots with 256,
+    512, 1024 and 2048 nodes.}\label{fig:strongScala}
 \end{figure}
 
 \vspace{-0.05in}

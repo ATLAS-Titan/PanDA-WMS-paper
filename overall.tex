@@ -1,36 +1,37 @@
 \ifreview
 Comments to address in this section:
 \begin{enumerate}
-    % \item REVIEWER 2: In Figure 4, there are some inconsistencies. The
-    % figure caption shows there are only 62175 measures, but in the scatter
-    % plot (right) there are 62555 data points. In addition, according to the
-    % distribution of the number of work nodes (left), it does not look like
-    % the mean number of work available is 691 as the figure caption
-    % illustrates.
-    \item 
-    % REVIEWER 3: It’s interesting that Feb/March have such an increase in
-    % backfill availability in 2017. The authors attribute this to hardware
-    % upgrades for the DTNs. It’s mentioned that the load is only 3.6\% now
-    % and therefore further upgrades will likely not cause similar
-    % improvement. What was the previous CPU load? 
-    Why were particularly low percentages utilized in April/May 2016?
-    % \item REVIEWER 4: “Genat4” at the end of Section 4 is a typo.
-    % \item REVIEWER 4: Please explain why you used Titan at all, in spite of
-    % your statement that it is 1/2 to 1/3 as efficient as other resources.
-    % Was it merely that you were given so much time on this resource that
-    % the inefficiency doesn’t matter?
-    \item REVIEWER 4: Why didn’t you benchmark the performance of your
-    workload on other HPC resources that might have delivered better
-    performance, prior to reengineering your entire workflow to deal with the
-    challenges posed by Titan, a machine that doesn’t seem to justify the
-    pain?
-    \item REVIEWER 4: The INCITE program operational requirements for the
-    LCFs are 90\% uptime. Using large batches of Geant4 jobs that run on a
-    single node or less to reach this metric sounds like gaming the system
-    rather than an accomplishment.
-    % \item REVIEWER 5: In Figure 3, it shows the unused core hours are much
-    % higher than those used by ATLAS\@. What are the reasons for such low
-    % usage?
+    \color{red} 
+    \item REVIEWER 2: What are the reasons for the low efficiency of PanDA
+    Broker? Why are only 30\% of backfill slots useable, if they are
+    basically uncontested? Why does Fig 3 show an increase of absolute and
+    relative efficiency in Aug-16, when the text claims this in Sep-16 due to
+    more PanDA Brokers? Why are only 20 PanDA Brokers deployed if this is a
+    limiting factor? Why is it questionable that more PanDA Brokers would
+    increase efficiency? If only 5/6 of resources below the mean are
+    unusable, this implies an efficiency of almost 60\% being reachable.
+    \item REVIEWER 2: Given an expected increase in resource need of 10-100,
+    how is the capacity of 4\% WLCG significant? How does this relate to the
+    manpower required to develop and maintain a custom solution per HPC site?
+    How many TITAN resources are actually available to HEP, given the use by
+    other domains? The magnitude of capacities presented as available is in
+    major contrast to the requirements sketched in the introduction.
+    \item REVIEWER 2: How does the poor metadata read performance of
+    1500-6300 s (25\%-100\% of minimum walltime!) affect efficiency? Is it
+    factored into the choice of walltime requests? Is it applicable only to
+    TITAN, to HPC in general, or even to regular WLCG sites? Are there
+    solutions at application, e.g. the use of packaged python scripts and
+    libraries? The information presented is insufficient to estimate whether
+    this issue applies to other environments and usecases as well, or is
+    simply due to suboptimal implementation/configuration.
+    \item REVIEWER 3: The HEP-SPEC06 benchmark, which is used as a
+    ``computing power'' measure in LCG is mostly integer-artihmetic based: FP
+    operations accounts for \~10\% of the average workload (see [1], section
+    ``Why do you use `all\_cpp' instead of SPECint or SPECfp?'') While this
+    figure certainly comes from averaging over many different workloads
+    across all experiments, it seems a bit surprising that FP scheduling
+    contention is responsible for 50\% decrease in compute efficiency on
+    Titan when compared to other WLCG sites (paper page 6).
 \end{enumerate}
 \fi
 

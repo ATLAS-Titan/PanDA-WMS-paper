@@ -1,21 +1,12 @@
-% \jhanote{In this section we should talk less about PanDA and more about other
-% WMS -- highlighting the fact that (i) there isn't a comprehensive systems
-% (design, architecture and execution properties) discussion of other WMS so
-% difficult to compare}\mtnote{Better?}
-
-
-% \jhanote{(ii) real comparison should be to the Gliden-in WMS ecosystem and use
-% this as opportunity to narrate the reasons for the divergence.}\mtnote{From our
-% meetings with Sergey: Before Run 1, ATLAS management become uncomfortable with
-% the pace at which other WMS were being developed, loosing trust in their ability
-% to deliver production-grade capabilities. ATLAS USA decided to go solo and
-% developed their own solution. PanDA proven to be able to deliver the
-% usual pilot-based WMS capabilities at the right scale. For that, it was chosen
-% over other solutions.}
-
-% \jhanote{Also might this section be moved towards the rear, as this is  a
-% practice paper and not a traditional research paper?}\mtnote{Done.}
-
+\ifreview
+Comments to address in this section:
+\begin{itemize}
+	\color{red} 
+	\item REVIEWER 2: the topic of other HPC usage models [OCCAM,FRHPC],
+	elastic simulation jobs [ELASTICMC], opportunistic HPC usage [ATLASHPC]
+	or proxy infrastructure [ACTATLAS,ACTHYDRA] is not discussed.
+\end{itemize}
+\fi
 
 Several pilot-enabled WMS were developed for the LHC experiments:
 AliEn~\cite{Bagnasco2010} for ALICE; DIRAC~\cite{Paterson2010} for LHCb;
@@ -27,41 +18,41 @@ across multiple sites; unification of the application interface; hiding of
 resource heterogeneity; and collection of static and sometimes dynamic
 information about resources.
 
-AliEn, DIRAC, GlideinWMS and PanDA all share a similar design with two types of
-components: the management ones facing the application layer and centralizing
-the capabilities required to acquire tasks' descriptions and matching them to
-resource capabilities; and resource components used to acquire compute and data
-resources and information about their capabilities. Architecturally, the
-management components include one or more queue and a scheduler that coordinates
-with the resource modules via push/pull protocols. All resource components
-include middleware-specific APIs to request for resources, and a pilot capable
-of pulling tasks from the management modules and executing them on its
-resources.
+AliEn, DIRAC, GlideinWMS and PanDA all share a similar design with two types
+of components: the management ones facing the application layer and
+centralizing the capabilities required to acquire tasks' descriptions and
+matching them to resource capabilities; and resource components used to
+acquire compute and data resources and information about their capabilities.
+Architecturally, the management components include one or more queue and a
+scheduler that coordinates with the resource modules via push/pull protocols.
+All resource components include middleware-specific APIs to request for
+resources, and a pilot capable of pulling tasks from the management modules
+and executing them on its resources.
 
 %~\cite{thain2005distributed}
 
 AliEn, DIRAC, GlideinWMS and PanDA also have similar implementations. These
-WMS were initially implemented to use Grid resources using the Condor software
-ecosystem~\cite{thain2005distributed}. Accordingly, all LHC WMS implemented
-Grid-like authentication and authorization systems and adopted a computational
-model based on distributing a large amount of single/few-cores tasks across
-hundreds of sites. 
+WMS were initially implemented to use Grid resources using the Condor
+software ecosystem~\cite{thain2005distributed}. Accordingly, all LHC WMS
+implemented Grid-like authentication and authorization systems and adopted a
+computational model based on distributing a large amount of single/few-cores
+tasks across hundreds of sites.
 
 All LHC experiments produce and process large amounts  of data from actual
-collisions in the accelerator and from their simulations. Dedicated,  
-multi-tiered data systems have been built to store, replicate, and distributed these
-data. All LHC WMS interface with these systems to move data to the sites where
-related compute tasks are executed or to schedule compute tasks where (large
-amount of) data are already stored.
+collisions in the accelerator and from their simulations. Dedicated,
+multi-tiered data systems have been built to store, replicate, and
+distributed these data. All LHC WMS interface with these systems to move data
+to the sites where related compute tasks are executed or to schedule compute
+tasks where (large amount of) data are already stored.
 
 It is interesting to note that most WMS developed to support LHC experiments
 are gradually evolving towards integrating HPC resources, though none have
 reached sustained operational usage at the scales that PanDA has achieved for
 ATLAS on Titan.
 
-% -----------------------------------------------------------------------------
+% ---------------------------------------------------------------------------
 % NOTES ON TASK, JOBS, AND WORKFLOW TERMINOLOGY
-% -----------------------------------------------------------------------------
+% ---------------------------------------------------------------------------
 % Currently, the implementation of PanDA WMS has at least two distinguishing
 % features: the scale at which it operates distributed computing, and
 % network-aware scheduling of tasks to sites\mtnote{PanDA team: please let me
@@ -74,50 +65,52 @@ ATLAS on Titan.
 % operation is unprecedented, making PanDA the WMS that manages the largest
 % computational campaign in the world.
 
-% PanDA was initially implemented to support computations across an unreliable
-% and relatively expensive networking infrastructure. Accordingly, PanDA
-% assumed a rigid model of data placement based on replication and long-term
-% storage of data on the Grid sites. This model proven too wasteful, requiring
-% storage space for unused and obsolete data. PanDA implementation was evolved
-% to benefit from the development of the internet and of the networking
-% infrastructure for scientific research. Today, PanDA constantly monitors
-% network throughput and latency among its management components, Grid sites and
-% data facilities. PanDA uses this information to schedule tasks on sites,
-% depending on the estimated time required to download and/or replicate input
-% data and to stage out output data.
+% PanDA was initially implemented to support computations across an
+% unreliable and relatively expensive networking infrastructure. Accordingly,
+% PanDA assumed a rigid model of data placement based on replication and
+% long-term storage of data on the Grid sites. This model proven too
+% wasteful, requiring storage space for unused and obsolete data. PanDA
+% implementation was evolved to benefit from the development of the internet
+% and of the networking infrastructure for scientific research. Today, PanDA
+% constantly monitors network throughput and latency among its management
+% components, Grid sites and data facilities. PanDA uses this information to
+% schedule tasks on sites, depending on the estimated time required to
+% download and/or replicate input data and to stage out output data.
 
 % The dynamic management of data replication and download is an example of a
-% generalized paradigm shift that distinguishes the implementation of PanDA from
-% other WMS. New components are being implemented to support: (i) dynamic sizing
-% of input dataset based on resource capabilities; (ii) dynamic sizing of the
-% resources held by pilots both in terms of number of cores and duration of the
-% pilot; and (iii) further abstraction of different types of resources to
-% reconcile high-throughput and high-performance computing paradigms.
-% -----------------------------------------------------------------------------
+% generalized paradigm shift that distinguishes the implementation of PanDA
+% from other WMS. New components are being implemented to support: (i)
+% dynamic sizing of input dataset based on resource capabilities; (ii)
+% dynamic sizing of the resources held by pilots both in terms of number of
+% cores and duration of the pilot; and (iii) further abstraction of different
+% types of resources to reconcile high-throughput and high-performance
+% computing paradigms.
+% ---------------------------------------------------------------------------
 
-% -----------------------------------------------------------------------------
+% ---------------------------------------------------------------------------
 % NOTES ON TASK, JOBS, AND WORKFLOW TERMINOLOGY
-% -----------------------------------------------------------------------------
+% ---------------------------------------------------------------------------
 % Each task may have an arbitrary number of properties like number of cores,
-% executables, or input/output files. Tasks may have precedence interrelations,
-% depending on their data dependences or any other type of dependency mandated
-% by the application algorithms. Tasks with precedence relations have to be
-% executed serially; otherwise, tasks can be executed concurrently. A workload
-% is defined as a set of tasks that can be executed concurrently. As such, a
-% workflow can be composed of a set of workloads.
+% executables, or input/output files. Tasks may have precedence
+% interrelations, depending on their data dependences or any other type of
+% dependency mandated by the application algorithms. Tasks with precedence
+% relations have to be executed serially; otherwise, tasks can be executed
+% concurrently. A workload is defined as a set of tasks that can be executed
+% concurrently. As such, a workflow can be composed of a set of workloads.
 
-% The terms ``task'' and ``job'' are also used inconsistently across communities
-% that perform scientific computing. In this paper, ``job'' refers to the unit
-% of work that is submitted to a local resource management system (LRMS), like
-% the Slurm or PBS batch system of a cluster. As such, a task can become a job
-% when is scheduled on a resource that exposes a LRMS but can also become a
-% virtual machine or a container when bootstrapped on an infrastructure
-% supporting virtualization. Tasks can be statically or dynamically grouped
-% into jobs, depending on the resource capabilities and the task requirements.
+% The terms ``task'' and ``job'' are also used inconsistently across
+% communities that perform scientific computing. In this paper, ``job''
+% refers to the unit of work that is submitted to a local resource management
+% system (LRMS), like the Slurm or PBS batch system of a cluster. As such, a
+% task can become a job when is scheduled on a resource that exposes a LRMS
+% but can also become a virtual machine or a container when bootstrapped on
+% an infrastructure supporting virtualization. Tasks can be statically or
+% dynamically grouped into jobs, depending on the resource capabilities and
+% the task requirements.
 
-% Usually, workflows are represented as graphs in which tasks are vertices and
-% relations are edges~\cite{}. Often, graphs are supposed to be acyclic but
-% graphs with cycles have been used to represent workflows of
+% Usually, workflows are represented as graphs in which tasks are vertices
+% and relations are edges~\cite{}. Often, graphs are supposed to be acyclic
+% but graphs with cycles have been used to represent workflows of
 % workflows~\cite{}. In this paper, a workflow template is a type of graph
 % while a workflow instance is a workflow template with specific vertices and
 % edges. Further, a workflow instance is ``abstract'' when no resource
@@ -130,4 +123,4 @@ ATLAS on Titan.
 %     \item Naming and nomenclature is a contribution
 %     \item 1, 1.5 pages.
 % \end{itemize}
-% -----------------------------------------------------------------------------
+% ---------------------------------------------------------------------------

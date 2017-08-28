@@ -1,21 +1,40 @@
-% \ifreview
-% Comments to address in this section:
-% \begin{enumerate}
-% 	\item REVIEWER 2: The authors spent quite a few paragraphs for the detail
-% 	design and implementation of the PanDA WMS, but introduced few background
-% 	of the LHC applications. According to the paper, I understand the
-% 	applications running on Titan are a large amount of small independent
-% 	jobs. Thus, it seems less cost-effective to run these jobs on a
-% 	world-leading supercomputer like Titan which has a fast and expensive
-% 	interconnection. It will be more interesting if the authors can compare
-% 	the solution on Titan (proposed in this paper) with the original
-% 	distributed computing environment and HPECloud from Google mentioned in
-% 	the related work section.
-% 	\item REVIEWER 5: In Section 3.2, GPUs are not considered in this work,
-% 	which would be a waste for using HPC computing. Could this work be
-% 	extended to include GPUs or other heterogenous resources?
-% \end{enumerate}
-% \fi
+\ifreview
+Comments to address in this section:
+\begin{enumerate}
+	\color{red} 
+	\item REVIEWER 2: the technical discussion of TITAN and WLCG differences
+	is abruptly stopped by the description of Monte Carlo event generation
+	and detector simulation (3A).
+	\item REVIEWER 2: The single listing (3B) of similar projects within the
+	collaboration does not detail whether this is derived or separate work.
+	\item REVIEWER 2: How does the TITAN environment prevent usage of DTNs as
+	thin proxies? Is connectivity possible from compute node to DTNs via MPI,
+	message queues, sockets or other means? Are the restrictions a
+	shortcomming of TITAN, or the majority of HPC environments? Given the
+	proclaimed importance of HPC resources, a generic evaluation seems
+	needed.
+	\item REVIEWER 2: Why was the PanDA Broker designed orthogonal to the
+	pilot model, performing both resource acquisition and workload execution?
+	How do pilots conflict with backfill slots, when the former are designed
+	to acquire resources independent of workload requirements? Why does each
+	Broker instance query and use backfill separately? Given that this seems
+	to be a major bottleneck, the choice of such a design begs for
+	motivation.
+	\item REVIEWER 2: Some facts about WLCG seem outdated:
+	\begin{itemize}
+		\item The number of 30,000 unused TITAN cores (§IIIB) is equated to
+		roughly 10\% of the WLCG. However, WLCG currently has 591,282 cores
+		[REBUSCPU]. https://wlcg-rebus.cern.ch/apps/capacities/federations/
+		\item WLCG sites are claimed to provide only 8 cores per worker node
+		(§IIIB). WLCG has a significant number of sites providing 16 or more
+		cores per worker node [REBUSCPU]. https://wlcg-rebus.cern.ch/apps/capacities/federations/
+	\end{itemize}
+	\item REVIEWER 2: Schematic figures (Fig 1, Fig 2) are overly complex,
+	while their captions are not sufficient to understand them. The numbering
+	is only partially explained in the text.
+\end{enumerate}
+\fi
+
 The upcoming LHC Run 3 will require more resources than the Worldwide LHC
 Computing Grid (WLCG) can provide. Currently, PanDA WMS uses more than
 300,000 cores at more than 100 Grid sites, with a peak performance of 0.3
@@ -55,8 +74,7 @@ Titan, a leadership-class supercomputer managed by the Oak Ridge Leadership
 Computing Facility (OLCF).
 
 % ---------------------------------------------------------------------------
-\subsection{Architectures, Interfaces and Workloads}
-\label{ssec:panda-titan}
+\subsection{Architectures, Interfaces and Workloads}\label{ssec:panda-titan}
 
 % The Titan supercomputer, current number three on the Top 500
 % list,%~\cite{top500}, 

@@ -64,6 +64,31 @@
 % ABSTRACT
 % ---------------------------------------------------------------------------
 \maketitle
+
+\ifreview
+General comments to address:
+\begin{itemize}
+    \color{red} 
+    \item REVIEWER 1: There is a problem with capitalization in some
+    reference titles, ie. [2], [3], [4], [7], [8], [9], [10], [11], [12],
+    [13]. Reference [6] is just an author list, year and title. Should there
+    be more here?
+    \item REVIEWER 2:  Key concepts such as pilot jobs, tasks and workloads
+    are not meaningfully defined.
+    \item REVIEWER 2: the information provided is insufficient to asses in
+    how far any of the presented evaluation, characterization or lessons are
+    applicable outside of TITAN and PanDA Broker combined.
+    \item REVIEWER 2: Several references are of poor quality. For example,
+    [19] is a slide collection even though there are many papers for the
+    referenced work.
+    \item REVIEWER 3: Title looks too general for what amounts to the
+    implementation of an adapter component in a system that is very specific
+    to a single HEP experiment. (In general, title, abstract and conclusions
+    seem to over-state the contributions of this paper, considering this is a
+    general eScience conference and not a WLCG-specific one.)
+\end{itemize}
+\fi
+
 \begin{abstract}
 \input{abstract}
 \end{abstract}
@@ -73,70 +98,57 @@
 % ---------------------------------------------------------------------------
 % I - INTRODUCTION
 % ---------------------------------------------------------------------------
-\section{Introduction}
-\label{sec:intro}
+\section{Introduction}\label{sec:intro}
 \input{introduction}
 
 
 % ---------------------------------------------------------------------------
 % II - PanDA OVERVIEW
 % ---------------------------------------------------------------------------
-\section{PanDA Overview}
-\label{sec:panda_overview}
+\section{PanDA Overview}\label{sec:panda_overview}
 \input{PandaOverview}
 
 
 % ---------------------------------------------------------------------------
 % III - DEPLOYING PANDA ON A LEADERSHIP-SCALE SYSTEM
 % ---------------------------------------------------------------------------
-%\section{Deploying PanDA on a Leadership-scale system}
-\section{Deploying PanDA on Titan}
-\label{sec:panda_titan}
+\section{Deploying PanDA on Titan}\label{sec:panda_titan}
 \input{PandaEvolution}
 
 
 % ---------------------------------------------------------------------------
 % IV - ANALYSIS AND DISCUSSION
 % ---------------------------------------------------------------------------
-\section{Analysis and Discussion}
-\label{sec:panda_titan}
+\section{Analysis and Discussion}\label{sec:analysis}
 \input{overall}
 
 
 % ---------------------------------------------------------------------------
-% VI - THE NEXT GENERATION EXECUTOR
+% V - THE NEXT GENERATION EXECUTOR
 % ---------------------------------------------------------------------------
-% \section{PANDA: Future/RoadMap}
-\section{PANDA\@: The Next Generation Executor}
-\label{sec:panda_roadmap}
+\section{PANDA\@: The Next Generation Executor}\label{sec:panda_roadmap}
 \input{nge}
 \input{Experiments}
 
 
 % ---------------------------------------------------------------------------
-% VII - RELATED WORK
+% VI - RELATED WORK
 % ---------------------------------------------------------------------------
-%\vspace{-0.4in}
-\section{Related Work}
-\label{sec:related}
+\section{Related Work}\label{sec:related}
 \input{bckground}
 
 
 % ---------------------------------------------------------------------------
-% VIII - CONCLUSION
+% VII - CONCLUSION
 % ---------------------------------------------------------------------------
-%\vspace{-0.1in}
-\section{Conclusion}
-\label{sec:conclusion}
+\section{Conclusion}\label{sec:conclusion}
 \input{conclusion}
 
 
 % ---------------------------------------------------------------------------
 % ACKNOWLEDGEMENTS
 % ---------------------------------------------------------------------------
-% \section*{Acknowledgements}
-% \label{sec:ack}
-%
+% \section*{Acknowledgements}\label{sec:ack}
 % \input{ack}
 
 
@@ -146,15 +158,6 @@
 % \newpage
 \bibliographystyle{IEEEtran}
 \bibliography{IEEEabrv,bibliography}
-
-
-% ---------------------------------------------------------------------------
-% A - APPENDIX
-% ---------------------------------------------------------------------------
-% \appendix
-% \section{Artifact Description --- Converging High-Throughput and High-Performance Computing: A Case Study}
-% \label{apnx:ac}
-% \input{appendix}
 
 % that's all folks
 \end{document}
