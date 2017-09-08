@@ -6,14 +6,20 @@ Comments to address in this section:
 	rediscovery of the advantages of pilot jobs for WLCG task scheduling.
 	Since all those pain points were well-known in the WLCG community before
 	the project started, it should be explained why a pilot job approach was
-	not taken in the first place.
+	not taken in the first place.\mtnote{Added an opening paragraph recalling
+	the explanation offered in \S\ref{sec:panda_titan}}.
 	\item REVIEWER 3: Figure 6. refers to a "User Workstation" as the running
 	place for the Pilot and Unit Managers, which is never mentioned in the
 	text. (I got the impression that the NGE would run on a DTN node; if this
 	is not the case and separate workstations are being used for the testing
-	phase, this should be made clear.)
+	phase, this should be made clear.)\mtnote{Fixed.}
 \end{itemize}
 \fi
+
+As explained in \S\ref{sec:panda_titan}, PanDA Broker was designed to
+maximize code reutilization of PanDA Pilot. This allowed for rapid adoption
+and incremental optimization while enabling the parallel development of a
+more general solution for executing ATALS workloads on HPC resources.
 
 The lack of pilot capabilities in PanDA Broker impacts both the efficiency
 and the flexibility of PanDA's execution process. Pilots could improve
@@ -91,20 +97,17 @@ NGE exposes an API to describe workloads (Fig.~\ref{fig:arch-overview}, green
 squares) and pilots (Fig.~\ref{fig:arch-overview}, red circles), and to
 instantiate a PilotManager and a UnitManager. The PilotManager submits pilots
 to Titan's PBS batch system via SAGA API (Fig.~\ref{fig:arch-overview}, dash
-arrow). %, as done by PanDA Broker to submit MPI scripts. 
-Once scheduled, the Pilot Agent is bootstrapped on a MOM node and the
+arrow). Once scheduled, the Pilot Agent is bootstrapped on a MOM node and the
 Agent's Executors on the worker nodes.
 
-The UnitManager and the Pilot Agent communicate via a database instantiated on a
-DTN so as to be reachable by both modules. The UnitManager schedules units to
-the Agent's Scheduler (Fig.~\ref{fig:arch-overview}, solid arrow) and the
-Agent's Scheduler schedules the units on one or more Agent's Executor.
-% for execution. The Agent's executors can manage one or more worker nodes,
-% depending on performance evaluations.
+The UnitManager and the Pilot Agent communicate via a database instantiated
+on a DTN so as to be reachable by both modules. The UnitManager schedules
+units to the Agent's Scheduler (Fig.~\ref{fig:arch-overview}, solid arrow)
+and the Agent's Scheduler schedules the units on one or more Agent's
+Executor.
 
-The Pilot Agent uses the Open Run-Time Environment (ORTE) for communication and
-coordination of the execution of units. This environment is a critical
-component of the OpenMPI implementation~\cite{castain05:_open_rte}.
-%, cug-2016}.
-ORTE is able to minimize the system overhead while submitting tasks by
-avoiding filesystem bottlenecks and race conditions with network sockets.
+The Pilot Agent uses the Open Run-Time Environment (ORTE) for communication
+and coordination of the execution of units. This environment is a critical
+component of the OpenMPI implementation~\cite{castain05:_open_rte}. ORTE is
+able to minimize the system overhead while submitting tasks by avoiding
+filesystem bottlenecks and race conditions with network sockets.

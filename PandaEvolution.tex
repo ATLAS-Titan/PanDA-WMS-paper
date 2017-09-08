@@ -4,53 +4,64 @@ Comments to address in this section:
 	\color{red} 
 	\item REVIEWER 2: the technical discussion of TITAN and WLCG differences
 	is abruptly stopped by the description of Monte Carlo event generation
-	and detector simulation (3A).
+	and detector simulation (3A).\mtnote{I read the section twice and I did
+	not see such an abrupt transition.}
 	\item REVIEWER 2: The single listing (3B) of similar projects within the
-	collaboration does not detail whether this is derived or separate work.
+	collaboration does not detail whether this is derived or separate
+	work.\mtnote{Added a sentence to clarify that PanDA Broker operates
+	within the existing ATLAS software infrastructure. Specified that the
+	ATLAS team has ported PanDA Broker to other supercomputers.}
 	\item REVIEWER 2: How does the TITAN environment prevent usage of DTNs as
 	thin proxies? Is connectivity possible from compute node to DTNs via MPI,
 	message queues, sockets or other means? Are the restrictions a
 	shortcomming of TITAN, or the majority of HPC environments? Given the
 	proclaimed importance of HPC resources, a generic evaluation seems
-	needed.
+	needed.\mtnote{Added a sentence explaining that DTNs are not part of
+	Titan's compute nodes.}
 	\item REVIEWER 2: Why was the PanDA Broker designed orthogonal to the
-	pilot model, performing both resource acquisition and workload execution?
-	How do pilots conflict with backfill slots, when the former are designed
-	to acquire resources independent of workload requirements? Why does each
-	Broker instance query and use backfill separately? Given that this seems
-	to be a major bottleneck, the choice of such a design begs for
-	motivation.
+	pilot model, performing both resource acquisition and workload
+	execution?\mtnote{We explain that PanDA Broker is a prototype and now we
+	are developing NGE.} How do pilots conflict with backfill slots, when the
+	former are designed to acquire resources independent of workload
+	requirements?\mtnote{AFAIK, we never state that pilot conflict with
+	backfill. We argue that the latter mitigates the absence of the former.}
+	Why does each Broker instance query and use backfill separately? Given
+	that this seems to be a major bottleneck, the choice of such a design
+	begs for motivation.\mtnote{Extended a paragraph to explain that PanDA
+	Broker supported rapid deployment and incremental optimization while
+	incurring in functional limitations.}
 	\item REVIEWER 2: Some facts about WLCG seem outdated:
 	\begin{itemize}
 		\item The number of 30,000 unused TITAN cores (§IIIB) is equated to
 		roughly 10\% of the WLCG. However, WLCG currently has 591,282 cores
-		[REBUSCPU]. https://wlcg-rebus.cern.ch/apps/capacities/federations/
+		[REBUSCPU].
+		https://wlcg-rebus.cern.ch/apps/capacities/federations/\mtnote{Done.}
 		\item WLCG sites are claimed to provide only 8 cores per worker node
 		(§IIIB). WLCG has a significant number of sites providing 16 or more
-		cores per worker node [REBUSCPU]. https://wlcg-rebus.cern.ch/apps/capacities/federations/
+		cores per worker node [REBUSCPU].
+		https://wlcg-rebus.cern.ch/apps/capacities/federations/\mtnote{This
+		would require fairly deep rewriting on Section IVB. I edited the
+		sentence referring to 8 cores eliminating the reference to compute
+		nodes. Less than ideal but I did not find a better solution. Any
+		suggestion?}
 	\end{itemize}
 	\item REVIEWER 2: Schematic figures (Fig 1, Fig 2) are overly complex,
 	while their captions are not sufficient to understand them. The numbering
-	is only partially explained in the text.
+	is only partially explained in the text.\mtnote{Added a reference to
+	where the numbering of the figures are explained in the text. I
+	double-checked and the numbering of both figure is fully explained in the
+	text.}
 \end{enumerate}
 \fi
 
 The upcoming LHC Run 3 will require more resources than the Worldwide LHC
 Computing Grid (WLCG) can provide. Currently, PanDA WMS uses more than
-300,000 cores at more than 100 Grid sites, with a peak performance of 0.3
-petaFLOPS\@. This capacity will be sufficient for the planned analysis and
-data processing, but it will be insufficient for the Monte Carlo production
-workflow and any extra activity. To alleviate these challenges, ATLAS is
-expanding the current computing model to include additional resources such as
-the opportunistic use of supercomputers.
-
-% Supercomputers are designed to support parallel computation that requires
-% runtime communication. Jobs are executed across multiple nodes, each node
-% calculating a small part of the problem and communicating with other node,
-% typically via MPI\@. Accordingly, supercomputers have large number of
-% worker nodes, connected through a high-speed, low-latency dedicated
-% network. Each worker node has multicore CPUs, usually augmented with
-% Graphics Processing Units (GPUs) or other specialized co-processors.
+600,000 cores at more than 100 Grid sites, with an aggregated performance of
+8 petaFLOPS\@. This capacity will be sufficient for the planned analysis
+and data processing, but it will be insufficient for the Monte Carlo
+production workflow and any extra activity. To alleviate these challenges,
+ATLAS is expanding the current computing model to include additional
+resources such as the opportunistic use of supercomputers.
 
 PanDA WMS has been designed to support distributed Grid computing. Executing
 ATLAS workloads or workflows involves concurrent and/or sequential runs of
@@ -75,25 +86,6 @@ Computing Facility (OLCF).
 
 % ---------------------------------------------------------------------------
 \subsection{Architectures, Interfaces and Workloads}\label{ssec:panda-titan}
-
-% The Titan supercomputer, current number three on the Top 500
-% list,%~\cite{top500}, 
-% is a Cray XK7 system with 18,688 worker nodes and a total
-% of 299,008 AMD cores and 18,688 Nvidia Tesla GPUs. 
-% Each worker node has an AMD Opteron 6274 16-core CPU,
-% a Nvidia Tesla K20X GPU, 32 GB of RAM and no local storage, though a 16 GB
-% RAM disk can be set up. Work nodes use Cray’s Gemini interconnect for
-% inter-node MPI messaging. Titan is served by the Spider
-% II~\cite{oral2013olcf}, a Lustre filesystem with 32 PB of disk storage, and
-% by a 29 PB HPSS tape storage system. Titan’s worker nodes run Compute Node
-% Linux, a run time environment based on SUSE Linux Enterprise Server.
-%
-% Titan's users submit jobs to Titan's PBS scheduler by logging into login or
-% data transfer nodes (DTNs). Titan's authentication and authorization model
-% is based on two-factor authentication with a RSA SecurID key. Login nodes
-% and DTNs have out/inbound wide area network connectivity while worker nodes
-% have only local network access. Fair-share and allocation policies are in
-% place both for the PBS batch system and shared file systems.
 
 Titan's architecture, configuration and policies poses several challenges to
 the deployment of PanDA\@. The default deployment model of PanDA Pilot is
@@ -120,26 +112,22 @@ computational-intensive, requiring less than 2GB of RAM at runtime and small
 input data. Detector simulation tasks in ATLAS are performed via
 AthenaMP~\cite{aad2010atlas}, the ATLAS software framework integrating the
 GEANT4 detector simulation toolkit~\cite{agostinelli2003geant4}. These tasks
-account for $\approx$ 60\% of all the jobs on WLCG, making them a primary
+account for \(\approx\)60\% of all the jobs on WLCG, making them a primary
 candidate for offloading.
 
 Detector simulation is part of the ATLAS production Monte Carlo (MC)
-workflow~\cite{rimoldi2006atlas}. %,de2013delphes,ritsch2014atlas}. 
-The MC workflow consists of four main stages: event generation, detector
-simulation, digitization, and reconstruction. Event generation creates sets
-of particle four-momenta via different generators, e.g.,
-PYTHIA, %~\cite{sjostrand2006pythia}, 
-HERWIG, %~\cite{corcella2001herwig} 
-and many others. Geant4 simulates the ATLAS detector and the interaction
-between the detector and particles. Each interaction creates a so-called hit
-and all hits are collected and passed on for digitalization, where hits are
-further processed to mimic the readout of the detector. Finally,
-reconstruction operates local pattern recognition, creating high-level
-objects like particles and jets.
+workflow~\cite{rimoldi2006atlas}. The MC workflow consists of four main
+stages: event generation, detector simulation, digitization, and
+reconstruction. Event generation creates sets of particle four-momenta via
+different generators, e.g., PYTHIA, HERWIG, and many others. Geant4 simulates
+the ATLAS detector and the interaction between the detector and particles.
+Each interaction creates a so-called hit and all hits are collected and
+passed on for digitalization, where hits are further processed to mimic the
+readout of the detector. Finally, reconstruction operates local pattern
+recognition, creating high-level objects like particles and jets.
 
 % ---------------------------------------------------------------------------
-\subsection{PanDA Broker}
-\label{ssec:panda_titan}
+\subsection{PanDA Broker}\label{ssec:panda_titan}
 
 The lack of wide area network connectivity on Titan's worker nodes is the
 most relevant challenge for integrating PanDA WMS and Titan. Without
@@ -176,8 +164,8 @@ paper, we call this number of worker nodes and walltime an available
 `backfill slot'.
 
 Compared to pilots, backfill has the disadvantage of limiting the amount of
-worker nodes that can be requested. Pilots are normal jobs: they can request
-as many worker nodes and walltime as a queue can offer. On the contrary, jobs
+resources that can be requested. Pilots are normal jobs: they can request as
+many worker nodes and walltime as a queue can offer. On the contrary, jobs
 sized according to an available backfill slot depend on the number of worker
 nodes and walltime that cannot be given to any other job at that moment in
 time.
@@ -187,62 +175,31 @@ small fraction of the total capacity of a resource. Notwithstanding, given
 the size of Titan this translates into a substantial capacity. Every year,
 about 10\% of Titan's capacity remains unused~\cite{barker2016us},
 corresponding to an average of 30,000 unused cores (excluding GPU cores).
-This equals to roughly 10\% of the overall capacity of WLCG\@.
+This equals to roughly 5\% of the overall capacity of WLCG\@.
 
 Given the communication requirements of PanDA Pilots and the unused capacity
 of Titan, PanDA pilot was repurposed to serve as a job broker on the DTN
-nodes of Titan (Fig.~\ref{fig:panda_broker}). Maintaining the core modules of
-PanDA Pilot and its stand-alone architecture, this prototype called `PanDA
-Broker' 
-% implements functionalities to: (i) interrogate Titan about backfill
-% availability via a dedicated Moab scheduler command; (ii) pull ATLAS jobs
-% and events from PanDA Server; (iii) wrap the payload of ATLAS jobs into MPI
-% scripts; (iv) submitting workload-specific MPI scripts to Titan's PBS batch
-% system and monitor their execution; and (v) staging and preparing
-% input/output files. Backfill querying, payload wrapping, and scripts
-% submission required a new implementation while pulling ATLAS job and
-% events, and file staging were inherited from PanDA Pilot.
-%
-% Backfill querying is performed via a dedicated Moab scheduler command while
-% a tailored Python MPI script is used to execute the payload of ATLAS jobs.
-% This enables the execution of unmodified Grid-centric, ATLAS jobs on Titan.
-% Typically, a MPI script is workload-specific as it sets up the execution
-% environment for a specific payload. This involves organization of worker
-% directories, data management, optional input parameters modification, and
-% cleanup on exit. Upon submission, a copy of the MPI script runs on every
-% available worker node, starting the execution of the ATLAS job's payload in
-% a subprocess and waits until its completion.
-%
-% MPI scripts are submitted to Titan's PBS batch system via
-% RADICAL-SAGA~\cite{radical-saga_url}, a Python module, compliant with the
-% OGF GFD.90 SAGA specification~\cite{goodale2008simple}. The Simple API for
-% Grid Applications (SAGA) offers a unified interface to diverse job
-% schedulers and file transferring services. In this way, SAGA provides an
-% interoperability layer that lowers the complexity of using distributed
-% infrastructures. Behind the API façade, RADICAL-SAGA implements a adaptor
-% architecture: each adaptor interface the SAGA API with different middleware
-% systems and services, including the PBS batch scheduler of Titan.
-%
-% The data staging capabilities of the PanDA Broker are implemented via a
-% file system shared among DTNs and worker nodes. The input files with the
-% events of the ATLAS jobs are downloaded on the shared filesystem from the
-% data center of Brookhaven National Laboratory (BNL). The MPI script setup
-% process includes making the location of these files available to the
-% payload of the ATLAS's jobs. The PanDA Broker can locate the payload's
-% output files on the shared filesystem and transfer them from Titan BNL\@.
-%
-% Once deployed on Titan, every PanDA Broker 
-supports the execution of MC detector simulations in 9 steps. 
+nodes of Titan (Fig.~\ref{fig:panda_broker}). This prototype called `PanDA
+Broker' maintains the core modules of PanDA Pilot and its stand-alone
+architecture. This imposes functional trade-offs (e.g., single-threaded
+architecture, single MPI PBS script submission) but allows for rapid adoption
+and iterative optimization. PanDA Brokers are deployed on DTNs because these
+nodes are part of the OLCF infrastructure and can access Titan without RSA
+SecureID authentication. It should be noted that DTNs are not part of Titan's
+worker nodes and, therefore, are not used to execute Titan's jobs.
 
-Each PanDA Broker deployed on Titan queries the Job Dispatcher module of the
-PanDA server for ATLAS jobs that have been bound to Titan by JEDI
+Currently, up to 20 PanDA Brokers operate within the existing ATLAS
+production software infrastructure, each supporting the execution of MC
+detector simulations in 9 steps. Each broker queries the PanDA Server for
+ATLAS jobs that have been bound to Titan by JEDI
 (Fig.~\ref{fig:panda_broker}:1). Upon receiving jobs descriptions, PanDA
-Broker pulls jobs' input files from BNL to the OLCF Lustre file system
-(Fig.~\ref{fig:panda_broker}:2). PanDA Broker queries Titan's Moab scheduler
-about the current available backfill slot (Fig.~\ref{fig:panda_broker}:3) and
-creates an MPI script, wrapping enough ATLAS jobs' payload to fit the
-backfill slot. PanDA Broker submits the MPI script to the Titan's Torque
-batch system via RADICAL-SAGA (Fig.~\ref{fig:panda_broker}:4).
+Broker pulls jobs' input files from BNL Data Center to the OLCF Lustre file
+system (Fig.~\ref{fig:panda_broker}:2). PanDA Broker queries Titan's Moab
+scheduler about the current available backfill slot
+(Fig.~\ref{fig:panda_broker}:3) and creates an MPI script, wrapping enough
+ATLAS jobs' payload to fit the backfill slot. PanDA Broker submits the MPI
+script to the Titan's PBS batch system via RADICAL-SAGA
+(Fig.~\ref{fig:panda_broker}:4).
 
 Upon execution on the worker node(s) (Fig.~\ref{fig:panda_broker}:5), the MPI
 script initializes and configures the execution environment
@@ -253,20 +210,19 @@ process on each of the 16 available cores (Fig.~\ref{fig:panda_broker}:9).
 Upon completion of each MPI script, PanDA Broker transfer the jobs' output to
 BNL (Fig.~\ref{fig:panda_broker}:10), and performs cleanup.
 
-While PanDA Broker implementation is resource specific, it was successfully
-ported to other supercomputers, including the HPC2 at the National Research
-Center ``Kurchatov Institute'' (NRC-KI)~\cite{belyaev2015integration},
-Edison/Cori at the National Energy Research Scientific Computing Center
-(NERSC)~\cite{barreiro2016panda}, and SuperMUC at the Leibniz Supercomputing
-Centre (LRZ)~\cite{barreiro2016panda}.
+PanDA Broker implementation is resource specific but the ATLAS team has
+ported it to other supercomputers, including the HPC2 at the National
+Research Center ``Kurchatov Institute''
+(NRC-KI)~\cite{belyaev2015integration}, Edison/Cori at the National Energy
+Research Scientific Computing Center (NERSC)~\cite{barreiro2016panda}, and
+SuperMUC at the Leibniz Supercomputing Centre (LRZ)~\cite{barreiro2016panda}.
 
 \begin{figure}
     \centering
     \includegraphics[width=\columnwidth]{figures/panda_broker_architecture.pdf}
     \vspace{-0.3in}
     \caption{PanDA Broker architecture as deployed on Titan. Numbers
-    indicates the execution process of a detector simulation job, part of the
-    production ATLAS MC workflow.}
-\label{fig:panda_broker}
+    indicates the execution process of a detector simulation job described in
+    \S\ref{ssec:panda_titan}.}\label{fig:panda_broker}
 \end{figure}
 \vspace{-0.04in}

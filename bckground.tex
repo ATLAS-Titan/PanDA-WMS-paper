@@ -9,9 +9,9 @@ Comments to address in this section:
 \fi
 
 Several pilot-enabled WMS were developed for the LHC experiments:
-AliEn~\cite{Bagnasco2010} for ALICE; DIRAC~\cite{Paterson2010} for LHCb;
-GlideinWMS~\cite{sfiligoi2008glideinwms} for CMS; and
-PanDA~\cite{maeno2014evolution} for ATLAS. These systems implement similar
+AliEn~\cite{Bagnasco2010} for ALICE\@; DIRAC~\cite{Paterson2010} for LHCb;
+GlideinWMS~\cite{sfiligoi2008glideinwms} for CMS\@; and
+PanDA~\cite{maeno2014evolution} for ATLAS\@. These systems implement similar
 design and architectural principles: centralization of task and resource
 management, and of monitoring and accounting; distribution of task execution
 across multiple sites; unification of the application interface; hiding of
@@ -49,78 +49,3 @@ It is interesting to note that most WMS developed to support LHC experiments
 are gradually evolving towards integrating HPC resources, though none have
 reached sustained operational usage at the scales that PanDA has achieved for
 ATLAS on Titan.
-
-% ---------------------------------------------------------------------------
-% NOTES ON TASK, JOBS, AND WORKFLOW TERMINOLOGY
-% ---------------------------------------------------------------------------
-% Currently, the implementation of PanDA WMS has at least two distinguishing
-% features: the scale at which it operates distributed computing, and
-% network-aware scheduling of tasks to sites\mtnote{PanDA team: please let me
-% know whether more unique (i.e., not present in other LHC WMS) features of
-% PanDA implementation should be indicated}. PanDA concurrently supports
-% distributed computations on up to 240,000 cores, submitting more than 365
-% million jobs a year across 100 sites, and processing up to XXXXPB of data
-% distributed worldwide on XX Tier 1-3 facilities. As for 2017, PanDA serves
-% several thousand users, including XX production groups. The scale of this
-% operation is unprecedented, making PanDA the WMS that manages the largest
-% computational campaign in the world.
-
-% PanDA was initially implemented to support computations across an
-% unreliable and relatively expensive networking infrastructure. Accordingly,
-% PanDA assumed a rigid model of data placement based on replication and
-% long-term storage of data on the Grid sites. This model proven too
-% wasteful, requiring storage space for unused and obsolete data. PanDA
-% implementation was evolved to benefit from the development of the internet
-% and of the networking infrastructure for scientific research. Today, PanDA
-% constantly monitors network throughput and latency among its management
-% components, Grid sites and data facilities. PanDA uses this information to
-% schedule tasks on sites, depending on the estimated time required to
-% download and/or replicate input data and to stage out output data.
-
-% The dynamic management of data replication and download is an example of a
-% generalized paradigm shift that distinguishes the implementation of PanDA
-% from other WMS. New components are being implemented to support: (i)
-% dynamic sizing of input dataset based on resource capabilities; (ii)
-% dynamic sizing of the resources held by pilots both in terms of number of
-% cores and duration of the pilot; and (iii) further abstraction of different
-% types of resources to reconcile high-throughput and high-performance
-% computing paradigms.
-% ---------------------------------------------------------------------------
-
-% ---------------------------------------------------------------------------
-% NOTES ON TASK, JOBS, AND WORKFLOW TERMINOLOGY
-% ---------------------------------------------------------------------------
-% Each task may have an arbitrary number of properties like number of cores,
-% executables, or input/output files. Tasks may have precedence
-% interrelations, depending on their data dependences or any other type of
-% dependency mandated by the application algorithms. Tasks with precedence
-% relations have to be executed serially; otherwise, tasks can be executed
-% concurrently. A workload is defined as a set of tasks that can be executed
-% concurrently. As such, a workflow can be composed of a set of workloads.
-
-% The terms ``task'' and ``job'' are also used inconsistently across
-% communities that perform scientific computing. In this paper, ``job''
-% refers to the unit of work that is submitted to a local resource management
-% system (LRMS), like the Slurm or PBS batch system of a cluster. As such, a
-% task can become a job when is scheduled on a resource that exposes a LRMS
-% but can also become a virtual machine or a container when bootstrapped on
-% an infrastructure supporting virtualization. Tasks can be statically or
-% dynamically grouped into jobs, depending on the resource capabilities and
-% the task requirements.
-
-% Usually, workflows are represented as graphs in which tasks are vertices
-% and relations are edges~\cite{}. Often, graphs are supposed to be acyclic
-% but graphs with cycles have been used to represent workflows of
-% workflows~\cite{}. In this paper, a workflow template is a type of graph
-% while a workflow instance is a workflow template with specific vertices and
-% edges. Further, a workflow instance is ``abstract'' when no resource
-% properties are available for all vertices, ``concrete'' otherwise~\cite{}.
-% When not qualified, the term ``workflow'' indicates a abstract workflow
-% instance.
-
-% Notes for refactoring:
-% \begin{itemize}
-%     \item Naming and nomenclature is a contribution
-%     \item 1, 1.5 pages.
-% \end{itemize}
-% ---------------------------------------------------------------------------
