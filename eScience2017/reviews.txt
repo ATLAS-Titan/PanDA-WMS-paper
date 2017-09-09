@@ -6,6 +6,7 @@ This paper provides a description of work done to allow the LHC ATLAS experiment
 
 There is a problem with capitalization in some reference titles, ie. [2], [3], [4], [7], [8], [9], [10], [11], [12], [13].
 Reference [6] is just an author list, year and title. Should there be more here?
+
 Review 2
 Overall evaluation:	
 -1: (weak reject)
@@ -29,6 +30,7 @@ Even with domain knowledge, the use of internal component names of the PanDA WMS
 In addition, many technical details are not relevant for the topic presented. For example, only a small part of the PanDA WMS architecture is actually relevant, and could be summarised as a pilot based WMS. Such details detract from important topics, for example the technical discussion of TITAN and WLCG differences is abruptly stopped by the description of Monte Carlo event generation and detector simulation (§IIIA). It is highly recommended that the authors isolate their actual contribution from domain specific details, and minimise the later.
 
 - Key contributions and related work
+
 The paper leaves its main contributions unclear: the three contributions listed in the abstract and introduction are only loosely discussed in the paper body itself. For example, the discussion of design and operational considerations (i) is interspersed into several chapters (§IIIB, §IVAB) addressing a multitude of other topics. This is exemplified by the study of open/close system calls (§IVB) in the general ATLAS Monte Carlo workflow. Overall, the description switches back and forth between topics - for example, the issue of metadata operations on LUSTRE is brought up at least 3 times (§IVB).
 As a result, it is difficult as a reader to distinguish technical details from key messages. This could be improved by revising the structure of the paper to clearly distinguish background, challenges and solutions for individual topics.
 
@@ -83,6 +85,7 @@ http://iopscience.iop.org/article/10.1088/1742-6596/664/9/092019
 
 [REBUSCPU]
 https://wlcg-rebus.cern.ch/apps/capacities/federations/
+
 Review 3
 Overall evaluation:	
 2: (accept)
@@ -109,6 +112,7 @@ I am not convinced by the performance analysis in a couple of points:
 I would recommend acceptance, although the relevance to the wider eScience community (i.e., non-WLCG) may be rather low.
 
 [1]: http://w3.hepix.org/benchmarks/doku.php?id=bench:howto
+
 Review 4
 Overall evaluation:	
 3: (strong accept)
