@@ -31,11 +31,11 @@ Comments to address in this section:
     
     \item REVIEWER 2: How does the poor metadata read performance of
     1500-6300s (25\%-100\% of minimum walltime!) affect efficiency? Is it
-    factored into the choice of walltime requests?\mtnote{Asked Sergey and
-    Danila to confirm these numbers and walltime request policy.} Is it
-    applicable only to TITAN, to HPC in general, or even to regular WLCG
-    sites?\mtnote{This is clearly out of scope for this paper.} Are there
-    solutions at application, e.g. the use of packaged python scripts and
+    factored into the choice of walltime requests?\mtnote{Thanks to Sergey's
+    input I corrected the figure previously reported.} Is it applicable only
+    to TITAN, to HPC in general, or even to regular WLCG sites?\mtnote{This
+    is clearly out of scope for this paper.} Are there solutions at
+    application, e.g. the use of packaged python scripts and
     libraries?\mtnote{Added the following: ``While these figures are specific
     to OLCF and TItan, reengineering on AthenaMP could further improve
     startup time on every platform.''} The information presented is
@@ -50,7 +50,9 @@ Comments to address in this section:
     figure certainly comes from averaging over many different workloads
     across all experiments, it seems a bit surprising that FP scheduling
     contention is responsible for 50\% decrease in compute efficiency on
-    Titan when compared to other WLCG sites (paper page 6).\mtnote{Wrote an email to Sergey asking for a clarification.}
+    Titan when compared to other WLCG sites (paper page 6).\mtnote{Thanks to
+    Sergey's input I downplayed the role played by FP and up-played the role
+    played by new CPUs.}
 \end{enumerate}
 \fi
 
@@ -219,8 +221,9 @@ the initialization and configuration stages degraded the performance of the
 filesystem. This was addressed by moving the AthenaMP distribution to a
 read-only NFS directory, shared among Titan's DTNs and worker nodes. NFS
 eliminated the problem of metadata contention, improving metadata read
-performance from \(\approx\)6,300 seconds on Lustre to \(\approx\)1,500
-seconds on NFS\@. While these figures are specific to OLCF and TItan, reengineering on AthenaMP could further improve startup time on every platform. 
+performance from a worse case scenario of 6,300s on Lustre to \(\approx\)225s
+on NFS\@. While these figures are specific to OLCF and TItan, reengineering
+of AthenaMP could further improve startup time on every platform.
 
 Once initialized and configured, AthenaMP is used to execute 16 concurrent
 Geant4 simulators on a Titan's worker node. Geant4 requires to read events
@@ -261,16 +264,17 @@ cores, show that the effective performance per-core at Titan is
 performances.
 
 The differences in performance between Titan and the BNL and SIGNET Grid
-sites are due to the FP scheduler competition and the availability of newer
-processors. The CPUs at the Grid sites have one FP scheduler per core and are
-on average newer than the CPU of Titan. The heterogeneity of the Grid sites'
-CPUs explain the higher performance variance we observed compared to the
-performance consistency we measured on Titan. This difference in performance
-is compensated by the amount of resources available on Titan (capable of
-executing up to 30\%/year of the ATLAS detector simulations) and by the lack
-of further resources available to WLCG\@. Also, it should be noted that Titan
-is at the end of its life-cycle and that Summit, Titan's successor, will
-offer cutting-edge performances.
+sites are due to the FP scheduler competition but mainly to the availability
+of newer processors. 
+% The CPUs at the Grid sites have one FP scheduler per core and are on
+% average newer than the CPU of Titan.
+The heterogeneity of the Grid sites' CPUs explain the higher performance
+variance we observed compared to the performance consistency we measured on
+Titan. This difference in performance is compensated by the amount of
+resources available on Titan (capable of executing up to 30\%/year of the
+ATLAS detector simulations) and by the lack of further resources available to
+WLCG\@. Also, it should be noted that Titan is at the end of its life-cycle
+and that Summit, Titan's successor, will offer cutting-edge performances.
 
 We studied the impact of acquiring event descriptions on Lustre by analyzing
 1,175 jobs ran on the week of 10/25/2016, for a total of 174 hours.
