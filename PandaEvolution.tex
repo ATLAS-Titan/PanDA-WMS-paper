@@ -1,58 +1,58 @@
-\ifreview
-Comments to address in this section:
-\begin{enumerate}
-	\color{red} 
-	\item REVIEWER 2: the technical discussion of TITAN and WLCG differences
-	is abruptly stopped by the description of Monte Carlo event generation
-	and detector simulation (3A).\mtnote{I read the section twice and I did
-	not see such an abrupt transition.}
-	\item REVIEWER 2: The single listing (3B) of similar projects within the
-	collaboration does not detail whether this is derived or separate
-	work.\mtnote{Added a sentence to clarify that PanDA Broker operates
-	within the existing ATLAS software infrastructure. Specified that the
-	ATLAS team has ported PanDA Broker to other supercomputers.}
-	\item REVIEWER 2: How does the TITAN environment prevent usage of DTNs as
-	thin proxies? Is connectivity possible from compute node to DTNs via MPI,
-	message queues, sockets or other means? Are the restrictions a
-	shortcomming of TITAN, or the majority of HPC environments? Given the
-	proclaimed importance of HPC resources, a generic evaluation seems
-	needed.\mtnote{Added a sentence explaining that DTNs are not part of
-	Titan's compute nodes.}
-	\item REVIEWER 2: Why was the PanDA Broker designed orthogonal to the
-	pilot model, performing both resource acquisition and workload
-	execution?\mtnote{We explain that PanDA Broker is a prototype and now we
-	are developing NGE.} How do pilots conflict with backfill slots, when the
-	former are designed to acquire resources independent of workload
-	requirements?\mtnote{AFAIK, we never state that pilot conflict with
-	backfill. We argue that the latter mitigates the absence of the former.}
-	Why does each Broker instance query and use backfill separately? Given
-	that this seems to be a major bottleneck, the choice of such a design
-	begs for motivation.\mtnote{Extended a paragraph to explain that PanDA
-	Broker supported rapid deployment and incremental optimization while
-	incurring in functional limitations.}
-	\item REVIEWER 2: Some facts about WLCG seem outdated:
-	\begin{itemize}
-		\item The number of 30,000 unused TITAN cores (§IIIB) is equated to
-		roughly 10\% of the WLCG. However, WLCG currently has 591,282 cores
-		[REBUSCPU].
-		https://wlcg-rebus.cern.ch/apps/capacities/federations/\mtnote{Done.}
-		\item WLCG sites are claimed to provide only 8 cores per worker node
-		(§IIIB). WLCG has a significant number of sites providing 16 or more
-		cores per worker node [REBUSCPU].
-		https://wlcg-rebus.cern.ch/apps/capacities/federations/\mtnote{This
-		would require fairly deep rewriting on Section IVB. I edited the
-		sentence referring to 8 cores eliminating the reference to compute
-		nodes. Less than ideal but I did not find a better solution. Any
-		suggestion?}
-	\end{itemize}
-	\item REVIEWER 2: Schematic figures (Fig 1, Fig 2) are overly complex,
-	while their captions are not sufficient to understand them. The numbering
-	is only partially explained in the text.\mtnote{Added a reference to
-	where the numbering of the figures are explained in the text. I
-	double-checked and the numbering of both figure is fully explained in the
-	text.}
-\end{enumerate}
-\fi
+% \ifreview
+% Comments to address in this section:
+% \begin{enumerate}
+% 	\color{red} 
+% 	\item REVIEWER 2: the technical discussion of TITAN and WLCG differences
+% 	is abruptly stopped by the description of Monte Carlo event generation
+% 	and detector simulation (3A).\mtnote{I read the section twice and I did
+% 	not see such an abrupt transition.}
+% 	\item REVIEWER 2: The single listing (3B) of similar projects within the
+% 	collaboration does not detail whether this is derived or separate
+% 	work.\mtnote{Added a sentence to clarify that PanDA Broker operates
+% 	within the existing ATLAS software infrastructure. Specified that the
+% 	ATLAS team has ported PanDA Broker to other supercomputers.}
+% 	\item REVIEWER 2: How does the TITAN environment prevent usage of DTNs as
+% 	thin proxies? Is connectivity possible from compute node to DTNs via MPI,
+% 	message queues, sockets or other means? Are the restrictions a
+% 	shortcomming of TITAN, or the majority of HPC environments? Given the
+% 	proclaimed importance of HPC resources, a generic evaluation seems
+% 	needed.\mtnote{Added a sentence explaining that DTNs are not part of
+% 	Titan's compute nodes.}
+% 	\item REVIEWER 2: Why was the PanDA Broker designed orthogonal to the
+% 	pilot model, performing both resource acquisition and workload
+% 	execution?\mtnote{We explain that PanDA Broker is a prototype and now we
+% 	are developing NGE.} How do pilots conflict with backfill slots, when the
+% 	former are designed to acquire resources independent of workload
+% 	requirements?\mtnote{AFAIK, we never state that pilot conflict with
+% 	backfill. We argue that the latter mitigates the absence of the former.}
+% 	Why does each Broker instance query and use backfill separately? Given
+% 	that this seems to be a major bottleneck, the choice of such a design
+% 	begs for motivation.\mtnote{Extended a paragraph to explain that PanDA
+% 	Broker supported rapid deployment and incremental optimization while
+% 	incurring in functional limitations.}
+% 	\item REVIEWER 2: Some facts about WLCG seem outdated:
+% 	\begin{itemize}
+% 		\item The number of 30,000 unused TITAN cores (§IIIB) is equated to
+% 		roughly 10\% of the WLCG. However, WLCG currently has 591,282 cores
+% 		[REBUSCPU].
+% 		https://wlcg-rebus.cern.ch/apps/capacities/federations/\mtnote{Done.}
+% 		\item WLCG sites are claimed to provide only 8 cores per worker node
+% 		(§IIIB). WLCG has a significant number of sites providing 16 or more
+% 		cores per worker node [REBUSCPU].
+% 		https://wlcg-rebus.cern.ch/apps/capacities/federations/\mtnote{This
+% 		would require fairly deep rewriting on Section IVB. I edited the
+% 		sentence referring to 8 cores eliminating the reference to compute
+% 		nodes. Less than ideal but I did not find a better solution. Any
+% 		suggestion?}
+% 	\end{itemize}
+% 	\item REVIEWER 2: Schematic figures (Fig 1, Fig 2) are overly complex,
+% 	while their captions are not sufficient to understand them. The numbering
+% 	is only partially explained in the text.\mtnote{Added a reference to
+% 	where the numbering of the figures are explained in the text. I
+% 	double-checked and the numbering of both figure is fully explained in the
+% 	text.}
+% \end{enumerate}
+% \fi
 
 The upcoming LHC Run 3 will require more resources than the Worldwide LHC
 Computing Grid (WLCG) can provide. Currently, PanDA WMS uses more than
