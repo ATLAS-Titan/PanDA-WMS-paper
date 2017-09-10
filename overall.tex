@@ -318,9 +318,9 @@ the maximum number of file \(open()\) operations per job is \(\approx\)170/s
 and the maximum number of file \(close()\) operations is \(\approx\)39/s. For
 the 1,175 ATLAS jobs observed, the total number of file \(open()\) operations
 is 172,089,760 and the total number of file \(close()\) operations is
-40,132,992. The difference between these two values is still under
-investigation: One possible explanation is that ATLAS jobs don't call a file
-\(close()\) operation per every file \(open()\) issued.
+40,132,992. The difference between these two values is under
+investigation: a possible explanation is that ATLAS jobs don't call a file
+\(close()\) operation for every file \(open()\) issued.
 
 Overall, the average time taken to read events from input files stored on
 Lustre is 1,320, comparable to the time taken to read the file required by

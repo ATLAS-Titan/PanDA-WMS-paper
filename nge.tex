@@ -98,7 +98,7 @@ squares) and pilots (Fig.~\ref{fig:arch-overview}, red circles), and to
 instantiate a PilotManager and a UnitManager. The PilotManager submits pilots
 to Titan's PBS batch system via SAGA API (Fig.~\ref{fig:arch-overview}, dash
 arrow). Once scheduled, the Pilot Agent is bootstrapped on a MOM node and the
-Agent's Executors on the worker nodes.
+Agent's Executors on worker nodes.
 
 The UnitManager and the Pilot Agent communicate via a database instantiated
 on a DTN so as to be reachable by both modules. The UnitManager schedules
