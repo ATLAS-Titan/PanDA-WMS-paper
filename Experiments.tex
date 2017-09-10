@@ -40,7 +40,7 @@ Tasks do not wait within the Agent's queue since one node is available to
 each AthenaMP instance. Task execution  overheads result primarily from
 three factors: (i) the initial bootstrapping of the pilot on the nodes; (ii)
 the UnitManager's dispatching of units (tasks) to the agent; and (iii) time
-for the agent to bootstrap all the tasks on the nodes.
+for the Agent to bootstrap all the tasks on the nodes.
 
 We tested pilots with 250, 500, 1000 and 2000 worker nodes and 2 hours
 walltime. The time duration is determined by the Titan's walltime policy.
@@ -83,7 +83,7 @@ to scale experiments to large node counts by conserving project allocation.
 
 We ran pilots with 256, 512, 1024 and 2048 worker nodes and 3 hours walltime.
 Fig.~\ref{fig:weakScal2a} depicts the average pilot duration, the average
-execution time of five sequential generations of AthenaMP, and the
+execution time of five generations of AthenaMP, and the
 corresponding overhead. The difference between the two durations is more
 marked than in the previous experiments. Despite this, we notice that the
 growth of the overhead is consistent with the increment of the number of tasks
@@ -107,13 +107,13 @@ for the pilot with 2048 worker nodes.
 
 We investigate strong scalability by running the same number of tasks for
 different pilot sizes. We used 2048 AthenaMP instances and pilots with 256,
-512, 1024 and 2048 nodes. Thus, the number of AthenaMP generations is equal
-to eight times the size of the smallest pilot and corresponds to the size of
-the largest pilot. As a consequence, the number of consecutive generations of
-AthenaMP decreases with the pilot size. These experiments are designed to
-investigate whether pilot overhead is affected by the degree of concurrency
-within the pilot and/or the number of tasks. Each AthenaMP instance simulates
-sixteen events as in the previous experiment.
+512, 1024 and 2048 nodes. Thus, the number of AthenaMP instances per node
+(i.e., generations) is eight for the smallest pilot (256 nodes), one for the
+largest pilot (2048 nodes), and with the number of generations of AthenaMP
+decreasing with the pilot size. These experiments are designed to investigate
+whether pilot overhead is affected by the degree of concurrency within the
+pilot and/or the number of tasks. Each AthenaMP instance simulates sixteen
+events as in the previous experiment.
 
 Fig.~\ref{fig:strongScala} shows the average pilot duration and the average
 execution time of possibly sequential AthenaMP instances. We notice that the
