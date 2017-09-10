@@ -9,8 +9,8 @@ Comments to address in this section:
     IV.}
     
     % \item REVIEWER 2: Why does Fig 3 show an increase of absolute and
-    % relative efficiency in Aug-16, when the text claims this in Sep-16 due to
-    % more PanDA Brokers?\mtnote{Fixed.}
+    % relative efficiency in Aug-16, when the text claims this in Sep-16 due
+    % to more PanDA Brokers?\mtnote{Fixed.}
     
     % \item REVIEWER 2: Why are only 20 PanDA Brokers deployed if this is a
     % limiting factor? Why is it questionable that more PanDA Brokers would
@@ -18,44 +18,44 @@ Comments to address in this section:
     % unusable, this implies an efficiency of almost 60\% being
     % reachable.\mtnote{From our text: ``further research is ongoing to
     % understand whether an even greater number of brokers would yield even
-    % greater efficiency. This research focuses on evaluating the overheads of
-    % input/output files staging, including its impact on DTNs, and on an
-    % alternative design of PanDA Broker that enables the concurrent submission
-    % of multiple MPI scripts''. I believe this is an answer good enough.}
+    % greater efficiency. This research focuses on evaluating the overheads
+    % of input/output files staging, including its impact on DTNs, and on an
+    % alternative design of PanDA Broker that enables the concurrent
+    % submission of multiple MPI scripts''. I believe this is an answer good
+    % enough.}
 
-    % \item REVIEWER 2: Given an expected increase in resource need of 10-100,
-    % how is the capacity of 4\% WLCG significant? How does this relate to the
-    % manpower required to develop and maintain a custom solution per HPC site?
-    % How many TITAN resources are actually available to HEP, given the use by
-    % other domains? The magnitude of capacities presented as available is in
-    % major contrast to the requirements sketched in the introduction.
-
-
+    % \item REVIEWER 2: Given an expected increase in resource need of
+    % 10-100, how is the capacity of 4\% WLCG significant? How does this
+    % relate to the manpower required to develop and maintain a custom
+    % solution per HPC site? How many TITAN resources are actually available
+    % to HEP, given the use by other domains? The magnitude of capacities
+    % presented as available is in major contrast to the requirements
+    % sketched in the introduction.
     
     % \item REVIEWER 2: How does the poor metadata read performance of
     % 1500-6300s (25\%-100\% of minimum walltime!) affect efficiency? Is it
-    % factored into the choice of walltime requests?\mtnote{Thanks to Sergey's
-    % input I corrected the figure previously reported.} Is it applicable only
-    % to TITAN, to HPC in general, or even to regular WLCG sites?\mtnote{This
-    % is clearly out of scope for this paper.} Are there solutions at
-    % application, e.g. the use of packaged python scripts and
-    % libraries?\mtnote{Added the following: ``While these figures are specific
-    % to OLCF and TItan, reengineering on AthenaMP could further improve
-    % startup time on every platform.''} The information presented is
-    % insufficient to estimate whether this issue applies to other environments
-    % and usecases as well, or is simply due to suboptimal
+    % factored into the choice of walltime requests?\mtnote{Thanks to
+    % Sergey's input I corrected the figure previously reported.} Is it
+    % applicable only to TITAN, to HPC in general, or even to regular WLCG
+    % sites?\mtnote{This is clearly out of scope for this paper.} Are there
+    % solutions at application, e.g. the use of packaged python scripts and
+    % libraries?\mtnote{Added the following: ``While these figures are
+    % specific to OLCF and TItan, reengineering on AthenaMP could further
+    % improve startup time on every platform.''} The information presented is
+    % insufficient to estimate whether this issue applies to other
+    % environments and usecases as well, or is simply due to suboptimal
     % implementation/configuration.
     
     % \item REVIEWER 3: The HEP-SPEC06 benchmark, which is used as a
-    % ``computing power'' measure in LCG is mostly integer-artihmetic based: FP
-    % operations accounts for \~10\% of the average workload (see [1], section
-    % ``Why do you use `all\_cpp' instead of SPECint or SPECfp?'') While this
-    % figure certainly comes from averaging over many different workloads
-    % across all experiments, it seems a bit surprising that FP scheduling
-    % contention is responsible for 50\% decrease in compute efficiency on
-    % Titan when compared to other WLCG sites (paper page 6).\mtnote{Thanks to
-    % Sergey's input I downplayed the role played by FP and up-played the role
-    % played by new CPUs.}
+    % ``computing power'' measure in LCG is mostly integer-artihmetic based:
+    % FP operations accounts for \~10\% of the average workload (see [1],
+    % section ``Why do you use `all\_cpp' instead of SPECint or SPECfp?'')
+    % While this figure certainly comes from averaging over many different
+    % workloads across all experiments, it seems a bit surprising that FP
+    % scheduling contention is responsible for 50\% decrease in compute
+    % efficiency on Titan when compared to other WLCG sites (paper page
+    % 6).\mtnote{Thanks to Sergey's input I downplayed the role played by FP
+    % and up-played the role played by new CPUs.}
 \end{enumerate}
 \fi
 
@@ -98,23 +98,22 @@ of 51.4M core-hours, for an average of \(\approx\)3.7M core-hours a month.
     labels).}\label{fig:backfill-utilization}
 \end{figure}
 
-PanDA Brokers' efficiency (Fig.~\ref{fig:backfill-utilization}, red labels) is
-defined as the fraction (or percentage) of core-hours utilized by the PanDA
-Brokers of Titan’s total backfill availability during the experiment time
-window. The  average efficiency was 18\%, with a minimum efficiency
-of 7.8\% (May 2016) and a maximum efficiency of 30.9\% (Feb. 2017, excluding
-the preliminary results of March). The total backfill availability was
-$\approx$ 21.5M in April 2016, and 17.6M in February 2017. This suggests that
-the efficiency is invariant of total backfill availability.
+PanDA Brokers' efficiency (Fig.~\ref{fig:backfill-utilization}, red labels)
+is defined as the fraction (or percentage) of core-hours utilized by the
+PanDA Brokers of Titan’s total backfill availability during the experiment
+time window. The  average efficiency was 18\%, with a minimum efficiency of
+7.8\% (May 2016) and a maximum efficiency of 30.9\% (Feb. 2017, excluding the
+preliminary results of March). The total backfill availability was
+\(\approx\)21.5M in April 2016, and 17.6M in February 2017. This suggests
+that the efficiency is invariant of total backfill availability.
 
-% This suggests that the differences
-% in efficiency did not depend on a comparable difference in the total backfill
-% availability. 
+% This suggests that the differences in efficiency did not depend on a
+% comparable difference in the total backfill availability.
 
 % \jhanote{change last sentence to: ... efficiency does not depend on total
 % backfill availability." ??}
-% \jhanote{shouldn't we be consistent in the months used to quote efficiency and
-% utilization? April 2016 and Feb 2017 vs May 2016 and Feb 2017??}
+% \jhanote{shouldn't we be consistent in the months used to quote efficiency
+% and utilization? April 2016 and Feb 2017 vs May 2016 and Feb 2017??}
 
 During the experiment time window, about 2.25M detector simulation jobs were
 completed on Titan, for a total of 225M events processed. This is equivalent
@@ -161,7 +160,7 @@ efficiency.
 
 \begin{figure}[!t]
     \includegraphics[clip,width=\columnwidth]{figures/titan_backfill_avail.png}
-    \vspace{-0.1in}
+    \vspace{-0.3in}
     \caption{62555 measures of Backfill availability on Titan during the
     experiment time window. Mean number of work nodes available 691; mean
     walltime available 126 minutes.}\label{fig:backfill-distrib}
