@@ -81,14 +81,14 @@ AthenaMP was \(\approx\)1,200 seconds on average. This experiment design choice
 does not affect the objectives or accuracy of the experiments, but allows us
 to scale experiments to large node counts by conserving project allocation.
 
-We ran pilots with 256, 512, 1024 and 2048 worker nodes and 3\mtnote{2?}
-hours walltime. Fig.~\ref{fig:weakScal2a} depicts the average pilot duration,
-the average execution time of five sequential generations of AthenaMP, and
-the corresponding overhead. The difference between the two durations is more
+We ran pilots with 256, 512, 1024 and 2048 worker nodes and 3 hours walltime.
+Fig.~\ref{fig:weakScal2a} depicts the average pilot duration, the average
+execution time of five sequential generations of AthenaMP, and the
+corresponding overhead. The difference between the two durations is more
 marked than in the previous experiments. Despite this, we notice that the
-growth of the overhead is consistent with the increment of the number of
-tasks per node for pilots with 256, 512 and 1024 worker nodes, and less than
-linear for the pilot with 2048 worker nodes.
+growth of the overhead is consistent with the increment of the number of tasks
+per node for pilots with 256, 512 and 1024 worker nodes, and less than linear
+for the pilot with 2048 worker nodes.
 
 \begin{figure}[!t]
     \includegraphics[height=4.5cm,width=\columnwidth]{./figures/NGE/weak2.pdf}
