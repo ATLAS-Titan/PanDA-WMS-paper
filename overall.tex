@@ -7,52 +7,52 @@ Comments to address in this section:
     Broker? Why are only 30\% of backfill slots useable, if they are
     basically uncontested?
     
-    \item REVIEWER 2: Why does Fig 3 show an increase of absolute and
-    relative efficiency in Aug-16, when the text claims this in Sep-16 due to
-    more PanDA Brokers?\mtnote{Fixed.}
+    % \item REVIEWER 2: Why does Fig 3 show an increase of absolute and
+    % relative efficiency in Aug-16, when the text claims this in Sep-16 due to
+    % more PanDA Brokers?\mtnote{Fixed.}
     
-    \item REVIEWER 2: Why are only 20 PanDA Brokers deployed if this is a
-    limiting factor? Why is it questionable that more PanDA Brokers would
-    increase efficiency? If only 5/6 of resources below the mean are
-    unusable, this implies an efficiency of almost 60\% being
-    reachable.\mtnote{From our text: ``further research is ongoing to
-    understand whether an even greater number of brokers would yield even
-    greater efficiency. This research focuses on evaluating the overheads of
-    input/output files staging, including its impact on DTNs, and on an
-    alternative design of PanDA Broker that enables the concurrent submission
-    of multiple MPI scripts''. I believe this is an answer good enough.}
+    % \item REVIEWER 2: Why are only 20 PanDA Brokers deployed if this is a
+    % limiting factor? Why is it questionable that more PanDA Brokers would
+    % increase efficiency? If only 5/6 of resources below the mean are
+    % unusable, this implies an efficiency of almost 60\% being
+    % reachable.\mtnote{From our text: ``further research is ongoing to
+    % understand whether an even greater number of brokers would yield even
+    % greater efficiency. This research focuses on evaluating the overheads of
+    % input/output files staging, including its impact on DTNs, and on an
+    % alternative design of PanDA Broker that enables the concurrent submission
+    % of multiple MPI scripts''. I believe this is an answer good enough.}
 
     \item REVIEWER 2: Given an expected increase in resource need of 10-100,
     how is the capacity of 4\% WLCG significant? How does this relate to the
     manpower required to develop and maintain a custom solution per HPC site?
     How many TITAN resources are actually available to HEP, given the use by
     other domains? The magnitude of capacities presented as available is in
-    major contrast to the requirements sketched in the introduction.
+    major contrast to the requirements sketched in the introduction.\jhanote{MT to address this via a few sentences in Section IV.}
     
-    \item REVIEWER 2: How does the poor metadata read performance of
-    1500-6300s (25\%-100\% of minimum walltime!) affect efficiency? Is it
-    factored into the choice of walltime requests?\mtnote{Thanks to Sergey's
-    input I corrected the figure previously reported.} Is it applicable only
-    to TITAN, to HPC in general, or even to regular WLCG sites?\mtnote{This
-    is clearly out of scope for this paper.} Are there solutions at
-    application, e.g. the use of packaged python scripts and
-    libraries?\mtnote{Added the following: ``While these figures are specific
-    to OLCF and TItan, reengineering on AthenaMP could further improve
-    startup time on every platform.''} The information presented is
-    insufficient to estimate whether this issue applies to other environments
-    and usecases as well, or is simply due to suboptimal
-    implementation/configuration.
+    % \item REVIEWER 2: How does the poor metadata read performance of
+    % 1500-6300s (25\%-100\% of minimum walltime!) affect efficiency? Is it
+    % factored into the choice of walltime requests?\mtnote{Thanks to Sergey's
+    % input I corrected the figure previously reported.} Is it applicable only
+    % to TITAN, to HPC in general, or even to regular WLCG sites?\mtnote{This
+    % is clearly out of scope for this paper.} Are there solutions at
+    % application, e.g. the use of packaged python scripts and
+    % libraries?\mtnote{Added the following: ``While these figures are specific
+    % to OLCF and TItan, reengineering on AthenaMP could further improve
+    % startup time on every platform.''} The information presented is
+    % insufficient to estimate whether this issue applies to other environments
+    % and usecases as well, or is simply due to suboptimal
+    % implementation/configuration.
     
-    \item REVIEWER 3: The HEP-SPEC06 benchmark, which is used as a
-    ``computing power'' measure in LCG is mostly integer-artihmetic based: FP
-    operations accounts for \~10\% of the average workload (see [1], section
-    ``Why do you use `all\_cpp' instead of SPECint or SPECfp?'') While this
-    figure certainly comes from averaging over many different workloads
-    across all experiments, it seems a bit surprising that FP scheduling
-    contention is responsible for 50\% decrease in compute efficiency on
-    Titan when compared to other WLCG sites (paper page 6).\mtnote{Thanks to
-    Sergey's input I downplayed the role played by FP and up-played the role
-    played by new CPUs.}
+    % \item REVIEWER 3: The HEP-SPEC06 benchmark, which is used as a
+    % ``computing power'' measure in LCG is mostly integer-artihmetic based: FP
+    % operations accounts for \~10\% of the average workload (see [1], section
+    % ``Why do you use `all\_cpp' instead of SPECint or SPECfp?'') While this
+    % figure certainly comes from averaging over many different workloads
+    % across all experiments, it seems a bit surprising that FP scheduling
+    % contention is responsible for 50\% decrease in compute efficiency on
+    % Titan when compared to other WLCG sites (paper page 6).\mtnote{Thanks to
+    % Sergey's input I downplayed the role played by FP and up-played the role
+    % played by new CPUs.}
 \end{enumerate}
 \fi
 
