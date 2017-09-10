@@ -235,8 +235,8 @@ filesystem. This was addressed by moving the AthenaMP distribution to a
 read-only NFS directory, shared among Titan's DTNs and worker nodes. NFS
 eliminated the problem of metadata contention, improving metadata read
 performance from a worse case scenario of 6,300s on Lustre to \(\approx\)225s
-on NFS\@. While these figures are specific to OLCF and TItan, reengineering
-of AthenaMP could further improve startup time on every platform.
+on NFS\@. While these figures are specific to OLCF and Titan, reengineering
+of AthenaMP could improve startup time on every platform.
 
 Once initialized and configured, AthenaMP is used to execute 16 concurrent
 Geant4 simulators on a Titan's worker node. Geant4 requires to read events
@@ -265,22 +265,24 @@ number of cores does not justify the use of 1/2 of the cores available.
     node.}\label{fig:comparison-8-16cores}
 \end{figure}
 
-The performance analysis of Titan's AMD CPUs for detector simulations helps
-also to compare Titan and Grid site performances. Usually, Grid sites exposes
+A performance analysis of Titan's AMD CPUs for detector simulations also helps
+to compare Titan and Grid site performance. Usually, Grid sites expose
 resources with heterogeneous CPU architectures and 8 (virtual) cores, while
-Titan's offer an homogeneous 16 cores architecture. We used the rate of
-events processes per minute as a measure of the efficiency of executing the
-same detector simulation on Titan or Grid sites. Comparisons of the
-efficiencies of Titan to the BNL and SIGNET Grid sites, normalized for 8
-cores, show that the effective performance per-core at Titan is
-\(\approx\)0.57 event per minute, roughly 1/2 of BNL and  1/3 of SIGNET
-performances.
+Titan's offer an homogeneous 16 cores architecture. We used the rate of events
+processes per minute as a measure of the efficiency of executing the same
+detector simulation on Titan or Grid sites. Comparisons of the efficiencies of
+Titan to the BNL and SIGNET Grid sites, normalized for 8 cores, show that the
+effective performance per-core at Titan is
+\(\approx\)0.57 event per minute, roughly 1/2 of BNL and  1/3 of SIGNET.
+
+%performances.
+
+% The CPUs at the Grid sites have one FP scheduler per core and are on
+% average newer than the CPU of Titan.
 
 The differences in performance between Titan and the BNL and SIGNET Grid
 sites are due to the FP scheduler competition but mainly to the availability
 of newer processors. 
-% The CPUs at the Grid sites have one FP scheduler per core and are on
-% average newer than the CPU of Titan.
 The heterogeneity of the Grid sites' CPUs explain the higher performance
 variance we observed compared to the performance consistency we measured on
 Titan. This difference in performance is compensated by the amount of
