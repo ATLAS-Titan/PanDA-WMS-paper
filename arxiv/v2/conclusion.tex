@@ -1,0 +1,55 @@
+The deployment of PanDA Broker on Titan enabled distributed computing on a
+leadership-class HPC machine at unprecedented scale. In the past 13 months,
+PanDA WMS has consumed almost 52M core-hours on Titan, simulating 3.5\% of
+the total number of detector events of the ATLAS production Monte Carlo
+workflow. We described the implementation and execution process of PanDA WMS
+(\S\ref{sec:panda_overview}) and PanDA Broker (\S\ref{sec:panda_titan}),
+showing how they support and enable distributed computing at this scale on
+Titan, a leadership-class HPC machine managed by OCLF.
+
+We characterized the efficiency, scalability and reliability of both PanDA
+Broker and AthenaMP as deployed on Titan (\S\ref{sec:panda_titan}). Our
+characterization highlighted the strengths and limitations of the current
+design and implementation: PanDA Brokers enable the sustained execution of
+millions of simulations per week but further work is required to optimize its
+efficiency and reliability (\S\ref{ssec:broker_titan}). PanDA Brokers support
+the concurrent execution of multiple AthenaMP instances, enabling each
+AthenaMP to perform the concurrent execution of up to 16 Geant4 simulators.
+Nonetheless, our characterization showed how improving I/O performance could
+reduce overheads (\S\ref{ssec:athenamp_titan}), increasing the overall
+utilization of Titan's backfill availability. We introduced PanDA's next
+generation executor for HPC systems, characterized its ability to support
+multi-generation workloads and analyzed its scaling behavior.  Performance
+tests on the next generation executor demonstrate linear strong and weak
+scalability over several orders of magnitude  of task and node counts.
+Qualitatively, it enables the high-performance execution of new workloads and
+advanced execution modes of traditional workloads.
+
+HEP was amongst the first, if not the first experimental community to realize
+the importance of using WMS to manage their computational campaign(s). As
+computing becomes increasingly critical for a range of experiments, the
+experience foreshadows the importance of WMS for other experiments (such as
+SKA, LSST etc.).  These experiments will have their own workload
+characteristics, resources types and federation constraints, as well metrics
+of performance. The experience captured in this paper should be useful for
+designing WMS for computational campaigns and will provide a baseline to
+evaluate the relative merits of different approaches.
+
+The 52M core hours used by ATLAS, via PanDA, is over 2\% of the total
+utilization on Titan over the same period, bringing the time-averaged
+utilization of Titan to be consistently upwards of 90\%. Given that the
+average utilization of most other leadership class machines is less (e.g.,
+NSF's flagship Blue Waters the average utilization fluctuates between
+60--80\% (see XDMoD\cite{bw-sucks})) there is ample headroom for similar
+approaches elsewhere. These unprecedented efficiency gains aside, this work
+is just a starting point towards more effective operational models for future
+leadership and online analytical platforms~\cite{foap-url}. These platforms
+will have to support ever increasing complex workloads with varying models
+for dynamic resource federation.
+
+{\bf \footnotesize Acknowledgements: This work is funded by Award number
+DE-SC0016280 from the Office of Advanced Scientific Computing Research within
+the Department of Energy. This research used resources of the Oak Ridge
+Leadership Computing Facility at the Oak Ridge National Laboratory, which is
+supported by the Office of Science of the U.S. Department of Energy under
+Contract No. DE-AC05-00OR22725. \par}

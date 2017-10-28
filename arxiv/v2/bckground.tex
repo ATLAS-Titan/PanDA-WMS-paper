@@ -1,0 +1,39 @@
+Several pilot-enabled WMS were developed for the LHC experiments:
+AliEn~\cite{Bagnasco2010} for ALICE\@; DIRAC~\cite{Paterson2010} for LHCb;
+GlideinWMS~\cite{sfiligoi2008glideinwms} for CMS\@; and
+PanDA~\cite{maeno2014evolution} for ATLAS\@. These systems implement similar
+design and architectural principles: centralization of task and resource
+management, and of monitoring and accounting; distribution of task execution
+across multiple sites; unification of the application interface; hiding of
+resource heterogeneity; and collection of static and sometimes dynamic
+information about resources.
+
+AliEn, DIRAC, GlideinWMS and PanDA all share a similar design with two types
+of components: the management ones facing the application layer and
+centralizing the capabilities required to acquire tasks' descriptions and
+matching them to resource capabilities; and resource components used to
+acquire compute and data resources and information about their capabilities.
+Architecturally, the management components include one or more queue and a
+scheduler that coordinates with the resource modules via push/pull protocols.
+All resource components include middleware-specific APIs to request for
+resources, and a pilot capable of pulling tasks from the management modules
+and executing them on its resources.
+
+AliEn, DIRAC, GlideinWMS and PanDA also have similar implementations. These
+WMS were initially implemented to use Grid resources using the Condor
+software ecosystem~\cite{thain2005distributed}. Accordingly, all LHC WMS
+implemented Grid-like authentication and authorization systems and adopted a
+computational model based on distributing a large amount of single/few-cores
+tasks across hundreds of sites.
+
+All LHC experiments produce and process large amounts  of data from actual
+collisions in the accelerator and from their simulations. Dedicated,
+multi-tiered data systems have been built to store, replicate, and
+distributed these data. All LHC WMS interface with these systems to move data
+to the sites where related compute tasks are executed or to schedule compute
+tasks where (large amount of) data are already stored.
+
+It is interesting to note that most WMS developed to support LHC experiments
+are gradually evolving towards integrating HPC resources, though none have
+reached sustained operational usage at the scales that PanDA has achieved for
+ATLAS on Titan.

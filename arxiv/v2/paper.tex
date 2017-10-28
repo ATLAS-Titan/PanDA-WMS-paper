@@ -1,0 +1,116 @@
+\documentclass[conference]{IEEEtran}
+
+\input{head}
+\input{include}
+
+% ---------------------------------------------------------------------------
+% BEGIN DOCUMENT
+% ---------------------------------------------------------------------------
+\begin{document}
+
+\title{High-Throughput Computing on \\ High-Performance Platforms: A Case Study}
+
+\author{
+    \IEEEauthorblockN{
+        Danila Oleynik\IEEEauthorrefmark{1}\IEEEauthorrefmark{5},
+        Sergey Panitkin\IEEEauthorrefmark{1}\IEEEauthorrefmark{4},
+        Matteo Turilli\IEEEauthorrefmark{1}\IEEEauthorrefmark{2},\\
+        Alessio Angius\IEEEauthorrefmark{2},
+        Sarp Oral\IEEEauthorrefmark{6},
+        Kaushik De\IEEEauthorrefmark{5},
+        Alexei Klimentov\IEEEauthorrefmark{4},
+        Jack C. Wells\IEEEauthorrefmark{7} and
+        Shantenu Jha\IEEEauthorrefmark{2}\IEEEauthorrefmark{3}
+    }
+    \IEEEauthorblockA{
+        \IEEEauthorrefmark{1}First authors, alphabetical order
+    }
+    \IEEEauthorblockA{
+        \IEEEauthorrefmark{2}Department of Electric and Computer Engineering, Rutgers University, NJ, USA
+    }
+    \IEEEauthorblockA{
+        \IEEEauthorrefmark{3}Computational Science Initiative, Brookhaven National Laboratory, NY, USA
+    }
+    \IEEEauthorblockA{
+        \IEEEauthorrefmark{4}Physics Department, Brookhaven National Laboratory, NY, USA
+    }
+    \IEEEauthorblockA{
+        \IEEEauthorrefmark{5}Physics Department, University of Texas Arlington, TX, USA
+    }
+    \IEEEauthorblockA{
+        \IEEEauthorrefmark{6}Oak Ridge Leadership Computing Facility, Oak Ridge National Laboratory, TN, USA
+        }
+    \IEEEauthorblockA{
+        \IEEEauthorrefmark{7}National Center for Computational Sciences, Oak Ridge National Laboratory, TN, USA
+        }
+}
+
+
+% ---------------------------------------------------------------------------
+% ABSTRACT
+% ---------------------------------------------------------------------------
+\maketitle
+
+\begin{abstract}
+\input{abstract}
+\end{abstract}
+
+
+% ---------------------------------------------------------------------------
+% I - INTRODUCTION
+% ---------------------------------------------------------------------------
+\section{Introduction}\label{sec:intro}
+\input{introduction}
+
+
+% ---------------------------------------------------------------------------
+% II - PanDA OVERVIEW
+% ---------------------------------------------------------------------------
+\section{PanDA Overview}\label{sec:panda_overview}
+\input{PandaOverview}
+
+
+% ---------------------------------------------------------------------------
+% III - DEPLOYING PANDA ON A LEADERSHIP-SCALE SYSTEM
+% ---------------------------------------------------------------------------
+\section{Deploying PanDA on Titan}\label{sec:panda_titan}
+\input{PandaEvolution}
+
+
+% ---------------------------------------------------------------------------
+% IV - ANALYSIS AND DISCUSSION
+% ---------------------------------------------------------------------------
+\section{Analysis and Discussion}\label{sec:analysis}
+\input{overall}
+
+
+% ---------------------------------------------------------------------------
+% V - THE NEXT GENERATION EXECUTOR
+% ---------------------------------------------------------------------------
+\section{PANDA\@: The Next Generation Executor}\label{sec:panda_roadmap}
+\input{nge}
+\input{Experiments}
+
+
+% ---------------------------------------------------------------------------
+% VI - RELATED WORK
+% ---------------------------------------------------------------------------
+\section{Related Work}\label{sec:related}
+\input{bckground}
+
+
+% ---------------------------------------------------------------------------
+% VII - CONCLUSION
+% ---------------------------------------------------------------------------
+\section{Conclusion}\label{sec:conclusion}
+\input{conclusion}
+
+
+% ---------------------------------------------------------------------------
+% REFERENCES
+% ---------------------------------------------------------------------------
+\bibliographystyle{IEEEtran}
+\bibliography{bibliography}
+
+% that's all folks
+\end{document}
